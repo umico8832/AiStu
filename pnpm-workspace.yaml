@@ -1,0 +1,10 @@
+packages:
+  - apps/*
+  - packages/*
+  - packages/lessons/*
+allowBuilds:
+  electron: true
+  electron-winstaller: false
+  esbuild: true
+minimumReleaseAgeExclude:
+  - lucide-react@1.26.0

@@ -1,0 +1,36 @@
+{
+  "name": "kaleidoscope",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Desktop AI teaching workspace with safe, registered interactive visualizations.",
+  "packageManager": "pnpm@11.9.0",
+  "engines": {
+    "node": ">=24.14.0 <25",
+    "pnpm": ">=11.9.0 <12"
+  },
+  "scripts": {
+    "dev": "pnpm --filter @kaleidoscope/desktop dev",
+    "typecheck": "pnpm -r --if-present typecheck",
+    "lint": "eslint .",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:e2e": "playwright test",
+    "build": "pnpm -r --if-present build",
+    "package": "pnpm --filter @kaleidoscope/desktop package",
+    "package:dir": "pnpm --filter @kaleidoscope/desktop package:dir"
+  },
+  "devDependencies": {
+    "@eslint/js": "10.0.1",
+    "@playwright/test": "1.61.1",
+    "@types/node": "24.13.3",
+    "eslint": "10.7.0",
+    "eslint-plugin-react-hooks": "7.1.1",
+    "eslint-plugin-react-refresh": "0.5.3",
+    "globals": "17.7.0",
+    "happy-dom": "20.11.1",
+    "typescript": "6.0.3",
+    "typescript-eslint": "8.65.0",
+    "vitest": "4.1.10"
+  }
+}

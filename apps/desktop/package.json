@@ -1,0 +1,41 @@
+{
+  "name": "@kaleidoscope/desktop",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Kaleidoscope desktop learning workspace",
+  "main": "out/main/index.js",
+  "scripts": {
+    "dev": "electron-vite dev",
+    "typecheck": "tsc -p tsconfig.json",
+    "build": "electron-vite build",
+    "preview": "electron-vite preview",
+    "package": "pnpm build && electron-builder",
+    "package:dir": "pnpm build && electron-builder --dir"
+  },
+  "dependencies": {
+    "@kaleidoscope/contracts": "workspace:*",
+    "@kaleidoscope/lesson-call-stack": "workspace:*",
+    "@kaleidoscope/tutor-runtime": "workspace:*",
+    "@kaleidoscope/ui": "workspace:*",
+    "@kaleidoscope/visualization-runtime": "workspace:*",
+    "lucide-react": "1.26.0",
+    "motion": "12.42.2",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "zod": "4.4.3",
+    "zustand": "5.0.14"
+  },
+  "devDependencies": {
+    "@electron/fuses": "2.1.3",
+    "@tailwindcss/vite": "4.3.3",
+    "@types/react": "19.2.17",
+    "@types/react-dom": "19.2.3",
+    "@vitejs/plugin-react": "5.2.0",
+    "electron": "43.2.0",
+    "electron-builder": "26.15.3",
+    "electron-vite": "5.0.0",
+    "tailwindcss": "4.3.3",
+    "typescript": "6.0.3",
+    "vite": "7.3.6"
+  }
+}
