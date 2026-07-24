@@ -11,7 +11,8 @@
 - 任意时刻只维护一个活动可视化页面；
 - 对话与可视化之间的教学事件闭环；
 - 与标准知识库稳定关联；
-- 后续接入 RAG 和用户学习状态时不破坏当前边界。
+- 本地检索、受约束知识注入和可验证引用；
+- 后续接入用户学习状态时不破坏当前边界。
 
 ## 2. 系统上下文
 
@@ -19,16 +20,17 @@
 flowchart LR
     U["学习者"] --> C["对话首页"]
     C --> T["Tutor Runtime"]
-    T --> A["AI Provider"]
     T --> K["Knowledge Service"]
+    K --> D["ODS RAG chunks"]
+    K --> A["AI Provider"]
     T --> V["Visualization Registry"]
     V --> R["React 课件"]
     R --> E["Interaction Event"]
     E --> T
 ```
 
-当前 MVP 可以暂时不接完整 Knowledge Service 和 RAG，但 contracts 与 ID 结构应保留
-未来接入点。
+当前 MVP 已接入本地最小 Knowledge Service。它在 Main 中校验并检索 ODS RAG
+chunks，把少量候选知识注入 Provider，再校验模型返回的引用是否属于本轮候选集。
 
 ## 3. Monorepo 结构
 
@@ -44,10 +46,14 @@ Kaleidoscope/
 │       └── electron-builder.yml
 ├── packages/
 │   ├── contracts/
+│   ├── knowledge-runtime/
 │   ├── tutor-runtime/
 │   ├── visualization-runtime/
 │   ├── lessons/
-│   │   └── call-stack/
+│   │   ├── call-stack/
+│   │   ├── arraystack-insertion/
+│   │   ├── arrayqueue-representation/
+│   │   └── dualarraydeque-balance/
 │   └── ui/
 ├── docs/
 ├── AGENTS.md
@@ -58,7 +64,8 @@ Kaleidoscope/
 
 `call-stack-visualizer` 在迁移验收前保留为参考。
 
-开发运行时使用 Node.js 24 LTS。workspace 建立时提交 `.node-version`，
+黑客松开发运行时以本机 Node.js 22.21.0 为基线；Codex 工作区允许使用已验证的
+Node.js 24.14.x 工具运行时。workspace 建立时提交 `.node-version`，
 `package.json#engines`、`package.json#packageManager` 与 `pnpm-lock.yaml`，并锁定
 已验证兼容的 Electron、electron-vite、Vite 和测试工具版本。
 
@@ -102,6 +109,11 @@ Main 不负责 React 渲染或课件动画。
 - 安全 Markdown 展示；
 - 加载、错误和降级 UI。
 
+对话视口有两个明确模式：无消息时渲染固定单屏空状态并使用
+`overflow: hidden`；出现用户或 AI 消息后切换为消息列表并使用
+`overflow-y: auto`。输入框始终位于视口之外的固定底部区域，空状态不能依靠内容
+高度“碰巧不滚动”。
+
 Renderer 不直接拥有 Provider 密钥、文件系统权限或动态代码执行能力。
 
 ## 5. Package 边界
@@ -134,6 +146,18 @@ Renderer 不直接拥有 Provider 密钥、文件系统权限或动态代码执�
 AI Provider 网络请求在 main；可测试的事件归一化和状态转换可以放在
 `tutor-runtime`。
 
+### knowledge-runtime
+
+负责可测试、无 Electron 依赖的本地检索逻辑：
+
+- 解析并校验知识库 JSONL；
+- 中文 n-gram 与英文 token 化；
+- 轻量 BM25 排序；
+- 按 concept 聚合核心片段和补充片段；
+- 短追问使用上一轮已引用 concept 作为有限上下文。
+
+知识文件定位、缓存与受控读取属于 Main 的 `KnowledgeService`，不在 Renderer。
+
 ### visualization-runtime
 
 负责：
@@ -160,6 +184,13 @@ AI Provider 网络请求在 main；可测试的事件归一化和状态转换可
 - 交互事件；
 - 回归测试。
 
+### lessons/ODS 首批资源
+
+`arraystack-insertion`、`arrayqueue-representation` 和
+`dualarraydeque-balance` 分别负责逐槽移动、循环下标映射与批量重排。每个包独立
+拥有场景 Schema、纯函数步骤生成、受限 patch、React 课件和算法测试；共享
+`packages/ui` 的可访问步骤框架，不复制桌面容器。
+
 ### ui
 
 保存对话、overlay、按钮、错误状态等通用 UI，不保存具体知识事实。
@@ -173,8 +204,10 @@ Renderer 不直接持有 API Key。
 ```text
 Renderer
 → preload.chat.send(validated request)
-→ main AI Provider
+→ main KnowledgeService 检索候选 chunks
+→ main AI Provider（带受约束知识上下文）
 → main 解析/归一化 Provider stream
+→ 校验引用只来自本轮候选集合
 → preload scoped events
 → Renderer
 ```
@@ -197,10 +230,11 @@ Provider 配置和凭据由 main 管理。日志不得记录密钥或完整敏�
 ```text
 Renderer
 → typed IPC
+→ main KnowledgeService / local BM25
 → main CodexTutorProvider
 → codex exec（空临时目录、read-only、ephemeral）
 → JSON Schema 输出
-→ Zod 校验
+→ Zod 与 citation allowlist 校验
 → TutorPlan / TutorCommand
 ```
 
@@ -252,7 +286,9 @@ TutorCommand 必须：
 
 可视化命令遵循单实例规则：
 
-- 没有活动页面时，`open_visualization` 创建 session；
+- Renderer 收到 `open_visualization` 后先保存为临时 UI 建议，不立即创建 session；
+- 只有用户点击确认，命令才进入 Registry 校验并创建或替换 session；
+- 用户拒绝建议时直接丢弃临时命令；
 - visualization ID 相同时，后续调整通过 `patch_visualization` 更新当前 session；
 - visualization ID 不同时，`open_visualization` 原子替换当前 session；
 - 不在后台同时保留多个可视化实例。
@@ -270,12 +306,17 @@ sequenceDiagram
     U->>C: 提出困惑
     C->>T: 发送上下文
     T-->>C: 流式文字
-    T-->>G: open_visualization(id, spec)
+    T-->>C: open_visualization(id, spec) 建议
+    C-->>U: 显示课件建议卡
+    U->>C: 确认打开
+    C->>G: 转交已确认命令
     G->>G: 查注册表并校验 spec
     G-->>V: lazy load + validated props
     V-->>U: 展示和交互
     U->>V: 选择/预测/推进
-    V-->>T: InteractionEvent
+    V-->>C: 记录 InteractionEvent
+    U->>C: 明确发送下一条消息
+    C->>T: 消息 + 活动课件上下文
     T-->>C: 根据结果继续教学
 ```
 
@@ -461,29 +502,37 @@ MVP 持久化使用 main 管理的版本化 JSON 文件，保存在 Electron 用
 /Users/umico/Documents/ods-material/knowledge_base
 ```
 
-当前 MVP 可先用本地最小教学上下文，不要求完成 RAG。
-
-未来未知 concept：
+当前未知 concept：
 
 ```text
 用户问题
-→ RAG
-→ concept_id
-→ 标准知识对象
-→ visualization_ids
+→ Main 加载并校验 rag/chunks.jsonl
+→ 本地关键词/BM25 检索
+→ 最多 3 个 concept、6 个 chunks
+→ Provider 仅基于候选知识回答
+→ 返回 citation chunk IDs
+→ citation allowlist 校验
+→ Renderer 显示知识点标题与章节
 → Tutor 编排
 ```
 
-已知 concept：
+短追问会有限提高上一轮已引用 concept 的检索权重，但不会绕过相关性阈值。知识库
+无匹配时返回 `not_found`，文件缺失或解析失败时返回 `unavailable`；两种状态都不会
+阻塞普通对话，也不能伪造引用。
 
-```text
-concept_id
-→ 标准知识对象
-→ visualization_ids
-→ Tutor 编排
-```
+知识 chunks 仍按不可信参考数据处理：用明确边界注入 Prompt，不服从片段内的指令；
+AI 输出引用必须属于本轮检索集合。模型不能指定知识库路径、读取任意文件或绕过
+Main 的校验。
 
 Renderer 不直接扫描知识库文件系统。由 main 或受控本地服务读取和校验。
+当前实现不依赖 embedding、向量数据库或大型 RAG 框架；知识规模和召回需求增长后
+再评估替换检索器，contracts 与 Provider 边界保持不变。
+
+开发环境优先读取独立 `ods-material/knowledge_base`。macOS 发布包只携带
+`rag/chunks.jsonl` 的运行时快照，放在
+`Resources/knowledge_base/rag/chunks.jsonl`；authoring、审查报告、Prompt 和维护
+脚本不得进入桌面包。快照通过 `pnpm sync:knowledge` 从权威知识域刷新，并在打包前
+校验。
 
 ## 16. 安全模型
 
@@ -501,7 +550,8 @@ sandbox: true
 - 拦截导航和新窗口；
 - 校验所有 IPC sender；
 - 默认拒绝未明确允许的权限请求；
-- 开发环境保留 electron-vite HMR，打包版本优先使用应用自有协议加载 Renderer；
+- 开发环境保留 electron-vite HMR；`ELECTRON_RENDERER_URL` 仅在
+  `!app.isPackaged` 时生效，打包版始终使用应用自有协议加载 Renderer；
 - 不加载 AI 指定远程脚本；
 - 不执行 AI 输出；
 - 不用未清洗 HTML；
@@ -522,6 +572,8 @@ sandbox: true
 - conversation reducer/store；
 - visualization store；
 - AI stream 归一化；
+- RAG JSONL 解析、中文检索和无匹配降级；
+- grounded 引用映射和伪造 chunk ID 拒绝；
 - 非法 spec 降级；
 - interaction event。
 
@@ -545,9 +597,10 @@ test，不作为唯一安全验证手段。contracts、状态转换和安全策�
 - 应用启动；
 - 发送消息；
 - 流式回答；
-- AI 打开可视化；
+- AI 提出可视化建议；
+- 用户确认后打开、拒绝后保持关闭；
 - 用户完成交互；
-- 结果返回对话；
+- 结果结构化记录且不自动生成用户消息；
 - 关闭可视化；
 - 会话恢复；
 - 安全 smoke test。
@@ -557,6 +610,8 @@ test，不作为唯一安全验证手段。contracts、状态转换和安全策�
 - 首页是对话；
 - 可视化基于已有组件；
 - AI 只输出受约束数据；
+- 新课件必须经过用户确认才能打开；
+- 课件事件不得伪装成用户消息自动发送；
 - 用户不能编辑课件代码；
 - 没有终端；
 - Renderer 无 Node；
