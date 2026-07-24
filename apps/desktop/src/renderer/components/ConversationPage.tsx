@@ -333,7 +333,7 @@ function Composer({
         </div>
       </form>
       <p className="m-0 mt-2 text-center text-[11px] text-slate-400">
-        Enter 发送 · Shift + Enter 换行
+        Kaleidoscope 是 AI，也可能会犯错。
       </p>
     </div>
   );

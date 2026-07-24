@@ -14,7 +14,8 @@
 - [x] `pnpm typecheck`
 - [x] `pnpm lint`
 - [x] `pnpm test`：10 个测试文件、37 个测试
-- [x] `pnpm test:e2e`：Electron 黄金流程
+- [x] `pnpm test:e2e:sidebar`：不发送对话的侧边栏 smoke
+- [x] `pnpm test:e2e`：侧边栏 smoke 与 Electron 黄金流程
 - [x] `pnpm build`
 - [x] `pnpm package:dir`
 - [x] `pnpm package`：macOS arm64 `.app`、`.dmg`、`.zip`
@@ -67,6 +68,7 @@ sandbox 和严格输出 Schema 运行。DeepSeek API 留到现有功能稳定后
 
 - [x] 对话首页、空状态、消息列表和输入草稿
 - [x] 空状态单屏化：两个快捷问题、无滚动，产生消息后再启用滚动
+- [x] 正式软件图标触发的可折叠导航侧边栏、键盘焦点和 Escape 收起
 - [x] 流式回答、发送、停止、重试与错误状态
 - [x] 独立 conversation / visualization / application UI store
 - [x] 版本化最小会话持久化
@@ -131,7 +133,13 @@ sandbox 和严格输出 Schema 运行。DeepSeek API 留到现有功能稳定后
 
 ## 3. MVP 验收证据
 
-Playwright 黄金流程覆盖：
+轻量侧边栏 smoke 独立覆盖，并且不会创建或发送任何对话消息：
+
+```text
+折叠导航 → 软件图标展开侧边栏 → Escape 收起
+```
+
+Playwright 黄金流程只在最终集成或发布验收时运行：
 
 ```text
 空对话首页
@@ -160,6 +168,7 @@ release/Kaleidoscope-0.1.0-arm64-mac.zip
 ```text
 artifacts/kaleidoscope-mvp-actual.png
 artifacts/kaleidoscope-mvp-showcase.png
+artifacts/navigation-sidebar-expanded.png
 ```
 
 ## 4. 下一阶段
