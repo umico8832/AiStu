@@ -6,16 +6,51 @@ import type {
 } from "@kaleidoscope/contracts";
 import { getVisualizationRegistration } from "@kaleidoscope/visualization-runtime";
 import { AnimatePresence, motion } from "motion/react";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   ConversationPage,
   LearningContextPanel,
 } from "./components/ConversationPage";
 import { NavigationRail } from "./components/NavigationRail";
+import { CommunityPage } from "./components/CommunityPage";
+import { KnowledgeKaleidoscope } from "./components/KnowledgeKaleidoscope";
 import { VisualizationWorkspace } from "./components/VisualizationWorkspace";
 import { useAppStore } from "./stores/appStore";
 import { useConversationStore } from "./stores/conversationStore";
+import { useLearningStore } from "./stores/learningStore";
 import { useVisualizationStore } from "./stores/visualizationStore";
+
+type AppPage = "conversation" | "knowledge" | "community";
+
+const learningDefinitions = [
+  {
+    conceptId: "ods-arraystack-insertion",
+    title: "ArrayStack 按位插入",
+    prerequisiteIds: ["ods-array-size-capacity"],
+  },
+  {
+    conceptId: "ods-array-size-capacity",
+    title: "size 与 capacity",
+  },
+  {
+    conceptId: "ods-arrayqueue-representation",
+    title: "ArrayQueue 循环表示",
+    prerequisiteIds: ["ods-modular-array-indexing"],
+  },
+  {
+    conceptId: "ods-modular-array-indexing",
+    title: "模运算下标映射",
+  },
+  {
+    conceptId: "ods-dualarraydeque-balance",
+    title: "DualArrayDeque 再平衡",
+    prerequisiteIds: ["ods-dualarraydeque-representation"],
+  },
+  {
+    conceptId: "ods-dualarraydeque-representation",
+    title: "双数组逻辑顺序",
+  },
+] as const;
 
 function activeVisualizationContext(): ActiveVisualizationContext | null {
   const active = useVisualizationStore.getState().activeSession;
@@ -39,11 +74,22 @@ type OpenVisualizationCommand = Extract<
 export function App() {
   const conversation = useConversationStore();
   const visualization = useVisualizationStore();
+  const learningRevision = useLearningStore(
+    (state) => `${state.events.length}:${Object.keys(state.records).length}`,
+  );
   const reducedMotion = useAppStore((state) => state.reducedMotion);
   const setReducedMotion = useAppStore((state) => state.setReducedMotion);
   const saveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [pendingVisualization, setPendingVisualization] =
     useState<OpenVisualizationCommand | null>(null);
+  const [page, setPage] = useState<AppPage>("conversation");
+  const knowledgeNodes = useMemo(
+    () => {
+      void learningRevision;
+      return useLearningStore.getState().getNodes(learningDefinitions);
+    },
+    [learningRevision],
+  );
 
   const sendMessage = useCallback(async (rawContent: string) => {
     const content = rawContent.trim();
@@ -77,6 +123,7 @@ export function App() {
 
   useEffect(() => {
     let alive = true;
+    useLearningStore.getState().hydrateFromStorage();
     void window.kaleidoscope.persistence.loadSession().then((session) => {
       if (!alive) {
         return;
@@ -197,6 +244,14 @@ export function App() {
 
   const handleInteraction = (event: VisualizationInteractionEvent) => {
     useVisualizationStore.getState().recordInteraction(event);
+    const active = useVisualizationStore.getState().activeSession;
+    const registration = active
+      ? getVisualizationRegistration(active.visualizationId)
+      : null;
+    const conceptId = registration?.conceptIds[0];
+    if (conceptId) {
+      useLearningStore.getState().recordVisualizationEvent(conceptId, event);
+    }
   };
 
   const confirmVisualization = () => {
@@ -254,44 +309,62 @@ export function App() {
 
       <NavigationRail
         onNewConversation={resetConversation}
+        activePage={page}
+        onPageChange={setPage}
         disabled={Boolean(conversation.streaming)}
       />
-      <ConversationPage
-        messages={conversation.messages}
-        draft={conversation.draft}
-        streaming={Boolean(conversation.streaming)}
-        provider={conversation.provider}
-        lastError={conversation.lastError}
-        onDraftChange={conversation.setDraft}
-        onSend={(content) => void sendMessage(content)}
-        onStop={() => void stop()}
-        onRetry={retry}
-        visualizationSuggestion={
-          pendingVisualization && pendingRegistration
-            ? {
-                visualizationId: pendingVisualization.visualizationId,
-                title: pendingRegistration.title,
-                description: pendingRegistration.description,
-                teachingGoal: pendingTeachingGoal,
-              }
-            : null
-        }
-        onConfirmVisualization={confirmVisualization}
-        onDismissVisualization={() => setPendingVisualization(null)}
-      />
-      <LearningContextPanel
-        hasVisualization={Boolean(visualization.activeSession)}
-        hasPrediction={
-          visualization.activeSession?.interactionHistory.some(
-            (event) => event.type === "prediction_submitted",
-          ) ?? false
-        }
-        completed={
-          visualization.activeSession?.interactionHistory.some(
-            (event) => event.type === "lesson_completed",
-          ) ?? false
-        }
-      />
+      {page === "conversation" ? (
+        <>
+          <ConversationPage
+            messages={conversation.messages}
+            draft={conversation.draft}
+            streaming={Boolean(conversation.streaming)}
+            provider={conversation.provider}
+            lastError={conversation.lastError}
+            onDraftChange={conversation.setDraft}
+            onSend={(content) => void sendMessage(content)}
+            onStop={() => void stop()}
+            onRetry={retry}
+            visualizationSuggestion={
+              pendingVisualization && pendingRegistration
+                ? {
+                    visualizationId: pendingVisualization.visualizationId,
+                    title: pendingRegistration.title,
+                    description: pendingRegistration.description,
+                    teachingGoal: pendingTeachingGoal,
+                  }
+                : null
+            }
+            onConfirmVisualization={confirmVisualization}
+            onDismissVisualization={() => setPendingVisualization(null)}
+          />
+          <LearningContextPanel
+            hasVisualization={Boolean(visualization.activeSession)}
+            hasPrediction={
+              visualization.activeSession?.interactionHistory.some(
+                (event) => event.type === "prediction_submitted",
+              ) ?? false
+            }
+            completed={
+              visualization.activeSession?.interactionHistory.some(
+                (event) => event.type === "lesson_completed",
+              ) ?? false
+            }
+          />
+        </>
+      ) : page === "community" ? (
+        <CommunityPage />
+      ) : (
+        <main className="min-h-0 flex-1 overflow-y-auto px-8 pb-12 pt-10">
+          <div className="mx-auto max-w-[1120px]">
+            <KnowledgeKaleidoscope
+              nodes={knowledgeNodes}
+              title="我的知识万花筒"
+              description="同一套标准知识，根据你的预测、重试和完成证据重新排列。"
+            />
+          </div>
+        </main>
+      )}
 
       <AnimatePresence>
         {visualization.activeSession ? (

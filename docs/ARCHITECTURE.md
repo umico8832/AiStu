@@ -47,6 +47,8 @@ Kaleidoscope/
 ├── packages/
 │   ├── contracts/
 │   ├── knowledge-runtime/
+│   ├── learning-runtime/        # 黑客松后续阶段创建
+│   ├── community-runtime/       # 黑客松后续阶段创建
 │   ├── tutor-runtime/
 │   ├── visualization-runtime/
 │   ├── lessons/
@@ -157,6 +159,31 @@ AI Provider 网络请求在 main；可测试的事件归一化和状态转换可
 - 短追问使用上一轮已引用 concept 作为有限上下文。
 
 知识文件定位、缓存与受控读取属于 Main 的 `KnowledgeService`，不在 Renderer。
+
+### learning-runtime（后续阶段）
+
+负责可测试、无 Electron 依赖的用户学习域逻辑：
+
+- 结构化学习事件校验；
+- 从预测、重试、完成和延迟复习证据派生知识状态；
+- 个人知识万花筒节点和推荐路径的纯函数投影；
+- 通过 `concept_id` 引用标准知识，不保存或改写知识事实。
+
+初期持久化仍由 Main 的版本化 JSON 管理。学习状态不得混入 conversation store、
+visualization store 或知识库 authoring 数据。
+
+### community-runtime（后续阶段）
+
+负责可测试、无 Electron 依赖的社区内容域逻辑：
+
+- 结构化投稿 Schema；
+- 投稿来源、版本和审核状态；
+- 课程与学校分区索引；
+- 待审核、已通过和已驳回状态转换；
+- 社区内容与权威知识之间的明确边界。
+
+社区投稿不能直接成为事实型回答的权威来源。只有完成独立知识审查和知识库
+authoring 流程后，内容才可能进入标准知识域。
 
 ### visualization-runtime
 
@@ -494,6 +521,35 @@ MVP 持久化使用 main 管理的版本化 JSON 文件，保存在 Electron 用
 读取时经过 Zod 校验和版本迁移。当前不引入 SQLite；只有出现大量会话、全文检索或
 复杂关系查询后再评估数据库。
 
+后续黑客松阶段增加用户学习和社区数据时，继续通过独立的领域 Schema 与受控 Main
+API 持久化。可以共享物理 JSON 文件或用户数据目录，但逻辑模型、版本和迁移必须
+独立；Renderer 不能因此获得任意文件接口。
+
+## 14.1 多视角知识边界
+
+多视角不是复制或改写标准知识。标准知识对象仍保存稳定事实；视角层只声明允许的
+表达方式和呈现内容，例如定义、直觉、流程、对比、做题、易错和可视化。
+
+AI 只能选择注册过的视角 ID、顺序和安全文本字段。视角内容来自经过校验的知识数据
+或受控 Tutor 输出，不能包含 HTML、组件路径、源码或任意属性路径。
+
+## 14.2 用户学习与社区数据流
+
+```mermaid
+flowchart LR
+    V["课件交互"] --> E["LearningEvent"]
+    C["对话诊断"] --> E
+    E --> L["Learning Runtime"]
+    L --> P["个人知识万花筒"]
+    U["社区投稿"] --> S["Community Runtime"]
+    S --> R["审核状态"]
+    R --> Q["社区候选内容"]
+    Q -. 独立知识审查 .-> K["标准知识库 authoring"]
+```
+
+个人学习状态和社区内容都可以引用 `concept_id`，但都不能反向修改标准定义。社区
+审核通过也不等于知识审查通过。
+
 ## 15. 知识库接入
 
 标准知识库：
@@ -620,6 +676,8 @@ test，不作为唯一安全验证手段。contracts、状态转换和安全策�
 - IPC 和 AI spec 全部校验；
 - IPC sender 全部校验；
 - 对话与可视化状态分离；
+- 用户学习状态与 conversation、visualization 及知识内容域分离；
+- 社区投稿保留来源和审核状态，不能自动进入权威知识域；
 - 可视化关闭后原会话保持；
 - 知识事实不包含用户状态；
 - 可视化代码不写入知识库；

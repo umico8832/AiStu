@@ -9,6 +9,37 @@ export const VISUALIZATION_ID_ARRAYQUEUE_REPRESENTATION =
 export const VISUALIZATION_ID_DUALARRAYDEQUE_BALANCE =
   "ods.dualarraydeque-balance.v1" as const;
 
+/**
+ * A learning lens changes how an unchanged knowledge object is presented.
+ * It is intentionally an enum: AI may choose from these registered views,
+ * but cannot invent arbitrary render modes or component paths.
+ */
+export const learningLensSchema = z.enum([
+  "definition",
+  "intuition",
+  "process",
+  "comparison",
+  "exam",
+  "mistake",
+  "visualization",
+]);
+
+export type LearningLens = z.infer<typeof learningLensSchema>;
+
+export const learningLensSourceSchema = z.enum(["learner", "tutor"]);
+
+export const learningLensSelectionSchema = z
+  .object({
+    visualizationId: z.string().trim().min(1).max(80),
+    lens: learningLensSchema,
+    source: learningLensSourceSchema,
+  })
+  .strict();
+
+export type LearningLensSelection = z.infer<
+  typeof learningLensSelectionSchema
+>;
+
 export const ipcChannels = {
   chatSend: "kaleidoscope:chat:send",
   chatCancel: "kaleidoscope:chat:cancel",

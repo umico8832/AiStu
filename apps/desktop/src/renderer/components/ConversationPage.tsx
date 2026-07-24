@@ -1,4 +1,5 @@
 import type { ConversationMessage } from "@kaleidoscope/contracts";
+import { getDemoScenario } from "@kaleidoscope/tutor-runtime";
 import { BrandMark, Button, IconButton } from "@kaleidoscope/ui";
 import {
   ArrowUp,
@@ -21,16 +22,23 @@ import {
   type KeyboardEvent,
 } from "react";
 
+const recursiveScenario = getDemoScenario("recursive-call-stack");
+const arrayStackScenario = getDemoScenario("arraystack-middle-insertion");
+
 const starterPrompts = [
   {
     icon: Layers3,
     title: "看懂递归调用栈",
-    text: "我知道递归函数会调用自己，但不明白调用栈到底怎么变化。",
+    text:
+      recursiveScenario?.learnerQuote ??
+      "我知道递归函数会调用自己，但不明白调用栈到底怎么变化。",
   },
   {
     icon: BrainCircuit,
     title: "定位我的困惑",
-    text: "我能写出递归代码，但说不清返回值是怎么逐层传回来的。",
+    text:
+      arrayStackScenario?.learnerQuote ??
+      "我能写出递归代码，但说不清返回值是怎么逐层传回来的。",
   },
 ];
 

@@ -24,9 +24,8 @@ test("navigation sidebar expands without starting a conversation", async () => {
     const collapsedSidebarToggle = page.locator(
       '[data-sidebar-toggle="collapsed"]',
     );
-    const expandedSidebar = page.locator(
-      'aside[aria-label="Kaleidoscope 侧边栏"]',
-    );
+    const sidebar = page.locator('aside[aria-label="Kaleidoscope 侧边栏"]');
+    const sidebarShell = page.locator('[data-sidebar-state]');
 
     await expect(page.getByLabel("你的消息")).toHaveCount(0);
     await expect(collapsedSidebarToggle).toHaveAttribute(
@@ -37,27 +36,53 @@ test("navigation sidebar expands without starting a conversation", async () => {
       "src",
       /icon/u,
     );
+    await expect(sidebarShell).toHaveAttribute(
+      "data-sidebar-state",
+      "collapsed",
+    );
+    await expect(sidebarShell).toHaveCSS("width", "76px");
 
     await collapsedSidebarToggle.click();
-    await expect(expandedSidebar).toHaveAttribute("aria-hidden", "false");
+    await expect(sidebarShell).toHaveAttribute(
+      "data-sidebar-state",
+      "expanded",
+    );
+    await expect(sidebarShell).toHaveCSS("width", "288px");
     await expect(
-      expandedSidebar.getByText("Kaleidoscope", { exact: true }),
+      sidebar.getByText("Kaleidoscope", { exact: true }),
     ).toBeVisible();
     await expect(
-      expandedSidebar.getByRole("button", {
+      sidebar.getByRole("button", {
         name: "新建学习对话",
       }),
     ).toBeVisible();
     await expect(
-      expandedSidebar.getByRole("button", {
-        name: /学习资料/,
+      sidebar.getByRole("button", {
+        name: /我的知识万花筒/,
       }),
-    ).toBeDisabled();
-    await expandedSidebar.screenshot({
+    ).toBeEnabled();
+    await expect(
+      sidebar.getByRole("button", { name: "社区共建" }),
+    ).toBeEnabled();
+    await sidebar.screenshot({
       path: "artifacts/navigation-sidebar-expanded.png",
     });
 
-    const expandedSidebarToggle = expandedSidebar.locator(
+    await sidebar
+      .getByRole("button", { name: /我的知识万花筒/ })
+      .click();
+    await expect(
+      page.getByRole("heading", { name: "我的知识万花筒" }),
+    ).toBeVisible();
+
+    await sidebar
+      .getByRole("button", { name: "社区共建" })
+      .click();
+    await expect(
+      page.getByRole("heading", { name: "社区共建" }),
+    ).toBeVisible();
+
+    const expandedSidebarToggle = page.locator(
       '[data-sidebar-toggle="expanded"]',
     );
     await expect(expandedSidebarToggle).toHaveAttribute(
@@ -65,14 +90,24 @@ test("navigation sidebar expands without starting a conversation", async () => {
       "true",
     );
     await expandedSidebarToggle.click();
-    await expect(expandedSidebar).toHaveAttribute("aria-hidden", "true");
-    await expect(expandedSidebar).toHaveCSS("opacity", "0");
+    await expect(sidebarShell).toHaveAttribute(
+      "data-sidebar-state",
+      "collapsed",
+    );
+    await expect(sidebarShell).toHaveCSS("width", "76px");
+    await expect(collapsedSidebarToggle).toBeFocused();
 
     await collapsedSidebarToggle.click();
-    await expect(expandedSidebar).toHaveAttribute("aria-hidden", "false");
+    await expect(sidebarShell).toHaveAttribute(
+      "data-sidebar-state",
+      "expanded",
+    );
     await page.keyboard.press("Escape");
-    await expect(expandedSidebar).toHaveAttribute("aria-hidden", "true");
-    await expect(expandedSidebar).toHaveCSS("opacity", "0");
+    await expect(sidebarShell).toHaveAttribute(
+      "data-sidebar-state",
+      "collapsed",
+    );
+    await expect(sidebarShell).toHaveCSS("width", "76px");
     await expect(collapsedSidebarToggle).toBeFocused();
     await expect(page.getByLabel("你的消息")).toHaveCount(0);
   } finally {

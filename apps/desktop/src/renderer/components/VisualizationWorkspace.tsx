@@ -1,7 +1,13 @@
-import type {
-  VisualizationInteractionEvent,
+import {
+  VISUALIZATION_ID_CALL_STACK,
+  type LearningLens,
+  type VisualizationInteractionEvent,
 } from "@kaleidoscope/contracts";
 import { Button, IconButton } from "@kaleidoscope/ui";
+import {
+  callStackLearningLenses,
+  cycleLearningLens,
+} from "@kaleidoscope/tutor-runtime";
 import {
   AlertTriangle,
   ArrowDownToLine,
@@ -21,6 +27,7 @@ import {
   type VisualizationSession,
 } from "@kaleidoscope/visualization-runtime";
 import { ErrorBoundary } from "./ErrorBoundary";
+import { LearningLensPanel } from "./LearningLensPanel";
 
 type LessonComponent = ComponentType<{
   sessionId: string;
@@ -29,6 +36,16 @@ type LessonComponent = ComponentType<{
   onStateChange: (state: { step: number; codeOpen: boolean }) => void;
   onInteraction: (event: VisualizationInteractionEvent) => void;
 }>;
+
+function lensForFocus(focus: string): LearningLens {
+  const lensByFocus: Record<string, LearningLens> = {
+    overview: "definition",
+    calls: "process",
+    waiting: "intuition",
+    returns: "visualization",
+  };
+  return lensByFocus[focus] ?? "definition";
+}
 
 interface VisualizationWorkspaceProps {
   session: VisualizationSession;
@@ -54,6 +71,7 @@ export function VisualizationWorkspace({
   onClose,
 }: VisualizationWorkspaceProps) {
   const [Lesson, setLesson] = useState<LessonComponent | null>(null);
+  const [selectedLens, setSelectedLens] = useState<LearningLens | null>(null);
   const registration = getVisualizationRegistration(
     session.visualizationId,
   );
@@ -124,6 +142,10 @@ export function VisualizationWorkspace({
     session.validatedSpec.scenario
       ? (session.validatedSpec.scenario as Record<string, unknown>)
       : {};
+  const specFocus =
+    typeof specScenario.focus === "string" ? specScenario.focus : "overview";
+
+  const activeLens = selectedLens ?? lensForFocus(specFocus);
 
   return (
     <div className="fixed inset-0 z-40">
@@ -190,8 +212,19 @@ export function VisualizationWorkspace({
           </div>
         )}
 
-        <div className="min-h-0 flex-1 p-4">
-          {Lesson ? (
+        <div className="min-h-0 flex-1 space-y-3 overflow-y-auto p-4">
+          {session.visualizationId === VISUALIZATION_ID_CALL_STACK ? (
+            <LearningLensPanel
+              lenses={callStackLearningLenses}
+              activeLens={activeLens}
+              onLensChange={setSelectedLens}
+              onCycle={(direction) =>
+                setSelectedLens(cycleLearningLens(activeLens, direction))
+              }
+            />
+          ) : null}
+          <div className="min-h-[420px] flex-1">
+            {Lesson ? (
             <ErrorBoundary
               fallback={
                 <div className="flex h-full items-center justify-center rounded-2xl border border-rose-200 bg-rose-50">
@@ -224,7 +257,7 @@ export function VisualizationWorkspace({
                 onInteraction={onInteraction}
               />
             </ErrorBoundary>
-          ) : (
+            ) : (
             <div className="flex h-full items-center justify-center rounded-2xl border border-slate-200 bg-white">
               <div className="text-center text-slate-500">
                 <LoaderCircle
@@ -234,7 +267,8 @@ export function VisualizationWorkspace({
                 <p className="mt-3 text-sm font-medium">正在加载已注册课件…</p>
               </div>
             </div>
-          )}
+            )}
+          </div>
         </div>
       </div>
     </div>

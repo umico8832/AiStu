@@ -131,6 +131,9 @@ async function createMainWindow(): Promise<BrowserWindow> {
     minWidth: 1040,
     minHeight: 720,
     titleBarStyle: "hiddenInset",
+    ...(process.platform === "darwin"
+      ? { trafficLightPosition: { x: 18, y: 16 } }
+      : {}),
     backgroundColor: "#f4f1ea",
     ...(process.platform === "win32" && !app.isPackaged
       ? {

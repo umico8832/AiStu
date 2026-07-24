@@ -35,6 +35,24 @@ import {
 } from "@kaleidoscope/lesson-dualarraydeque-balance";
 import { z } from "zod";
 
+export {
+  callStackLearningLenses,
+  cycleLearningLens,
+  getCallStackLearningLens,
+  getLearningLensesForVisualization,
+  learningLensDefinitionSchema,
+  parseLearningLensSelection,
+} from "./learningLenses";
+export type { LearningLensDefinition } from "./learningLenses";
+export {
+  demoScenarioSchema,
+  demoScenarios,
+  findDemoScenarios,
+  getDemoScenario,
+  listDemoScenarios,
+} from "./demoScenarios";
+export type { DemoScenario } from "./demoScenarios";
+
 export interface TutorPlan {
   text: string;
   command: TutorCommand | null;
