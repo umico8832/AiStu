@@ -507,3 +507,7 @@ MVP 完成至少意味着：
 - macOS 打包产物携带可用的知识库 RAG 快照；
 - typecheck、lint、测试、build 和打包验证通过；
 - 文档与真实实现一致。
+
+
+进行git操作请参考
+docs目录下的AGENT_GIT_RULES
