@@ -21,6 +21,7 @@
 |[`MVP_SCOPE.md`](MVP_SCOPE.md)|当前桌面 MVP 做什么、不做什么，如何验收？|本阶段范围或验收标准改变时|
 |[`ARCHITECTURE.md`](ARCHITECTURE.md)|系统如何分层，数据怎样流动，状态归谁管理？|架构边界、技术方案或关键接口改变时|
 |[`ROADMAP.md`](ROADMAP.md)|项目目前在哪里，下一步按什么顺序推进？|阶段开始、完成、阻塞或顺序调整时|
+|[`HACKATHON_STAGE_0_BASELINE.md`](HACKATHON_STAGE_0_BASELINE.md)|黑客松继续开发所依赖的工程基线和回归证据是什么？|重新锁定基线或质量门结果改变时|
 
 ## 3. 事实优先级
 
