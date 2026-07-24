@@ -83,6 +83,28 @@ export function App() {
   const [pendingVisualization, setPendingVisualization] =
     useState<OpenVisualizationCommand | null>(null);
   const [page, setPage] = useState<AppPage>("conversation");
+  const conversationSummary = useMemo(() => {
+    const firstUserMessage = conversation.messages.find(
+      (message) => message.role === "user",
+    );
+    const normalizedTitle = firstUserMessage?.content
+      .replace(/\s+/gu, " ")
+      .trim();
+    const title = normalizedTitle
+      ? `${normalizedTitle.slice(0, 22)}${normalizedTitle.length > 22 ? "…" : ""}`
+      : "新对话";
+    const userTurnCount = conversation.messages.filter(
+      (message) => message.role === "user",
+    ).length;
+
+    return {
+      title,
+      meta:
+        userTurnCount > 0
+          ? `${userTurnCount} 轮学习 · 当前会话`
+          : "尚未开始学习",
+    };
+  }, [conversation.messages]);
   const knowledgeNodes = useMemo(
     () => {
       void learningRevision;
@@ -286,6 +308,7 @@ export function App() {
     setPendingVisualization(null);
     useVisualizationStore.getState().close();
     useConversationStore.getState().resetConversation();
+    setPage("conversation");
   };
 
   const pendingRegistration = pendingVisualization
@@ -311,6 +334,8 @@ export function App() {
         onNewConversation={resetConversation}
         activePage={page}
         onPageChange={setPage}
+        conversationTitle={conversationSummary.title}
+        conversationMeta={conversationSummary.meta}
         disabled={Boolean(conversation.streaming)}
       />
       {page === "conversation" ? (

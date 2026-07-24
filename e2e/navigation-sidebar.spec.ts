@@ -64,6 +64,15 @@ test("navigation sidebar expands without starting a conversation", async () => {
     await expect(
       sidebar.getByRole("button", { name: "社区共建" }),
     ).toBeEnabled();
+    await expect(
+      sidebar.getByRole("region", { name: "聊天记录" }),
+    ).toBeVisible();
+    await expect(
+      sidebar.getByRole("button", { name: "打开聊天记录：新对话" }),
+    ).toBeVisible();
+    await expect(
+      sidebar.getByRole("region", { name: "个人信息" }),
+    ).toContainText("本地学习者");
     await sidebar.screenshot({
       path: "artifacts/navigation-sidebar-expanded.png",
     });
