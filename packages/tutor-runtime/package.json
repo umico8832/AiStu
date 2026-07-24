@@ -12,7 +12,10 @@
   },
   "dependencies": {
     "@kaleidoscope/contracts": "workspace:*",
+    "@kaleidoscope/lesson-arrayqueue-representation": "workspace:*",
+    "@kaleidoscope/lesson-arraystack-insertion": "workspace:*",
     "@kaleidoscope/lesson-call-stack": "workspace:*",
+    "@kaleidoscope/lesson-dualarraydeque-balance": "workspace:*",
     "zod": "4.4.3"
   },
   "devDependencies": {

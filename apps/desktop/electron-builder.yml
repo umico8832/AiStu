@@ -7,7 +7,13 @@ directories:
 files:
   - out/**
   - package.json
+extraResources:
+  - from: resources/knowledge_base
+    to: knowledge_base
+    filter:
+      - rag/chunks.jsonl
 mac:
+  icon: resources/icon.icns
   category: public.app-category.education
   target:
     - target: dmg
@@ -16,6 +22,14 @@ mac:
     - target: zip
       arch:
         - arm64
+win:
+  icon: resources/icon.ico
+  target:
+    - target: nsis
+      arch:
+        - x64
 dmg:
   artifactName: ${productName}-${version}-${arch}.${ext}
+nsis:
+  artifactName: ${productName}-${version}-${arch}-setup.${ext}
 afterPack: ../../scripts/after-pack.cjs

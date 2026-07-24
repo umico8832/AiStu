@@ -1,0 +1,275 @@
+import {
+  knowledgeRetrievalContextSchema,
+  knowledgeRagChunkSchema,
+  type KnowledgeRagChunk,
+  type KnowledgeRetrievalContext,
+} from "@kaleidoscope/contracts";
+import { z } from "zod";
+
+const externalRagChunkSchema = z
+  .object({
+    chunk_id: z.string(),
+    concept_id: z.string(),
+    chunk_type: z.enum(["core", "relations", "rookie", "recall"]),
+    title: z.string(),
+    text: z.string(),
+    metadata: z
+      .object({
+        course_id: z.string(),
+        chapter_id: z.string(),
+        section_id: z.string().nullable(),
+        content_type: z.string(),
+        knowledge_version: z.number(),
+      })
+      .strict(),
+  })
+  .strict();
+
+interface IndexedChunk {
+  chunk: KnowledgeRagChunk;
+  tokenCounts: Map<string, number>;
+  titleTokens: Set<string>;
+  length: number;
+}
+
+const HAN_PATTERN = /\p{Script=Han}+/gu;
+const WORD_PATTERN = /[a-z0-9_]+/gu;
+const QUERY_STOP_TOKENS = new Set([
+  "为什",
+  "什么",
+  "为什么",
+  "怎么",
+  "如何",
+  "这个",
+  "那个",
+  "哪些",
+  "是否",
+  "然后",
+  "所以",
+  "请问",
+  "到底",
+  "不明",
+  "明白",
+  "解释",
+]);
+
+export function tokenizeKnowledgeText(input: string): string[] {
+  const normalized = input.normalize("NFKC").toLowerCase();
+  const tokens: string[] = normalized.match(WORD_PATTERN) ?? [];
+
+  for (const match of normalized.matchAll(HAN_PATTERN)) {
+    const segment = match[0];
+    if (segment.length === 1) {
+      tokens.push(segment);
+      continue;
+    }
+    for (let size = 2; size <= Math.min(3, segment.length); size += 1) {
+      for (let index = 0; index <= segment.length - size; index += 1) {
+        tokens.push(segment.slice(index, index + size));
+      }
+    }
+    if (segment.length <= 12) {
+      tokens.push(segment);
+    }
+  }
+
+  return tokens;
+}
+
+function countTokens(tokens: string[]): Map<string, number> {
+  const counts = new Map<string, number>();
+  for (const token of tokens) {
+    counts.set(token, (counts.get(token) ?? 0) + 1);
+  }
+  return counts;
+}
+
+export function parseKnowledgeRagChunk(raw: unknown): KnowledgeRagChunk {
+  const external = externalRagChunkSchema.parse(raw);
+  return knowledgeRagChunkSchema.parse({
+    chunkId: external.chunk_id,
+    conceptId: external.concept_id,
+    chunkType: external.chunk_type,
+    title: external.title,
+    text: external.text,
+    metadata: {
+      courseId: external.metadata.course_id,
+      chapterId: external.metadata.chapter_id,
+      sectionId: external.metadata.section_id,
+      contentType: external.metadata.content_type,
+      knowledgeVersion: external.metadata.knowledge_version,
+    },
+  });
+}
+
+export function parseKnowledgeRagJsonl(content: string): KnowledgeRagChunk[] {
+  return content
+    .split(/\r?\n/u)
+    .map((line) => line.trim())
+    .filter(Boolean)
+    .map((line) => parseKnowledgeRagChunk(JSON.parse(line)));
+}
+
+export class KnowledgeIndex {
+  private readonly documents: IndexedChunk[];
+  private readonly documentFrequency = new Map<string, number>();
+  private readonly averageDocumentLength: number;
+
+  constructor(chunks: KnowledgeRagChunk[]) {
+    this.documents = chunks.map((chunk) => {
+      const bodyTokens = tokenizeKnowledgeText(
+        `${chunk.title}\n${chunk.text}`,
+      );
+      const unique = new Set(bodyTokens);
+      for (const token of unique) {
+        this.documentFrequency.set(
+          token,
+          (this.documentFrequency.get(token) ?? 0) + 1,
+        );
+      }
+      return {
+        chunk,
+        tokenCounts: countTokens(bodyTokens),
+        titleTokens: new Set(tokenizeKnowledgeText(chunk.title)),
+        length: bodyTokens.length,
+      };
+    });
+    this.averageDocumentLength =
+      this.documents.length === 0
+        ? 1
+        : this.documents.reduce(
+            (total, document) => total + document.length,
+            0,
+          ) / this.documents.length;
+  }
+
+  get size(): number {
+    return this.documents.length;
+  }
+
+  retrieve(
+    rawQuery: string,
+    previousConceptIds: string[] = [],
+  ): KnowledgeRetrievalContext {
+    const query = rawQuery.trim().slice(0, 4_000);
+    const queryTokens = Array.from(
+      new Set(tokenizeKnowledgeText(query)),
+    ).filter((token) => !QUERY_STOP_TOKENS.has(token));
+    if (!query || queryTokens.length === 0 || this.documents.length === 0) {
+      return knowledgeRetrievalContextSchema.parse({
+        status: "not_found",
+        query,
+        chunks: [],
+      });
+    }
+
+    const previous = new Set(previousConceptIds.slice(-5));
+    const followUp =
+      queryTokens.length <= 8 ||
+      /^(那|所以|为什么|怎么|然后|它|这个|上面|刚才)/u.test(query);
+    const scored = this.documents
+      .map((document) => ({
+        indexed: document,
+        score: this.scoreDocument(
+          document,
+          queryTokens,
+          followUp && previous.has(document.chunk.conceptId),
+        ),
+      }))
+      .filter((item) => item.score >= 1.25)
+      .sort((left, right) => right.score - left.score);
+
+    const conceptScores = new Map<string, number[]>();
+    for (const item of scored) {
+      const scores = conceptScores.get(item.indexed.chunk.conceptId) ?? [];
+      scores.push(item.score);
+      conceptScores.set(item.indexed.chunk.conceptId, scores);
+    }
+    const selectedConcepts = Array.from(conceptScores.entries())
+      .map(([conceptId, scores]) => ({
+        conceptId,
+        score:
+          (scores[0] ?? 0) +
+          (scores[1] ?? 0) * 0.2,
+      }))
+      .sort((left, right) => right.score - left.score)
+      .slice(0, 3)
+      .map((item) => item.conceptId);
+
+    if (selectedConcepts.length === 0) {
+      return knowledgeRetrievalContextSchema.parse({
+        status: "not_found",
+        query,
+        chunks: [],
+      });
+    }
+
+    const selectedChunks: KnowledgeRagChunk[] = [];
+    for (const conceptId of selectedConcepts) {
+      const conceptDocuments = this.documents.filter(
+        (document) => document.chunk.conceptId === conceptId,
+      );
+      const core = conceptDocuments.find(
+        (document) => document.chunk.chunkType === "core",
+      );
+      if (core) {
+        selectedChunks.push(core.chunk);
+      }
+      const bestSupporting = scored.find(
+        (item) =>
+          item.indexed.chunk.conceptId === conceptId &&
+          item.indexed.chunk.chunkId !== core?.chunk.chunkId,
+      );
+      if (bestSupporting) {
+        selectedChunks.push(bestSupporting.indexed.chunk);
+      }
+    }
+
+    return knowledgeRetrievalContextSchema.parse({
+      status: "found",
+      query,
+      chunks: selectedChunks.slice(0, 6),
+    });
+  }
+
+  private scoreDocument(
+    document: IndexedChunk,
+    queryTokens: string[],
+    previousConcept: boolean,
+  ): number {
+    const k1 = 1.25;
+    const b = 0.72;
+    let score = previousConcept ? 2.2 : 0;
+
+    for (const token of queryTokens) {
+      const frequency = document.tokenCounts.get(token) ?? 0;
+      if (frequency === 0) {
+        continue;
+      }
+      const documentsWithToken = this.documentFrequency.get(token) ?? 0;
+      const idf = Math.log(
+        1 +
+          (this.documents.length - documentsWithToken + 0.5) /
+            (documentsWithToken + 0.5),
+      );
+      const lengthNormalization =
+        frequency +
+        k1 *
+          (1 -
+            b +
+            b * (document.length / this.averageDocumentLength));
+      score +=
+        idf *
+        ((frequency * (k1 + 1)) / lengthNormalization) *
+        (document.titleTokens.has(token) ? 1.8 : 1);
+    }
+
+    const typeMultiplier = {
+      core: 1.12,
+      relations: 0.92,
+      rookie: 1,
+      recall: 1.18,
+    }[document.chunk.chunkType];
+    return score * typeMultiplier;
+  }
+}

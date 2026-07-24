@@ -11,6 +11,7 @@ import {
   type IpcMainInvokeEvent,
 } from "electron";
 import { join } from "node:path";
+import { KnowledgeService } from "./knowledge-service";
 import { createTutorProvider } from "./provider";
 import {
   loadPersistedSession,
@@ -20,6 +21,7 @@ import {
   APP_HOST,
   APP_SCHEME,
   assertTrustedSender,
+  developmentRendererUrl,
   hardenSession,
   installAppProtocol,
   registerAppScheme,
@@ -28,6 +30,7 @@ import {
 registerAppScheme();
 
 const activeRequests = new Map<string, AbortController>();
+const knowledgeService = new KnowledgeService();
 
 if (process.env.KALEIDOSCOPE_E2E_USER_DATA) {
   app.setPath("userData", process.env.KALEIDOSCOPE_E2E_USER_DATA);
@@ -78,9 +81,15 @@ function registerIpcHandlers(): void {
       occurredAt: Date.now(),
     });
 
-    void provider
-      .stream(input, controller.signal, (streamEvent) =>
-        emitToSender(event, streamEvent),
+    void knowledgeService
+      .retrieve(input)
+      .then((knowledge) =>
+        provider.stream(
+          input,
+          knowledge,
+          controller.signal,
+          (streamEvent) => emitToSender(event, streamEvent),
+        ),
       )
       .catch((error: unknown) => {
         if (controller.signal.aborted) {
@@ -123,6 +132,14 @@ async function createMainWindow(): Promise<BrowserWindow> {
     minHeight: 720,
     titleBarStyle: "hiddenInset",
     backgroundColor: "#f4f1ea",
+    ...(process.platform === "win32" && !app.isPackaged
+      ? {
+          icon: join(
+            app.getAppPath(),
+            "resources/icon-windows.png",
+          ),
+        }
+      : {}),
     show: false,
     webPreferences: {
       preload: join(__dirname, "../preload/index.js"),
@@ -136,8 +153,9 @@ async function createMainWindow(): Promise<BrowserWindow> {
   hardenSession(mainWindow);
   mainWindow.once("ready-to-show", () => mainWindow.show());
 
-  if (process.env.ELECTRON_RENDERER_URL) {
-    await mainWindow.loadURL(process.env.ELECTRON_RENDERER_URL);
+  const rendererUrl = developmentRendererUrl();
+  if (rendererUrl) {
+    await mainWindow.loadURL(rendererUrl);
   } else {
     await mainWindow.loadURL(`${APP_SCHEME}://${APP_HOST}/index.html`);
   }
@@ -147,8 +165,11 @@ async function createMainWindow(): Promise<BrowserWindow> {
 app.setName("Kaleidoscope");
 
 app.whenReady().then(async () => {
+  if (process.platform === "darwin" && !app.isPackaged) {
+    app.dock?.setIcon(join(app.getAppPath(), "resources/icon.png"));
+  }
   registerIpcHandlers();
-  if (!process.env.ELECTRON_RENDERER_URL) {
+  if (!developmentRendererUrl()) {
     await installAppProtocol(join(__dirname, "../renderer"));
   }
   await createMainWindow();

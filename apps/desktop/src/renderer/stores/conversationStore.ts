@@ -1,4 +1,5 @@
 import type {
+  AssistantGrounding,
   ConversationMessage,
   PersistedSessionV1,
 } from "@kaleidoscope/contracts";
@@ -25,7 +26,10 @@ interface ConversationState {
   ) => { userMessage: ConversationMessage; assistantMessageId: string };
   appendDelta: (requestId: string, delta: string) => void;
   setProvider: (requestId: string, provider: "demo" | "codex") => void;
-  complete: (requestId: string) => void;
+  complete: (
+    requestId: string,
+    grounding: AssistantGrounding,
+  ) => void;
   cancel: (requestId: string) => void;
   fail: (requestId: string, message: string) => void;
   clearError: () => void;
@@ -114,7 +118,7 @@ export const useConversationStore = create<ConversationState>((set, get) => ({
     }
   },
 
-  complete(requestId) {
+  complete(requestId, grounding) {
     const streaming = get().streaming;
     if (!streaming || streaming.requestId !== requestId) {
       return;
@@ -128,6 +132,7 @@ export const useConversationStore = create<ConversationState>((set, get) => ({
                 message.content ||
                 "我已经准备好继续。请告诉我你观察到的变化。",
               status: "complete" as const,
+              grounding,
             }
           : message,
       ),

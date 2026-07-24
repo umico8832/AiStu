@@ -2,6 +2,12 @@ import { z } from "zod";
 
 export const VISUALIZATION_ID_CALL_STACK =
   "call-stack.factorial-recursion.v1" as const;
+export const VISUALIZATION_ID_ARRAYSTACK_INSERTION =
+  "ods.arraystack-insertion.v1" as const;
+export const VISUALIZATION_ID_ARRAYQUEUE_REPRESENTATION =
+  "ods.arrayqueue-representation.v1" as const;
+export const VISUALIZATION_ID_DUALARRAYDEQUE_BALANCE =
+  "ods.dualarraydeque-balance.v1" as const;
 
 export const ipcChannels = {
   chatSend: "kaleidoscope:chat:send",
@@ -18,6 +24,76 @@ export const messageStatusSchema = z.enum([
   "error",
 ]);
 
+export const knowledgeChunkTypeSchema = z.enum([
+  "core",
+  "relations",
+  "rookie",
+  "recall",
+]);
+
+export const knowledgeRagChunkSchema = z
+  .object({
+    chunkId: z.string().min(5).max(160).regex(/^rag-ods-/u),
+    conceptId: z.string().min(5).max(120).regex(/^ods-/u),
+    chunkType: knowledgeChunkTypeSchema,
+    title: z.string().trim().min(1).max(200),
+    text: z.string().trim().min(10).max(6_000),
+    metadata: z
+      .object({
+        courseId: z.string().min(1).max(120),
+        chapterId: z.string().min(1).max(120),
+        sectionId: z.string().min(1).max(120).nullable(),
+        contentType: z.string().min(1).max(80),
+        knowledgeVersion: z.number().int().min(1).max(10_000),
+      })
+      .strict(),
+  })
+  .strict();
+
+export type KnowledgeRagChunk = z.infer<typeof knowledgeRagChunkSchema>;
+
+export const knowledgeRetrievalContextSchema = z
+  .object({
+    status: z.enum(["found", "not_found", "unavailable"]),
+    query: z.string().max(4_000),
+    chunks: z.array(knowledgeRagChunkSchema).max(6),
+  })
+  .strict();
+
+export type KnowledgeRetrievalContext = z.infer<
+  typeof knowledgeRetrievalContextSchema
+>;
+
+export const knowledgeCitationSchema = z
+  .object({
+    chunkId: z.string().min(5).max(160).regex(/^rag-ods-/u),
+    conceptId: z.string().min(5).max(120).regex(/^ods-/u),
+    title: z.string().trim().min(1).max(200),
+    courseId: z.string().min(1).max(120),
+    chapterId: z.string().min(1).max(120),
+    sectionId: z.string().min(1).max(120).nullable(),
+    knowledgeVersion: z.number().int().min(1).max(10_000),
+  })
+  .strict();
+
+export type KnowledgeCitation = z.infer<typeof knowledgeCitationSchema>;
+
+export const assistantGroundingSchema = z
+  .object({
+    status: z.enum([
+      "grounded",
+      "not_found",
+      "not_required",
+      "unavailable",
+    ]),
+    citations: z.array(knowledgeCitationSchema).max(5),
+  })
+  .strict();
+
+export type AssistantGrounding = z.infer<
+  typeof assistantGroundingSchema
+>;
+
 export const conversationMessageSchema = z
   .object({
     id: z.string().uuid(),
@@ -25,6 +101,7 @@ export const conversationMessageSchema = z
     content: z.string().max(12_000),
     createdAt: z.number().int().nonnegative(),
     status: messageStatusSchema,
+    grounding: assistantGroundingSchema.optional(),
   })
   .strict();
 
@@ -162,6 +239,7 @@ export const chatStreamEventSchema = z.discriminatedUnion("type", [
   z.object({
     ...streamEventBase,
     type: z.literal("completed"),
+    grounding: assistantGroundingSchema,
   }).strict(),
   z.object({
     ...streamEventBase,

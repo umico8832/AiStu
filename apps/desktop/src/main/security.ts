@@ -1,4 +1,5 @@
 import {
+  app,
   net,
   protocol,
   session,
@@ -8,9 +9,17 @@ import {
 import { existsSync } from "node:fs";
 import { resolve, sep } from "node:path";
 import { pathToFileURL } from "node:url";
+import { selectDevelopmentRendererUrl } from "./runtime-mode";
 
 export const APP_SCHEME = "kaleidoscope";
 export const APP_HOST = "app";
+
+export function developmentRendererUrl(): string | null {
+  return selectDevelopmentRendererUrl(
+    app.isPackaged,
+    process.env.ELECTRON_RENDERER_URL,
+  );
+}
 
 export function registerAppScheme(): void {
   protocol.registerSchemesAsPrivileged([
@@ -29,7 +38,7 @@ export function registerAppScheme(): void {
 export function isTrustedUrl(rawUrl: string): boolean {
   try {
     const url = new URL(rawUrl);
-    const devUrl = process.env.ELECTRON_RENDERER_URL;
+    const devUrl = developmentRendererUrl();
     if (devUrl) {
       return url.origin === new URL(devUrl).origin;
     }
@@ -77,9 +86,9 @@ export function hardenSession(mainWindow: BrowserWindow): void {
   appSession.setPermissionCheckHandler(() => false);
 
   appSession.webRequest.onHeadersReceived((details, callback) => {
-    const development = Boolean(process.env.ELECTRON_RENDERER_URL);
+    const development = Boolean(developmentRendererUrl());
     const policy = development
-      ? "default-src 'self' data: blob: http://localhost:*; script-src 'self' 'unsafe-eval' http://localhost:*; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self' ws://localhost:* http://localhost:*; object-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'"
+      ? "default-src 'self' data: blob: http://localhost:*; script-src 'self' 'unsafe-inline' 'unsafe-eval' http://localhost:*; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self' ws://localhost:* http://localhost:*; object-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'"
       : "default-src 'self' kaleidoscope:; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; object-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'";
     callback({
       responseHeaders: {

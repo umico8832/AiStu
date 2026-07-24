@@ -1,6 +1,9 @@
 import { describe, expect, it } from "vitest";
 import {
+  VISUALIZATION_ID_ARRAYQUEUE_REPRESENTATION,
+  VISUALIZATION_ID_ARRAYSTACK_INSERTION,
   VISUALIZATION_ID_CALL_STACK,
+  VISUALIZATION_ID_DUALARRAYDEQUE_BALANCE,
 } from "@kaleidoscope/contracts";
 import {
   applyVisualizationPatch,
@@ -14,7 +17,23 @@ describe("visualization runtime", () => {
   it("keeps a static, unique registry", () => {
     const ids = visualizationRegistry.map((entry) => entry.id);
     expect(new Set(ids).size).toBe(ids.length);
+    expect(ids).toEqual([
+      VISUALIZATION_ID_CALL_STACK,
+      VISUALIZATION_ID_ARRAYSTACK_INSERTION,
+      VISUALIZATION_ID_ARRAYQUEUE_REPRESENTATION,
+      VISUALIZATION_ID_DUALARRAYDEQUE_BALANCE,
+    ]);
     expect(visualizationRegistry[0]?.conceptIds).toEqual([]);
+    for (const registration of visualizationRegistry.slice(1)) {
+      expect(registration.conceptIds.length).toBeGreaterThan(0);
+    }
+  });
+
+  it("lazy-loads every registered visualization component", async () => {
+    for (const registration of visualizationRegistry) {
+      const module = await registration.load();
+      expect(typeof module.VisualizationComponent).toBe("function");
+    }
   });
 
   it("rejects unknown visualization IDs", () => {
@@ -58,5 +77,24 @@ describe("visualization runtime", () => {
       }),
     ).toThrowError(/未声明/);
     expect(current.revision).toBe(0);
+  });
+
+  it("applies each data-structure lesson's constrained focus patch", () => {
+    const cases = [
+      [VISUALIZATION_ID_ARRAYSTACK_INSERTION, "write", 5],
+      [VISUALIZATION_ID_ARRAYQUEUE_REPRESENTATION, "wraparound", 3],
+      [VISUALIZATION_ID_DUALARRAYDEQUE_BALANCE, "rebuild", 4],
+    ] as const;
+    for (const [visualizationId, focus, expectedStep] of cases) {
+      const current = createDefaultVisualizationSession(visualizationId);
+      const next = applyVisualizationPatch(current, {
+        sessionId: current.sessionId,
+        visualizationId,
+        baseRevision: 0,
+        operations: [{ op: "set_focus", focus }],
+      });
+      expect(next.revision).toBe(1);
+      expect(next.currentStep).toBe(expectedStep);
+    }
   });
 });

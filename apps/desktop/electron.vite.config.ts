@@ -8,7 +8,11 @@ export default defineConfig({
       externalizeDeps: {
         exclude: [
           "@kaleidoscope/contracts",
+          "@kaleidoscope/knowledge-runtime",
+          "@kaleidoscope/lesson-arrayqueue-representation",
+          "@kaleidoscope/lesson-arraystack-insertion",
           "@kaleidoscope/lesson-call-stack",
+          "@kaleidoscope/lesson-dualarraydeque-balance",
           "@kaleidoscope/tutor-runtime",
           "@kaleidoscope/ui",
           "@kaleidoscope/visualization-runtime",

@@ -77,12 +77,11 @@ export const useVisualizationStore = create<VisualizationState>((set, get) => ({
     } catch (error) {
       if (
         error instanceof VisualizationRuntimeError &&
-        error.code !== "UNKNOWN_VISUALIZATION" &&
-        command.visualizationId === VISUALIZATION_ID_CALL_STACK
+        error.code !== "UNKNOWN_VISUALIZATION"
       ) {
         set({
           activeSession: createDefaultVisualizationSession(
-            VISUALIZATION_ID_CALL_STACK,
+            command.visualizationId,
           ),
           lastError: "AI 场景参数未通过校验，已安全回退到默认课件。",
         });

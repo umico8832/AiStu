@@ -6,7 +6,7 @@
   "description": "Desktop AI teaching workspace with safe, registered interactive visualizations.",
   "packageManager": "pnpm@11.9.0",
   "engines": {
-    "node": ">=24.14.0 <25",
+    "node": ">=22.21.0 <23 || >=24.14.0 <25",
     "pnpm": ">=11.9.0 <12"
   },
   "scripts": {
@@ -18,12 +18,17 @@
     "test:e2e": "playwright test",
     "build": "pnpm -r --if-present build",
     "package": "pnpm --filter @kaleidoscope/desktop package",
-    "package:dir": "pnpm --filter @kaleidoscope/desktop package:dir"
+    "package:dir": "pnpm --filter @kaleidoscope/desktop package:dir",
+    "sync:knowledge": "node scripts/sync-knowledge-snapshot.cjs",
+    "check:knowledge-snapshot": "node scripts/sync-knowledge-snapshot.cjs --check",
+    "verify:mac-package": "node scripts/verify-macos-package.cjs",
+    "smoke:mac-package": "node scripts/smoke-macos-package.cjs",
+    "acceptance:mac": "pnpm typecheck && pnpm lint && pnpm test && pnpm test:e2e && pnpm package:dir && pnpm verify:mac-package && pnpm smoke:mac-package"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",
     "@playwright/test": "1.61.1",
-    "@types/node": "24.13.3",
+    "@types/node": "22.20.1",
     "eslint": "10.7.0",
     "eslint-plugin-react-hooks": "7.1.1",
     "eslint-plugin-react-refresh": "0.5.3",

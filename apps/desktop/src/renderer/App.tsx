@@ -1,10 +1,12 @@
 import type {
   ActiveVisualizationContext,
   ChatStreamEvent,
+  TutorCommand,
   VisualizationInteractionEvent,
 } from "@kaleidoscope/contracts";
+import { getVisualizationRegistration } from "@kaleidoscope/visualization-runtime";
 import { AnimatePresence, motion } from "motion/react";
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   ConversationPage,
   LearningContextPanel,
@@ -29,22 +31,10 @@ function activeVisualizationContext(): ActiveVisualizationContext | null {
   };
 }
 
-function interactionMessage(event: VisualizationInteractionEvent): string | null {
-  if (event.type === "prediction_submitted") {
-    const labels: Record<string, string> = {
-      "factorial-1": "factorial(1)",
-      "factorial-2": "factorial(2)",
-      main: "main()",
-      "factorial-3-start": "factorial(3) 的开头",
-      "main-start": "main() 的开头",
-    };
-    return `课件预测：我选择了 ${labels[event.answerId] ?? event.answerId}。`;
-  }
-  if (event.type === "lesson_completed") {
-    return "我已经完成调用栈课件。请用一个问题检查我是否真的理解了返回顺序。";
-  }
-  return null;
-}
+type OpenVisualizationCommand = Extract<
+  TutorCommand,
+  { type: "open_visualization" }
+>;
 
 export function App() {
   const conversation = useConversationStore();
@@ -52,6 +42,8 @@ export function App() {
   const reducedMotion = useAppStore((state) => state.reducedMotion);
   const setReducedMotion = useAppStore((state) => state.setReducedMotion);
   const saveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [pendingVisualization, setPendingVisualization] =
+    useState<OpenVisualizationCommand | null>(null);
 
   const sendMessage = useCallback(async (rawContent: string) => {
     const content = rawContent.trim();
@@ -59,6 +51,7 @@ export function App() {
     if (!content || state.streaming) {
       return;
     }
+    setPendingVisualization(null);
     const requestId = crypto.randomUUID();
     const { assistantMessageId } = state.beginTurn(content, requestId);
     const messages = useConversationStore
@@ -110,10 +103,22 @@ export function App() {
           state.appendDelta(event.requestId, event.delta);
           break;
         case "command":
-          useVisualizationStore.getState().handleCommand(event.command);
+          if (event.command.type === "open_visualization") {
+            if (
+              getVisualizationRegistration(event.command.visualizationId)
+            ) {
+              setPendingVisualization(event.command);
+            } else {
+              useVisualizationStore
+                .getState()
+                .handleCommand(event.command);
+            }
+          } else {
+            useVisualizationStore.getState().handleCommand(event.command);
+          }
           break;
         case "completed":
-          state.complete(event.requestId);
+          state.complete(event.requestId, event.grounding);
           break;
         case "cancelled":
           state.cancel(event.requestId);
@@ -192,10 +197,14 @@ export function App() {
 
   const handleInteraction = (event: VisualizationInteractionEvent) => {
     useVisualizationStore.getState().recordInteraction(event);
-    const content = interactionMessage(event);
-    if (content) {
-      void sendMessage(content);
+  };
+
+  const confirmVisualization = () => {
+    if (!pendingVisualization) {
+      return;
     }
+    useVisualizationStore.getState().handleCommand(pendingVisualization);
+    setPendingVisualization(null);
   };
 
   const closeVisualization = () => {
@@ -206,7 +215,9 @@ export function App() {
         sessionId: active.sessionId,
         visualizationId: active.visualizationId,
         finalStep: active.currentStep,
-        completed: active.currentStep >= 10,
+        completed: active.interactionHistory.some(
+          (event) => event.type === "lesson_completed",
+        ),
         occurredAt: Date.now(),
       });
     }
@@ -217,9 +228,18 @@ export function App() {
     if (conversation.streaming) {
       return;
     }
+    setPendingVisualization(null);
     useVisualizationStore.getState().close();
     useConversationStore.getState().resetConversation();
   };
+
+  const pendingRegistration = pendingVisualization
+    ? getVisualizationRegistration(pendingVisualization.visualizationId)
+    : null;
+  const pendingTeachingGoal =
+    typeof pendingVisualization?.spec.teachingGoal === "string"
+      ? pendingVisualization.spec.teachingGoal
+      : null;
 
   return (
     <div
@@ -246,10 +266,31 @@ export function App() {
         onSend={(content) => void sendMessage(content)}
         onStop={() => void stop()}
         onRetry={retry}
+        visualizationSuggestion={
+          pendingVisualization && pendingRegistration
+            ? {
+                visualizationId: pendingVisualization.visualizationId,
+                title: pendingRegistration.title,
+                description: pendingRegistration.description,
+                teachingGoal: pendingTeachingGoal,
+              }
+            : null
+        }
+        onConfirmVisualization={confirmVisualization}
+        onDismissVisualization={() => setPendingVisualization(null)}
       />
       <LearningContextPanel
         hasVisualization={Boolean(visualization.activeSession)}
-        currentStep={visualization.activeSession?.currentStep ?? null}
+        hasPrediction={
+          visualization.activeSession?.interactionHistory.some(
+            (event) => event.type === "prediction_submitted",
+          ) ?? false
+        }
+        completed={
+          visualization.activeSession?.interactionHistory.some(
+            (event) => event.type === "lesson_completed",
+          ) ?? false
+        }
       />
 
       <AnimatePresence>

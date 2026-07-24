@@ -15,8 +15,8 @@ importers:
         specifier: 1.61.1
         version: 1.61.1
       '@types/node':
-        specifier: 24.13.3
-        version: 24.13.3
+        specifier: 22.20.1
+        version: 22.20.1
       eslint:
         specifier: 10.7.0
         version: 10.7.0(jiti@2.7.0)
@@ -40,16 +40,28 @@ importers:
         version: 8.65.0(eslint@10.7.0(jiti@2.7.0))(typescript@6.0.3)
       vitest:
         specifier: 4.1.10
-        version: 4.1.10(@types/node@24.13.3)(happy-dom@20.11.1)(vite@7.3.6(@types/node@24.13.3)(jiti@2.7.0)(lightningcss@1.32.0))
+        version: 4.1.10(@types/node@22.20.1)(happy-dom@20.11.1)(vite@7.3.6(@types/node@22.20.1)(jiti@2.7.0)(lightningcss@1.32.0))
 
   apps/desktop:
     dependencies:
       '@kaleidoscope/contracts':
         specifier: workspace:*
         version: link:../../packages/contracts
+      '@kaleidoscope/knowledge-runtime':
+        specifier: workspace:*
+        version: link:../../packages/knowledge-runtime
+      '@kaleidoscope/lesson-arrayqueue-representation':
+        specifier: workspace:*
+        version: link:../../packages/lessons/arrayqueue-representation
+      '@kaleidoscope/lesson-arraystack-insertion':
+        specifier: workspace:*
+        version: link:../../packages/lessons/arraystack-insertion
       '@kaleidoscope/lesson-call-stack':
         specifier: workspace:*
         version: link:../../packages/lessons/call-stack
+      '@kaleidoscope/lesson-dualarraydeque-balance':
+        specifier: workspace:*
+        version: link:../../packages/lessons/dualarraydeque-balance
       '@kaleidoscope/tutor-runtime':
         specifier: workspace:*
         version: link:../../packages/tutor-runtime
@@ -125,6 +137,84 @@ importers:
         specifier: 4.1.10
         version: 4.1.10(@types/node@24.13.3)(happy-dom@20.11.1)(vite@7.3.6(@types/node@24.13.3)(jiti@2.7.0)(lightningcss@1.32.0))
 
+  packages/knowledge-runtime:
+    dependencies:
+      '@kaleidoscope/contracts':
+        specifier: workspace:*
+        version: link:../contracts
+      zod:
+        specifier: 4.4.3
+        version: 4.4.3
+    devDependencies:
+      typescript:
+        specifier: 6.0.3
+        version: 6.0.3
+      vitest:
+        specifier: 4.1.10
+        version: 4.1.10(@types/node@24.13.3)(happy-dom@20.11.1)(vite@7.3.6(@types/node@24.13.3)(jiti@2.7.0)(lightningcss@1.32.0))
+
+  packages/lessons/arrayqueue-representation:
+    dependencies:
+      '@kaleidoscope/contracts':
+        specifier: workspace:*
+        version: link:../../contracts
+      '@kaleidoscope/ui':
+        specifier: workspace:*
+        version: link:../../ui
+      lucide-react:
+        specifier: 1.26.0
+        version: 1.26.0(react@19.2.8)
+      motion:
+        specifier: 12.42.2
+        version: 12.42.2(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
+      react:
+        specifier: 19.2.8
+        version: 19.2.8
+      zod:
+        specifier: 4.4.3
+        version: 4.4.3
+    devDependencies:
+      '@types/react':
+        specifier: 19.2.17
+        version: 19.2.17
+      typescript:
+        specifier: 6.0.3
+        version: 6.0.3
+      vitest:
+        specifier: 4.1.10
+        version: 4.1.10(@types/node@24.13.3)(happy-dom@20.11.1)(vite@7.3.6(@types/node@24.13.3)(jiti@2.7.0)(lightningcss@1.32.0))
+
+  packages/lessons/arraystack-insertion:
+    dependencies:
+      '@kaleidoscope/contracts':
+        specifier: workspace:*
+        version: link:../../contracts
+      '@kaleidoscope/ui':
+        specifier: workspace:*
+        version: link:../../ui
+      lucide-react:
+        specifier: 1.26.0
+        version: 1.26.0(react@19.2.8)
+      motion:
+        specifier: 12.42.2
+        version: 12.42.2(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
+      react:
+        specifier: 19.2.8
+        version: 19.2.8
+      zod:
+        specifier: 4.4.3
+        version: 4.4.3
+    devDependencies:
+      '@types/react':
+        specifier: 19.2.17
+        version: 19.2.17
+      typescript:
+        specifier: 6.0.3
+        version: 6.0.3
+      vitest:
+        specifier: 4.1.10
+        version: 4.1.10(@types/node@24.13.3)(happy-dom@20.11.1)(vite@7.3.6(@types/node@24.13.3)(jiti@2.7.0)(lightningcss@1.32.0))
+
   packages/lessons/call-stack:
     dependencies:
       '@kaleidoscope/contracts':
@@ -159,14 +249,54 @@ importers:
         specifier: 4.1.10
         version: 4.1.10(@types/node@24.13.3)(happy-dom@20.11.1)(vite@7.3.6(@types/node@24.13.3)(jiti@2.7.0)(lightningcss@1.32.0))
 
+  packages/lessons/dualarraydeque-balance:
+    dependencies:
+      '@kaleidoscope/contracts':
+        specifier: workspace:*
+        version: link:../../contracts
+      '@kaleidoscope/ui':
+        specifier: workspace:*
+        version: link:../../ui
+      lucide-react:
+        specifier: 1.26.0
+        version: 1.26.0(react@19.2.8)
+      motion:
+        specifier: 12.42.2
+        version: 12.42.2(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
+      react:
+        specifier: 19.2.8
+        version: 19.2.8
+      zod:
+        specifier: 4.4.3
+        version: 4.4.3
+    devDependencies:
+      '@types/react':
+        specifier: 19.2.17
+        version: 19.2.17
+      typescript:
+        specifier: 6.0.3
+        version: 6.0.3
+      vitest:
+        specifier: 4.1.10
+        version: 4.1.10(@types/node@24.13.3)(happy-dom@20.11.1)(vite@7.3.6(@types/node@24.13.3)(jiti@2.7.0)(lightningcss@1.32.0))
+
   packages/tutor-runtime:
     dependencies:
       '@kaleidoscope/contracts':
         specifier: workspace:*
         version: link:../contracts
+      '@kaleidoscope/lesson-arrayqueue-representation':
+        specifier: workspace:*
+        version: link:../lessons/arrayqueue-representation
+      '@kaleidoscope/lesson-arraystack-insertion':
+        specifier: workspace:*
+        version: link:../lessons/arraystack-insertion
       '@kaleidoscope/lesson-call-stack':
         specifier: workspace:*
         version: link:../lessons/call-stack
+      '@kaleidoscope/lesson-dualarraydeque-balance':
+        specifier: workspace:*
+        version: link:../lessons/dualarraydeque-balance
       zod:
         specifier: 4.4.3
         version: 4.4.3
@@ -196,9 +326,18 @@ importers:
       '@kaleidoscope/contracts':
         specifier: workspace:*
         version: link:../contracts
+      '@kaleidoscope/lesson-arrayqueue-representation':
+        specifier: workspace:*
+        version: link:../lessons/arrayqueue-representation
+      '@kaleidoscope/lesson-arraystack-insertion':
+        specifier: workspace:*
+        version: link:../lessons/arraystack-insertion
       '@kaleidoscope/lesson-call-stack':
         specifier: workspace:*
         version: link:../lessons/call-stack
+      '@kaleidoscope/lesson-dualarraydeque-balance':
+        specifier: workspace:*
+        version: link:../lessons/dualarraydeque-balance
       zod:
         specifier: 4.4.3
         version: 4.4.3
@@ -1069,6 +1208,9 @@ packages:
 
   '@types/ms@2.1.0':
     resolution: {integrity: sha512-GsCCIZDE/p3i96vtEqx+7dBUGXrc7zeSK3wwPHIaRThS+9OhWIXRqzs4d6k1SVU8g91DrNRWxWUGhp5KXQb2VA==}
+
+  '@types/node@22.20.1':
+    resolution: {integrity: sha512-EANqOCF9QFyra+4pfxUcX9STKJpCLjMbObVzljIJomAWSnuSIEAvyzEU53GaajbXJEgdh0iEcPL+DGvpUd4k1Q==}
 
   '@types/node@24.13.3':
     resolution: {integrity: sha512-Dh8vAsV36ig5wa9OX4pXvMc9D3Veibfw2wix0CUwYODLD8nkj9UsLjASr49nPg+2eKzxhBV+v7L8pXvT4e639Q==}
@@ -2503,6 +2645,9 @@ packages:
     engines: {node: '>=14.17'}
     hasBin: true
 
+  undici-types@6.21.0:
+    resolution: {integrity: sha512-iwDZqg0QAGrg9Rav5H4n0M64c3mkR59cJ6wQp+7C4nI0gsmExaedaYLNO44eT4AtBBwjbTiGPMlt2Md0T9H9JQ==}
+
   undici-types@7.18.2:
     resolution: {integrity: sha512-AsuCzffGHJybSaRrmr5eHr81mwJU3kjw6M+uprWvCXiNeN9SOGwQ3Jn8jb8m3Z6izVgknn1R0FTCEAP2QrLY/w==}
 
@@ -3425,6 +3570,10 @@ snapshots:
 
   '@types/ms@2.1.0': {}
 
+  '@types/node@22.20.1':
+    dependencies:
+      undici-types: 6.21.0
+
   '@types/node@24.13.3':
     dependencies:
       undici-types: 7.18.2
@@ -3558,6 +3707,14 @@ snapshots:
       '@vitest/utils': 4.1.10
       chai: 6.2.2
       tinyrainbow: 3.1.0
+
+  '@vitest/mocker@4.1.10(vite@7.3.6(@types/node@22.20.1)(jiti@2.7.0)(lightningcss@1.32.0))':
+    dependencies:
+      '@vitest/spy': 4.1.10
+      estree-walker: 3.0.3
+      magic-string: 0.30.21
+    optionalDependencies:
+      vite: 7.3.6(@types/node@22.20.1)(jiti@2.7.0)(lightningcss@1.32.0)
 
   '@vitest/mocker@4.1.10(vite@7.3.6(@types/node@24.13.3)(jiti@2.7.0)(lightningcss@1.32.0))':
     dependencies:
@@ -5007,6 +5164,8 @@ snapshots:
 
   typescript@6.0.3: {}
 
+  undici-types@6.21.0: {}
+
   undici-types@7.18.2: {}
 
   undici@6.27.0: {}
@@ -5040,6 +5199,20 @@ snapshots:
 
   util-deprecate@1.0.2: {}
 
+  vite@7.3.6(@types/node@22.20.1)(jiti@2.7.0)(lightningcss@1.32.0):
+    dependencies:
+      esbuild: 0.28.1
+      fdir: 6.5.0(picomatch@4.0.5)
+      picomatch: 4.0.5
+      postcss: 8.5.22
+      rollup: 4.62.2
+      tinyglobby: 0.2.17
+    optionalDependencies:
+      '@types/node': 22.20.1
+      fsevents: 2.3.3
+      jiti: 2.7.0
+      lightningcss: 1.32.0
+
   vite@7.3.6(@types/node@24.13.3)(jiti@2.7.0)(lightningcss@1.32.0):
     dependencies:
       esbuild: 0.28.1
@@ -5053,6 +5226,34 @@ snapshots:
       fsevents: 2.3.3
       jiti: 2.7.0
       lightningcss: 1.32.0
+
+  vitest@4.1.10(@types/node@22.20.1)(happy-dom@20.11.1)(vite@7.3.6(@types/node@22.20.1)(jiti@2.7.0)(lightningcss@1.32.0)):
+    dependencies:
+      '@vitest/expect': 4.1.10
+      '@vitest/mocker': 4.1.10(vite@7.3.6(@types/node@22.20.1)(jiti@2.7.0)(lightningcss@1.32.0))
+      '@vitest/pretty-format': 4.1.10
+      '@vitest/runner': 4.1.10
+      '@vitest/snapshot': 4.1.10
+      '@vitest/spy': 4.1.10
+      '@vitest/utils': 4.1.10
+      es-module-lexer: 2.3.1
+      expect-type: 1.4.0
+      magic-string: 0.30.21
+      obug: 2.1.4
+      pathe: 2.0.3
+      picomatch: 4.0.5
+      std-env: 4.2.0
+      tinybench: 2.9.0
+      tinyexec: 1.2.4
+      tinyglobby: 0.2.17
+      tinyrainbow: 3.1.0
+      vite: 7.3.6(@types/node@22.20.1)(jiti@2.7.0)(lightningcss@1.32.0)
+      why-is-node-running: 2.3.0
+    optionalDependencies:
+      '@types/node': 22.20.1
+      happy-dom: 20.11.1
+    transitivePeerDependencies:
+      - msw
 
   vitest@4.1.10(@types/node@24.13.3)(happy-dom@20.11.1)(vite@7.3.6(@types/node@24.13.3)(jiti@2.7.0)(lightningcss@1.32.0)):
     dependencies:

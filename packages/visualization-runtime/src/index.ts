@@ -1,8 +1,23 @@
 import {
   persistedVisualizationSessionSchema,
+  VISUALIZATION_ID_ARRAYQUEUE_REPRESENTATION,
+  VISUALIZATION_ID_ARRAYSTACK_INSERTION,
   VISUALIZATION_ID_CALL_STACK,
+  VISUALIZATION_ID_DUALARRAYDEQUE_BALANCE,
   type PersistedVisualizationSession,
 } from "@kaleidoscope/contracts";
+import {
+  applyArrayQueueRepresentationPatchOperations,
+  arrayQueueRepresentationPatchOperationsSchema,
+  arrayQueueRepresentationSessionSpecSchema,
+  defaultArrayQueueRepresentationSessionSpec,
+} from "@kaleidoscope/lesson-arrayqueue-representation";
+import {
+  applyArrayStackInsertionPatchOperations,
+  arrayStackInsertionPatchOperationsSchema,
+  arrayStackInsertionSessionSpecSchema,
+  defaultArrayStackInsertionSessionSpec,
+} from "@kaleidoscope/lesson-arraystack-insertion";
 import {
   applyCallStackPatchOperations,
   callStackPatchOperationsSchema,
@@ -11,11 +26,19 @@ import {
   type CallStackPatchOperation,
   type CallStackSessionSpec,
 } from "@kaleidoscope/lesson-call-stack";
+import {
+  applyDualArrayDequeBalancePatchOperations,
+  defaultDualArrayDequeBalanceSessionSpec,
+  dualArrayDequeBalancePatchOperationsSchema,
+  dualArrayDequeBalanceSessionSpecSchema,
+} from "@kaleidoscope/lesson-dualarraydeque-balance";
 import type { ComponentType } from "react";
 import { z, type ZodType } from "zod";
 
 export interface VisualizationRegistration {
   id: string;
+  title: string;
+  description: string;
   conceptIds: string[];
   version: number;
   status: "draft" | "review_pending" | "reviewed";
@@ -45,6 +68,8 @@ function toRecord(value: object): Record<string, unknown> {
 
 const callStackRegistration: VisualizationRegistration = {
   id: VISUALIZATION_ID_CALL_STACK,
+  title: "栈与函数调用",
+  description: "递归阶乘的入栈、等待与逐层返回",
   conceptIds: [],
   version: 1,
   status: "review_pending",
@@ -61,8 +86,84 @@ const callStackRegistration: VisualizationRegistration = {
   load: () => import("@kaleidoscope/lesson-call-stack"),
 };
 
+const arrayStackInsertionRegistration: VisualizationRegistration = {
+  id: VISUALIZATION_ID_ARRAYSTACK_INSERTION,
+  title: "ArrayStack 按位插入",
+  description: "容量检查、从右向左搬移与写入新元素",
+  conceptIds: [
+    "ods-arraystack-insertion",
+    "ods-array-size-capacity",
+  ],
+  version: 1,
+  status: "review_pending",
+  specSchema: arrayStackInsertionSessionSpecSchema,
+  defaultSpec: toRecord(defaultArrayStackInsertionSessionSpec),
+  patchOperationsSchema: arrayStackInsertionPatchOperationsSchema,
+  applyPatch(spec, operations) {
+    const current = arrayStackInsertionSessionSpecSchema.parse(spec);
+    const parsed =
+      arrayStackInsertionPatchOperationsSchema.parse(operations);
+    return toRecord(
+      applyArrayStackInsertionPatchOperations(current, parsed),
+    );
+  },
+  load: () => import("@kaleidoscope/lesson-arraystack-insertion"),
+};
+
+const arrayQueueRepresentationRegistration: VisualizationRegistration = {
+  id: VISUALIZATION_ID_ARRAYQUEUE_REPRESENTATION,
+  title: "ArrayQueue 循环数组",
+  description: "队首 j、逻辑位置与回绕后的物理下标",
+  conceptIds: [
+    "ods-arrayqueue-representation",
+    "ods-modular-array-indexing",
+  ],
+  version: 1,
+  status: "review_pending",
+  specSchema: arrayQueueRepresentationSessionSpecSchema,
+  defaultSpec: toRecord(defaultArrayQueueRepresentationSessionSpec),
+  patchOperationsSchema: arrayQueueRepresentationPatchOperationsSchema,
+  applyPatch(spec, operations) {
+    const current =
+      arrayQueueRepresentationSessionSpecSchema.parse(spec);
+    const parsed =
+      arrayQueueRepresentationPatchOperationsSchema.parse(operations);
+    return toRecord(
+      applyArrayQueueRepresentationPatchOperations(current, parsed),
+    );
+  },
+  load: () => import("@kaleidoscope/lesson-arrayqueue-representation"),
+};
+
+const dualArrayDequeBalanceRegistration: VisualizationRegistration = {
+  id: VISUALIZATION_ID_DUALARRAYDEQUE_BALANCE,
+  title: "DualArrayDeque 再平衡",
+  description: "三倍失衡、逻辑顺序恢复与两侧重建",
+  conceptIds: [
+    "ods-dualarraydeque-balance",
+    "ods-dualarraydeque-representation",
+  ],
+  version: 1,
+  status: "review_pending",
+  specSchema: dualArrayDequeBalanceSessionSpecSchema,
+  defaultSpec: toRecord(defaultDualArrayDequeBalanceSessionSpec),
+  patchOperationsSchema: dualArrayDequeBalancePatchOperationsSchema,
+  applyPatch(spec, operations) {
+    const current = dualArrayDequeBalanceSessionSpecSchema.parse(spec);
+    const parsed =
+      dualArrayDequeBalancePatchOperationsSchema.parse(operations);
+    return toRecord(
+      applyDualArrayDequeBalancePatchOperations(current, parsed),
+    );
+  },
+  load: () => import("@kaleidoscope/lesson-dualarraydeque-balance"),
+};
+
 export const visualizationRegistry = [
   callStackRegistration,
+  arrayStackInsertionRegistration,
+  arrayQueueRepresentationRegistration,
+  dualArrayDequeBalanceRegistration,
 ] as const satisfies readonly VisualizationRegistration[];
 
 export const visualizationPatchSchema = z

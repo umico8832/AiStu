@@ -15,7 +15,9 @@ module.exports = async function afterPack(context) {
   const executableName =
     context.electronPlatformName === "darwin"
       ? `${appBundleName}/Contents/MacOS/${productFilename}`
-      : productFilename;
+      : context.electronPlatformName === "win32"
+        ? `${productFilename}.exe`
+        : productFilename;
   const electronPath = path.join(context.appOutDir, executableName);
 
   await flipFuses(electronPath, {

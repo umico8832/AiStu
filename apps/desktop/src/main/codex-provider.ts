@@ -1,6 +1,7 @@
 import type {
   ActiveVisualizationContext,
   ConversationMessage,
+  KnowledgeRetrievalContext,
 } from "@kaleidoscope/contracts";
 import {
   buildCodexTutorOutputJsonSchema,
@@ -79,6 +80,7 @@ async function readOutput(
 export async function runCodexTutor(
   messages: ConversationMessage[],
   activeVisualization: ActiveVisualizationContext | null,
+  knowledge: KnowledgeRetrievalContext,
   signal: AbortSignal,
 ): Promise<TutorPlan> {
   const scratchDirectory = await mkdtemp(
@@ -91,7 +93,10 @@ export async function runCodexTutor(
     await writeFile(
       schemaPath,
       JSON.stringify(
-        buildCodexTutorOutputJsonSchema(activeVisualization),
+        buildCodexTutorOutputJsonSchema(
+          activeVisualization,
+          knowledge,
+        ),
       ),
       { encoding: "utf8", mode: 0o600 },
     );
@@ -170,7 +175,7 @@ export async function runCodexTutor(
       // A fast CLI failure can close stdin before the prompt is fully sent.
     });
     child.stdin.end(
-      buildCodexTutorPrompt(messages, activeVisualization),
+      buildCodexTutorPrompt(messages, activeVisualization, knowledge),
     );
 
     let exitCode: number | null;
@@ -189,6 +194,7 @@ export async function runCodexTutor(
       if (code === "ENOENT") {
         throw new Error(
           "未找到本机 Codex CLI。请设置 KALEIDOSCOPE_CODEX_PATH，或从终端启动应用。",
+          { cause: error },
         );
       }
       throw error;
@@ -215,10 +221,16 @@ export async function runCodexTutor(
     }
 
     const rawOutput = await readOutput(outputPath, stdout);
-    return normalizeCodexTutorOutput(rawOutput, activeVisualization);
+    return normalizeCodexTutorOutput(
+      rawOutput,
+      activeVisualization,
+      knowledge,
+    );
   } catch (error) {
     if (error instanceof SyntaxError) {
-      throw new Error("本机 Codex 返回了无法解析的结构化结果。");
+      throw new Error("本机 Codex 返回了无法解析的结构化结果。", {
+        cause: error,
+      });
     }
     throw error;
   } finally {

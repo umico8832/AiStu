@@ -9,12 +9,16 @@
     "typecheck": "tsc -p tsconfig.json",
     "build": "electron-vite build",
     "preview": "electron-vite preview",
-    "package": "pnpm build && electron-builder",
-    "package:dir": "pnpm build && electron-builder --dir"
+    "package": "pnpm -w check:knowledge-snapshot && pnpm build && electron-builder",
+    "package:dir": "pnpm -w check:knowledge-snapshot && pnpm build && electron-builder --dir"
   },
   "dependencies": {
     "@kaleidoscope/contracts": "workspace:*",
+    "@kaleidoscope/knowledge-runtime": "workspace:*",
+    "@kaleidoscope/lesson-arrayqueue-representation": "workspace:*",
+    "@kaleidoscope/lesson-arraystack-insertion": "workspace:*",
     "@kaleidoscope/lesson-call-stack": "workspace:*",
+    "@kaleidoscope/lesson-dualarraydeque-balance": "workspace:*",
     "@kaleidoscope/tutor-runtime": "workspace:*",
     "@kaleidoscope/ui": "workspace:*",
     "@kaleidoscope/visualization-runtime": "workspace:*",

@@ -2,14 +2,17 @@ import type { ConversationMessage } from "@kaleidoscope/contracts";
 import { BrandMark, Button, IconButton } from "@kaleidoscope/ui";
 import {
   ArrowUp,
+  BookOpenCheck,
   BrainCircuit,
+  CircleAlert,
   CircleStop,
   Clock3,
+  Eye,
   Layers3,
   RefreshCcw,
   ShieldCheck,
-  Sparkles,
   UserRound,
+  X,
 } from "lucide-react";
 import {
   useEffect,
@@ -41,6 +44,14 @@ interface ConversationPageProps {
   onSend: (content: string) => void;
   onStop: () => void;
   onRetry: () => void;
+  visualizationSuggestion: {
+    visualizationId: string;
+    title: string;
+    description: string;
+    teachingGoal: string | null;
+  } | null;
+  onConfirmVisualization: () => void;
+  onDismissVisualization: () => void;
 }
 
 function AssistantAvatar() {
@@ -53,6 +64,7 @@ function AssistantAvatar() {
 
 function MessageBubble({ message }: { message: ConversationMessage }) {
   const assistant = message.role === "assistant";
+  const grounding = assistant ? message.grounding : undefined;
   return (
     <article
       className={`group flex gap-3 ${assistant ? "" : "justify-end"}`}
@@ -84,6 +96,43 @@ function MessageBubble({ message }: { message: ConversationMessage }) {
             回答未完成
           </span>
         ) : null}
+        {grounding?.status === "grounded" &&
+        grounding.citations.length > 0 ? (
+          <div
+            aria-label="知识库来源"
+            className="mt-3 border-t border-slate-100 pt-2.5"
+          >
+            <div className="flex items-center gap-1.5 text-[11px] font-semibold text-emerald-700">
+              <BookOpenCheck aria-hidden="true" className="size-3.5" />
+              知识库来源
+            </div>
+            <div className="mt-2 flex flex-wrap gap-1.5">
+              {grounding.citations.map((citation) => (
+                <span
+                  key={citation.chunkId}
+                  title={`${citation.courseId} / ${citation.chapterId} / ${citation.sectionId ?? "未标节"}`}
+                  className="inline-flex max-w-full items-center rounded-full border border-emerald-100 bg-emerald-50 px-2.5 py-1 text-[11px] font-medium text-emerald-800"
+                >
+                  <span className="truncate">{citation.title}</span>
+                  {citation.sectionId ? (
+                    <span className="ml-1.5 shrink-0 text-emerald-600">
+                      · {citation.sectionId}
+                    </span>
+                  ) : null}
+                </span>
+              ))}
+            </div>
+          </div>
+        ) : null}
+        {grounding?.status === "not_found" ||
+        grounding?.status === "unavailable" ? (
+          <div className="mt-3 flex items-center gap-1.5 border-t border-slate-100 pt-2.5 text-[11px] font-medium text-amber-700">
+            <CircleAlert aria-hidden="true" className="size-3.5" />
+            {grounding.status === "unavailable"
+              ? "本地知识库暂不可用"
+              : "知识库暂无匹配内容"}
+          </div>
+        ) : null}
       </div>
       {!assistant ? (
         <span className="inline-flex size-8 shrink-0 items-center justify-center rounded-xl bg-slate-200 text-slate-600">
@@ -100,19 +149,15 @@ function EmptyConversation({
   onSend: (content: string) => void;
 }) {
   return (
-    <section className="mx-auto flex min-h-full max-w-[760px] flex-col justify-center py-12">
+    <section className="mx-auto flex h-full w-full max-w-[820px] flex-col justify-center py-8">
       <div className="mb-8">
-        <span className="mb-5 inline-flex items-center gap-2 rounded-full border border-indigo-100 bg-indigo-50/80 px-3 py-1.5 text-xs font-semibold text-indigo-700">
-          <Sparkles aria-hidden="true" className="size-3.5" />
-          AI 会在需要时打开互动课件
-        </span>
         <h1 className="m-0 max-w-[620px] text-[42px] font-semibold leading-[1.1] tracking-[-0.035em] text-slate-950">
           把“好像懂了”，
           <br />
           变成真正看得见的理解。
         </h1>
         <p className="m-0 mt-5 max-w-[600px] text-[16px] leading-7 text-slate-500">
-          说出你卡住的具体地方。Kaleidoscope 会先诊断，再选择合适的解释和已审核课件，让你预测、操作并验证理解。
+          说出你卡住的具体地方。Kaleidoscope 会先诊断，再选择合适的解释和交互课件，让你预测、操作并验证理解。
         </p>
       </div>
 
@@ -135,6 +180,60 @@ function EmptyConversation({
             </span>
           </button>
         ))}
+      </div>
+    </section>
+  );
+}
+
+function VisualizationSuggestion({
+  suggestion,
+  onConfirm,
+  onDismiss,
+}: {
+  suggestion: NonNullable<
+    ConversationPageProps["visualizationSuggestion"]
+  >;
+  onConfirm: () => void;
+  onDismiss: () => void;
+}) {
+  return (
+    <section
+      aria-label={`可选互动课件：${suggestion.title}`}
+      className="ml-11 overflow-hidden rounded-2xl border border-indigo-200/80 bg-gradient-to-br from-white via-indigo-50/55 to-cyan-50/70 shadow-[0_14px_40px_rgba(79,70,229,0.10)]"
+    >
+      <div className="flex items-start gap-3 p-4">
+        <span className="inline-flex size-10 shrink-0 items-center justify-center rounded-xl bg-indigo-600 text-white shadow-[0_8px_20px_rgba(79,70,229,0.24)]">
+          <Eye aria-hidden="true" className="size-[19px]" />
+        </span>
+        <div className="min-w-0 flex-1">
+          <p className="m-0 text-[11px] font-bold uppercase tracking-[0.14em] text-indigo-600">
+            可选互动课件
+          </p>
+          <h3 className="m-0 mt-1 text-base font-semibold tracking-tight text-slate-950">
+            AI 建议打开「{suggestion.title}」
+          </h3>
+          <p className="m-0 mt-1 text-sm leading-6 text-slate-600">
+            {suggestion.teachingGoal ?? suggestion.description}
+          </p>
+          <p className="m-0 mt-2 text-xs leading-5 text-slate-500">
+            只有你点击确认后才会显示，课件不会自动打开。
+          </p>
+          <div className="mt-4 flex flex-wrap items-center gap-2">
+            <Button
+              onClick={onConfirm}
+              icon={<Eye aria-hidden="true" className="size-4" />}
+            >
+              打开课件
+            </Button>
+            <Button
+              variant="ghost"
+              onClick={onDismiss}
+              icon={<X aria-hidden="true" className="size-4" />}
+            >
+              暂不
+            </Button>
+          </div>
+        </div>
       </div>
     </section>
   );
@@ -242,14 +341,18 @@ function Composer({
 
 export function ConversationPage(props: ConversationPageProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
+  const hasConversation = props.messages.length > 0;
+
   useEffect(() => {
     const viewport = scrollRef.current;
-    if (viewport) {
+    if (viewport && hasConversation) {
       viewport.scrollTop = viewport.scrollHeight;
     }
-  }, [props.messages]);
-
-  const hasConversation = props.messages.length > 0;
+  }, [
+    hasConversation,
+    props.messages,
+    props.visualizationSuggestion,
+  ]);
 
   return (
     <main className="relative z-10 flex min-w-0 flex-1 flex-col">
@@ -282,13 +385,25 @@ export function ConversationPage(props: ConversationPageProps) {
 
       <div
         ref={scrollRef}
-        className="min-h-0 flex-1 overflow-y-auto px-6"
+        aria-label={hasConversation ? "对话消息" : "对话空状态"}
+        className={`min-h-0 flex-1 px-6 ${
+          hasConversation
+            ? "overflow-y-auto"
+            : "overflow-hidden overscroll-none"
+        }`}
       >
         {hasConversation ? (
           <div className="mx-auto flex max-w-[820px] flex-col gap-5 py-8">
             {props.messages.map((message) => (
               <MessageBubble key={message.id} message={message} />
             ))}
+            {props.visualizationSuggestion ? (
+              <VisualizationSuggestion
+                suggestion={props.visualizationSuggestion}
+                onConfirm={props.onConfirmVisualization}
+                onDismiss={props.onDismissVisualization}
+              />
+            ) : null}
           </div>
         ) : (
           <EmptyConversation onSend={props.onSend} />
@@ -302,10 +417,12 @@ export function ConversationPage(props: ConversationPageProps) {
 
 export function LearningContextPanel({
   hasVisualization,
-  currentStep,
+  hasPrediction,
+  completed,
 }: {
   hasVisualization: boolean;
-  currentStep: number | null;
+  hasPrediction: boolean;
+  completed: boolean;
 }) {
   return (
     <aside className="relative z-10 hidden w-[290px] shrink-0 border-l border-slate-200/70 bg-white/40 px-5 pb-6 pt-[92px] 2xl:block">
@@ -318,9 +435,9 @@ export function LearningContextPanel({
       <div className="mt-5 space-y-2">
         {[
           ["1", "说出具体困惑", true],
-          ["2", "观察调用栈变化", hasVisualization],
-          ["3", "完成预测", currentStep !== null && currentStep >= 6],
-          ["4", "解释返回顺序", currentStep !== null && currentStep >= 10],
+          ["2", "观察关键状态变化", hasVisualization],
+          ["3", "完成一次预测", hasPrediction],
+          ["4", "解释核心机制", completed],
         ].map(([number, label, done]) => (
           <div
             key={String(number)}

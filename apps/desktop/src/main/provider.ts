@@ -1,7 +1,9 @@
 import {
   chatStreamEventSchema,
+  type AssistantGrounding,
   type ChatSendInput,
   type ChatStreamEvent,
+  type KnowledgeRetrievalContext,
   type TutorCommand,
 } from "@kaleidoscope/contracts";
 import {
@@ -13,6 +15,7 @@ export interface TutorProvider {
   readonly name: "demo" | "codex";
   stream(
     input: ChatSendInput,
+    knowledge: KnowledgeRetrievalContext,
     signal: AbortSignal,
     emit: (event: ChatStreamEvent) => void,
   ): Promise<void>;
@@ -23,7 +26,10 @@ function eventFor(
   event:
     | { type: "delta"; delta: string }
     | { type: "command"; command: TutorCommand }
-    | { type: "completed" }
+    | {
+        type: "completed";
+        grounding: AssistantGrounding;
+      }
     | { type: "cancelled" },
 ): ChatStreamEvent {
   return chatStreamEventSchema.parse({
@@ -65,6 +71,7 @@ export class DemoTutorProvider implements TutorProvider {
 
   async stream(
     input: ChatSendInput,
+    _knowledge: KnowledgeRetrievalContext,
     signal: AbortSignal,
     emit: (event: ChatStreamEvent) => void,
   ): Promise<void> {
@@ -84,7 +91,12 @@ export class DemoTutorProvider implements TutorProvider {
         }),
       );
     }
-    emit(eventFor(input.requestId, { type: "completed" }));
+    emit(
+      eventFor(input.requestId, {
+        type: "completed",
+        grounding: plan.grounding,
+      }),
+    );
   }
 }
 
@@ -93,12 +105,14 @@ export class CodexTutorProvider implements TutorProvider {
 
   async stream(
     input: ChatSendInput,
+    knowledge: KnowledgeRetrievalContext,
     signal: AbortSignal,
     emit: (event: ChatStreamEvent) => void,
   ): Promise<void> {
     const plan = await runCodexTutor(
       input.messages,
       input.activeVisualization,
+      knowledge,
       signal,
     );
     for (const chunk of textChunks(plan.text)) {
@@ -115,7 +129,12 @@ export class CodexTutorProvider implements TutorProvider {
         }),
       );
     }
-    emit(eventFor(input.requestId, { type: "completed" }));
+    emit(
+      eventFor(input.requestId, {
+        type: "completed",
+        grounding: plan.grounding,
+      }),
+    );
   }
 }
 
