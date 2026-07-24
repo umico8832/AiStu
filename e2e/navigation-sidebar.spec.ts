@@ -41,6 +41,13 @@ test("navigation sidebar expands without starting a conversation", async () => {
       "collapsed",
     );
     await expect(sidebarShell).toHaveCSS("width", "76px");
+    await expect(sidebar).toHaveCSS("width", "76px");
+    await expect(
+      sidebar.getByRole("region", { name: "聊天记录" }),
+    ).toHaveCSS("border-top-color", "rgba(0, 0, 0, 0)");
+    await sidebar.screenshot({
+      path: "artifacts/navigation-sidebar-collapsed.png",
+    });
 
     await collapsedSidebarToggle.click();
     await expect(sidebarShell).toHaveAttribute(
@@ -75,6 +82,11 @@ test("navigation sidebar expands without starting a conversation", async () => {
     ).toContainText("本地学习者");
     await expect(sidebar.getByText("帮助", { exact: true })).toHaveCount(0);
     await expect(sidebar.getByText("设置", { exact: true })).toHaveCount(0);
+    await page.evaluate(() => {
+      if (document.activeElement instanceof HTMLElement) {
+        document.activeElement.blur();
+      }
+    });
     await sidebar.screenshot({
       path: "artifacts/navigation-sidebar-expanded.png",
     });
