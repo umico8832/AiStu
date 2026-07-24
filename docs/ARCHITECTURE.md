@@ -470,9 +470,14 @@ Renderer Root (relative)
 
 ```text
 conversationStore
-├── conversationId
-├── messages
-├── draft
+├── activeConversationId
+├── conversations[0..30]
+│   ├── conversationId
+│   ├── messages
+│   ├── draft
+│   ├── activeVisualization
+│   ├── createdAt
+│   └── updatedAt
 ├── streamingState
 └── lastError
 
@@ -492,6 +497,9 @@ appStore
 ```
 
 AI Provider 请求生命周期由 main 管理；Renderer 保存可序列化的展示状态。
+新建对话会归档当前会话并创建新的活动会话，切换历史会话时会原子恢复该会话的
+消息、草稿和可视化快照。可持久化多个会话不改变“运行时任意时刻只显示一个活动
+可视化”的不变量。
 
 完整用户掌握度属于未来用户学习域，不能等同于临时 interactionHistory。
 
@@ -507,8 +515,8 @@ interface ChatApi {
 }
 
 interface PersistenceApi {
-  loadSession(): Promise<PersistedSession | null>;
-  saveSession(input: PersistedSession): Promise<void>;
+  loadSession(): Promise<PersistedAppStateV2 | null>;
+  saveSession(input: PersistedAppStateV2): Promise<void>;
 }
 ```
 
@@ -517,9 +525,10 @@ interface PersistenceApi {
 所有 IPC handler 除了校验参数，还必须验证 sender 来自当前受信任的应用页面。
 所有订阅必须可取消；窗口关闭或请求取消后停止流事件。
 
-MVP 持久化使用 main 管理的版本化 JSON 文件，保存在 Electron 用户数据目录，并在
-读取时经过 Zod 校验和版本迁移。当前不引入 SQLite；只有出现大量会话、全文检索或
-复杂关系查询后再评估数据库。
+MVP 持久化使用 main 管理的 v2 版本化 JSON 文件，保存在 Electron 用户数据目录，
+最多保存 30 个最近会话，并在读取时经过 Zod 校验。Main 会把旧的单会话 v1 文件
+迁移成 v2 返回，后续写入只使用 v2。当前不引入 SQLite；只有出现大量会话、全文
+检索或复杂关系查询后再评估数据库。
 
 后续黑客松阶段增加用户学习和社区数据时，继续通过独立的领域 Schema 与受控 Main
 API 持久化。可以共享物理 JSON 文件或用户数据目录，但逻辑模型、版本和迁移必须

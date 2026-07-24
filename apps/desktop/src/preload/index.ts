@@ -3,7 +3,7 @@ import {
   chatSendInputSchema,
   chatStreamEventSchema,
   ipcChannels,
-  persistedSessionV1Schema,
+  persistedAppStateV2Schema,
   type KaleidoscopeApi,
 } from "@kaleidoscope/contracts";
 import { contextBridge, ipcRenderer } from "electron";
@@ -37,11 +37,11 @@ const api: KaleidoscopeApi = {
       if (raw === null) {
         return null;
       }
-      const parsed = persistedSessionV1Schema.safeParse(raw);
+      const parsed = persistedAppStateV2Schema.safeParse(raw);
       return parsed.success ? parsed.data : null;
     },
     async saveSession(input) {
-      const validated = persistedSessionV1Schema.parse(input);
+      const validated = persistedAppStateV2Schema.parse(input);
       await ipcRenderer.invoke(ipcChannels.persistenceSave, validated);
     },
   },

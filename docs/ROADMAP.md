@@ -23,6 +23,10 @@
 人工走查教学质量、录制最终视频、完成课件独立审查和 GitHub Release，路线图中的第
 4—6 段因此继续保持未完成状态。
 
+2026-07-25 对话持久化已从单会话 v1 升级为最多 30 个最近会话的 v2：新建对话不再
+覆盖旧记录，侧边栏可切换历史会话，重启应用后仍恢复会话列表；已有 v1 数据由 Main
+自动迁移。
+
 已通过的质量门：
 
 - [x] `pnpm typecheck`
@@ -85,7 +89,7 @@ sandbox 和严格输出 Schema 运行。DeepSeek API 留到现有功能稳定后
 - [x] 正式软件图标触发的可折叠导航侧边栏、键盘焦点和 Escape 收起
 - [x] 流式回答、发送、停止、重试与错误状态
 - [x] 独立 conversation / visualization / application UI store
-- [x] 版本化最小会话持久化
+- [x] 版本化多会话持久化、v1 自动迁移和侧边栏历史切换
 - [x] 本地确定性演示 Provider
 - [x] 受控的本机 Codex CLI Provider
 - [x] Codex 输出 Schema 校验和 TutorCommand 归一化

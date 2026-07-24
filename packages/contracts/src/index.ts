@@ -339,6 +339,63 @@ export const persistedSessionV1Schema = z
 
 export type PersistedSessionV1 = z.infer<typeof persistedSessionV1Schema>;
 
+export const persistedConversationV2Schema = z
+  .object({
+    conversationId: z.string().uuid(),
+    messages: z.array(conversationMessageSchema).max(60),
+    draft: z.string().max(4_000),
+    activeVisualization: persistedVisualizationSessionSchema.nullable(),
+    createdAt: z.number().int().nonnegative(),
+    updatedAt: z.number().int().nonnegative(),
+  })
+  .strict()
+  .refine((conversation) => conversation.updatedAt >= conversation.createdAt, {
+    message: "updatedAt must not be earlier than createdAt",
+    path: ["updatedAt"],
+  });
+
+export type PersistedConversationV2 = z.infer<
+  typeof persistedConversationV2Schema
+>;
+
+export const persistedAppStateV2Schema = z
+  .object({
+    version: z.literal(2),
+    activeConversationId: z.string().uuid(),
+    conversations: z.array(persistedConversationV2Schema).min(1).max(30),
+    preferences: z
+      .object({
+        reducedMotion: z.boolean().nullable(),
+      })
+      .strict(),
+    savedAt: z.number().int().nonnegative(),
+  })
+  .strict()
+  .superRefine((state, context) => {
+    const ids = new Set<string>();
+    for (const [index, conversation] of state.conversations.entries()) {
+      if (ids.has(conversation.conversationId)) {
+        context.addIssue({
+          code: "custom",
+          message: "Conversation IDs must be unique",
+          path: ["conversations", index, "conversationId"],
+        });
+      }
+      ids.add(conversation.conversationId);
+    }
+    if (!ids.has(state.activeConversationId)) {
+      context.addIssue({
+        code: "custom",
+        message: "activeConversationId must reference a saved conversation",
+        path: ["activeConversationId"],
+      });
+    }
+  });
+
+export type PersistedAppStateV2 = z.infer<
+  typeof persistedAppStateV2Schema
+>;
+
 export interface ChatApi {
   send(input: ChatSendInput): Promise<ChatRequestAck>;
   cancel(input: ChatCancelInput): Promise<void>;
@@ -346,8 +403,8 @@ export interface ChatApi {
 }
 
 export interface PersistenceApi {
-  loadSession(): Promise<PersistedSessionV1 | null>;
-  saveSession(input: PersistedSessionV1): Promise<void>;
+  loadSession(): Promise<PersistedAppStateV2 | null>;
+  saveSession(input: PersistedAppStateV2): Promise<void>;
 }
 
 export interface KaleidoscopeApi {

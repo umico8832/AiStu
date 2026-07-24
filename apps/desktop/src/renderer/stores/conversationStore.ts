@@ -1,7 +1,9 @@
 import type {
   AssistantGrounding,
   ConversationMessage,
-  PersistedSessionV1,
+  PersistedAppStateV2,
+  PersistedConversationV2,
+  PersistedVisualizationSession,
 } from "@kaleidoscope/contracts";
 import { create } from "zustand";
 
@@ -11,14 +13,14 @@ interface StreamingState {
 }
 
 interface ConversationState {
-  conversationId: string;
-  messages: ConversationMessage[];
-  draft: string;
+  activeConversationId: string;
+  conversations: PersistedConversationV2[];
   streaming: StreamingState | null;
   provider: "demo" | "codex" | null;
   lastError: string | null;
   hydrated: boolean;
-  hydrate: (session: PersistedSessionV1 | null) => void;
+  hydrate: (snapshot: PersistedAppStateV2 | null) => void;
+  getActiveConversation: () => PersistedConversationV2;
   setDraft: (draft: string) => void;
   beginTurn: (
     content: string,
@@ -33,41 +35,99 @@ interface ConversationState {
   cancel: (requestId: string) => void;
   fail: (requestId: string, message: string) => void;
   clearError: () => void;
-  resetConversation: () => void;
+  createConversation: (
+    activeVisualization: PersistedVisualizationSession | null,
+  ) => string;
+  switchConversation: (
+    conversationId: string,
+    activeVisualization: PersistedVisualizationSession | null,
+  ) => PersistedConversationV2 | null;
+  createSnapshot: (
+    activeVisualization: PersistedVisualizationSession | null,
+    reducedMotion: boolean | null,
+  ) => PersistedAppStateV2;
 }
 
-function newConversationId(): string {
-  return crypto.randomUUID();
+function newConversationRecord(now = Date.now()): PersistedConversationV2 {
+  return {
+    conversationId: crypto.randomUUID(),
+    messages: [],
+    draft: "",
+    activeVisualization: null,
+    createdAt: now,
+    updatedAt: now,
+  };
 }
+
+function replaceActiveConversation(
+  state: Pick<
+    ConversationState,
+    "activeConversationId" | "conversations"
+  >,
+  update: (
+    conversation: PersistedConversationV2,
+  ) => PersistedConversationV2,
+): PersistedConversationV2[] {
+  return state.conversations.map((conversation) =>
+    conversation.conversationId === state.activeConversationId
+      ? update(conversation)
+      : conversation,
+  );
+}
+
+const initialConversation = newConversationRecord();
 
 export const useConversationStore = create<ConversationState>((set, get) => ({
-  conversationId: newConversationId(),
-  messages: [],
-  draft: "",
+  activeConversationId: initialConversation.conversationId,
+  conversations: [initialConversation],
   streaming: null,
   provider: null,
   lastError: null,
   hydrated: false,
 
-  hydrate(session) {
-    if (!session) {
+  hydrate(snapshot) {
+    if (!snapshot) {
       set({ hydrated: true });
       return;
     }
     set({
-      conversationId: session.conversationId,
-      messages: session.messages.map((message) =>
-        message.status === "streaming"
-          ? { ...message, status: "complete" as const }
-          : message,
-      ),
-      draft: session.draft,
+      activeConversationId: snapshot.activeConversationId,
+      conversations: snapshot.conversations.map((conversation) => ({
+        ...conversation,
+        messages: conversation.messages.map((message) =>
+          message.status === "streaming"
+            ? { ...message, status: "complete" as const }
+            : message,
+        ),
+      })),
+      streaming: null,
+      provider: null,
+      lastError: null,
       hydrated: true,
     });
   },
 
+  getActiveConversation() {
+    const state = get();
+    return (
+      state.conversations.find(
+        (conversation) =>
+          conversation.conversationId === state.activeConversationId,
+      ) ??
+      state.conversations[0] ??
+      newConversationRecord()
+    );
+  },
+
   setDraft(draft) {
-    set({ draft: draft.slice(0, 4_000) });
+    const nextDraft = draft.slice(0, 4_000);
+    set((state) => ({
+      conversations: replaceActiveConversation(state, (conversation) => ({
+        ...conversation,
+        draft: nextDraft,
+        updatedAt: Date.now(),
+      })),
+    }));
   },
 
   beginTurn(content, requestId) {
@@ -87,8 +147,16 @@ export const useConversationStore = create<ConversationState>((set, get) => ({
       status: "streaming",
     };
     set((state) => ({
-      messages: [...state.messages, userMessage, assistantMessage].slice(-60),
-      draft: "",
+      conversations: replaceActiveConversation(state, (conversation) => ({
+        ...conversation,
+        messages: [
+          ...conversation.messages,
+          userMessage,
+          assistantMessage,
+        ].slice(-60),
+        draft: "",
+        updatedAt: Date.now(),
+      })),
       streaming: { requestId, assistantMessageId },
       lastError: null,
     }));
@@ -101,14 +169,18 @@ export const useConversationStore = create<ConversationState>((set, get) => ({
       return;
     }
     set((state) => ({
-      messages: state.messages.map((message) =>
-        message.id === streaming.assistantMessageId
-          ? {
-              ...message,
-              content: `${message.content}${delta}`.slice(0, 12_000),
-            }
-          : message,
-      ),
+      conversations: replaceActiveConversation(state, (conversation) => ({
+        ...conversation,
+        messages: conversation.messages.map((message) =>
+          message.id === streaming.assistantMessageId
+            ? {
+                ...message,
+                content: `${message.content}${delta}`.slice(0, 12_000),
+              }
+            : message,
+        ),
+        updatedAt: Date.now(),
+      })),
     }));
   },
 
@@ -124,18 +196,22 @@ export const useConversationStore = create<ConversationState>((set, get) => ({
       return;
     }
     set((state) => ({
-      messages: state.messages.map((message) =>
-        message.id === streaming.assistantMessageId
-          ? {
-              ...message,
-              content:
-                message.content ||
-                "我已经准备好继续。请告诉我你观察到的变化。",
-              status: "complete" as const,
-              grounding,
-            }
-          : message,
-      ),
+      conversations: replaceActiveConversation(state, (conversation) => ({
+        ...conversation,
+        messages: conversation.messages.map((message) =>
+          message.id === streaming.assistantMessageId
+            ? {
+                ...message,
+                content:
+                  message.content ||
+                  "我已经准备好继续。请告诉我你观察到的变化。",
+                status: "complete" as const,
+                grounding,
+              }
+            : message,
+        ),
+        updatedAt: Date.now(),
+      })),
       streaming: null,
     }));
   },
@@ -146,15 +222,19 @@ export const useConversationStore = create<ConversationState>((set, get) => ({
       return;
     }
     set((state) => ({
-      messages: state.messages.map((message) =>
-        message.id === streaming.assistantMessageId
-          ? {
-              ...message,
-              content: message.content || "已停止生成。",
-              status: "complete" as const,
-            }
-          : message,
-      ),
+      conversations: replaceActiveConversation(state, (conversation) => ({
+        ...conversation,
+        messages: conversation.messages.map((message) =>
+          message.id === streaming.assistantMessageId
+            ? {
+                ...message,
+                content: message.content || "已停止生成。",
+                status: "complete" as const,
+              }
+            : message,
+        ),
+        updatedAt: Date.now(),
+      })),
       streaming: null,
     }));
   },
@@ -165,15 +245,19 @@ export const useConversationStore = create<ConversationState>((set, get) => ({
       return;
     }
     set((state) => ({
-      messages: state.messages.map((item) =>
-        item.id === streaming.assistantMessageId
-          ? {
-              ...item,
-              content: item.content || "这次回答没有完成。",
-              status: "error" as const,
-            }
-          : item,
-      ),
+      conversations: replaceActiveConversation(state, (conversation) => ({
+        ...conversation,
+        messages: conversation.messages.map((item) =>
+          item.id === streaming.assistantMessageId
+            ? {
+                ...item,
+                content: item.content || "这次回答没有完成。",
+                status: "error" as const,
+              }
+            : item,
+        ),
+        updatedAt: Date.now(),
+      })),
       streaming: null,
       lastError: message,
     }));
@@ -183,13 +267,66 @@ export const useConversationStore = create<ConversationState>((set, get) => ({
     set({ lastError: null });
   },
 
-  resetConversation() {
+  createConversation(activeVisualization) {
+    const state = get();
+    const current = state.getActiveConversation();
+    if (current.messages.length === 0 && current.draft.trim().length === 0) {
+      return current.conversationId;
+    }
+
+    const created = newConversationRecord();
+    const archived = replaceActiveConversation(state, (conversation) => ({
+      ...conversation,
+      activeVisualization,
+      updatedAt: Math.max(conversation.updatedAt, Date.now()),
+    }));
     set({
-      conversationId: newConversationId(),
-      messages: [],
-      draft: "",
+      activeConversationId: created.conversationId,
+      conversations: [created, ...archived]
+        .sort((left, right) => right.updatedAt - left.updatedAt)
+        .slice(0, 30),
       streaming: null,
+      provider: null,
       lastError: null,
     });
+    return created.conversationId;
+  },
+
+  switchConversation(conversationId, activeVisualization) {
+    const state = get();
+    const target = state.conversations.find(
+      (conversation) => conversation.conversationId === conversationId,
+    );
+    if (!target || state.streaming) {
+      return null;
+    }
+    if (conversationId === state.activeConversationId) {
+      return target;
+    }
+
+    set({
+      activeConversationId: conversationId,
+      conversations: replaceActiveConversation(state, (conversation) => ({
+        ...conversation,
+        activeVisualization,
+      })),
+      provider: null,
+      lastError: null,
+    });
+    return target;
+  },
+
+  createSnapshot(activeVisualization, reducedMotion) {
+    const state = get();
+    return {
+      version: 2,
+      activeConversationId: state.activeConversationId,
+      conversations: replaceActiveConversation(state, (conversation) => ({
+        ...conversation,
+        activeVisualization,
+      })),
+      preferences: { reducedMotion },
+      savedAt: Date.now(),
+    };
   },
 }));

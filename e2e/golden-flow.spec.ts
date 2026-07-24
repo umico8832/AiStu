@@ -145,7 +145,9 @@ test("golden conversation and visualization flow", async () => {
     await page.getByRole("button", { name: "关闭并返回对话" }).click();
     await expect(page.getByRole("dialog")).toBeHidden();
     await expect(
-      page.getByText(/我知道递归函数会调用自己/),
+      page
+        .getByLabel("你的消息")
+        .getByText(/我知道递归函数会调用自己/),
     ).toBeVisible();
     await expect(
       page.getByText(/卡住的不是“递归会调用自己”/).first(),
@@ -215,9 +217,9 @@ test("golden conversation and visualization flow", async () => {
       .click();
     await expect(restoredPage.getByRole("dialog")).toBeHidden();
     await expect(
-      restoredPage.getByText(
-        "ArrayStack 在中间插入为什么必须从右向左搬移？",
-      ),
+      restoredPage
+        .getByLabel("你的消息")
+        .getByText("ArrayStack 在中间插入为什么必须从右向左搬移？"),
     ).toBeVisible();
     await expect(
       restoredPage.getByText("知识库暂无匹配内容").first(),

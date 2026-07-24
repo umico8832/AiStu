@@ -8,12 +8,19 @@ import {
 import { useEffect, useId, useState } from "react";
 import appIconUrl from "../assets/kaleidoscope-app-icon.png";
 
+interface ConversationListItem {
+  id: string;
+  title: string;
+  meta: string;
+}
+
 interface NavigationRailProps {
   onNewConversation: () => void;
   activePage: "conversation" | "knowledge" | "community";
   onPageChange: (page: "conversation" | "knowledge" | "community") => void;
-  conversationTitle: string;
-  conversationMeta: string;
+  conversations: ConversationListItem[];
+  activeConversationId: string;
+  onConversationSelect: (conversationId: string) => void;
   disabled: boolean;
 }
 
@@ -21,8 +28,9 @@ export function NavigationRail({
   onNewConversation,
   activePage,
   onPageChange,
-  conversationTitle,
-  conversationMeta,
+  conversations,
+  activeConversationId,
+  onConversationSelect,
   disabled,
 }: NavigationRailProps) {
   const [expanded, setExpanded] = useState(false);
@@ -186,46 +194,51 @@ export function NavigationRail({
               聊天记录
             </p>
             <span className="rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-semibold text-slate-500">
-              当前设备
+              {conversations.length} 条
             </span>
           </div>
 
-          <div className="min-h-0 flex-1 overflow-y-auto py-1">
-            <button
-              type="button"
-              aria-label={`打开聊天记录：${conversationTitle}`}
-              aria-current={
-                activePage === "conversation" ? "page" : undefined
-              }
-              onClick={() => onPageChange("conversation")}
-              className={`flex min-h-14 w-full cursor-pointer items-center gap-3 rounded-xl px-3 text-left transition-[background-color,color,box-shadow] duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 ${
-                activePage === "conversation"
-                  ? "bg-slate-950 text-white shadow-[0_8px_20px_rgba(15,23,42,0.13)] hover:bg-slate-800"
-                  : "text-slate-600 hover:bg-slate-100"
-              }`}
-            >
-              <MessageCircle
-                aria-hidden="true"
-                className="size-[19px] shrink-0"
-              />
-              <span
-                aria-hidden={!expanded}
-                className={`min-w-0 transition-[opacity,transform] duration-150 ease-out ${disclosureClass}`}
-              >
-                <span className="block truncate text-sm font-semibold">
-                  {conversationTitle}
-                </span>
-                <span
-                  className={`mt-0.5 block truncate text-[11px] font-medium ${
-                    activePage === "conversation"
-                      ? "text-slate-300"
-                      : "text-slate-400"
+          <div className="min-h-0 flex-1 space-y-1 overflow-y-auto py-1">
+            {conversations.map((conversation) => {
+              const active =
+                conversation.id === activeConversationId &&
+                activePage === "conversation";
+              return (
+                <button
+                  key={conversation.id}
+                  type="button"
+                  aria-label={`打开聊天记录：${conversation.title}`}
+                  aria-current={active ? "page" : undefined}
+                  onClick={() => onConversationSelect(conversation.id)}
+                  disabled={disabled}
+                  className={`flex min-h-14 w-full cursor-pointer items-center gap-3 rounded-xl px-3 text-left transition-[background-color,color,box-shadow] duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 ${
+                    active
+                      ? "bg-slate-950 text-white shadow-[0_8px_20px_rgba(15,23,42,0.13)] hover:bg-slate-800"
+                      : "text-slate-600 hover:bg-slate-100"
                   }`}
                 >
-                  {conversationMeta}
-                </span>
-              </span>
-            </button>
+                  <MessageCircle
+                    aria-hidden="true"
+                    className="size-[19px] shrink-0"
+                  />
+                  <span
+                    aria-hidden={!expanded}
+                    className={`min-w-0 transition-[opacity,transform] duration-150 ease-out ${disclosureClass}`}
+                  >
+                    <span className="block truncate text-sm font-semibold">
+                      {conversation.title}
+                    </span>
+                    <span
+                      className={`mt-0.5 block truncate text-[11px] font-medium ${
+                        active ? "text-slate-300" : "text-slate-400"
+                      }`}
+                    >
+                      {conversation.meta}
+                    </span>
+                  </span>
+                </button>
+              );
+            })}
           </div>
         </section>
 

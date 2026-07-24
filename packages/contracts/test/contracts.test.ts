@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   chatSendInputSchema,
+  persistedAppStateV2Schema,
   persistedSessionV1Schema,
   tutorCommandSchema,
 } from "../src";
@@ -46,6 +47,49 @@ describe("shared contracts", () => {
       activeVisualization: null,
       preferences: { reducedMotion: null },
       savedAt: Date.now(),
+    });
+
+    expect(parsed.success).toBe(false);
+  });
+
+  it("requires the active conversation to exist in persisted history", () => {
+    const conversationId = crypto.randomUUID();
+    const parsed = persistedAppStateV2Schema.safeParse({
+      version: 2,
+      activeConversationId: crypto.randomUUID(),
+      conversations: [
+        {
+          conversationId,
+          messages: [],
+          draft: "",
+          activeVisualization: null,
+          createdAt: 10,
+          updatedAt: 10,
+        },
+      ],
+      preferences: { reducedMotion: null },
+      savedAt: 10,
+    });
+
+    expect(parsed.success).toBe(false);
+  });
+
+  it("rejects duplicate conversation IDs in persisted history", () => {
+    const conversationId = crypto.randomUUID();
+    const conversation = {
+      conversationId,
+      messages: [],
+      draft: "",
+      activeVisualization: null,
+      createdAt: 10,
+      updatedAt: 10,
+    };
+    const parsed = persistedAppStateV2Schema.safeParse({
+      version: 2,
+      activeConversationId: conversationId,
+      conversations: [conversation, conversation],
+      preferences: { reducedMotion: null },
+      savedAt: 10,
     });
 
     expect(parsed.success).toBe(false);

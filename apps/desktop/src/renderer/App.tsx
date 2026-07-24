@@ -1,6 +1,7 @@
 import type {
   ActiveVisualizationContext,
   ChatStreamEvent,
+  PersistedConversationV2,
   TutorCommand,
   VisualizationInteractionEvent,
 } from "@kaleidoscope/contracts";
@@ -21,6 +22,36 @@ import { useLearningStore } from "./stores/learningStore";
 import { useVisualizationStore } from "./stores/visualizationStore";
 
 type AppPage = "conversation" | "knowledge" | "community";
+
+function summarizeConversation(
+  conversation: PersistedConversationV2,
+  activeConversationId: string,
+) {
+  const firstUserMessage = conversation.messages.find(
+    (message) => message.role === "user",
+  );
+  const normalizedTitle = firstUserMessage?.content
+    .replace(/\s+/gu, " ")
+    .trim();
+  const title = normalizedTitle
+    ? `${normalizedTitle.slice(0, 22)}${normalizedTitle.length > 22 ? "…" : ""}`
+    : "新对话";
+  const userTurnCount = conversation.messages.filter(
+    (message) => message.role === "user",
+  ).length;
+  const active = conversation.conversationId === activeConversationId;
+
+  return {
+    id: conversation.conversationId,
+    title,
+    meta:
+      userTurnCount > 0
+        ? `${userTurnCount} 轮学习${active ? " · 当前会话" : ""}`
+        : active
+          ? "尚未开始学习"
+          : "空白会话",
+  };
+}
 
 const learningDefinitions = [
   {
@@ -83,28 +114,16 @@ export function App() {
   const [pendingVisualization, setPendingVisualization] =
     useState<OpenVisualizationCommand | null>(null);
   const [page, setPage] = useState<AppPage>("conversation");
-  const conversationSummary = useMemo(() => {
-    const firstUserMessage = conversation.messages.find(
-      (message) => message.role === "user",
-    );
-    const normalizedTitle = firstUserMessage?.content
-      .replace(/\s+/gu, " ")
-      .trim();
-    const title = normalizedTitle
-      ? `${normalizedTitle.slice(0, 22)}${normalizedTitle.length > 22 ? "…" : ""}`
-      : "新对话";
-    const userTurnCount = conversation.messages.filter(
-      (message) => message.role === "user",
-    ).length;
-
-    return {
-      title,
-      meta:
-        userTurnCount > 0
-          ? `${userTurnCount} 轮学习 · 当前会话`
-          : "尚未开始学习",
-    };
-  }, [conversation.messages]);
+  const activeConversation = conversation.getActiveConversation();
+  const conversationItems = useMemo(
+    () =>
+      [...conversation.conversations]
+        .sort((left, right) => right.updatedAt - left.updatedAt)
+        .map((item) =>
+          summarizeConversation(item, conversation.activeConversationId),
+        ),
+    [conversation.activeConversationId, conversation.conversations],
+  );
   const knowledgeNodes = useMemo(
     () => {
       void learningRevision;
@@ -122,14 +141,17 @@ export function App() {
     setPendingVisualization(null);
     const requestId = crypto.randomUUID();
     const { assistantMessageId } = state.beginTurn(content, requestId);
-    const messages = useConversationStore
+    const current = useConversationStore
       .getState()
-      .messages.filter((message) => message.id !== assistantMessageId);
+      .getActiveConversation();
+    const messages = current.messages.filter(
+      (message) => message.id !== assistantMessageId,
+    );
 
     try {
       await window.kaleidoscope.chat.send({
         requestId,
-        conversationId: useConversationStore.getState().conversationId,
+        conversationId: current.conversationId,
         messages,
         activeVisualization: activeVisualizationContext(),
       });
@@ -150,10 +172,11 @@ export function App() {
       if (!alive) {
         return;
       }
-      useConversationStore.getState().hydrate(session);
+      const conversationState = useConversationStore.getState();
+      conversationState.hydrate(session);
       useVisualizationStore
         .getState()
-        .restore(session?.activeVisualization ?? null);
+        .restore(conversationState.getActiveConversation().activeVisualization);
       setReducedMotion(session?.preferences.reducedMotion ?? null);
     });
     return () => {
@@ -213,17 +236,12 @@ export function App() {
         const currentVisualization =
           useVisualizationStore.getState().activeSession;
         void window.kaleidoscope.persistence
-          .saveSession({
-            version: 1,
-            conversationId: currentConversation.conversationId,
-            messages: currentConversation.messages,
-            draft: currentConversation.draft,
-            activeVisualization: currentVisualization,
-            preferences: {
-              reducedMotion: useAppStore.getState().reducedMotion,
-            },
-            savedAt: Date.now(),
-          })
+          .saveSession(
+            currentConversation.createSnapshot(
+              currentVisualization,
+              useAppStore.getState().reducedMotion,
+            ),
+          )
           .catch((error: unknown) => {
             if (import.meta.env.DEV) {
               console.error("Unable to persist session", error);
@@ -256,7 +274,7 @@ export function App() {
   };
 
   const retry = () => {
-    const lastUser = [...conversation.messages]
+    const lastUser = [...activeConversation.messages]
       .reverse()
       .find((message) => message.role === "user");
     if (lastUser) {
@@ -301,13 +319,33 @@ export function App() {
     useVisualizationStore.getState().close();
   };
 
-  const resetConversation = () => {
+  const createConversation = () => {
     if (conversation.streaming) {
       return;
     }
     setPendingVisualization(null);
+    useConversationStore
+      .getState()
+      .createConversation(useVisualizationStore.getState().activeSession);
     useVisualizationStore.getState().close();
-    useConversationStore.getState().resetConversation();
+    setPage("conversation");
+  };
+
+  const selectConversation = (conversationId: string) => {
+    if (conversation.streaming) {
+      return;
+    }
+    const target = useConversationStore
+      .getState()
+      .switchConversation(
+        conversationId,
+        useVisualizationStore.getState().activeSession,
+      );
+    if (!target) {
+      return;
+    }
+    setPendingVisualization(null);
+    useVisualizationStore.getState().restore(target.activeVisualization);
     setPage("conversation");
   };
 
@@ -331,18 +369,19 @@ export function App() {
       <div className="pointer-events-none absolute inset-0 opacity-40 [background-image:radial-gradient(circle_at_1px_1px,rgba(100,116,139,0.11)_1px,transparent_0)] [background-size:22px_22px]" />
 
       <NavigationRail
-        onNewConversation={resetConversation}
+        onNewConversation={createConversation}
         activePage={page}
         onPageChange={setPage}
-        conversationTitle={conversationSummary.title}
-        conversationMeta={conversationSummary.meta}
+        conversations={conversationItems}
+        activeConversationId={conversation.activeConversationId}
+        onConversationSelect={selectConversation}
         disabled={Boolean(conversation.streaming)}
       />
       {page === "conversation" ? (
         <>
           <ConversationPage
-            messages={conversation.messages}
-            draft={conversation.draft}
+            messages={activeConversation.messages}
+            draft={activeConversation.draft}
             streaming={Boolean(conversation.streaming)}
             provider={conversation.provider}
             lastError={conversation.lastError}
