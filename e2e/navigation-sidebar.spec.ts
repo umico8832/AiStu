@@ -1,7 +1,28 @@
-import { expect, test, _electron as electron } from "@playwright/test";
+import {
+  expect,
+  test,
+  _electron as electron,
+  type Locator,
+} from "@playwright/test";
 import { mkdtemp, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
+
+async function horizontalCenter(locator: Locator): Promise<number> {
+  const box = await locator.boundingBox();
+  if (!box) {
+    throw new Error("Expected a visible element with a bounding box.");
+  }
+  return box.x + box.width / 2;
+}
+
+async function leftEdge(locator: Locator): Promise<number> {
+  const box = await locator.boundingBox();
+  if (!box) {
+    throw new Error("Expected a visible element with a bounding box.");
+  }
+  return box.x;
+}
 
 test("navigation sidebar expands without starting a conversation", async () => {
   const userData = await mkdtemp(
@@ -45,6 +66,36 @@ test("navigation sidebar expands without starting a conversation", async () => {
     await expect(
       sidebar.getByRole("region", { name: "聊天记录" }),
     ).toHaveCSS("border-top-color", "rgba(0, 0, 0, 0)");
+    const collapsedIconCenters = await Promise.all([
+      horizontalCenter(
+        sidebar
+          .getByRole("button", { name: "新建学习对话" })
+          .locator("svg"),
+      ),
+      horizontalCenter(
+        sidebar
+          .getByRole("button", { name: "我的知识万花筒" })
+          .locator("svg"),
+      ),
+      horizontalCenter(
+        sidebar
+          .getByRole("button", { name: "社区共建" })
+          .locator("svg"),
+      ),
+      horizontalCenter(
+        sidebar
+          .getByRole("button", { name: "打开聊天记录：新对话" })
+          .locator("svg"),
+      ),
+      horizontalCenter(
+        sidebar.getByRole("region", { name: "个人信息" }).locator("svg"),
+      ),
+    ]);
+    for (const center of collapsedIconCenters) {
+      expect(Math.abs(center - collapsedIconCenters[0])).toBeLessThanOrEqual(
+        1.5,
+      );
+    }
     await sidebar.screenshot({
       path: "artifacts/navigation-sidebar-collapsed.png",
     });
@@ -82,6 +133,46 @@ test("navigation sidebar expands without starting a conversation", async () => {
     ).toContainText("本地学习者");
     await expect(sidebar.getByText("帮助", { exact: true })).toHaveCount(0);
     await expect(sidebar.getByText("设置", { exact: true })).toHaveCount(0);
+    const expandedIconCenters = await Promise.all([
+      horizontalCenter(
+        sidebar
+          .getByRole("button", { name: "新建学习对话" })
+          .locator("svg"),
+      ),
+      horizontalCenter(
+        sidebar
+          .getByRole("button", { name: "我的知识万花筒" })
+          .locator("svg"),
+      ),
+      horizontalCenter(
+        sidebar
+          .getByRole("button", { name: "社区共建" })
+          .locator("svg"),
+      ),
+      horizontalCenter(
+        sidebar
+          .getByRole("button", { name: "打开聊天记录：新对话" })
+          .locator("svg"),
+      ),
+      horizontalCenter(
+        sidebar.getByRole("region", { name: "个人信息" }).locator("svg"),
+      ),
+    ]);
+    expandedIconCenters.forEach((center, index) => {
+      expect(Math.abs(center - collapsedIconCenters[index])).toBeLessThanOrEqual(
+        1.5,
+      );
+    });
+    const expandedLabelEdges = await Promise.all([
+      leftEdge(sidebar.getByText("新建学习对话", { exact: true })),
+      leftEdge(sidebar.getByText("我的知识万花筒", { exact: true })),
+      leftEdge(sidebar.getByText("社区共建", { exact: true })),
+      leftEdge(sidebar.getByText("新对话", { exact: true })),
+      leftEdge(sidebar.getByText("本地学习者", { exact: true })),
+    ]);
+    for (const edge of expandedLabelEdges) {
+      expect(Math.abs(edge - expandedLabelEdges[0])).toBeLessThanOrEqual(1.5);
+    }
     await page.evaluate(() => {
       if (document.activeElement instanceof HTMLElement) {
         document.activeElement.blur();

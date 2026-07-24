@@ -123,7 +123,7 @@ export function NavigationRail({
               disabled={disabled}
               className={`flex cursor-pointer items-center overflow-hidden border border-indigo-100 bg-indigo-50 text-left text-sm font-semibold text-indigo-800 transition-[width,background-color,box-shadow,padding] duration-200 hover:bg-indigo-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-45 motion-reduce:transition-none ${
                 expanded
-                  ? "min-h-11 w-full gap-3 rounded-xl px-4"
+                  ? "min-h-11 w-full gap-3 rounded-xl px-[15px]"
                   : "size-11 min-h-11 justify-center rounded-2xl px-0 shadow-[0_6px_16px_rgba(79,70,229,0.08)]"
               }`}
             >
@@ -257,7 +257,7 @@ export function NavigationRail({
                       : "text-slate-600 hover:bg-slate-100"
                   } ${
                     expanded
-                      ? "min-h-14 w-full gap-3 px-3"
+                      ? "min-h-14 w-full gap-3 px-[7px]"
                       : "mx-auto size-11 min-h-11 w-11 justify-center px-0"
                   }`}
                 >
@@ -296,7 +296,7 @@ export function NavigationRail({
         >
           <div
             className={`flex min-h-12 items-center rounded-xl transition-[padding,gap,background-color] duration-200 motion-reduce:transition-none ${
-              expanded ? "gap-3 px-2.5" : "justify-center px-0"
+              expanded ? "gap-[5px] px-px" : "justify-center px-0"
             }`}
           >
             <span
