@@ -73,6 +73,8 @@ test("navigation sidebar expands without starting a conversation", async () => {
     await expect(
       sidebar.getByRole("region", { name: "个人信息" }),
     ).toContainText("本地学习者");
+    await expect(sidebar.getByText("帮助", { exact: true })).toHaveCount(0);
+    await expect(sidebar.getByText("设置", { exact: true })).toHaveCount(0);
     await sidebar.screenshot({
       path: "artifacts/navigation-sidebar-expanded.png",
     });

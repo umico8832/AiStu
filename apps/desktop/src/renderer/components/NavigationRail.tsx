@@ -1,9 +1,7 @@
 import {
   BookOpenText,
-  CircleHelp,
   MessageCircle,
   MessageSquarePlus,
-  Settings2,
   UserRound,
   UsersRound,
 } from "lucide-react";
@@ -250,45 +248,6 @@ export function NavigationRail({
                 个人学习档案
               </span>
             </span>
-          </div>
-
-          <div className="my-1 h-px bg-slate-200/80" />
-
-          <div className="space-y-0.5">
-            <button
-              type="button"
-              aria-label="帮助（即将开放）"
-              disabled
-              className="flex min-h-9 w-full items-center gap-3 rounded-lg px-2.5 text-left text-sm font-medium text-slate-400 disabled:cursor-not-allowed disabled:opacity-70"
-            >
-              <CircleHelp
-                aria-hidden="true"
-                className="size-[18px] shrink-0"
-              />
-              <span
-                aria-hidden={!expanded}
-                className={`whitespace-nowrap transition-[opacity,transform] duration-150 ease-out ${disclosureClass}`}
-              >
-                帮助
-              </span>
-            </button>
-            <button
-              type="button"
-              aria-label="设置（即将开放）"
-              disabled
-              className="flex min-h-9 w-full items-center gap-3 rounded-lg px-2.5 text-left text-sm font-medium text-slate-400 disabled:cursor-not-allowed disabled:opacity-70"
-            >
-              <Settings2
-                aria-hidden="true"
-                className="size-[18px] shrink-0"
-              />
-              <span
-                aria-hidden={!expanded}
-                className={`whitespace-nowrap transition-[opacity,transform] duration-150 ease-out ${disclosureClass}`}
-              >
-                设置
-              </span>
-            </button>
           </div>
         </section>
       </aside>
