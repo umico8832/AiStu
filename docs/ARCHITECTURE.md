@@ -567,6 +567,13 @@ flowchart LR
 /Users/umico/Documents/ods-material/knowledge_base
 ```
 
+该内容域使用 version 2 多课程 taxonomy。当前运行时索引同时包含
+`open-data-structures` 课程和 `cs408-data-structures` 考纲指南知识岛；知识点以
+来源命名空间区分（当前为 `ods-` 与 `cs408-`），但统一通过相同 Schema、关系图、
+审查状态和 RAG 派生流程。外部报告先保存来源指纹与结构化 source records，报告内
+不可复用的临时检索标记不会被当作可验证 URL。新增内容在独立审查前保持
+`review_pending`。
+
 当前未知 concept：
 
 ```text

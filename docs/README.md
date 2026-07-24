@@ -56,11 +56,11 @@ React 调用栈课件原型：
 /Users/umico/Documents/Kaleidoscope/call-stack-visualizer
 ```
 
-Open Data Structures 标准知识库试点：
+Kaleidoscope 标准知识库内容域（当前含 ODS 试点与 408 数据结构指南知识岛）：
 
 ```text
 /Users/umico/Documents/ods-material/knowledge_base
 ```
 
-前者是需要迁入桌面 Renderer 的现有代码资产；后者是独立知识内容域，不属于
-Electron 应用源码。
+前者是需要迁入桌面 Renderer 的现有代码资产；后者是独立、多课程知识内容域，
+不属于 Electron 应用源码。

@@ -38,9 +38,9 @@ function validatedLines(filePath) {
       typeof value !== "object" ||
       value === null ||
       typeof value.chunk_id !== "string" ||
-      !value.chunk_id.startsWith("rag-ods-") ||
       typeof value.concept_id !== "string" ||
-      !value.concept_id.startsWith("ods-") ||
+      !/^[a-z][a-z0-9]*(?:-[a-z0-9]+)+$/u.test(value.concept_id) ||
+      !value.chunk_id.startsWith(`rag-${value.concept_id}-`) ||
       typeof value.text !== "string" ||
       value.text.length === 0
     ) {

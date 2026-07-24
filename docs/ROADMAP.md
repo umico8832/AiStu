@@ -111,6 +111,10 @@ sandbox 和严格输出 Schema 运行。DeepSeek API 留到现有功能稳定后
 - [x] 回答下方显示知识点标题与章节
 - [x] 引用随对话消息持久化
 - [x] 使用真实 Codex 对“size 与 capacity”完成有来源回答 smoke test
+- [x] 标准知识库升级为 version 2 多课程 taxonomy
+- [x] 从研究报告导入 17 个 408 数据结构考纲与复习指南知识点
+- [x] 记录报告 SHA-256、复核 URL、17 份审查包与 `review_pending` 状态
+- [x] RAG 运行时快照由 120 个 chunks 刷新为 188 个 chunks
 
 ### 调用栈课件和可视化运行时
 
