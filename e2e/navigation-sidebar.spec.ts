@@ -74,6 +74,9 @@ test("navigation sidebar expands without starting a conversation", async () => {
     await expect(
       page.getByRole("heading", { name: "我的知识万花筒" }),
     ).toBeVisible();
+    await page
+      .locator('section[aria-label="我的知识万花筒"]')
+      .screenshot({ path: "artifacts/knowledge-kaleidoscope.png" });
 
     await sidebar
       .getByRole("button", { name: "社区共建" })

@@ -355,14 +355,13 @@ export function App() {
       ) : page === "community" ? (
         <CommunityPage />
       ) : (
-        <main className="min-h-0 flex-1 overflow-y-auto px-8 pb-12 pt-10">
-          <div className="mx-auto max-w-[1120px]">
-            <KnowledgeKaleidoscope
-              nodes={knowledgeNodes}
-              title="我的知识万花筒"
-              description="同一套标准知识，根据你的预测、重试和完成证据重新排列。"
-            />
-          </div>
+        <main className="relative z-10 min-h-0 flex-1 overflow-hidden">
+          <KnowledgeKaleidoscope
+            nodes={knowledgeNodes}
+            title="我的知识万花筒"
+            description="同一套标准知识，根据你的预测、重试和完成证据重新排列。"
+            variant="workspace"
+          />
         </main>
       )}
 
