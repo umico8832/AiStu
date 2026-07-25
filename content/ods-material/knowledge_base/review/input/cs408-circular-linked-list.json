@@ -1,0 +1,85 @@
+{
+  "concept": {
+    "id": "cs408-circular-linked-list",
+    "title": "循环链表",
+    "aliases": [
+      "circular linked list",
+      "循环双链表"
+    ],
+    "content_type": "concept",
+    "location": {
+      "course_id": "cs408-data-structures",
+      "chapter_id": "408-linear-lists",
+      "section_id": "cs408-linear-list-linked",
+      "parent_id": null,
+      "order": 7
+    },
+    "core_question": "循环链表如何把表尾与表头连接起来？",
+    "summary": "循环链表的尾结点不指向空，而指回首结点或头结点，使遍历形成闭环。",
+    "definition": "单循环链表令尾结点 next 指向首结点，双循环链表还令首结点 prev 指向尾结点。遍历的终止条件应是指针再次到达起点而不是遇到 null，尾指针可让访问表头和表尾都保持常数时间。",
+    "prerequisite_ids": [
+      "cs408-singly-linked-list"
+    ],
+    "relations": [
+      {
+        "type": "part_of",
+        "target_id": "cs408-syllabus-linear-lists",
+        "description": "循环链表是线性表考纲模块中的原子知识点。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "像环形跑道没有天然终点，跑一圈后回到起跑线，因此必须记住起点才能判断遍历结束。",
+      "mapping": {
+        "直观对象": "循环链表",
+        "对应机制": "循环链表的尾结点不指向空，而指回首结点或头结点，使遍历形成闭环。"
+      },
+      "boundary": "类比只用于建立直觉；正式作答仍需使用定义、操作步骤、适用条件和复杂度结论。"
+    },
+    "retrieval": {
+      "keywords": [
+        "循环链表",
+        "circular linked list",
+        "循环双链表"
+      ],
+      "query_examples": [
+        "循环链表如何把表尾与表头连接起来？",
+        "循环链表的步骤、性质和复杂度是什么？",
+        "循环链表有哪些适用条件和易错边界？"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "syllabus-note-cs408-circular-linked-list"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "cs408-singly-linked-list",
+      "title": "单链表的结点与表示",
+      "core_question": "单链表如何用指针连接逻辑相邻元素？",
+      "summary": "单链表结点保存数据与后继指针，物理位置可以离散，必须从表头沿指针顺序访问。",
+      "definition": "单链表的每个结点由数据域和 next 指针域组成，头指针标识首结点，可选头结点作为不保存业务数据的哨兵。已知前驱时插入和删除为 O(1)，按位定位仍需从头遍历，时间为 O(n)。",
+      "content_type": "concept"
+    },
+    {
+      "id": "cs408-syllabus-linear-lists",
+      "title": "408 考纲：线性表范围",
+      "core_question": "408 线性表模块要求覆盖哪些内容？",
+      "summary": "线性表模块覆盖基本概念、顺序存储、链式存储和线性表应用，重点比较访问、插删与空间特征。",
+      "definition": "408 线性表模块包括线性表的基本概念、顺序存储实现、链式存储实现和线性表应用。复习范围应能解释顺序表与单链表、双链表、循环链表的表示与基本操作，并从访问、插入删除、空间开销和适用场景比较不同实现。",
+      "content_type": "concept"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "syllabus-note-cs408-circular-linked-list",
+      "type": "paragraph",
+      "content": "循环链表的尾结点不指向空，而指回首结点或头结点，使遍历形成闭环。\n\n单循环链表令尾结点 next 指向首结点，双循环链表还令首结点 prev 指向尾结点。遍历的终止条件应是指针再次到达起点而不是遇到 null，尾指针可让访问表头和表尾都保持常数时间。\n\n对应 2026 数据结构考纲叶子条目：线性表的链式存储。"
+    }
+  ]
+}

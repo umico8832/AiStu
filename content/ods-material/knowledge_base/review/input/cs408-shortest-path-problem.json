@@ -1,0 +1,85 @@
+{
+  "concept": {
+    "id": "cs408-shortest-path-problem",
+    "title": "最短路径问题与松弛",
+    "aliases": [
+      "shortest path",
+      "relaxation"
+    ],
+    "content_type": "concept",
+    "location": {
+      "course_id": "cs408-data-structures",
+      "chapter_id": "408-graphs",
+      "section_id": "cs408-graph-applications",
+      "parent_id": null,
+      "order": 14
+    },
+    "core_question": "最短路径问题如何区分单源和全源，并用松弛改进距离？",
+    "summary": "最短路径最小化路径边权之和，松弛用经过中间顶点的新路径尝试降低当前估计。",
+    "definition": "单源最短路径求一个源点到其余顶点的距离，全源最短路径求所有有序顶点对。对边 (u,v,w) 的松弛检查 dist[v]>dist[u]+w，成立则更新距离和前驱；算法是否正确取决于边权条件和处理顺序。",
+    "prerequisite_ids": [
+      "cs408-graph-degree-path-connectivity"
+    ],
+    "relations": [
+      {
+        "type": "part_of",
+        "target_id": "cs408-syllabus-graphs",
+        "description": "最短路径问题与松弛是图考纲模块中的原子知识点。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "像不断检查经某个中转站是否能得到更便宜路线，并更新路线表和上一站。",
+      "mapping": {
+        "直观对象": "最短路径问题与松弛",
+        "对应机制": "最短路径最小化路径边权之和，松弛用经过中间顶点的新路径尝试降低当前估计。"
+      },
+      "boundary": "类比只用于建立直觉；正式作答仍需使用定义、操作步骤、适用条件和复杂度结论。"
+    },
+    "retrieval": {
+      "keywords": [
+        "最短路径问题与松弛",
+        "shortest path",
+        "relaxation"
+      ],
+      "query_examples": [
+        "最短路径问题如何区分单源和全源，并用松弛改进距离？",
+        "最短路径问题与松弛的步骤、性质和复杂度是什么？",
+        "最短路径问题与松弛有哪些适用条件和易错边界？"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "syllabus-note-cs408-shortest-path-problem"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "cs408-graph-degree-path-connectivity",
+      "title": "图的度、路径与连通性",
+      "core_question": "图中的度、路径、回路、连通和强连通怎样定义？",
+      "summary": "无向图的度是关联边数，有向图区分入度与出度；路径连接顶点，连通性描述能否互相到达。",
+      "definition": "无向图所有顶点度数之和等于 2|E|；有向图入度总和与出度总和都等于 |E|。路径是相邻边组成的顶点序列，首尾相同可形成回路；无向图任意顶点互通称连通，有向图任意有序顶点对互达称强连通。",
+      "content_type": "concept"
+    },
+    {
+      "id": "cs408-syllabus-graphs",
+      "title": "408 考纲：图范围",
+      "core_question": "408 图模块要求掌握哪些表示、遍历和应用？",
+      "summary": "图模块覆盖基本概念、邻接矩阵与邻接表等存储、BFS/DFS，以及生成树、最短路、拓扑排序和关键路径。",
+      "definition": "408 图模块包括图的基本概念，邻接矩阵、邻接表、邻接多重表和十字链表等存储与基本操作，深度优先搜索和广度优先搜索，以及最小生成树、最短路径、拓扑排序和关键路径等基本应用。复习时需能在给定表示上手推过程并分析复杂度。",
+      "content_type": "concept"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "syllabus-note-cs408-shortest-path-problem",
+      "type": "paragraph",
+      "content": "最短路径最小化路径边权之和，松弛用经过中间顶点的新路径尝试降低当前估计。\n\n单源最短路径求一个源点到其余顶点的距离，全源最短路径求所有有序顶点对。对边 (u,v,w) 的松弛检查 dist[v]>dist[u]+w，成立则更新距离和前驱；算法是否正确取决于边权条件和处理顺序。\n\n对应 2026 数据结构考纲叶子条目：最短路径。"
+    }
+  ]
+}

@@ -1,0 +1,94 @@
+{
+  "concept": {
+    "id": "ods-arrayqueue-dequeue",
+    "title": "ArrayQueue 的出队",
+    "aliases": [
+      "dequeue",
+      "ArrayQueue remove",
+      "循环队列出队"
+    ],
+    "content_type": "algorithm",
+    "location": {
+      "course_id": "open-data-structures",
+      "chapter_id": "array-based-lists",
+      "section_id": "2-3-arrayqueue",
+      "parent_id": null,
+      "order": 13
+    },
+    "core_question": "ArrayQueue 如何通过移动队首下标完成出队？",
+    "summary": "出队保存 a[j]，把 j 更新为 (j+1) mod capacity 并把 n 减一，不搬移其余元素。",
+    "definition": "ArrayQueue 的 remove() 保存队首元素 a[j]，令 $j=(j+1)\\bmod \\mathrm{length}(a)$、n 减少 1，在低占用率时可触发 resize，最后返回保存的元素。改变 j 即可让下一个元素成为新队首。",
+    "prerequisite_ids": [
+      "ods-arrayqueue-representation"
+    ],
+    "relations": [
+      {
+        "type": "leads_to",
+        "target_id": "ods-arrayqueue-performance",
+        "description": "理解《ArrayQueue 的出队》是继续学习目标知识点的直接基础。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "取走环形传送带当前指针处的货物后，只把取货指针前移一格，其他货物仍留在原槽位。",
+      "mapping": {
+        "当前指针": "j",
+        "取走货物": "返回队首元素",
+        "前移一格": "j=(j+1) mod capacity"
+      },
+      "boundary": "类比不讨论空队列错误处理，也不包含可能发生的缩容复制。"
+    },
+    "retrieval": {
+      "keywords": [
+        "ArrayQueue 的出队",
+        "dequeue",
+        "ArrayQueue remove",
+        "循环队列出队"
+      ],
+      "query_examples": [
+        "ArrayQueue 如何通过移动队首下标完成出队？",
+        "ArrayQueue 的出队怎么理解",
+        "ArrayQueue 的出队的关键条件是什么"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "ods-000271-paragraph-to-implement-ensuremath-ensuremath-m",
+      "ods-000272-algorithm-begin-flushleft-hspace-1em-ensuremat"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "ods-arrayqueue-representation",
+      "title": "ArrayQueue 的循环数组表示",
+      "core_question": "ArrayQueue 如何用有限数组表示 FIFO 队列？",
+      "summary": "ArrayQueue 用 j 标记队首、n 记录元素数，并把第 k 个队列元素存到 (j+k) mod capacity。",
+      "definition": "ArrayQueue 用后备数组 a、队首物理下标 j 和元素数 n 表示 FIFO 序列。逻辑位置 k 的元素位于 $a[(j+k)\\bmod \\mathrm{length}(a)]$，其中 $0\\le k<n$。这一不变量让队首可以随删除向前移动而无需整体搬移。",
+      "content_type": "concept"
+    },
+    {
+      "id": "ods-arrayqueue-performance",
+      "title": "ArrayQueue 的操作复杂度",
+      "core_question": "ArrayQueue 的入队、出队和容量调整具有怎样的复杂度保证？",
+      "summary": "忽略 resize 时入队与出队均为 O(1)，从空队列开始的 m 次操作中所有 resize 总成本为 O(m)。",
+      "definition": "ArrayQueue 实现 FIFO Queue 接口时，add(x) 与 remove() 在不触发 resize 的情况下均执行常数次数的下标计算和读写，时间为 $O(1)$。从空队列开始执行任意 m 次更新，所有 resize 的总时间为 $O(m)$，所以更新具有 $O(1)$ 摊还时间。",
+      "content_type": "theorem"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "ods-000271-paragraph-to-implement-ensuremath-ensuremath-m",
+      "type": "paragraph",
+      "content": "To implement \\ensuremath{\\ensuremath{\\mathrm{remove}()}}, we first store \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{a}}[\\ensuremath{\\mathit{j}}]}} so that we can return it later. Next, we decrement \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}} and increment \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{j}}}} (modulo \\ensuremath{\\ensuremath{\\mathrm{length}(\\ensuremath{\\mathit{a}})}}) by setting $\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{j}}}}=(\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{j}}}}+1)\\bmod \\ensuremath{\\ensuremath{\\mathrm{length}(\\ensuremath{\\mathit{a}})}}$. Finally, we return the stored value of \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{a}}[\\ensuremath{\\mathit{j}}]}}. If necessary, we may call \\ensuremath{\\ensuremath{\\mathrm{resize}()}} to decrease the size of \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{a}}}}."
+    },
+    {
+      "id": "ods-000272-algorithm-begin-flushleft-hspace-1em-ensuremat",
+      "type": "algorithm",
+      "content": "\\begin{flushleft}\n\\hspace*{1em} \\ensuremath{\\mathrm{remove}()}\\\\\n\n\\hspace*{1em} \\hspace*{1em} \\ensuremath{\\ensuremath{\\mathit{x}} \\gets  \\ensuremath{\\ensuremath{\\mathit{a}}[\\ensuremath{\\mathit{j}}]}}\\\\\n\\hspace*{1em} \\hspace*{1em} \\ensuremath{\\ensuremath{\\mathit{j}} \\gets  \\ensuremath{(\\ensuremath{\\mathit{j}} + 1) \\bmod  \\mathrm{length}(\\ensuremath{\\mathit{a}})}}\\\\\n\\hspace*{1em} \\hspace*{1em} \\ensuremath{\\ensuremath{\\mathit{n}} \\gets  \\ensuremath{\\ensuremath{\\mathit{n}} - 1}}\\\\\n\\hspace*{1em} \\hspace*{1em} {\\color{black} \\textbf{if}} \\ensuremath{\\mathrm{length}(\\ensuremath{\\mathit{a}}) \\ge 3\\cdot n} {\\color{black} \\textbf{then}}  \\ensuremath{\\mathrm{resize}()}\\\\\n\\hspace*{1em} \\hspace*{1em} {\\color{black} \\textbf{return}} \\ensuremath{\\ensuremath{\\mathit{x}}}\\\\\n\\end{flushleft}"
+    }
+  ]
+}

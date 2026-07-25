@@ -1,0 +1,94 @@
+{
+  "concept": {
+    "id": "ods-dualarraydeque-balance",
+    "title": "DualArrayDeque 的再平衡",
+    "aliases": [
+      "balance",
+      "双栈再平衡",
+      "factor-of-three invariant"
+    ],
+    "content_type": "mechanism",
+    "location": {
+      "course_id": "open-data-structures",
+      "chapter_id": "array-based-lists",
+      "section_id": "2-5-1-balancing",
+      "parent_id": null,
+      "order": 21
+    },
+    "core_question": "DualArrayDeque 在什么条件下重新分配 front 与 back 的元素？",
+    "summary": "当一侧超过另一侧三倍时，balance 按逻辑顺序重建两栈，使两侧分别约占一半。",
+    "definition": "当元素数至少为 2 且 front 与 back 的大小相差超过 3 倍时，DualArrayDeque 的 balance 按逻辑序列重建两个 ArrayStack，使 front 保存前 $\\lfloor n/2\\rfloor$ 个元素并逆序排列，back 保存其余 $\\lceil n/2\\rceil$ 个元素并正序排列。一次重建移动 $O(n)$ 个元素。",
+    "prerequisite_ids": [
+      "ods-dualarraydeque-representation"
+    ],
+    "relations": [
+      {
+        "type": "leads_to",
+        "target_id": "ods-dualarraydeque-amortized-balance",
+        "description": "理解《DualArrayDeque 的再平衡》是继续学习目标知识点的直接基础。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "两边货架一旦一边拥挤到远超另一边，就按整条货物顺序重新均分，左架仍反向摆放以便从左端操作。",
+      "mapping": {
+        "两边货架": "front 与 back",
+        "超过三倍": "触发条件",
+        "重新均分": "重建两个栈"
+      },
+      "boundary": "类比说明结构不变量，不表示每次更新都会搬货；未超过阈值时 balance 不重建。"
+    },
+    "retrieval": {
+      "keywords": [
+        "DualArrayDeque 的再平衡",
+        "balance",
+        "双栈再平衡",
+        "factor-of-three invariant"
+      ],
+      "query_examples": [
+        "DualArrayDeque 在什么条件下重新分配 front 与 back 的元素？",
+        "DualArrayDeque 的再平衡怎么理解",
+        "DualArrayDeque 的再平衡的关键条件是什么"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "ods-000317-paragraph-finally-we-turn-to-the-ensuremath-en",
+      "ods-000318-algorithm-begin-flushleft-hspace-1em-ensuremat"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "ods-dualarraydeque-representation",
+      "title": "DualArrayDeque 的双栈表示",
+      "core_question": "DualArrayDeque 如何用两个 ArrayStack 表示一个逻辑序列？",
+      "summary": "front 逆序保存前半段，back 正序保存后半段，元素总数等于两个栈的 size 之和。",
+      "definition": "DualArrayDeque 用 front 与 back 两个 ArrayStack 表示 List。front 逆序保存逻辑前缀，back 正序保存逻辑后缀，$n=front.size()+back.size()$。若 $i<front.size()$，对应 front 中的下标为 $front.size()-i-1$；否则对应 back 中的 $i-front.size()$。",
+      "content_type": "concept"
+    },
+    {
+      "id": "ods-dualarraydeque-amortized-balance",
+      "title": "DualArrayDeque 再平衡的摊还成本",
+      "core_question": "为什么 DualArrayDeque 的线性再平衡成本可以摊还为每次更新 O(1)？",
+      "summary": "再平衡后两栈大小几乎相等，再次失衡前需积累 Ω(n) 次更新，足以分摊 O(n) 搬移。",
+      "definition": "从空 DualArrayDeque 开始执行 m 次 add 与 remove，所有 balance 重建的总时间为 $O(m)$。可用势能 $\\Phi=|front.size()-back.size()|$ 说明：重建后 $\\Phi\\le1$，单次未重建更新最多让势能增加 1，而触发三倍失衡时势能大于 n/2，因此两次重建之间有与 n 同阶的更新。",
+      "content_type": "theorem"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "ods-000317-paragraph-finally-we-turn-to-the-ensuremath-en",
+      "type": "paragraph",
+      "content": "Finally, we turn to the \\ensuremath{\\ensuremath{\\mathrm{balance}()}} operation performed by \\ensuremath{\\ensuremath{\\mathrm{add}(\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{x}})}} and \\ensuremath{\\ensuremath{\\mathrm{remove}(\\ensuremath{\\mathit{i}})}}. This operation ensures that neither \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{front}}}} nor \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{back}}}} becomes too big (or too small). It ensures that, unless there are fewer than two elements, each of \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{front}}}} and \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{back}}}} contain at least $\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}/4$ elements. If this is not the case, then it moves elements between them so that \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{front}}}} and \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{back}}}} contain exactly $\\lfloor\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}/2\\rfloor$ elements and $\\lceil\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}/2\\rceil$ elements, respectively."
+    },
+    {
+      "id": "ods-000318-algorithm-begin-flushleft-hspace-1em-ensuremat",
+      "type": "algorithm",
+      "content": "\\begin{flushleft}\n\\hspace*{1em} \\ensuremath{\\mathrm{balance}()}\\\\\n\\hspace*{1em} \\hspace*{1em} \\ensuremath{\\ensuremath{\\mathit{n}} \\gets  \\ensuremath{\\mathrm{size}()}}\\\\\n\\hspace*{1em} \\hspace*{1em} \\ensuremath{\\ensuremath{\\mathit{mid}} \\gets  \\ensuremath{\\ensuremath{\\mathit{n}}\\bdiv 2}}\\\\\n\\hspace*{1em} \\hspace*{1em} {\\color{black} \\textbf{if}} \\ensuremath{3\\cdot \\ensuremath{\\mathit{front}}.\\mathrm{size}() < \\ensuremath{\\mathit{back}}.\\mathrm{size}()} {\\color{black} \\textbf{or}} \\ensuremath{3\\cdot \\ensuremath{\\mathit{back}}.\\mathrm{size}() < \\ensuremath{\\mathit{front}}.\\mathrm{size}()} {\\color{black} \\textbf{then}} \\\\\n\\hspace*{1em} \\hspace*{1em} \\hspace*{1em} \\ensuremath{\\ensuremath{\\mathit{f}} \\gets  \\ensuremath{\\mathrm{\\mathrm{ArrayStack}}()}}\\\\\n\\hspace*{1em} \\hspace*{1em} \\hspace*{1em} {\\color{black} \\textbf{for}} \\ensuremath{i} {\\color{black} \\textbf{in}} \\ensuremath{0,1,2,\\ldots,\\ensuremath{\\mathit{mid}}-1} {\\color{black} \\textbf{do}} \\\\\n\\hspace*{1em} \\hspace*{1em} \\hspace*{1em} \\hspace*{1em} \\ensuremath{\\ensuremath{\\mathit{f}}.\\mathrm{add}(\\ensuremath{\\mathit{i}}, \\mathrm{get}(\\ensuremath{\\mathit{mid}}-\\ensuremath{\\mathit{i}}-1)})\\\\\n\\hspace*{1em} \\hspace*{1em} \\hspace*{1em} \\ensuremath{\\ensuremath{\\mathit{b}} \\gets  \\ensuremath{\\mathrm{\\mathrm{ArrayStack}}()}}\\\\\n\\hspace*{1em} \\hspace*{1em} \\hspace*{1em} {\\color{black} \\textbf{for}} \\ensuremath{i} {\\color{black} \\textbf{in}} \\ensuremath{0,1,2,\\ldots,\\ensuremath{\\mathit{n}}-\\ensuremath{\\mathit{mid}}-1} {\\color{black} \\textbf{do}} \\\\\n\\hspace*{1em} \\hspace*{1em} \\hspace*{1em} \\hspace*{1em} \\ensuremath{\\ensuremath{\\mathit{b}}.\\mathrm{add}(\\ensuremath{\\mathit{i}}, \\mathrm{get}(\\ensuremath{\\mathit{mid}}+\\ensuremath{\\mathit{i}})}) \\\\\n\\hspace*{1em} \\hspace*{1em} \\hspace*{1em} \\ensuremath{\\ensuremath{\\mathit{front}} \\gets  \\ensuremath{f}}\\\\\n\\hspace*{1em} \\hspace*{1em} \\hspace*{1em} \\ensuremath{\\ensuremath{\\mathit{back}} \\gets  \\ensuremath{b}}\\\\\n\\end{flushleft}"
+    }
+  ]
+}

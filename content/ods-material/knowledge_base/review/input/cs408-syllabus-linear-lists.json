@@ -1,0 +1,78 @@
+{
+  "concept": {
+    "id": "cs408-syllabus-linear-lists",
+    "title": "408 考纲：线性表范围",
+    "aliases": [
+      "线性表考点",
+      "顺序表",
+      "链表"
+    ],
+    "content_type": "concept",
+    "location": {
+      "course_id": "cs408-data-structures",
+      "chapter_id": "408-data-structures-exam-guide",
+      "section_id": "cs408-official-syllabus",
+      "parent_id": null,
+      "order": 7
+    },
+    "core_question": "408 线性表模块要求覆盖哪些内容？",
+    "summary": "线性表模块覆盖基本概念、顺序存储、链式存储和线性表应用，重点比较访问、插删与空间特征。",
+    "definition": "408 线性表模块包括线性表的基本概念、顺序存储实现、链式存储实现和线性表应用。复习范围应能解释顺序表与单链表、双链表、循环链表的表示与基本操作，并从访问、插入删除、空间开销和适用场景比较不同实现。",
+    "prerequisite_ids": [],
+    "relations": [
+      {
+        "type": "part_of",
+        "target_id": "cs408-data-structure-syllabus-map",
+        "description": "该知识点描述七大考纲模块中的线性表部分。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "顺序表像按固定座位排队，链表像每个人拿着下一位的位置提示；两者都表达同一线性顺序，却用不同方式保存连接。",
+      "mapping": {
+        "固定座位": "顺序存储",
+        "位置提示": "链式指针",
+        "同一排队顺序": "线性表逻辑结构"
+      },
+      "boundary": "类比不覆盖指针安全、缓存局部性和具体语言内存模型，操作复杂度仍需逐项分析。"
+    },
+    "retrieval": {
+      "keywords": [
+        "408 考纲：线性表范围",
+        "线性表考点",
+        "顺序表",
+        "链表"
+      ],
+      "query_examples": [
+        "408 线性表模块要求覆盖哪些内容？",
+        "408 考纲：线性表范围具体包括什么？",
+        "复习408 考纲：线性表范围时最容易混淆的边界是什么？"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "report-cs408-syllabus-linear-lists"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "cs408-data-structure-syllabus-map",
+      "title": "408 数据结构七大考纲模块",
+      "core_question": "2026 公开考纲把数据结构范围组织成哪些模块？",
+      "summary": "数据结构范围由基本概念、线性表、栈队列与数组、树与二叉树、图、查找和排序七大模块组成。",
+      "definition": "报告采用并经公开 2026 考纲复核的数据结构目录包含七个一级模块：基本概念；线性表；栈、队列和数组；树和二叉树；图；查找；排序。该目录用于组织考试范围，不等同于知识之间的前置图，也不说明各模块的官方出题频率。",
+      "content_type": "concept"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "report-cs408-syllabus-linear-lists",
+      "type": "paragraph",
+      "content": "报告逐章表和公开 2026 考纲列出线性表的基本概念、顺序存储、链式存储及应用，并建议从查找、插删和空间维度比较。"
+    }
+  ]
+}

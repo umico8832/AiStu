@@ -1,0 +1,94 @@
+{
+  "concept": {
+    "id": "cs408-huffman-tree",
+    "title": "Huffman 树与带权路径长度",
+    "aliases": [
+      "Huffman tree",
+      "WPL"
+    ],
+    "content_type": "algorithm",
+    "location": {
+      "course_id": "cs408-data-structures",
+      "chapter_id": "408-trees",
+      "section_id": "cs408-tree-applications",
+      "parent_id": null,
+      "order": 15
+    },
+    "core_question": "Huffman 算法如何构造带权路径长度最小的二叉树？",
+    "summary": "反复选取权值最小的两棵树合并，最终得到叶权给定时 WPL 最小的二叉树。",
+    "definition": "带权路径长度 WPL 是各叶结点权值与其根到叶路径长度乘积之和。Huffman 构造每次从森林中取两棵根权最小的树作为新根的左右子树，新根权为两者之和，重复直到只剩一棵树。",
+    "prerequisite_ids": [
+      "cs408-tree-terms",
+      "cs408-binary-heap"
+    ],
+    "relations": [
+      {
+        "type": "part_of",
+        "target_id": "cs408-syllabus-trees",
+        "description": "Huffman 树与带权路径长度是树和二叉树考纲模块中的原子知识点。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "像总是先合并出现频率最低的两类任务，让高频任务尽量靠近根部以减少总成本。",
+      "mapping": {
+        "直观对象": "Huffman 树与带权路径长度",
+        "对应机制": "反复选取权值最小的两棵树合并，最终得到叶权给定时 WPL 最小的二叉树。"
+      },
+      "boundary": "类比只用于建立直觉；正式作答仍需使用定义、操作步骤、适用条件和复杂度结论。"
+    },
+    "retrieval": {
+      "keywords": [
+        "Huffman 树与带权路径长度",
+        "Huffman tree",
+        "WPL"
+      ],
+      "query_examples": [
+        "Huffman 算法如何构造带权路径长度最小的二叉树？",
+        "Huffman 树与带权路径长度的步骤、性质和复杂度是什么？",
+        "Huffman 树与带权路径长度有哪些适用条件和易错边界？"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "syllabus-note-cs408-huffman-tree"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "cs408-tree-terms",
+      "title": "树的结点、度、层次与路径",
+      "core_question": "树结构中的根、父子、度、层次、高度和路径分别是什么？",
+      "summary": "树是由一个根和若干互不相交子树构成的层次结构，术语描述结点关系与整体形态。",
+      "definition": "非空树有唯一根结点；除根外每个结点有唯一父结点。结点的子树数称为度，树的度是各结点度的最大值；叶结点度为 0。层次从根开始计数，高度是最大层次或最长向下路径长度，具体采用结点数还是边数必须说明。",
+      "content_type": "concept"
+    },
+    {
+      "id": "cs408-binary-heap",
+      "title": "二叉堆的结构与堆序性",
+      "core_question": "二叉堆怎样同时满足完全二叉树结构和局部有序条件？",
+      "summary": "二叉堆是完全二叉树，大根堆父关键字不小于孩子，小根堆父关键字不大于孩子。",
+      "definition": "二叉堆通常用数组层序存储。大根堆保证每条父子边上父值≥子值，因此根为全局最大值；小根堆相反。堆只保证父子局部有序，兄弟和不同子树之间不要求完全排序。",
+      "content_type": "concept"
+    },
+    {
+      "id": "cs408-syllabus-trees",
+      "title": "408 考纲：树和二叉树范围",
+      "core_question": "408 树和二叉树模块覆盖哪些结构与应用？",
+      "summary": "该模块覆盖树与二叉树性质、存储和遍历，线索化、森林转换，以及 Huffman、并查集和堆等应用。",
+      "definition": "408 的树和二叉树模块包括树的基本概念，二叉树的定义、性质、顺序与链式存储、遍历和线索化，树与森林的存储、转换和遍历，以及 Huffman 树与编码、并查集和堆的应用。复习需要同时具备性质计算、结构转换、手工过程和算法实现能力。",
+      "content_type": "concept"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "syllabus-note-cs408-huffman-tree",
+      "type": "paragraph",
+      "content": "反复选取权值最小的两棵树合并，最终得到叶权给定时 WPL 最小的二叉树。\n\n带权路径长度 WPL 是各叶结点权值与其根到叶路径长度乘积之和。Huffman 构造每次从森林中取两棵根权最小的树作为新根的左右子树，新根权为两者之和，重复直到只剩一棵树。\n\n对应 2026 数据结构考纲叶子条目：Huffman 树和 Huffman 编码。"
+    }
+  ]
+}

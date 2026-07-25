@@ -1,0 +1,94 @@
+{
+  "concept": {
+    "id": "cs408-dijkstra-algorithm",
+    "title": "Dijkstra 单源最短路径",
+    "aliases": [
+      "Dijkstra",
+      "nonnegative weights"
+    ],
+    "content_type": "algorithm",
+    "location": {
+      "course_id": "cs408-data-structures",
+      "chapter_id": "408-graphs",
+      "section_id": "cs408-graph-applications",
+      "parent_id": null,
+      "order": 15
+    },
+    "core_question": "Dijkstra 为什么只适用于非负权图？",
+    "summary": "每轮永久确定当前距离最小的未确定顶点，再松弛其出边；非负权保证该距离不会被以后路径降低。",
+    "definition": "初始化源距离为 0、其余为无穷。反复选择最小暂定距离顶点 u 加入已确定集合并松弛 u 的出边。朴素实现 O(V²)，堆优化常为 O((V+E)log V)。存在负权边时，已确定顶点仍可能被后来路径改进，贪心依据失效。",
+    "prerequisite_ids": [
+      "cs408-shortest-path-problem",
+      "cs408-binary-heap"
+    ],
+    "relations": [
+      {
+        "type": "part_of",
+        "target_id": "cs408-syllabus-graphs",
+        "description": "Dijkstra 单源最短路径是图考纲模块中的原子知识点。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "像在所有未确认路线中先确认当前最便宜的站点，只有后续道路费用不为负时这个确认才安全。",
+      "mapping": {
+        "直观对象": "Dijkstra 单源最短路径",
+        "对应机制": "每轮永久确定当前距离最小的未确定顶点，再松弛其出边；非负权保证该距离不会被以后路径降低。"
+      },
+      "boundary": "类比只用于建立直觉；正式作答仍需使用定义、操作步骤、适用条件和复杂度结论。"
+    },
+    "retrieval": {
+      "keywords": [
+        "Dijkstra 单源最短路径",
+        "Dijkstra",
+        "nonnegative weights"
+      ],
+      "query_examples": [
+        "Dijkstra 为什么只适用于非负权图？",
+        "Dijkstra 单源最短路径的步骤、性质和复杂度是什么？",
+        "Dijkstra 单源最短路径有哪些适用条件和易错边界？"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "syllabus-note-cs408-dijkstra-algorithm"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "cs408-shortest-path-problem",
+      "title": "最短路径问题与松弛",
+      "core_question": "最短路径问题如何区分单源和全源，并用松弛改进距离？",
+      "summary": "最短路径最小化路径边权之和，松弛用经过中间顶点的新路径尝试降低当前估计。",
+      "definition": "单源最短路径求一个源点到其余顶点的距离，全源最短路径求所有有序顶点对。对边 (u,v,w) 的松弛检查 dist[v]>dist[u]+w，成立则更新距离和前驱；算法是否正确取决于边权条件和处理顺序。",
+      "content_type": "concept"
+    },
+    {
+      "id": "cs408-binary-heap",
+      "title": "二叉堆的结构与堆序性",
+      "core_question": "二叉堆怎样同时满足完全二叉树结构和局部有序条件？",
+      "summary": "二叉堆是完全二叉树，大根堆父关键字不小于孩子，小根堆父关键字不大于孩子。",
+      "definition": "二叉堆通常用数组层序存储。大根堆保证每条父子边上父值≥子值，因此根为全局最大值；小根堆相反。堆只保证父子局部有序，兄弟和不同子树之间不要求完全排序。",
+      "content_type": "concept"
+    },
+    {
+      "id": "cs408-syllabus-graphs",
+      "title": "408 考纲：图范围",
+      "core_question": "408 图模块要求掌握哪些表示、遍历和应用？",
+      "summary": "图模块覆盖基本概念、邻接矩阵与邻接表等存储、BFS/DFS，以及生成树、最短路、拓扑排序和关键路径。",
+      "definition": "408 图模块包括图的基本概念，邻接矩阵、邻接表、邻接多重表和十字链表等存储与基本操作，深度优先搜索和广度优先搜索，以及最小生成树、最短路径、拓扑排序和关键路径等基本应用。复习时需能在给定表示上手推过程并分析复杂度。",
+      "content_type": "concept"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "syllabus-note-cs408-dijkstra-algorithm",
+      "type": "paragraph",
+      "content": "每轮永久确定当前距离最小的未确定顶点，再松弛其出边；非负权保证该距离不会被以后路径降低。\n\n初始化源距离为 0、其余为无穷。反复选择最小暂定距离顶点 u 加入已确定集合并松弛 u 的出边。朴素实现 O(V²)，堆优化常为 O((V+E)log V)。存在负权边时，已确定顶点仍可能被后来路径改进，贪心依据失效。\n\n对应 2026 数据结构考纲叶子条目：最短路径。"
+    }
+  ]
+}

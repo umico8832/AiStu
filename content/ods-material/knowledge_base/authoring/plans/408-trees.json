@@ -1,0 +1,235 @@
+{
+  "chapter": "408-trees",
+  "sections": [
+    {
+      "section_id": "cs408-tree-basics",
+      "proposed_concepts": [
+        {
+          "temporary_id": "408-trees-candidate-001",
+          "proposed_title": "树的结点、度、层次与路径",
+          "core_question": "树结构中的根、父子、度、层次、高度和路径分别是什么？",
+          "content_type": "concept",
+          "source_record_ids": [
+            "syllabus-note-cs408-tree-terms"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        }
+      ]
+    },
+    {
+      "section_id": "cs408-binary-tree",
+      "proposed_concepts": [
+        {
+          "temporary_id": "408-trees-candidate-002",
+          "proposed_title": "树的结点数与边数性质",
+          "core_question": "为什么含 n 个结点的非空树恰有 n-1 条边？",
+          "content_type": "theorem",
+          "source_record_ids": [
+            "syllabus-note-cs408-tree-edge-node-properties"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        },
+        {
+          "temporary_id": "408-trees-candidate-003",
+          "proposed_title": "二叉树定义与结点数性质",
+          "core_question": "二叉树有哪些基本定义和计数性质？",
+          "content_type": "theorem",
+          "source_record_ids": [
+            "syllabus-note-cs408-binary-tree-properties"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        },
+        {
+          "temporary_id": "408-trees-candidate-004",
+          "proposed_title": "满二叉树与完全二叉树",
+          "core_question": "满二叉树和完全二叉树有什么区别？",
+          "content_type": "comparison",
+          "source_record_ids": [
+            "syllabus-note-cs408-full-complete-binary-tree"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        },
+        {
+          "temporary_id": "408-trees-candidate-005",
+          "proposed_title": "二叉树的顺序存储",
+          "core_question": "完全二叉树为什么适合用数组顺序存储？",
+          "content_type": "concept",
+          "source_record_ids": [
+            "syllabus-note-cs408-binary-tree-sequential-storage"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        },
+        {
+          "temporary_id": "408-trees-candidate-006",
+          "proposed_title": "二叉链表与三叉链表",
+          "core_question": "链式二叉树如何表示左右孩子和父结点？",
+          "content_type": "concept",
+          "source_record_ids": [
+            "syllabus-note-cs408-binary-tree-linked-storage"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        },
+        {
+          "temporary_id": "408-trees-candidate-007",
+          "proposed_title": "二叉树先序、中序与后序遍历",
+          "core_question": "先序、中序和后序遍历如何安排根与左右子树的访问顺序？",
+          "content_type": "algorithm",
+          "source_record_ids": [
+            "syllabus-note-cs408-binary-tree-depth-traversals"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        },
+        {
+          "temporary_id": "408-trees-candidate-008",
+          "proposed_title": "二叉树层序遍历",
+          "core_question": "层序遍历为什么需要队列？",
+          "content_type": "algorithm",
+          "source_record_ids": [
+            "syllabus-note-cs408-binary-tree-level-order"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        },
+        {
+          "temporary_id": "408-trees-candidate-009",
+          "proposed_title": "由遍历序列重建二叉树",
+          "core_question": "哪些遍历序列组合能够唯一确定二叉树？",
+          "content_type": "algorithm",
+          "source_record_ids": [
+            "syllabus-note-cs408-binary-tree-reconstruction"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        },
+        {
+          "temporary_id": "408-trees-candidate-010",
+          "proposed_title": "线索二叉树的线索化思想",
+          "core_question": "线索二叉树如何利用空孩子指针保存遍历前驱和后继？",
+          "content_type": "mechanism",
+          "source_record_ids": [
+            "syllabus-note-cs408-threaded-binary-tree"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        },
+        {
+          "temporary_id": "408-trees-candidate-011",
+          "proposed_title": "中序线索树的前驱与后继",
+          "core_question": "怎样在中序线索树中寻找结点的直接前驱和后继？",
+          "content_type": "algorithm",
+          "source_record_ids": [
+            "syllabus-note-cs408-threaded-predecessor-successor"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        },
+        {
+          "temporary_id": "408-trees-candidate-012",
+          "proposed_title": "树的双亲、孩子与孩子兄弟表示",
+          "core_question": "一般树有哪些常见存储结构，各自适合什么操作？",
+          "content_type": "comparison",
+          "source_record_ids": [
+            "syllabus-note-cs408-tree-storage-representations"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        },
+        {
+          "temporary_id": "408-trees-candidate-013",
+          "proposed_title": "树、森林与二叉树转换",
+          "core_question": "孩子兄弟表示如何在树、森林和二叉树之间转换？",
+          "content_type": "mechanism",
+          "source_record_ids": [
+            "syllabus-note-cs408-tree-forest-binary-conversion"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        },
+        {
+          "temporary_id": "408-trees-candidate-018",
+          "proposed_title": "并查集的路径压缩与按秩合并",
+          "core_question": "路径压缩和按秩合并怎样降低并查集树高？",
+          "content_type": "mechanism",
+          "source_record_ids": [
+            "syllabus-note-cs408-disjoint-set-optimization"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        },
+        {
+          "temporary_id": "408-trees-candidate-019",
+          "proposed_title": "二叉堆的结构与堆序性",
+          "core_question": "二叉堆怎样同时满足完全二叉树结构和局部有序条件？",
+          "content_type": "concept",
+          "source_record_ids": [
+            "syllabus-note-cs408-binary-heap"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        },
+        {
+          "temporary_id": "408-trees-candidate-021",
+          "proposed_title": "堆与优先队列、Top-K",
+          "core_question": "堆为什么适合实现优先队列和 Top-K？",
+          "content_type": "application",
+          "source_record_ids": [
+            "syllabus-note-cs408-heap-applications"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        }
+      ]
+    },
+    {
+      "section_id": "cs408-tree-forest",
+      "proposed_concepts": [
+        {
+          "temporary_id": "408-trees-candidate-014",
+          "proposed_title": "树和森林的遍历",
+          "core_question": "树和森林的先根、后根遍历如何对应二叉树遍历？",
+          "content_type": "algorithm",
+          "source_record_ids": [
+            "syllabus-note-cs408-tree-forest-traversal"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        }
+      ]
+    },
+    {
+      "section_id": "cs408-tree-applications",
+      "proposed_concepts": [
+        {
+          "temporary_id": "408-trees-candidate-015",
+          "proposed_title": "Huffman 树与带权路径长度",
+          "core_question": "Huffman 算法如何构造带权路径长度最小的二叉树？",
+          "content_type": "algorithm",
+          "source_record_ids": [
+            "syllabus-note-cs408-huffman-tree"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        },
+        {
+          "temporary_id": "408-trees-candidate-016",
+          "proposed_title": "Huffman 编码与前缀码",
+          "core_question": "Huffman 树为什么能够生成无歧义的变长前缀编码？",
+          "content_type": "application",
+          "source_record_ids": [
+            "syllabus-note-cs408-huffman-coding"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        },
+        {
+          "temporary_id": "408-trees-candidate-017",
+          "proposed_title": "并查集的集合表示与操作",
+          "core_question": "并查集如何维护互不相交集合的合并与代表元查询？",
+          "content_type": "concept",
+          "source_record_ids": [
+            "syllabus-note-cs408-disjoint-set"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        },
+        {
+          "temporary_id": "408-trees-candidate-020",
+          "proposed_title": "堆的插入、删除与建堆",
+          "core_question": "上滤、下滤和自底向上建堆如何维护堆序？",
+          "content_type": "algorithm",
+          "source_record_ids": [
+            "syllabus-note-cs408-heap-operations"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        }
+      ]
+    }
+  ]
+}

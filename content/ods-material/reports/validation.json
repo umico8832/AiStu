@@ -1,0 +1,174 @@
+{
+  "checks": {
+    "all_citation_keys_collected": {
+      "missing": [],
+      "passed": true
+    },
+    "all_jsonl_lines_parse": {
+      "files": 21,
+      "passed": true
+    },
+    "all_labels_collected": {
+      "missing": [],
+      "passed": true
+    },
+    "all_main_chapters_present": {
+      "actual": [
+        "Introduction",
+        "Array-Based Lists",
+        "Linked Lists",
+        "Skiplists",
+        "Hash Tables",
+        "Binary Trees",
+        "Random Binary Search Trees",
+        "Scapegoat Trees",
+        "Red-Black Trees",
+        "Heaps",
+        "Sorting Algorithms",
+        "Graphs",
+        "Data Structures for Integers",
+        "External Memory Searching"
+      ],
+      "passed": true
+    },
+    "all_outputs_utf8": {
+      "files": [],
+      "passed": true
+    },
+    "all_records_have_schema_fields": {
+      "missing": [],
+      "passed": true
+    },
+    "all_records_have_source_locations": {
+      "invalid": [],
+      "passed": true
+    },
+    "all_references_collected": {
+      "missing": [],
+      "passed": true
+    },
+    "bibliography_entries_present": {
+      "passed": true,
+      "total": 95
+    },
+    "chapter_file_set_exact": {
+      "passed": true
+    },
+    "chapter_order_matches_main": {
+      "actual": [
+        "ack",
+        "why",
+        "intro-python",
+        "arrays-python",
+        "linkedlists-python",
+        "skiplists-python",
+        "hashing-python",
+        "binarytrees-python",
+        "rbs-python",
+        "scapegoat-python",
+        "redblack-python",
+        "heaps-python",
+        "sorting-python",
+        "graphs-python",
+        "integers-python",
+        "btree-python"
+      ],
+      "passed": true
+    },
+    "chapter_title_count_matches": {
+      "output": 14,
+      "passed": true,
+      "source": 14
+    },
+    "code_import_count_matches": {
+      "output": 143,
+      "passed": true,
+      "source": 143
+    },
+    "display_formula_count_matches": {
+      "output": 175,
+      "passed": true,
+      "source": 175
+    },
+    "document_order_strictly_increasing": {
+      "passed": true
+    },
+    "generated_file_set_exact": {
+      "passed": true
+    },
+    "inline_formulas_preserved": {
+      "passed": true,
+      "source": 1984,
+      "uncovered": []
+    },
+    "main_and_chapter_id_sets_match": {
+      "chapters": 2115,
+      "main": 2115,
+      "passed": true
+    },
+    "no_empty_code_records": {
+      "passed": true,
+      "records": []
+    },
+    "no_empty_equation_records": {
+      "passed": true,
+      "records": []
+    },
+    "no_git_repository": {
+      "passed": true,
+      "paths": []
+    },
+    "no_image_files": {
+      "files": [],
+      "passed": true
+    },
+    "no_pdf_html_or_epub": {
+      "files": [],
+      "passed": true
+    },
+    "no_unprocessed_input_or_include": {
+      "passed": true,
+      "records": []
+    },
+    "record_ids_unique": {
+      "passed": true,
+      "total": 2115
+    },
+    "unresolved_commands_reported": {
+      "passed": true,
+      "report_entries": 93,
+      "unique_commands": 91
+    }
+  },
+  "code_blocks_total": 143,
+  "equations_total": 175,
+  "figures_omitted_total": 98,
+  "graphics_commands_omitted_total": 113,
+  "inline_formulas_total": 1984,
+  "record_counts_by_type": {
+    "algorithm": 143,
+    "bibliography_entry": 95,
+    "chapter": 18,
+    "corollary": 1,
+    "equation": 154,
+    "equation_group": 21,
+    "exercise": 168,
+    "figure_caption": 98,
+    "footnote": 23,
+    "index_entry": 385,
+    "lemma": 25,
+    "list": 60,
+    "list_item": 173,
+    "metadata": 3,
+    "paragraph": 541,
+    "proof": 28,
+    "section": 57,
+    "subsection": 70,
+    "table": 4,
+    "theorem": 48
+  },
+  "records_total": 2115,
+  "status": "passed",
+  "tables_total": 4,
+  "unresolved_commands_total": 93
+}

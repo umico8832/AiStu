@@ -1,0 +1,110 @@
+{
+  "concept": {
+    "id": "ods-arraydeque-nearest-end-shifting",
+    "title": "ArrayDeque 向较近端搬移",
+    "aliases": [
+      "nearest-end shifting",
+      "ArrayDeque add/remove"
+    ],
+    "content_type": "mechanism",
+    "location": {
+      "course_id": "open-data-structures",
+      "chapter_id": "array-based-lists",
+      "section_id": "2-4-arraydeque",
+      "parent_id": null,
+      "order": 17
+    },
+    "core_question": "ArrayDeque 为什么根据 i 与 n/2 的关系选择搬移方向？",
+    "summary": "它只搬移插入或删除位置到较近端之间的元素，把搬移数量限制为 min(i,n-i)。",
+    "definition": "ArrayDeque 在位置 i 更新时比较 i 与 n/2。若 i 靠近逻辑前端，就调整 j 并搬移前缀；否则搬移后缀。插入与删除采用相反但对称的搬移方向，使被移动元素数不超过 $\\min\\{i,n-i\\}$，忽略 resize 的时间为 $O(1+\\min\\{i,n-i\\})$。",
+    "prerequisite_ids": [
+      "ods-arraydeque-representation"
+    ],
+    "relations": [
+      {
+        "type": "leads_to",
+        "target_id": "ods-arraydeque-performance",
+        "description": "理解《ArrayDeque 向较近端搬移》是继续学习目标知识点的直接基础。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "在一排人中腾出或补上一个位置时，选择让距离该位置更近的一端人群移动，而不是固定让整条右侧队伍移动。",
+      "mapping": {
+        "更近的一端": "min(i,n-i)",
+        "一端人群": "前缀或后缀",
+        "移动方向": "循环数组中的搬移分支"
+      },
+      "boundary": "类比不展示回绕下标计算，也不包含 resize 的成本。"
+    },
+    "retrieval": {
+      "keywords": [
+        "ArrayDeque 向较近端搬移",
+        "nearest-end shifting",
+        "ArrayDeque add/remove"
+      ],
+      "query_examples": [
+        "ArrayDeque 为什么根据 i 与 n/2 的关系选择搬移方向？",
+        "ArrayDeque 向较近端搬移怎么理解",
+        "ArrayDeque 向较近端搬移的关键条件是什么"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "ods-000287-paragraph-the-implementation-of-ensuremath-ens",
+      "ods-000288-figure_caption-a-sequence-of-ensuremath-ensuremath-",
+      "ods-000289-algorithm-begin-flushleft-hspace-1em-ensuremat",
+      "ods-000290-paragraph-by-doing-the-shifting-in-this-way-we",
+      "ods-000291-algorithm-begin-flushleft-hspace-1em-ensuremat"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "ods-arraydeque-representation",
+      "title": "ArrayDeque 的循环数组表示与访问",
+      "core_question": "ArrayDeque 如何在循环数组中定位任意逻辑下标？",
+      "summary": "ArrayDeque 复用队首 j 与元素数 n，把逻辑下标 i 映射为 (j+i) mod capacity。",
+      "definition": "ArrayDeque 用数组 a、逻辑起点 j 和元素数 n 表示 List。逻辑元素 i 存放于 $a[(j+i)\\bmod \\mathrm{length}(a)]$；get 与 set 直接使用该映射，因此为常数时间。循环布局允许逻辑序列在数组末端回绕。",
+      "content_type": "concept"
+    },
+    {
+      "id": "ods-arraydeque-performance",
+      "title": "ArrayDeque 的操作复杂度",
+      "core_question": "ArrayDeque 为什么能在两端附近高效插入和删除？",
+      "summary": "get/set 为 O(1)，add/remove(i) 为 O(1+min(i,n-i))，容量调整总成本可线性摊还。",
+      "definition": "ArrayDeque 实现 List 接口时，get 与 set 为 $O(1)$；忽略 resize，add(i,x) 与 remove(i) 为 $O(1+\\min\\{i,n-i\\})$。从空结构开始的 m 次更新中，所有 resize 总时间为 $O(m)$，因此两端位置的更新具有常数摊还时间。",
+      "content_type": "theorem"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "ods-000287-paragraph-the-implementation-of-ensuremath-ens",
+      "type": "paragraph",
+      "content": "The implementation of \\ensuremath{\\ensuremath{\\mathrm{add}(\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{x}})}} is a little more interesting. As usual, we first check if \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{a}}}} is full and, if necessary, call \\ensuremath{\\ensuremath{\\mathrm{resize}()}} to resize \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{a}}}}. Remember that we want this operation to be fast when \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{i}}}} is small (close to 0) or when \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{i}}}} is large (close to \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}). Therefore, we check if $\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{i}}}}<\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}/2$. If so, we shift the elements $\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{a}}[0]}},\\ldots,\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{a}}[\\ensuremath{\\mathit{i}}-1]}}$ left by one position. Otherwise ($\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{i}}}}\\ge\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}/2$), we shift the elements $\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{a}}[\\ensuremath{\\mathit{i}}]}},\\ldots,\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{a}}[\\ensuremath{\\mathit{n}}-1]}}$ right by one position. See \\figref{arraydeque} for an illustration of \\ensuremath{\\ensuremath{\\mathrm{add}(\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{x}})}} and \\ensuremath{\\ensuremath{\\mathrm{remove}(\\ensuremath{\\mathit{x}})}} operations on an ArrayDeque."
+    },
+    {
+      "id": "ods-000288-figure_caption-a-sequence-of-ensuremath-ensuremath-",
+      "type": "figure_caption",
+      "content": "A sequence of \\ensuremath{\\ensuremath{\\mathrm{add}(\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{x}})}} and \\ensuremath{\\ensuremath{\\mathrm{remove}(\\ensuremath{\\mathit{i}})}} operations on an ArrayDeque. Arrows denote elements being copied."
+    },
+    {
+      "id": "ods-000289-algorithm-begin-flushleft-hspace-1em-ensuremat",
+      "type": "algorithm",
+      "content": "\\begin{flushleft}\n\\hspace*{1em} \\ensuremath{\\mathrm{add}(\\ensuremath{\\mathit{i}}, \\ensuremath{\\mathit{x}})} \\\\\n\n\\hspace*{1em} \\hspace*{1em} {\\color{black} \\textbf{if}} \\ensuremath{\\ensuremath{\\mathit{n}} \\eq \\mathrm{length}(\\ensuremath{\\mathit{a}})} {\\color{black} \\textbf{then}}  \\ensuremath{\\mathrm{resize}()}\\\\\n\\hspace*{1em} \\hspace*{1em} {\\color{black} \\textbf{if}} \\ensuremath{\\ensuremath{\\mathit{i}} < \\ensuremath{\\mathit{n}}/2} {\\color{black} \\textbf{then}} \\\\\n\\hspace*{1em} \\hspace*{1em} \\hspace*{1em} \\ensuremath{\\ensuremath{\\mathit{j}} \\gets  \\ensuremath{(\\ensuremath{\\mathit{j}}-1) \\bmod  \\mathrm{length}(\\ensuremath{\\mathit{a}})}}\\\\\n\\hspace*{1em} \\hspace*{1em} \\hspace*{1em} {\\color{black} \\textbf{for}} \\ensuremath{k} {\\color{black} \\textbf{in}} \\ensuremath{0,1,2,\\ldots,\\ensuremath{\\mathit{i}}-1} {\\color{black} \\textbf{do}} \\\\\n\\hspace*{1em} \\hspace*{1em} \\hspace*{1em} \\hspace*{1em} \\ensuremath{\\ensuremath{\\mathit{a}}[\\ensuremath{(\\ensuremath{\\mathit{j}}+\\ensuremath{\\mathit{k}})\\bmod \\mathrm{length}(\\ensuremath{\\mathit{a}})}] \\gets  \\ensuremath{\\ensuremath{\\mathit{a}}[(\\ensuremath{\\mathit{j}}+\\ensuremath{\\mathit{k}}+1)\\bmod \\mathrm{length}(\\ensuremath{\\mathit{a}})]}}\\\\\n\\hspace*{1em} \\hspace*{1em} {\\color{black} \\textbf{else}} \\\\\n\\hspace*{1em} \\hspace*{1em} \\hspace*{1em} {\\color{black} \\textbf{for}} \\ensuremath{k} {\\color{black} \\textbf{in}} \\ensuremath{\\ensuremath{\\mathit{n}},\\ensuremath{\\mathit{n}}-1,\\ensuremath{\\mathit{n}}-2,\\ldots,\\ensuremath{\\mathit{i}}+1} {\\color{black} \\textbf{do}} \\\\\n\\hspace*{1em} \\hspace*{1em} \\hspace*{1em} \\hspace*{1em} \\ensuremath{\\ensuremath{\\mathit{a}}[\\ensuremath{(\\ensuremath{\\mathit{j}}+\\ensuremath{\\mathit{k}})\\bmod \\mathrm{length}(\\ensuremath{\\mathit{a}})}] \\gets  \\ensuremath{\\ensuremath{\\mathit{a}}[(\\ensuremath{\\mathit{j}}+\\ensuremath{\\mathit{k}}-1)\\bmod \\mathrm{length}(\\ensuremath{\\mathit{a}})]}}\\\\\n\\hspace*{1em} \\hspace*{1em} \\ensuremath{\\ensuremath{\\mathit{a}}[\\ensuremath{(\\ensuremath{\\mathit{j}}+\\ensuremath{\\mathit{i}})\\bmod \\mathrm{length}(\\ensuremath{\\mathit{a}})}] \\gets  \\ensuremath{x}}\\\\\n\\hspace*{1em} \\hspace*{1em} \\ensuremath{\\ensuremath{\\mathit{n}} \\gets  \\ensuremath{\\ensuremath{\\mathit{n}} + 1}}\\\\\n\\end{flushleft}"
+    },
+    {
+      "id": "ods-000290-paragraph-by-doing-the-shifting-in-this-way-we",
+      "type": "paragraph",
+      "content": "By doing the shifting in this way, we guarantee that \\ensuremath{\\ensuremath{\\mathrm{add}(\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{x}})}} never has to shift more than $\\min\\{ \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{i}}}}, \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}-\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{i}}}} \\}$ elements. Thus, the running time of the \\ensuremath{\\ensuremath{\\mathrm{add}(\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{x}})}} operation (ignoring the cost of a \\ensuremath{\\ensuremath{\\mathrm{resize}()}} operation) is $O(1+\\min\\{\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{i}}}},\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}-\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{i}}}}\\})$. The implementation of the \\ensuremath{\\ensuremath{\\mathrm{remove}(\\ensuremath{\\mathit{i}})}} operation is similar. It either shifts elements $\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{a}}[0]}},\\ldots,\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{a}}[\\ensuremath{\\mathit{i}}-1]}}$ right by one position or shifts the elements $\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{a}}[\\ensuremath{\\mathit{i}}+1]}},\\ldots,\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{a}}[\\ensuremath{\\mathit{n}}-1]}}$ left by one position depending on whether $\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{i}}}}<\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}/2$. Again, this means that \\ensuremath{\\ensuremath{\\mathrm{remove}(\\ensuremath{\\mathit{i}})}} never spends more than $O(1+\\min\\{\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{i}}}},\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}-\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{i}}}}\\})$ time to shift elements."
+    },
+    {
+      "id": "ods-000291-algorithm-begin-flushleft-hspace-1em-ensuremat",
+      "type": "algorithm",
+      "content": "\\begin{flushleft}\n\\hspace*{1em} \\ensuremath{\\mathrm{remove}(\\ensuremath{\\mathit{i}})} \\\\\n\n\\hspace*{1em} \\hspace*{1em} \\ensuremath{\\ensuremath{\\mathit{x}} \\gets  \\ensuremath{\\ensuremath{\\mathit{a}}[(\\ensuremath{\\mathit{j}}+\\ensuremath{\\mathit{i}})\\bmod \\mathrm{length}(\\ensuremath{\\mathit{a}})]}}\\\\\n\\hspace*{1em} \\hspace*{1em} {\\color{black} \\textbf{if}} \\ensuremath{\\ensuremath{\\mathit{i}} < \\ensuremath{\\mathit{n}} / 2} {\\color{black} \\textbf{then}} \\\\\n\\hspace*{1em} \\hspace*{1em} \\hspace*{1em} {\\color{black} \\textbf{for}} \\ensuremath{k} {\\color{black} \\textbf{in}} \\ensuremath{\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{i}}-1,\\ensuremath{\\mathit{i}}-2,\\ldots,1} {\\color{black} \\textbf{do}} \\\\\n\\hspace*{1em} \\hspace*{1em} \\hspace*{1em} \\hspace*{1em} \\ensuremath{\\ensuremath{\\mathit{a}}[\\ensuremath{(\\ensuremath{\\mathit{j}}+\\ensuremath{\\mathit{k}})\\bmod \\mathrm{length}(\\ensuremath{\\mathit{a}})}] \\gets  \\ensuremath{\\ensuremath{\\mathit{a}}[(\\ensuremath{\\mathit{j}}+\\ensuremath{\\mathit{k}}-1)\\bmod \\mathrm{length}(\\ensuremath{\\mathit{a}})]}}\\\\\n\\hspace*{1em} \\hspace*{1em} \\hspace*{1em} \\ensuremath{\\ensuremath{\\mathit{j}} \\gets  \\ensuremath{(\\ensuremath{\\mathit{j}}+1) \\bmod  \\mathrm{length}(\\ensuremath{\\mathit{a}})}}\\\\\n\\hspace*{1em} \\hspace*{1em} {\\color{black} \\textbf{else}} \\\\\n\\hspace*{1em} \\hspace*{1em} \\hspace*{1em} {\\color{black} \\textbf{for}} \\ensuremath{k} {\\color{black} \\textbf{in}} \\ensuremath{\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{i}}+1,\\ensuremath{\\mathit{i}}+2,\\ldots,\\ensuremath{\\mathit{n}}-2} {\\color{black} \\textbf{do}}  \\\\\n\\hspace*{1em} \\hspace*{1em} \\hspace*{1em} \\hspace*{1em} \\ensuremath{\\ensuremath{\\mathit{a}}[\\ensuremath{(\\ensuremath{\\mathit{j}}+\\ensuremath{\\mathit{k}})\\bmod \\mathrm{length}(\\ensuremath{\\mathit{a}})}] \\gets  \\ensuremath{\\ensuremath{\\mathit{a}}[(\\ensuremath{\\mathit{j}}+\\ensuremath{\\mathit{k}}+1)\\bmod \\mathrm{length}(\\ensuremath{\\mathit{a}})]}}\\\\\n\\hspace*{1em} \\hspace*{1em} \\ensuremath{\\ensuremath{\\mathit{n}} \\gets  \\ensuremath{\\ensuremath{\\mathit{n}} - 1}}\\\\\n\\hspace*{1em} \\hspace*{1em} {\\color{black} \\textbf{if}} \\ensuremath{\\mathrm{length}(\\ensuremath{\\mathit{a}}) \\ge 3\\cdot n} {\\color{black} \\textbf{then}}  \\ensuremath{\\mathrm{resize}()}\\\\\n\\hspace*{1em} \\hspace*{1em} {\\color{black} \\textbf{return}} \\ensuremath{\\ensuremath{\\mathit{x}}}\\\\\n\\end{flushleft}"
+    }
+  ]
+}

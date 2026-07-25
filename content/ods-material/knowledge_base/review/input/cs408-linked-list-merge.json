@@ -1,0 +1,85 @@
+{
+  "concept": {
+    "id": "cs408-linked-list-merge",
+    "title": "有序链表合并",
+    "aliases": [
+      "merge sorted lists",
+      "有序表合并"
+    ],
+    "content_type": "algorithm",
+    "location": {
+      "course_id": "cs408-data-structures",
+      "chapter_id": "408-linear-lists",
+      "section_id": "cs408-linear-list-applications",
+      "parent_id": null,
+      "order": 9
+    },
+    "core_question": "怎样把两个有序链表合并为一个有序链表？",
+    "summary": "反复比较两表当前首元素并接入较小者，可在 O(m+n) 时间内复用结点完成合并。",
+    "definition": "使用哨兵结点和尾指针，每次比较两个当前结点的关键字，把较小结点接到结果尾部并推进对应链表；其中一表耗尽后直接接上另一表剩余部分。稳定合并时相等元素应优先取左表。",
+    "prerequisite_ids": [
+      "cs408-singly-linked-list"
+    ],
+    "relations": [
+      {
+        "type": "part_of",
+        "target_id": "cs408-syllabus-linear-lists",
+        "description": "有序链表合并是线性表考纲模块中的原子知识点。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "像两条已按身高排好的队伍合成一队，每次只比较两队最前面的人。",
+      "mapping": {
+        "直观对象": "有序链表合并",
+        "对应机制": "反复比较两表当前首元素并接入较小者，可在 O(m+n) 时间内复用结点完成合并。"
+      },
+      "boundary": "类比只用于建立直觉；正式作答仍需使用定义、操作步骤、适用条件和复杂度结论。"
+    },
+    "retrieval": {
+      "keywords": [
+        "有序链表合并",
+        "merge sorted lists",
+        "有序表合并"
+      ],
+      "query_examples": [
+        "怎样把两个有序链表合并为一个有序链表？",
+        "有序链表合并的步骤、性质和复杂度是什么？",
+        "有序链表合并有哪些适用条件和易错边界？"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "syllabus-note-cs408-linked-list-merge"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "cs408-singly-linked-list",
+      "title": "单链表的结点与表示",
+      "core_question": "单链表如何用指针连接逻辑相邻元素？",
+      "summary": "单链表结点保存数据与后继指针，物理位置可以离散，必须从表头沿指针顺序访问。",
+      "definition": "单链表的每个结点由数据域和 next 指针域组成，头指针标识首结点，可选头结点作为不保存业务数据的哨兵。已知前驱时插入和删除为 O(1)，按位定位仍需从头遍历，时间为 O(n)。",
+      "content_type": "concept"
+    },
+    {
+      "id": "cs408-syllabus-linear-lists",
+      "title": "408 考纲：线性表范围",
+      "core_question": "408 线性表模块要求覆盖哪些内容？",
+      "summary": "线性表模块覆盖基本概念、顺序存储、链式存储和线性表应用，重点比较访问、插删与空间特征。",
+      "definition": "408 线性表模块包括线性表的基本概念、顺序存储实现、链式存储实现和线性表应用。复习范围应能解释顺序表与单链表、双链表、循环链表的表示与基本操作，并从访问、插入删除、空间开销和适用场景比较不同实现。",
+      "content_type": "concept"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "syllabus-note-cs408-linked-list-merge",
+      "type": "paragraph",
+      "content": "反复比较两表当前首元素并接入较小者，可在 O(m+n) 时间内复用结点完成合并。\n\n使用哨兵结点和尾指针，每次比较两个当前结点的关键字，把较小结点接到结果尾部并推进对应链表；其中一表耗尽后直接接上另一表剩余部分。稳定合并时相等元素应优先取左表。\n\n对应 2026 数据结构考纲叶子条目：线性表的应用。"
+    }
+  ]
+}

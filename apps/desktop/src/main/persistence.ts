@@ -27,10 +27,13 @@ function migrateV1Session(session: PersistedSessionV1): PersistedAppStateV2 {
         messages: session.messages,
         draft: session.draft,
         activeVisualization: session.activeVisualization,
+        studyScope: null,
         createdAt,
         updatedAt: Math.max(createdAt, session.savedAt),
       },
     ],
+    courseStudyProfiles: [],
+    courseLearningRecords: [],
     preferences: session.preferences,
     savedAt: session.savedAt,
   };

@@ -1,0 +1,85 @@
+{
+  "concept": {
+    "id": "cs408-prim-algorithm",
+    "title": "Prim 最小生成树算法",
+    "aliases": [
+      "Prim",
+      "cut property"
+    ],
+    "content_type": "algorithm",
+    "location": {
+      "course_id": "cs408-data-structures",
+      "chapter_id": "408-graphs",
+      "section_id": "cs408-graph-applications",
+      "parent_id": null,
+      "order": 12
+    },
+    "core_question": "Prim 算法如何逐步扩大一个连通顶点集合？",
+    "summary": "每次选择连接已选集合与未选顶点的最小权边，把新顶点加入生成树。",
+    "definition": "Prim 从任意起点开始，维护每个未选顶点到当前树的最小连接代价及前驱。每轮选代价最小顶点加入并更新其邻居。朴素邻接矩阵实现为 O(V²)，配合堆和邻接表可达 O(E log V)。",
+    "prerequisite_ids": [
+      "cs408-minimum-spanning-tree"
+    ],
+    "relations": [
+      {
+        "type": "part_of",
+        "target_id": "cs408-syllabus-graphs",
+        "description": "Prim 最小生成树算法是图考纲模块中的原子知识点。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "像从一个岛开始，每次修建连接现有岛群与外部岛屿的最便宜桥梁。",
+      "mapping": {
+        "直观对象": "Prim 最小生成树算法",
+        "对应机制": "每次选择连接已选集合与未选顶点的最小权边，把新顶点加入生成树。"
+      },
+      "boundary": "类比只用于建立直觉；正式作答仍需使用定义、操作步骤、适用条件和复杂度结论。"
+    },
+    "retrieval": {
+      "keywords": [
+        "Prim 最小生成树算法",
+        "Prim",
+        "cut property"
+      ],
+      "query_examples": [
+        "Prim 算法如何逐步扩大一个连通顶点集合？",
+        "Prim 最小生成树算法的步骤、性质和复杂度是什么？",
+        "Prim 最小生成树算法有哪些适用条件和易错边界？"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "syllabus-note-cs408-prim-algorithm"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "cs408-minimum-spanning-tree",
+      "title": "最小生成树问题",
+      "core_question": "最小生成树要求在什么图中优化什么目标？",
+      "summary": "连通无向带权图的最小生成树连接全部顶点、无环且总边权最小。",
+      "definition": "含 V 个顶点的生成树恰有 V-1 条边。最小生成树优化整棵连接结构的总权值，不保证任意两点在树上的路径都是原图最短路径；权值相同可能导致多个不同但同权的最小生成树。",
+      "content_type": "concept"
+    },
+    {
+      "id": "cs408-syllabus-graphs",
+      "title": "408 考纲：图范围",
+      "core_question": "408 图模块要求掌握哪些表示、遍历和应用？",
+      "summary": "图模块覆盖基本概念、邻接矩阵与邻接表等存储、BFS/DFS，以及生成树、最短路、拓扑排序和关键路径。",
+      "definition": "408 图模块包括图的基本概念，邻接矩阵、邻接表、邻接多重表和十字链表等存储与基本操作，深度优先搜索和广度优先搜索，以及最小生成树、最短路径、拓扑排序和关键路径等基本应用。复习时需能在给定表示上手推过程并分析复杂度。",
+      "content_type": "concept"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "syllabus-note-cs408-prim-algorithm",
+      "type": "paragraph",
+      "content": "每次选择连接已选集合与未选顶点的最小权边，把新顶点加入生成树。\n\nPrim 从任意起点开始，维护每个未选顶点到当前树的最小连接代价及前驱。每轮选代价最小顶点加入并更新其邻居。朴素邻接矩阵实现为 O(V²)，配合堆和邻接表可达 O(E log V)。\n\n对应 2026 数据结构考纲叶子条目：最小生成树。"
+    }
+  ]
+}

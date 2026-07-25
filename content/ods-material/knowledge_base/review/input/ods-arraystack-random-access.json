@@ -1,0 +1,78 @@
+{
+  "concept": {
+    "id": "ods-arraystack-random-access",
+    "title": "ArrayStack 的随机访问",
+    "aliases": [
+      "ArrayStack get/set",
+      "数组栈随机访问"
+    ],
+    "content_type": "algorithm",
+    "location": {
+      "course_id": "open-data-structures",
+      "chapter_id": "array-based-lists",
+      "section_id": "2-1-1-the-basics",
+      "parent_id": null,
+      "order": 3
+    },
+    "core_question": "ArrayStack 为什么能在常数时间读取或修改任意位置？",
+    "summary": "ArrayStack 将逻辑下标 i 直接映射到 a[i]，所以边界检查后的 get 与 set 都是常数时间。",
+    "definition": "ArrayStack 把逻辑序列的第 i 个元素保存在后备数组 a 的第 i 个槽位。get(i) 在下标合法时返回 a[i]；set(i,x) 保存旧值、把 a[i] 改为 x 并返回旧值。两者均不随元素数量增长而增加定位步骤。",
+    "prerequisite_ids": [
+      "ods-array-size-capacity"
+    ],
+    "relations": [],
+    "rookie_explanation": {
+      "analogy": "像按储物柜编号直接开柜：知道编号 i 后无需从第一个柜子逐个查找，就能读取或替换该柜中的物品。",
+      "mapping": {
+        "柜号 i": "逻辑下标 i",
+        "柜中物品": "a[i] 中的元素",
+        "直接开柜": "数组随机访问"
+      },
+      "boundary": "类比只说明定位成本；合法下标检查、缓存和底层内存访问常数并未在类比中体现。"
+    },
+    "retrieval": {
+      "keywords": [
+        "ArrayStack 的随机访问",
+        "ArrayStack get/set",
+        "数组栈随机访问"
+      ],
+      "query_examples": [
+        "ArrayStack 为什么能在常数时间读取或修改任意位置？",
+        "ArrayStack 的随机访问怎么理解",
+        "ArrayStack 的随机访问的关键条件是什么"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "ods-000221-paragraph-accessing-and-modifying-the-elements",
+      "ods-000222-algorithm-begin-flushleft-hspace-1em-ensuremat"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "ods-array-size-capacity",
+      "title": "元素数量与数组容量",
+      "core_question": "数组式线性表中的元素数量与后备数组容量有什么区别？",
+      "summary": "元素数量 n 只统计有效元素，容量 length(a) 是可用槽位总数，必须始终满足 n 不超过容量。",
+      "definition": "在数组式线性表中，元素数量 n 表示当前有效元素个数，后备数组容量 length(a) 表示已分配槽位总数。有效元素只占其中一部分，基本不变量是 $0\\le n\\le \\mathrm{length}(a)$；空闲槽位不是逻辑元素。",
+      "content_type": "concept"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "ods-000221-paragraph-accessing-and-modifying-the-elements",
+      "type": "paragraph",
+      "content": "Accessing and modifying the elements of an ArrayStack using \\ensuremath{\\ensuremath{\\mathrm{get}(\\ensuremath{\\mathit{i}})}} and \\ensuremath{\\ensuremath{\\mathrm{set}(\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{x}})}} is trivial. After performing any necessary bounds-checking we simply return or set, respectively, \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{a}}[\\ensuremath{\\mathit{i}}]}}."
+    },
+    {
+      "id": "ods-000222-algorithm-begin-flushleft-hspace-1em-ensuremat",
+      "type": "algorithm",
+      "content": "\\begin{flushleft}\n\\hspace*{1em} \\ensuremath{\\mathrm{get}(\\ensuremath{\\mathit{i}})}\\\\\n\n\\hspace*{1em} \\hspace*{1em} {\\color{black} \\textbf{return}} \\ensuremath{\\ensuremath{\\mathit{a}}[\\ensuremath{\\mathit{i}}]}\\\\\n\\ \\\\\n\\hspace*{1em} \\ensuremath{\\mathrm{set}(\\ensuremath{\\mathit{i}}, \\ensuremath{\\mathit{x}})}\\\\\n\n\\hspace*{1em} \\hspace*{1em} \\ensuremath{\\ensuremath{\\mathit{y}} \\gets  \\ensuremath{\\ensuremath{\\mathit{a}}[\\ensuremath{\\mathit{i}}]}}\\\\\n\\hspace*{1em} \\hspace*{1em} \\ensuremath{\\ensuremath{\\mathit{a}}[\\ensuremath{i}] \\gets  \\ensuremath{x}}\\\\\n\\hspace*{1em} \\hspace*{1em} {\\color{black} \\textbf{return}} \\ensuremath{\\ensuremath{\\mathit{y}}}\\\\\n\\end{flushleft}"
+    }
+  ]
+}

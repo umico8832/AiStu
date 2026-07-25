@@ -1,0 +1,122 @@
+{
+  "concept": {
+    "id": "ods-fastarraystack-block-copy",
+    "title": "FastArrayStack 的批量复制优化",
+    "aliases": [
+      "FastArrayStack",
+      "block copy",
+      "批量数组移动"
+    ],
+    "content_type": "mechanism",
+    "location": {
+      "course_id": "open-data-structures",
+      "chapter_id": "array-based-lists",
+      "section_id": "2-2-fastarraystack",
+      "parent_id": null,
+      "order": 9
+    },
+    "core_question": "FastArrayStack 如何在不改变渐近复杂度的情况下加速元素搬移？",
+    "summary": "它用运行环境提供的批量复制或移动操作替代解释执行的逐元素循环，降低常数开销但不改变大 O。",
+    "definition": "FastArrayStack 保留 ArrayStack 的数据布局与算法边界，但把插入、删除和 resize 中的连续区间搬移交给经过优化的块复制函数。这样仍需处理相同数量的元素，渐近时间不变，却可能利用底层机器指令显著降低实际运行时间。",
+    "prerequisite_ids": [
+      "ods-arraystack-insertion",
+      "ods-arraystack-removal",
+      "ods-arraystack-resize"
+    ],
+    "relations": [],
+    "rookie_explanation": {
+      "analogy": "同样要搬一排箱子，逐箱手搬和使用传送带都搬相同数量，但传送带能降低每个箱子的处理开销。",
+      "mapping": {
+        "逐箱手搬": "显式循环",
+        "传送带": "批量复制函数",
+        "箱子数量": "需要移动的元素数"
+      },
+      "boundary": "类比不保证固定加速倍数；实际收益依赖语言、元素类型、库实现和硬件。"
+    },
+    "retrieval": {
+      "keywords": [
+        "FastArrayStack 的批量复制优化",
+        "FastArrayStack",
+        "block copy",
+        "批量数组移动"
+      ],
+      "query_examples": [
+        "FastArrayStack 如何在不改变渐近复杂度的情况下加速元素搬移？",
+        "FastArrayStack 的批量复制优化怎么理解",
+        "FastArrayStack 的批量复制优化的关键条件是什么"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "ods-000248-paragraph-seclabel-fastarraystack-index-fastar",
+      "ods-000249-paragraph-in-a-naive-implementation-this-would",
+      "ods-000250-paragraph-it-turns-out-that-many-programming-e",
+      "ods-000251-paragraph-these-functions-are-usually-highly-o",
+      "ods-000252-paragraph-in-our-c-and-java-implementations-th",
+      "ods-000253-paragraph-resulted-in-speedups-of-a-factor-bet"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "ods-arraystack-insertion",
+      "title": "ArrayStack 的按位插入",
+      "core_question": "ArrayStack 在位置 i 插入元素时为什么要向右搬移元素？",
+      "summary": "插入前需确保容量足够，再把区间 i 到 n-1 右移一格，空出 a[i] 后写入新元素。",
+      "definition": "ArrayStack 的 add(i,x) 在后备数组已满时先扩容，然后把原有下标 i 至 n-1 的元素按从右到左的安全顺序整体右移一位，把 x 写入 a[i]，最后令 n 增加 1。忽略扩容时，其时间为 $O(n-i)$。",
+      "content_type": "algorithm"
+    },
+    {
+      "id": "ods-arraystack-removal",
+      "title": "ArrayStack 的按位删除",
+      "core_question": "ArrayStack 删除位置 i 的元素时为什么要向左搬移元素？",
+      "summary": "删除 a[i] 后需把 i+1 到 n-1 的元素左移填补空位，因此忽略缩容时耗时 O(n-i)。",
+      "definition": "ArrayStack 的 remove(i) 先保存 a[i]，再把下标 i+1 至 n-1 的元素整体左移一位覆盖空缺，令 n 减少 1，并在数组空闲比例达到阈值时触发 resize，最后返回被删除值。忽略 resize 时，其时间为 $O(n-i)$。",
+      "content_type": "algorithm"
+    },
+    {
+      "id": "ods-arraystack-resize",
+      "title": "ArrayStack 的容量调整",
+      "core_question": "ArrayStack 如何在容量不足或空闲过多时调整后备数组？",
+      "summary": "resize 分配大小 max(1,2n) 的新数组并复制 n 个有效元素，使容量重新与元素数量保持同阶。",
+      "definition": "ArrayStack 的 resize 创建长度为 $\\max(1,2n)$ 的新数组 b，把旧数组中 n 个有效元素按原顺序复制到 b[0..n-1]，再令 a 指向 b。一次调用复制 n 个元素，因而耗时 $O(n)$；相同机制既可扩容也可在删除后的低占用率下缩容。",
+      "content_type": "mechanism"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "ods-000248-paragraph-seclabel-fastarraystack-index-fastar",
+      "type": "paragraph",
+      "content": "\\seclabel{fastarraystack} \\index{FastArrayStack@FastArrayStack} Much of the work done by an ArrayStack involves shifting (by \\ensuremath{\\ensuremath{\\mathrm{add}(\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{x}})}} and \\ensuremath{\\ensuremath{\\mathrm{remove}(\\ensuremath{\\mathit{i}})}}) and copying (by \\ensuremath{\\ensuremath{\\mathrm{resize}()}}) of data."
+    },
+    {
+      "id": "ods-000249-paragraph-in-a-naive-implementation-this-would",
+      "type": "paragraph",
+      "content": "In a naive implementation, this would be done using \\ensuremath{{\\color{black} \\textbf{for}}} loops.}"
+    },
+    {
+      "id": "ods-000250-paragraph-it-turns-out-that-many-programming-e",
+      "type": "paragraph",
+      "content": "It turns out that many programming environments have specific functions that are very efficient at copying and moving blocks of data. In the C programming language, there are the \\ensuremath{\\ensuremath{\\mathrm{memcpy}(\\ensuremath{\\mathit{d}},\\ensuremath{\\mathit{s}},\\ensuremath{\\mathit{n}})}} and \\ensuremath{\\ensuremath{\\mathrm{memmove}(\\ensuremath{\\mathit{d}},\\ensuremath{\\mathit{s}},\\ensuremath{\\mathit{n}})}} functions. In the C++ language there is the \\ensuremath{\\ensuremath{\\mathrm{stdcopy}(\\ensuremath{\\mathit{a_0}},\\ensuremath{\\mathit{a_1}},\\ensuremath{\\mathit{b}})}} algorithm. In Java there is the \\ensuremath{\\ensuremath{\\mathrm{System}.\\mathrm{arraycopy}(\\ensuremath{\\mathit{s}},\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{d}},\\ensuremath{\\mathit{j}},\\ensuremath{\\mathit{n}})}} method. \\index{memcpy@\\ensuremath{\\ensuremath{\\mathrm{memcpy}(\\ensuremath{\\mathit{d}},\\ensuremath{\\mathit{s}},\\ensuremath{\\mathit{n}})}}} \\index{std::copy@\\ensuremath{\\ensuremath{\\mathrm{stdcopy}(\\ensuremath{\\mathit{a_0}},\\ensuremath{\\mathit{a_1}},\\ensuremath{\\mathit{b}})}}} \\index{System.arraycopy@\\ensuremath{\\ensuremath{\\mathrm{System}.\\mathrm{arraycopy}(\\ensuremath{\\mathit{s}},\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{d}},\\ensuremath{\\mathit{j}},\\ensuremath{\\mathit{n}})}}}"
+    },
+    {
+      "id": "ods-000251-paragraph-these-functions-are-usually-highly-o",
+      "type": "paragraph",
+      "content": "These functions are usually highly optimized and may even use special machine instructions that can do this copying much faster than we could by using a \\ensuremath{{\\color{black} \\textbf{for}}} loop. Although using these functions does not asymptotically decrease the running times, it can still be a worthwhile optimization."
+    },
+    {
+      "id": "ods-000252-paragraph-in-our-c-and-java-implementations-th",
+      "type": "paragraph",
+      "content": "In our C++ and Java implementations, the use of fast array copying functions}"
+    },
+    {
+      "id": "ods-000253-paragraph-resulted-in-speedups-of-a-factor-bet",
+      "type": "paragraph",
+      "content": "resulted in speedups of a factor between 2 and 3, depending on the types of operations performed. Your mileage may vary."
+    }
+  ]
+}

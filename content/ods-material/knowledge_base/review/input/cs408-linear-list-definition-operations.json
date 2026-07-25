@@ -1,0 +1,85 @@
+{
+  "concept": {
+    "id": "cs408-linear-list-definition-operations",
+    "title": "线性表的定义与基本操作",
+    "aliases": [
+      "linear list",
+      "List ADT"
+    ],
+    "content_type": "concept",
+    "location": {
+      "course_id": "cs408-data-structures",
+      "chapter_id": "408-linear-lists",
+      "section_id": "cs408-linear-list-applications",
+      "parent_id": null,
+      "order": 1
+    },
+    "core_question": "线性表的逻辑特征和常用基本操作是什么？",
+    "summary": "线性表是有限元素序列，除首尾外每个元素有唯一前驱和唯一后继。",
+    "definition": "线性表 L=(a1,…,an) 表示具有相同数据类型的有限序列。常用操作包括初始化、判空、按位查找、按值查找、插入、删除、求长度和遍历；操作下标的合法范围必须根据查找、插入或删除语义分别判断。",
+    "prerequisite_ids": [
+      "cs408-abstract-data-type"
+    ],
+    "relations": [
+      {
+        "type": "part_of",
+        "target_id": "cs408-syllabus-linear-lists",
+        "description": "线性表的定义与基本操作是线性表考纲模块中的原子知识点。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "像一列有固定先后顺序的车厢，每节车厢只与前后相邻位置形成线性关系。",
+      "mapping": {
+        "直观对象": "线性表的定义与基本操作",
+        "对应机制": "线性表是有限元素序列，除首尾外每个元素有唯一前驱和唯一后继。"
+      },
+      "boundary": "类比只用于建立直觉；正式作答仍需使用定义、操作步骤、适用条件和复杂度结论。"
+    },
+    "retrieval": {
+      "keywords": [
+        "线性表的定义与基本操作",
+        "linear list",
+        "List ADT"
+      ],
+      "query_examples": [
+        "线性表的逻辑特征和常用基本操作是什么？",
+        "线性表的定义与基本操作的步骤、性质和复杂度是什么？",
+        "线性表的定义与基本操作有哪些适用条件和易错边界？"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "syllabus-note-cs408-linear-list-definition-operations"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "cs408-abstract-data-type",
+      "title": "抽象数据类型",
+      "core_question": "抽象数据类型如何把接口语义与具体实现分离？",
+      "summary": "ADT 用值集合和操作语义描述结构，对外规定能做什么，而不限定内部怎样存储。",
+      "definition": "抽象数据类型（ADT）由一组数据对象及作用在其上的操作组成，强调操作的输入、输出、前置条件和效果。顺序表与链表可以实现同一线性表 ADT，因为它们对外提供相同语义而内部表示不同。",
+      "content_type": "concept"
+    },
+    {
+      "id": "cs408-syllabus-linear-lists",
+      "title": "408 考纲：线性表范围",
+      "core_question": "408 线性表模块要求覆盖哪些内容？",
+      "summary": "线性表模块覆盖基本概念、顺序存储、链式存储和线性表应用，重点比较访问、插删与空间特征。",
+      "definition": "408 线性表模块包括线性表的基本概念、顺序存储实现、链式存储实现和线性表应用。复习范围应能解释顺序表与单链表、双链表、循环链表的表示与基本操作，并从访问、插入删除、空间开销和适用场景比较不同实现。",
+      "content_type": "concept"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "syllabus-note-cs408-linear-list-definition-operations",
+      "type": "paragraph",
+      "content": "线性表是有限元素序列，除首尾外每个元素有唯一前驱和唯一后继。\n\n线性表 L=(a1,…,an) 表示具有相同数据类型的有限序列。常用操作包括初始化、判空、按位查找、按值查找、插入、删除、求长度和遍历；操作下标的合法范围必须根据查找、插入或删除语义分别判断。\n\n对应 2026 数据结构考纲叶子条目：线性表的基本概念。"
+    }
+  ]
+}

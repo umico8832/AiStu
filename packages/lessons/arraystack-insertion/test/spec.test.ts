@@ -27,6 +27,30 @@ describe("ArrayStack insertion lesson", () => {
       "D",
     ]);
     expect(steps.at(-1)?.size).toBe(5);
+    expect(steps[1]?.activeTarget).toBe(4);
+  });
+
+  it("handles insertion at the logical end without inventing a shift", () => {
+    const steps = buildArrayStackInsertionSteps({
+      ...defaultArrayStackInsertionSessionSpec,
+      scenario: {
+        ...defaultArrayStackInsertionSessionSpec.scenario,
+        insertIndex: 4,
+      },
+    });
+    expect(steps.map((step) => step.id)).toEqual([
+      "inspect",
+      "capacity-check",
+      "write-value",
+      "increment-size",
+    ]);
+    expect(steps.at(-1)?.slots.slice(0, 5)).toEqual([
+      "A",
+      "B",
+      "C",
+      "D",
+      "X",
+    ]);
   });
 
   it("rejects an initial step outside the generated sequence", () => {

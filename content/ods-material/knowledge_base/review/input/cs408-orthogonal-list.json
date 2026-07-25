@@ -1,0 +1,85 @@
+{
+  "concept": {
+    "id": "cs408-orthogonal-list",
+    "title": "有向图的十字链表",
+    "aliases": [
+      "orthogonal list",
+      "cross linked list"
+    ],
+    "content_type": "concept",
+    "location": {
+      "course_id": "cs408-data-structures",
+      "chapter_id": "408-graphs",
+      "section_id": "cs408-graph-storage",
+      "parent_id": null,
+      "order": 5
+    },
+    "core_question": "十字链表如何同时组织有向图的入边和出边？",
+    "summary": "每条弧结点同时挂在弧尾的出边链和弧头的入边链中。",
+    "definition": "十字链表的顶点结点保存 firstIn 与 firstOut；弧结点保存 tail、head、沿同弧尾的下一出边和沿同弧头的下一入边。它能方便枚举一个顶点的所有入边或出边，并支持有向图边的动态修改。",
+    "prerequisite_ids": [
+      "cs408-graph-definition"
+    ],
+    "relations": [
+      {
+        "type": "part_of",
+        "target_id": "cs408-syllabus-graphs",
+        "description": "有向图的十字链表是图考纲模块中的原子知识点。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "像一张转账记录同时归档在付款人的支出清单和收款人的收入清单中。",
+      "mapping": {
+        "直观对象": "有向图的十字链表",
+        "对应机制": "每条弧结点同时挂在弧尾的出边链和弧头的入边链中。"
+      },
+      "boundary": "类比只用于建立直觉；正式作答仍需使用定义、操作步骤、适用条件和复杂度结论。"
+    },
+    "retrieval": {
+      "keywords": [
+        "有向图的十字链表",
+        "orthogonal list",
+        "cross linked list"
+      ],
+      "query_examples": [
+        "十字链表如何同时组织有向图的入边和出边？",
+        "有向图的十字链表的步骤、性质和复杂度是什么？",
+        "有向图的十字链表有哪些适用条件和易错边界？"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "syllabus-note-cs408-orthogonal-list"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "cs408-graph-definition",
+      "title": "图、顶点与边",
+      "core_question": "图结构如何表示元素之间的多对多关系？",
+      "summary": "图 G=(V,E) 由顶点集合和边集合组成，边表示任意两个顶点之间的关系。",
+      "definition": "图由非空有限顶点集合 V 和边集合 E 构成。无向边是无序顶点对，有向边或弧是有序对；不存在重复边且通常不含自环的图称简单图。图不要求像树那样每个结点只有一个父结点。",
+      "content_type": "concept"
+    },
+    {
+      "id": "cs408-syllabus-graphs",
+      "title": "408 考纲：图范围",
+      "core_question": "408 图模块要求掌握哪些表示、遍历和应用？",
+      "summary": "图模块覆盖基本概念、邻接矩阵与邻接表等存储、BFS/DFS，以及生成树、最短路、拓扑排序和关键路径。",
+      "definition": "408 图模块包括图的基本概念，邻接矩阵、邻接表、邻接多重表和十字链表等存储与基本操作，深度优先搜索和广度优先搜索，以及最小生成树、最短路径、拓扑排序和关键路径等基本应用。复习时需能在给定表示上手推过程并分析复杂度。",
+      "content_type": "concept"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "syllabus-note-cs408-orthogonal-list",
+      "type": "paragraph",
+      "content": "每条弧结点同时挂在弧尾的出边链和弧头的入边链中。\n\n十字链表的顶点结点保存 firstIn 与 firstOut；弧结点保存 tail、head、沿同弧尾的下一出边和沿同弧头的下一入边。它能方便枚举一个顶点的所有入边或出边，并支持有向图边的动态修改。\n\n对应 2026 数据结构考纲叶子条目：邻接多重表和十字链表。"
+    }
+  ]
+}

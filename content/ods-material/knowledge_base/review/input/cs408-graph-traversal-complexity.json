@@ -1,0 +1,94 @@
+{
+  "concept": {
+    "id": "cs408-graph-traversal-complexity",
+    "title": "图遍历复杂度与生成森林",
+    "aliases": [
+      "traversal complexity",
+      "spanning forest"
+    ],
+    "content_type": "theorem",
+    "location": {
+      "course_id": "cs408-data-structures",
+      "chapter_id": "408-graphs",
+      "section_id": "cs408-graph-traversal",
+      "parent_id": null,
+      "order": 10
+    },
+    "core_question": "DFS 与 BFS 的时间、空间和生成结构由什么决定？",
+    "summary": "邻接表遍历为 O(V+E)，邻接矩阵为 O(V²)，搜索树边记录首次发现关系。",
+    "definition": "DFS 与 BFS 都保证每个顶点至多正式访问一次。邻接表中每条边被检查常数次，时间 O(V+E)；邻接矩阵需扫描顶点行，时间 O(V²)。连通图的一次搜索产生生成树，非连通图产生生成森林；遍历序列还受邻接点存储次序影响。",
+    "prerequisite_ids": [
+      "cs408-depth-first-search",
+      "cs408-breadth-first-search"
+    ],
+    "relations": [
+      {
+        "type": "part_of",
+        "target_id": "cs408-syllabus-graphs",
+        "description": "图遍历复杂度与生成森林是图考纲模块中的原子知识点。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "像巡检路网，清单地图只查看实际道路，矩阵地图则每到一处都要扫描所有潜在方向。",
+      "mapping": {
+        "直观对象": "图遍历复杂度与生成森林",
+        "对应机制": "邻接表遍历为 O(V+E)，邻接矩阵为 O(V²)，搜索树边记录首次发现关系。"
+      },
+      "boundary": "类比只用于建立直觉；正式作答仍需使用定义、操作步骤、适用条件和复杂度结论。"
+    },
+    "retrieval": {
+      "keywords": [
+        "图遍历复杂度与生成森林",
+        "traversal complexity",
+        "spanning forest"
+      ],
+      "query_examples": [
+        "DFS 与 BFS 的时间、空间和生成结构由什么决定？",
+        "图遍历复杂度与生成森林的步骤、性质和复杂度是什么？",
+        "图遍历复杂度与生成森林有哪些适用条件和易错边界？"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "syllabus-note-cs408-graph-traversal-complexity"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "cs408-depth-first-search",
+      "title": "深度优先搜索",
+      "core_question": "DFS 如何沿一条路径尽可能深入后再回溯？",
+      "summary": "访问顶点后递归或用栈处理未访问邻接点，走不通时回退到最近分叉。",
+      "definition": "DFS 为每个顶点维护 visited 标记。访问 u 后依次检查邻接点 v，未访问则递归 DFS(v)；非递归版本用显式栈。对非连通图需从每个未访问顶点重新启动，得到深度优先森林。",
+      "content_type": "algorithm"
+    },
+    {
+      "id": "cs408-breadth-first-search",
+      "title": "广度优先搜索",
+      "core_question": "BFS 如何按距起点的层次逐层访问图？",
+      "summary": "起点入队，出队时把所有未访问邻接点标记并入队，从而按最少边数距离分层。",
+      "definition": "BFS 在发现顶点时立即设置 visited 并入队，避免同一顶点被重复加入。无权图中，顶点第一次被发现时的层数就是从起点出发的最短边数；对非连通图需对未访问顶点重复启动。",
+      "content_type": "algorithm"
+    },
+    {
+      "id": "cs408-syllabus-graphs",
+      "title": "408 考纲：图范围",
+      "core_question": "408 图模块要求掌握哪些表示、遍历和应用？",
+      "summary": "图模块覆盖基本概念、邻接矩阵与邻接表等存储、BFS/DFS，以及生成树、最短路、拓扑排序和关键路径。",
+      "definition": "408 图模块包括图的基本概念，邻接矩阵、邻接表、邻接多重表和十字链表等存储与基本操作，深度优先搜索和广度优先搜索，以及最小生成树、最短路径、拓扑排序和关键路径等基本应用。复习时需能在给定表示上手推过程并分析复杂度。",
+      "content_type": "concept"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "syllabus-note-cs408-graph-traversal-complexity",
+      "type": "paragraph",
+      "content": "邻接表遍历为 O(V+E)，邻接矩阵为 O(V²)，搜索树边记录首次发现关系。\n\nDFS 与 BFS 都保证每个顶点至多正式访问一次。邻接表中每条边被检查常数次，时间 O(V+E)；邻接矩阵需扫描顶点行，时间 O(V²)。连通图的一次搜索产生生成树，非连通图产生生成森林；遍历序列还受邻接点存储次序影响。\n\n对应 2026 数据结构考纲叶子条目：深度优先搜索、广度优先搜索。"
+    }
+  ]
+}

@@ -1,0 +1,85 @@
+{
+  "concept": {
+    "id": "cs408-critical-path",
+    "title": "AOE 网与关键路径",
+    "aliases": [
+      "critical path",
+      "AOE network"
+    ],
+    "content_type": "algorithm",
+    "location": {
+      "course_id": "cs408-data-structures",
+      "chapter_id": "408-graphs",
+      "section_id": "cs408-graph-applications",
+      "parent_id": null,
+      "order": 18
+    },
+    "core_question": "关键路径如何确定工程最短工期和不能延误的活动？",
+    "summary": "在 AOE 网中计算事件最早、最迟发生时间，时间余量为 0 的活动组成关键路径。",
+    "definition": "AOE 网以顶点表示事件、带权有向边表示活动和持续时间。按拓扑序前推求 ve，逆拓扑序后推求 vl；活动 a=<u,v> 的最早开始 e=ve[u]，最迟开始 l=vl[v]-weight(a)，l-e=0 时为关键活动。延误关键活动通常会延误工期。",
+    "prerequisite_ids": [
+      "cs408-topological-sort"
+    ],
+    "relations": [
+      {
+        "type": "part_of",
+        "target_id": "cs408-syllabus-graphs",
+        "description": "AOE 网与关键路径是图考纲模块中的原子知识点。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "像项目计划表中没有任何机动时间的任务链，任一任务延迟都会直接推迟最终交付。",
+      "mapping": {
+        "直观对象": "AOE 网与关键路径",
+        "对应机制": "在 AOE 网中计算事件最早、最迟发生时间，时间余量为 0 的活动组成关键路径。"
+      },
+      "boundary": "类比只用于建立直觉；正式作答仍需使用定义、操作步骤、适用条件和复杂度结论。"
+    },
+    "retrieval": {
+      "keywords": [
+        "AOE 网与关键路径",
+        "critical path",
+        "AOE network"
+      ],
+      "query_examples": [
+        "关键路径如何确定工程最短工期和不能延误的活动？",
+        "AOE 网与关键路径的步骤、性质和复杂度是什么？",
+        "AOE 网与关键路径有哪些适用条件和易错边界？"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "syllabus-note-cs408-critical-path"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "cs408-topological-sort",
+      "title": "拓扑排序与有向无环图",
+      "core_question": "怎样生成满足所有先后依赖的拓扑序并检测有向环？",
+      "summary": "反复输出入度为 0 的顶点并删除其出边；若未输出全部顶点则图中存在有向环。",
+      "definition": "拓扑序要求每条弧 u→v 中 u 都出现在 v 之前。Kahn 算法维护入度和零入度队列，时间 O(V+E)；某一步有多个零入度顶点意味着拓扑序可能不唯一。只有 DAG 才存在拓扑序。",
+      "content_type": "algorithm"
+    },
+    {
+      "id": "cs408-syllabus-graphs",
+      "title": "408 考纲：图范围",
+      "core_question": "408 图模块要求掌握哪些表示、遍历和应用？",
+      "summary": "图模块覆盖基本概念、邻接矩阵与邻接表等存储、BFS/DFS，以及生成树、最短路、拓扑排序和关键路径。",
+      "definition": "408 图模块包括图的基本概念，邻接矩阵、邻接表、邻接多重表和十字链表等存储与基本操作，深度优先搜索和广度优先搜索，以及最小生成树、最短路径、拓扑排序和关键路径等基本应用。复习时需能在给定表示上手推过程并分析复杂度。",
+      "content_type": "concept"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "syllabus-note-cs408-critical-path",
+      "type": "paragraph",
+      "content": "在 AOE 网中计算事件最早、最迟发生时间，时间余量为 0 的活动组成关键路径。\n\nAOE 网以顶点表示事件、带权有向边表示活动和持续时间。按拓扑序前推求 ve，逆拓扑序后推求 vl；活动 a=<u,v> 的最早开始 e=ve[u]，最迟开始 l=vl[v]-weight(a)，l-e=0 时为关键活动。延误关键活动通常会延误工期。\n\n对应 2026 数据结构考纲叶子条目：关键路径。"
+    }
+  ]
+}

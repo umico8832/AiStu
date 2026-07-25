@@ -1,0 +1,104 @@
+{
+  "concept": {
+    "id": "ods-arraystack-insertion",
+    "title": "ArrayStack 的按位插入",
+    "aliases": [
+      "ArrayStack add",
+      "数组中间插入"
+    ],
+    "content_type": "algorithm",
+    "location": {
+      "course_id": "open-data-structures",
+      "chapter_id": "array-based-lists",
+      "section_id": "2-1-1-the-basics",
+      "parent_id": null,
+      "order": 4
+    },
+    "core_question": "ArrayStack 在位置 i 插入元素时为什么要向右搬移元素？",
+    "summary": "插入前需确保容量足够，再把区间 i 到 n-1 右移一格，空出 a[i] 后写入新元素。",
+    "definition": "ArrayStack 的 add(i,x) 在后备数组已满时先扩容，然后把原有下标 i 至 n-1 的元素按从右到左的安全顺序整体右移一位，把 x 写入 a[i]，最后令 n 增加 1。忽略扩容时，其时间为 $O(n-i)$。",
+    "prerequisite_ids": [
+      "ods-array-size-capacity"
+    ],
+    "relations": [
+      {
+        "type": "leads_to",
+        "target_id": "ods-arraystack-performance",
+        "description": "理解《ArrayStack 的按位插入》是继续学习目标知识点的直接基础。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "在坐满一排人的第 i 个位置加入新人时，右侧所有人先各向右挪一位，才能给新人空出连续的位置。",
+      "mapping": {
+        "新人": "待插入元素 x",
+        "向右挪一位": "元素右移",
+        "第 i 个位置": "插入下标 i"
+      },
+      "boundary": "类比不说明实际实现可能使用批量内存移动，也不包含扩容所需的额外复制成本。"
+    },
+    "retrieval": {
+      "keywords": [
+        "ArrayStack 的按位插入",
+        "ArrayStack add",
+        "数组中间插入"
+      ],
+      "query_examples": [
+        "ArrayStack 在位置 i 插入元素时为什么要向右搬移元素？",
+        "ArrayStack 的按位插入怎么理解",
+        "ArrayStack 的按位插入的关键条件是什么"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "ods-000223-paragraph-the-operations-of-adding-and-removin",
+      "ods-000224-figure_caption-a-sequence-of-ensuremath-ensuremath-",
+      "ods-000225-algorithm-begin-flushleft-hspace-1em-ensuremat",
+      "ods-000226-paragraph-if-we-ignore-the-cost-of-the-potenti"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "ods-array-size-capacity",
+      "title": "元素数量与数组容量",
+      "core_question": "数组式线性表中的元素数量与后备数组容量有什么区别？",
+      "summary": "元素数量 n 只统计有效元素，容量 length(a) 是可用槽位总数，必须始终满足 n 不超过容量。",
+      "definition": "在数组式线性表中，元素数量 n 表示当前有效元素个数，后备数组容量 length(a) 表示已分配槽位总数。有效元素只占其中一部分，基本不变量是 $0\\le n\\le \\mathrm{length}(a)$；空闲槽位不是逻辑元素。",
+      "content_type": "concept"
+    },
+    {
+      "id": "ods-arraystack-performance",
+      "title": "ArrayStack 的操作复杂度",
+      "core_question": "ArrayStack 各项操作的时间复杂度是什么？",
+      "summary": "get/set 为 O(1)，add/remove(i) 为 O(1+n-i)，尾端 push/pop 的摊还时间为 O(1)。",
+      "definition": "ArrayStack 实现 List 接口时，get(i) 与 set(i,x) 的最坏时间为 $O(1)$；忽略 resize，add(i,x) 与 remove(i) 为 $O(1+n-i)$。从空结构开始的更新序列中，resize 总成本为线性，因此在尾端实现 push 与 pop 时每次操作具有 $O(1)$ 摊还时间。",
+      "content_type": "theorem"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "ods-000223-paragraph-the-operations-of-adding-and-removin",
+      "type": "paragraph",
+      "content": "The operations of adding and removing elements from an ArrayStack are illustrated in \\figref{arraystack}. To implement the \\ensuremath{\\ensuremath{\\mathrm{add}(\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{x}})}} operation, we first check if \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{a}}}} is already full. If so, we call the method \\ensuremath{\\ensuremath{\\mathrm{resize}()}} to increase the size of \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{a}}}}. How \\ensuremath{\\ensuremath{\\mathrm{resize}()}} is implemented will be discussed later. For now, it is sufficient to know that, after a call to \\ensuremath{\\ensuremath{\\mathrm{resize}()}}, we can be sure that $\\ensuremath{\\ensuremath{\\mathrm{length}(\\ensuremath{\\mathit{a}})}} > \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}$. With this out of the way, we now shift the elements $\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{a}}[\\ensuremath{\\mathit{i}}]}},\\ldots,\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{a}}[\\ensuremath{\\mathit{n}}-1]}}$ right by one position to make room for \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{x}}}}, set \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{a}}[\\ensuremath{\\mathit{i}}]}} equal to \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{x}}}}, and increment \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}."
+    },
+    {
+      "id": "ods-000224-figure_caption-a-sequence-of-ensuremath-ensuremath-",
+      "type": "figure_caption",
+      "content": "A sequence of \\ensuremath{\\ensuremath{\\mathrm{add}(\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{x}})}} and \\ensuremath{\\ensuremath{\\mathrm{remove}(\\ensuremath{\\mathit{i}})}} operations on an ArrayStack. Arrows denote elements being copied. Operations that result in a call to \\ensuremath{\\ensuremath{\\mathrm{resize}()}} are marked with an asterisk."
+    },
+    {
+      "id": "ods-000225-algorithm-begin-flushleft-hspace-1em-ensuremat",
+      "type": "algorithm",
+      "content": "\\begin{flushleft}\n\\hspace*{1em} \\ensuremath{\\mathrm{add}(\\ensuremath{\\mathit{i}}, \\ensuremath{\\mathit{x}})} \\\\\n\n\\hspace*{1em} \\hspace*{1em} {\\color{black} \\textbf{if}} \\ensuremath{\\ensuremath{\\mathit{n}} \\eq \\mathrm{length}(\\ensuremath{\\mathit{a}})} {\\color{black} \\textbf{then}}  \\ensuremath{\\mathrm{resize}()}\\\\\n\\hspace*{1em} \\hspace*{1em} \\ensuremath{\\ensuremath{\\mathit{a}}[\\ensuremath{\\ensuremath{\\mathit{i}}+1,\\ensuremath{\\mathit{i}}+2,\\ldots,\\ensuremath{n}] \\gets  \\ensuremath{\\mathit{a}}[\\ensuremath{\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{i}}+1,\\ldots,\\ensuremath{\\mathit{n}}-1}]}}\\\\\n\\hspace*{1em} \\hspace*{1em} \\ensuremath{\\ensuremath{\\mathit{a}}[\\ensuremath{i}] \\gets  \\ensuremath{x}}\\\\\n\\hspace*{1em} \\hspace*{1em} \\ensuremath{\\ensuremath{\\mathit{n}} \\gets  \\ensuremath{\\ensuremath{\\mathit{n}} + 1}}\\\\\n\\end{flushleft}"
+    },
+    {
+      "id": "ods-000226-paragraph-if-we-ignore-the-cost-of-the-potenti",
+      "type": "paragraph",
+      "content": "If we ignore the cost of the potential call to \\ensuremath{\\ensuremath{\\mathrm{resize}()}}, then the cost of the \\ensuremath{\\ensuremath{\\mathrm{add}(\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{x}})}} operation is proportional to the number of elements we have to shift to make room for \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{x}}}}. Therefore the cost of this operation (ignoring the cost of resizing \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{a}}}}) is $O(\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}-\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{i}}}})$. Implementing the \\ensuremath{\\ensuremath{\\mathrm{remove}(\\ensuremath{\\mathit{i}})}} operation is similar. We shift the elements $\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{a}}[\\ensuremath{\\mathit{i}}+1]}},\\ldots,\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{a}}[\\ensuremath{\\mathit{n}}-1]}}$ left by one position (overwriting \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{a}}[\\ensuremath{\\mathit{i}}]}}) and decrease the value of \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}. After doing this, we check if \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}} is getting much smaller than \\ensuremath{\\ensuremath{\\mathrm{length}(\\ensuremath{\\mathit{a}})}} by checking if $\\ensuremath{\\ensuremath{\\mathrm{length}(\\ensuremath{\\mathit{a}})}} \\ge 3\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}$. If so, then we call \\ensuremath{\\ensuremath{\\mathrm{resize}()}} to reduce the size of \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{a}}}}."
+    }
+  ]
+}

@@ -35,7 +35,7 @@ export function Button({
   return (
     <button
       type={type}
-      className={`inline-flex min-h-10 items-center justify-center gap-2 rounded-xl border px-3.5 text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-45 ${variants[variant]} ${className}`}
+      className={`inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border px-3.5 text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-45 ${variants[variant]} ${className}`}
       {...props}
     >
       {icon}
@@ -66,7 +66,7 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
         ref={ref}
         type={type}
         aria-label={label}
-        className={`inline-flex size-10 items-center justify-center rounded-xl border border-transparent text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:opacity-45 ${className}`}
+        className={`inline-flex size-11 items-center justify-center rounded-xl border border-transparent text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:opacity-45 ${className}`}
         {...props}
       >
         {children}
@@ -140,7 +140,7 @@ export function LessonFrame({
                 {step + 1} / {stepCount}
               </span>
             </div>
-            <p className="m-0 mt-0.5 max-w-[620px] truncate text-sm text-slate-500">
+            <p className="m-0 mt-0.5 max-w-[620px] text-sm leading-5 text-slate-500">
               {teachingGoal}
             </p>
           </div>
@@ -154,7 +154,7 @@ export function LessonFrame({
             variant="ghost"
             aria-label="重置课件"
             onClick={onReset}
-            className="min-h-9 px-2.5"
+            className="min-h-11 px-2.5"
           >
             重置
           </Button>
@@ -163,7 +163,7 @@ export function LessonFrame({
             aria-label="查看上一步"
             onClick={onPrevious}
             disabled={atStart}
-            className="min-h-9 px-3"
+            className="min-h-11 px-3"
           >
             上一步
           </Button>
@@ -172,7 +172,7 @@ export function LessonFrame({
             aria-label="查看下一步"
             onClick={onNext}
             disabled={atEnd}
-            className="min-h-9 px-3"
+            className="min-h-11 px-3"
           >
             下一步
           </Button>
@@ -180,7 +180,7 @@ export function LessonFrame({
       </header>
 
       <div className="grid min-h-0 flex-1 grid-cols-1 overflow-auto xl:grid-cols-[minmax(0,1fr)_280px]">
-        <div className="min-h-[360px] min-w-0 p-5">{children}</div>
+        <div className="min-h-[360px] min-w-0 p-3 sm:p-5">{children}</div>
         {aside ? (
           <aside className="border-t border-slate-200 bg-white/70 p-4 xl:border-l xl:border-t-0">
             {aside}
@@ -215,7 +215,7 @@ export function LessonFrame({
           <p className="m-0 text-xs font-semibold text-indigo-700">
             {stage}
           </p>
-          <p className="m-0 mt-0.5 truncate text-xs text-slate-500">
+          <p className="m-0 mt-0.5 text-xs leading-5 text-slate-500">
             {description}
           </p>
         </div>

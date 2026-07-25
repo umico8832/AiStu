@@ -1,0 +1,85 @@
+{
+  "concept": {
+    "id": "cs408-heap-applications",
+    "title": "堆与优先队列、Top-K",
+    "aliases": [
+      "priority queue",
+      "Top K"
+    ],
+    "content_type": "application",
+    "location": {
+      "course_id": "cs408-data-structures",
+      "chapter_id": "408-trees",
+      "section_id": "cs408-binary-tree",
+      "parent_id": null,
+      "order": 21
+    },
+    "core_question": "堆为什么适合实现优先队列和 Top-K？",
+    "summary": "堆能 O(1) 查看极值、O(log n) 插入或删除极值，并只维护必要的局部顺序。",
+    "definition": "优先队列用堆顶表示当前最高或最低优先级。求最大的 K 个元素时可维护容量 K 的小根堆：新元素超过堆顶才替换并下滤，总时间 O(n log K)、空间 O(K)。堆不适合快速查找任意指定元素。",
+    "prerequisite_ids": [
+      "cs408-heap-operations"
+    ],
+    "relations": [
+      {
+        "type": "part_of",
+        "target_id": "cs408-syllabus-trees",
+        "description": "堆与优先队列、Top-K是树和二叉树考纲模块中的原子知识点。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "像只维护领奖台门槛，关心当前前 K 名及最低入围分，不必把所有人完整排序。",
+      "mapping": {
+        "直观对象": "堆与优先队列、Top-K",
+        "对应机制": "堆能 O(1) 查看极值、O(log n) 插入或删除极值，并只维护必要的局部顺序。"
+      },
+      "boundary": "类比只用于建立直觉；正式作答仍需使用定义、操作步骤、适用条件和复杂度结论。"
+    },
+    "retrieval": {
+      "keywords": [
+        "堆与优先队列、Top-K",
+        "priority queue",
+        "Top K"
+      ],
+      "query_examples": [
+        "堆为什么适合实现优先队列和 Top-K？",
+        "堆与优先队列、Top-K的步骤、性质和复杂度是什么？",
+        "堆与优先队列、Top-K有哪些适用条件和易错边界？"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "syllabus-note-cs408-heap-applications"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "cs408-heap-operations",
+      "title": "堆的插入、删除与建堆",
+      "core_question": "上滤、下滤和自底向上建堆如何维护堆序？",
+      "summary": "插入在末尾后上滤，删除根用末元素补位后下滤，自底向上建堆为 O(n)。",
+      "definition": "插入保持完全树形状，在数组末尾加入元素并与父结点比较上滤，时间 O(log n)。删除堆顶后把末元素移到根并与更合适的孩子交换下滤，时间 O(log n)。从最后一个非叶结点起依次下滤可在线性时间建堆。",
+      "content_type": "algorithm"
+    },
+    {
+      "id": "cs408-syllabus-trees",
+      "title": "408 考纲：树和二叉树范围",
+      "core_question": "408 树和二叉树模块覆盖哪些结构与应用？",
+      "summary": "该模块覆盖树与二叉树性质、存储和遍历，线索化、森林转换，以及 Huffman、并查集和堆等应用。",
+      "definition": "408 的树和二叉树模块包括树的基本概念，二叉树的定义、性质、顺序与链式存储、遍历和线索化，树与森林的存储、转换和遍历，以及 Huffman 树与编码、并查集和堆的应用。复习需要同时具备性质计算、结构转换、手工过程和算法实现能力。",
+      "content_type": "concept"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "syllabus-note-cs408-heap-applications",
+      "type": "paragraph",
+      "content": "堆能 O(1) 查看极值、O(log n) 插入或删除极值，并只维护必要的局部顺序。\n\n优先队列用堆顶表示当前最高或最低优先级。求最大的 K 个元素时可维护容量 K 的小根堆：新元素超过堆顶才替换并下滤，总时间 O(n log K)、空间 O(K)。堆不适合快速查找任意指定元素。\n\n对应 2026 数据结构考纲叶子条目：堆及其应用。"
+    }
+  ]
+}

@@ -1,0 +1,130 @@
+{
+  "concept": {
+    "id": "ods-arraystack-amortized-resize",
+    "title": "ArrayStack 调整容量的摊还成本",
+    "aliases": [
+      "摊还分析",
+      "amortized resize",
+      "动态数组均摊复杂度"
+    ],
+    "content_type": "theorem",
+    "location": {
+      "course_id": "open-data-structures",
+      "chapter_id": "array-based-lists",
+      "section_id": "2-1-2-growing-and-shrinking",
+      "parent_id": null,
+      "order": 7
+    },
+    "core_question": "为什么 ArrayStack 的单次 resize 虽为 O(n)，平均到更新操作仍是 O(1)？",
+    "summary": "两次足够昂贵的容量调整之间必须积累足够多次更新，因此 m 次更新的全部 resize 总成本为 O(m)。",
+    "definition": "从空 ArrayStack 开始执行任意 $m\\ge1$ 次 add 与 remove，所有 resize 调用花费的总时间为 $O(m)$。依据是一次调整完成后，容量与 n 保持固定比例；再次达到扩容或缩容阈值前必须发生与当时 n 同阶的更新，这些更新可共同承担下一次线性复制成本。",
+    "prerequisite_ids": [
+      "ods-arraystack-resize"
+    ],
+    "relations": [
+      {
+        "type": "leads_to",
+        "target_id": "ods-arraystack-performance",
+        "description": "理解《ArrayStack 调整容量的摊还成本》是继续学习目标知识点的直接基础。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "搬一次大仓库很贵，但搬完后要经过许多次进货或出货才会再次触发搬仓；把搬仓费分摊给这些日常操作，每次只承担常数份额。",
+      "mapping": {
+        "搬仓费": "resize 的 O(n) 复制",
+        "日常进出货": "add/remove",
+        "分摊份额": "摊还 O(1) 成本"
+      },
+      "boundary": "摊还界保证操作序列的总成本，不保证每一次触发 resize 的操作本身是常数时间。"
+    },
+    "retrieval": {
+      "keywords": [
+        "ArrayStack 调整容量的摊还成本",
+        "摊还分析",
+        "amortized resize",
+        "动态数组均摊复杂度"
+      ],
+      "query_examples": [
+        "为什么 ArrayStack 的单次 resize 虽为 O(n)，平均到更新操作仍是 O(1)？",
+        "ArrayStack 调整容量的摊还成本怎么理解",
+        "ArrayStack 调整容量的摊还成本的关键条件是什么"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "ods-000232-paragraph-analyzing-the-actual-cost-of-the-ens",
+      "ods-000233-lemma-lemlabel-arraystack-amortized-if-an-",
+      "ods-000234-proof-we-will-show-that-any-time-ensuremat",
+      "ods-000235-footnote-the-1-in-this-formula-accounts-for-t",
+      "ods-000236-equation-sum-i-1-r-ensuremath-ensuremath-ensu",
+      "ods-000237-equation-sum-i-1-r-ensuremath-ensuremath-ensu",
+      "ods-000238-equation-sum-i-1-r-o-ensuremath-ensuremath-en",
+      "ods-000239-equation_group-begin-align-r-ge-ensuremath-ensurema"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "ods-arraystack-resize",
+      "title": "ArrayStack 的容量调整",
+      "core_question": "ArrayStack 如何在容量不足或空闲过多时调整后备数组？",
+      "summary": "resize 分配大小 max(1,2n) 的新数组并复制 n 个有效元素，使容量重新与元素数量保持同阶。",
+      "definition": "ArrayStack 的 resize 创建长度为 $\\max(1,2n)$ 的新数组 b，把旧数组中 n 个有效元素按原顺序复制到 b[0..n-1]，再令 a 指向 b。一次调用复制 n 个元素，因而耗时 $O(n)$；相同机制既可扩容也可在删除后的低占用率下缩容。",
+      "content_type": "mechanism"
+    },
+    {
+      "id": "ods-arraystack-performance",
+      "title": "ArrayStack 的操作复杂度",
+      "core_question": "ArrayStack 各项操作的时间复杂度是什么？",
+      "summary": "get/set 为 O(1)，add/remove(i) 为 O(1+n-i)，尾端 push/pop 的摊还时间为 O(1)。",
+      "definition": "ArrayStack 实现 List 接口时，get(i) 与 set(i,x) 的最坏时间为 $O(1)$；忽略 resize，add(i,x) 与 remove(i) 为 $O(1+n-i)$。从空结构开始的更新序列中，resize 总成本为线性，因此在尾端实现 push 与 pop 时每次操作具有 $O(1)$ 摊还时间。",
+      "content_type": "theorem"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "ods-000232-paragraph-analyzing-the-actual-cost-of-the-ens",
+      "type": "paragraph",
+      "content": "Analyzing the actual cost of the \\ensuremath{\\ensuremath{\\mathrm{resize}()}} operation is easy. It allocates an array \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{b}}}} of size $2\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}$ and copies the \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}} elements of \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{a}}}} into \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{b}}}}. This takes $O(\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}})$ time. The running time analysis from the previous section ignored the cost of calls to \\ensuremath{\\ensuremath{\\mathrm{resize}()}}. In this section we analyze this cost using a technique known as \\emph{amortized analysis}. This technique does not try to determine the cost of resizing during each individual \\ensuremath{\\ensuremath{\\mathrm{add}(\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{x}})}} and \\ensuremath{\\ensuremath{\\mathrm{remove}(\\ensuremath{\\mathit{i}})}} operation. Instead, it considers the cost of all calls to \\ensuremath{\\ensuremath{\\mathrm{resize}()}} during a sequence of $m$ calls to \\ensuremath{\\ensuremath{\\mathrm{add}(\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{x}})}} or \\ensuremath{\\ensuremath{\\mathrm{remove}(\\ensuremath{\\mathit{i}})}}. In particular, we will show:"
+    },
+    {
+      "id": "ods-000233-lemma-lemlabel-arraystack-amortized-if-an-",
+      "type": "lemma",
+      "content": "\\lemlabel{arraystack-amortized} If an empty ArrayStack is created and any sequence of $m\\ge 1$ calls to \\ensuremath{\\ensuremath{\\mathrm{add}(\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{x}})}} and \\ensuremath{\\ensuremath{\\mathrm{remove}(\\ensuremath{\\mathit{i}})}} are performed, then the total time spent during all calls to \\ensuremath{\\ensuremath{\\mathrm{resize}()}} is $O(m)$."
+    },
+    {
+      "id": "ods-000234-proof-we-will-show-that-any-time-ensuremat",
+      "type": "proof",
+      "content": "We will show that any time \\ensuremath{\\ensuremath{\\mathrm{resize}()}} is called, the number of calls to \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{add}}}} or \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{remove}}}} since the last call to \\ensuremath{\\ensuremath{\\mathrm{resize}()}} is at least $\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}/2-1$. Therefore, if $\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}_i$ denotes the value of \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}} during the $i$th call to \\ensuremath{\\ensuremath{\\mathrm{resize}()}} and $r$ denotes the number of calls to \\ensuremath{\\ensuremath{\\mathrm{resize}()}}, then the total number of calls to \\ensuremath{\\ensuremath{\\mathrm{add}(\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{x}})}} or \\ensuremath{\\ensuremath{\\mathrm{remove}(\\ensuremath{\\mathit{i}})}} is at least \\[ \\sum_{i=1}^{r} (\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}_i/2-1) \\le m \\enspace , \\] which is equivalent to \\[ \\sum_{i=1}^{r} \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}_i \\le 2m + 2r \\enspace . \\] On the other hand, the total time spent during all calls to \\ensuremath{\\ensuremath{\\mathrm{resize}()}} is \\[ \\sum_{i=1}^{r} O(\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}_i) \\le O(m+r) = O(m) \\enspace , \\] since $r$ is not more than $m$. All that remains is to show that the number of calls to \\ensuremath{\\ensuremath{\\mathrm{add}(\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{x}})}} or \\ensuremath{\\ensuremath{\\mathrm{remove}(\\ensuremath{\\mathit{i}})}} between the $(i-1)$th and the $i$th call to \\ensuremath{\\ensuremath{\\mathrm{resize}()}} is at least $\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}_i/2$. There are two cases to consider. In the first case, \\ensuremath{\\ensuremath{\\mathrm{resize}()}} is being called by \\ensuremath{\\ensuremath{\\mathrm{add}(\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{x}})}} because the backing array \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{a}}}} is full, i.e., $\\ensuremath{\\ensuremath{\\mathrm{length}(\\ensuremath{\\mathit{a}})}} = \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}=\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}_i$. Consider the previous call to \\ensuremath{\\ensuremath{\\mathrm{resize}()}}: after this previous call, the size of \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{a}}}} was \\ensuremath{\\ensuremath{\\mathrm{length}(\\ensuremath{\\mathit{a}})}}, but the number of elements stored in \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{a}}}} was at most $\\ensuremath{\\ensuremath{\\mathrm{length}(\\ensuremath{\\mathit{a}})}}/2=\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}_i/2$. But now the number of elements stored in \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{a}}}} is $\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}_i=\\ensuremath{\\ensuremath{\\mathrm{length}(\\ensuremath{\\mathit{a}})}}$, so there must have been at least $\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}_i/2$ calls to \\ensuremath{\\ensuremath{\\mathrm{add}(\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{x}})}} since the previous call to \\ensuremath{\\ensuremath{\\mathrm{resize}()}}. The second case occurs when \\ensuremath{\\ensuremath{\\mathrm{resize}()}} is being called by \\ensuremath{\\ensuremath{\\mathrm{remove}(\\ensuremath{\\mathit{i}})}} because $\\ensuremath{\\ensuremath{\\mathrm{length}(\\ensuremath{\\mathit{a}})}} \\ge 3\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}=3\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}_i$. Again, after the previous call to \\ensuremath{\\ensuremath{\\mathrm{resize}()}} the number of elements stored in \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{a}}}} was at least $\\ensuremath{\\ensuremath{\\mathrm{length}(\\ensuremath{\\mathit{a}})/2}}-1$.\\footnote{The ${}-1$ in this formula accounts for the special case that occurs when $\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}=0$ and $\\ensuremath{\\ensuremath{\\mathrm{length}(\\ensuremath{\\mathit{a}})}} = 1$.} Now there are $\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}_i\\le\\ensuremath{\\ensuremath{\\mathrm{length}(\\ensuremath{\\mathit{a}})}}/3$ elements stored in \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{a}}}}. Therefore, the number of \\ensuremath{\\ensuremath{\\mathrm{remove}(\\ensuremath{\\mathit{i}})}} operations since the last call to \\ensuremath{\\ensuremath{\\mathrm{resize}()}} is at least \\begin{align*} R & \\ge \\ensuremath{\\ensuremath{\\mathrm{length}(\\ensuremath{\\mathit{a}})}}/2 - 1 - \\ensuremath{\\ensuremath{\\mathrm{length}(\\ensuremath{\\mathit{a}})}}/3 \\\\ & = \\ensuremath{\\ensuremath{\\mathrm{length}(\\ensuremath{\\mathit{a}})}}/6 - 1 \\\\ & = (\\ensuremath{\\ensuremath{\\mathrm{length}(\\ensuremath{\\mathit{a}})}}/3)/2 - 1 \\\\ & \\ge \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}_i/2 -1\\enspace . \\end{align*} In either case, the number of calls to \\ensuremath{\\ensuremath{\\mathrm{add}(\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{x}})}} or \\ensuremath{\\ensuremath{\\mathrm{remove}(\\ensuremath{\\mathit{i}})}} that occur between the $(i-1)$th call to \\ensuremath{\\ensuremath{\\mathrm{resize}()}} and the $i$th call to \\ensuremath{\\ensuremath{\\mathrm{resize}()}} is at least $\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}_i/2-1$, as required to complete the proof."
+    },
+    {
+      "id": "ods-000235-footnote-the-1-in-this-formula-accounts-for-t",
+      "type": "footnote",
+      "content": "The ${}-1$ in this formula accounts for the special case that occurs when $\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}=0$ and $\\ensuremath{\\ensuremath{\\mathrm{length}(\\ensuremath{\\mathit{a}})}} = 1$."
+    },
+    {
+      "id": "ods-000236-equation-sum-i-1-r-ensuremath-ensuremath-ensu",
+      "type": "equation",
+      "content": "\\[\n     \\sum_{i=1}^{r} (\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}_i/2-1) \\le m  \\enspace ,\n  \\]"
+    },
+    {
+      "id": "ods-000237-equation-sum-i-1-r-ensuremath-ensuremath-ensu",
+      "type": "equation",
+      "content": "\\[\n    \\sum_{i=1}^{r} \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}_i \\le 2m + 2r  \\enspace .\n  \\]"
+    },
+    {
+      "id": "ods-000238-equation-sum-i-1-r-o-ensuremath-ensuremath-en",
+      "type": "equation",
+      "content": "\\[\n     \\sum_{i=1}^{r} O(\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}_i) \\le O(m+r) = O(m)  \\enspace ,\n  \\]"
+    },
+    {
+      "id": "ods-000239-equation_group-begin-align-r-ge-ensuremath-ensurema",
+      "type": "equation_group",
+      "content": "\\begin{align*}\n      R & \\ge \\ensuremath{\\ensuremath{\\mathrm{length}(\\ensuremath{\\mathit{a}})}}/2 - 1 - \\ensuremath{\\ensuremath{\\mathrm{length}(\\ensuremath{\\mathit{a}})}}/3 \\\\\n        & = \\ensuremath{\\ensuremath{\\mathrm{length}(\\ensuremath{\\mathit{a}})}}/6 - 1 \\\\\n        & = (\\ensuremath{\\ensuremath{\\mathrm{length}(\\ensuremath{\\mathit{a}})}}/3)/2 - 1 \\\\\n        & \\ge \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}_i/2 -1\\enspace .\n  \\end{align*}"
+    }
+  ]
+}

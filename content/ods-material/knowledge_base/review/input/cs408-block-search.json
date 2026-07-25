@@ -1,0 +1,85 @@
+{
+  "concept": {
+    "id": "cs408-block-search",
+    "title": "分块查找",
+    "aliases": [
+      "indexed sequential search",
+      "分块索引"
+    ],
+    "content_type": "algorithm",
+    "location": {
+      "course_id": "cs408-data-structures",
+      "chapter_id": "408-searching",
+      "section_id": "cs408-linear-search",
+      "parent_id": null,
+      "order": 5
+    },
+    "core_question": "分块查找如何用块间有序与块内无序折中查找成本？",
+    "summary": "索引表记录每块最大关键字和起始位置，先定位块再在块内顺序查找。",
+    "definition": "分块查找要求各块之间满足前一块最大关键字小于后一块最小关键字，但块内可无序。先对有序索引顺序或折半查找，再扫描候选块；块大小影响索引查找和块内扫描的平衡。",
+    "prerequisite_ids": [
+      "cs408-sequential-search"
+    ],
+    "relations": [
+      {
+        "type": "part_of",
+        "target_id": "cs408-syllabus-searching",
+        "description": "分块查找是查找考纲模块中的原子知识点。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "像图书先按大区间分架，先找到目标书架，再在架内逐本查找。",
+      "mapping": {
+        "直观对象": "分块查找",
+        "对应机制": "索引表记录每块最大关键字和起始位置，先定位块再在块内顺序查找。"
+      },
+      "boundary": "类比只用于建立直觉；正式作答仍需使用定义、操作步骤、适用条件和复杂度结论。"
+    },
+    "retrieval": {
+      "keywords": [
+        "分块查找",
+        "indexed sequential search",
+        "分块索引"
+      ],
+      "query_examples": [
+        "分块查找如何用块间有序与块内无序折中查找成本？",
+        "分块查找的步骤、性质和复杂度是什么？",
+        "分块查找有哪些适用条件和易错边界？"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "syllabus-note-cs408-block-search"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "cs408-sequential-search",
+      "title": "顺序查找",
+      "core_question": "顺序查找怎样在线性表中寻找目标关键字？",
+      "summary": "从一端逐个比较直到找到或扫描结束，适用于无序表和链式存储，时间为 O(n)。",
+      "definition": "顺序查找不要求记录有序。成功比较次数取决于目标位置，失败需要检查所有 n 个记录；等概率时成功 ASL 约为 (n+1)/2，失败为 n 或 n+1，取决于计数和哨兵约定。",
+      "content_type": "algorithm"
+    },
+    {
+      "id": "cs408-syllabus-searching",
+      "title": "408 考纲：查找范围",
+      "core_question": "408 查找模块覆盖哪些查找结构和算法？",
+      "summary": "查找模块覆盖顺序、分块、折半查找，BST、AVL、红黑树、B/B+树、散列表、字符串匹配及分析应用。",
+      "definition": "408 查找模块包括查找基本概念，顺序查找、分块查找、折半查找，二叉搜索树、平衡二叉树和红黑树，B 树的基本操作与 B+ 树基本概念，散列表，字符串模式匹配，以及查找算法的分析与应用。不同方法必须结合前提、操作成本和数据场景比较。",
+      "content_type": "concept"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "syllabus-note-cs408-block-search",
+      "type": "paragraph",
+      "content": "索引表记录每块最大关键字和起始位置，先定位块再在块内顺序查找。\n\n分块查找要求各块之间满足前一块最大关键字小于后一块最小关键字，但块内可无序。先对有序索引顺序或折半查找，再扫描候选块；块大小影响索引查找和块内扫描的平衡。\n\n对应 2026 数据结构考纲叶子条目：分块查找法。"
+    }
+  ]
+}

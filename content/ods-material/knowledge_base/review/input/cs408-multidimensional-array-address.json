@@ -1,0 +1,85 @@
+{
+  "concept": {
+    "id": "cs408-multidimensional-array-address",
+    "title": "多维数组的行优先与列优先地址",
+    "aliases": [
+      "row major",
+      "column major"
+    ],
+    "content_type": "formula",
+    "location": {
+      "course_id": "cs408-data-structures",
+      "chapter_id": "408-stacks-queues-arrays",
+      "section_id": "cs408-array-storage",
+      "parent_id": null,
+      "order": 12
+    },
+    "core_question": "怎样把多维数组下标映射为连续存储地址？",
+    "summary": "行优先让最右下标变化最快，列优先让最左下标变化最快，地址由各维跨度加权求和。",
+    "definition": "二维数组 A[m][n] 每元素占 L 字节、下标从 0 开始时，行优先地址为 base+(i·n+j)L，列优先为 base+(j·m+i)L。更高维数组按每一维之后或之前各维长度的乘积计算跨度，并先统一下标基准。",
+    "prerequisite_ids": [
+      "cs408-sequential-list-storage"
+    ],
+    "relations": [
+      {
+        "type": "part_of",
+        "target_id": "cs408-syllabus-stacks-queues-arrays",
+        "description": "多维数组的行优先与列优先地址是栈、队列和数组考纲模块中的原子知识点。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "像把表格逐行或逐列卷成一条纸带，下标必须先数完前面的整行或整列。",
+      "mapping": {
+        "直观对象": "多维数组的行优先与列优先地址",
+        "对应机制": "行优先让最右下标变化最快，列优先让最左下标变化最快，地址由各维跨度加权求和。"
+      },
+      "boundary": "类比只用于建立直觉；正式作答仍需使用定义、操作步骤、适用条件和复杂度结论。"
+    },
+    "retrieval": {
+      "keywords": [
+        "多维数组的行优先与列优先地址",
+        "row major",
+        "column major"
+      ],
+      "query_examples": [
+        "怎样把多维数组下标映射为连续存储地址？",
+        "多维数组的行优先与列优先地址的步骤、性质和复杂度是什么？",
+        "多维数组的行优先与列优先地址有哪些适用条件和易错边界？"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "syllabus-note-cs408-multidimensional-array-address"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "cs408-sequential-list-storage",
+      "title": "顺序表的存储表示",
+      "core_question": "顺序表如何用连续存储单元表示线性表？",
+      "summary": "顺序表把逻辑相邻元素放在物理连续位置，通过首地址和元素大小直接计算任意元素地址。",
+      "definition": "若首元素地址为 LOC(a1)、每个元素占 l 个字节，则 LOC(ai)=LOC(a1)+(i-1)l。顺序表通常同时维护当前长度与容量，支持 O(1) 随机访问，但容量固定或扩容时需要重新分配与复制。",
+      "content_type": "concept"
+    },
+    {
+      "id": "cs408-syllabus-stacks-queues-arrays",
+      "title": "408 考纲：栈、队列和数组范围",
+      "core_question": "408 栈、队列和数组模块覆盖哪些内容？",
+      "summary": "该模块覆盖栈与队列的概念和顺序、链式实现，多维数组存储、特殊矩阵压缩及相关应用。",
+      "definition": "408 的栈、队列和数组模块包括栈与队列的基本概念、顺序存储结构、链式存储结构，多维数组的存储，特殊矩阵的压缩存储，以及栈、队列和数组的应用。常见能力包括判断栈序列、分析循环队列、推导地址映射和使用线性结构解决表达式或遍历问题。",
+      "content_type": "concept"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "syllabus-note-cs408-multidimensional-array-address",
+      "type": "paragraph",
+      "content": "行优先让最右下标变化最快，列优先让最左下标变化最快，地址由各维跨度加权求和。\n\n二维数组 A[m][n] 每元素占 L 字节、下标从 0 开始时，行优先地址为 base+(i·n+j)L，列优先为 base+(j·m+i)L。更高维数组按每一维之后或之前各维长度的乘积计算跨度，并先统一下标基准。\n\n对应 2026 数据结构考纲叶子条目：多维数组的存储。"
+    }
+  ]
+}

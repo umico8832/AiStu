@@ -1,0 +1,85 @@
+{
+  "concept": {
+    "id": "cs408-sequential-list-insert-delete",
+    "title": "顺序表的插入与删除",
+    "aliases": [
+      "sequential insertion",
+      "sequential deletion"
+    ],
+    "content_type": "algorithm",
+    "location": {
+      "course_id": "cs408-data-structures",
+      "chapter_id": "408-linear-lists",
+      "section_id": "cs408-linear-list-sequential",
+      "parent_id": null,
+      "order": 3
+    },
+    "core_question": "顺序表在指定位置插入或删除时为什么需要搬移元素？",
+    "summary": "插入需把后缀右移，删除需把后缀左移，因此平均和最坏时间为 O(n)。",
+    "definition": "在位置 i 插入元素前先检查 i 与容量，再从表尾向 i 右移元素后写入新值；删除位置 i 时保存目标，再把 i+1 之后的元素依次左移。移动方向必须避免覆盖尚未搬走的数据，操作完成后更新长度。",
+    "prerequisite_ids": [
+      "cs408-sequential-list-storage"
+    ],
+    "relations": [
+      {
+        "type": "part_of",
+        "target_id": "cs408-syllabus-linear-lists",
+        "description": "顺序表的插入与删除是线性表考纲模块中的原子知识点。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "像在紧密排队的人群中间加入或移走一人，后面的人必须整体挪动才能保持连续。",
+      "mapping": {
+        "直观对象": "顺序表的插入与删除",
+        "对应机制": "插入需把后缀右移，删除需把后缀左移，因此平均和最坏时间为 O(n)。"
+      },
+      "boundary": "类比只用于建立直觉；正式作答仍需使用定义、操作步骤、适用条件和复杂度结论。"
+    },
+    "retrieval": {
+      "keywords": [
+        "顺序表的插入与删除",
+        "sequential insertion",
+        "sequential deletion"
+      ],
+      "query_examples": [
+        "顺序表在指定位置插入或删除时为什么需要搬移元素？",
+        "顺序表的插入与删除的步骤、性质和复杂度是什么？",
+        "顺序表的插入与删除有哪些适用条件和易错边界？"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "syllabus-note-cs408-sequential-list-insert-delete"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "cs408-sequential-list-storage",
+      "title": "顺序表的存储表示",
+      "core_question": "顺序表如何用连续存储单元表示线性表？",
+      "summary": "顺序表把逻辑相邻元素放在物理连续位置，通过首地址和元素大小直接计算任意元素地址。",
+      "definition": "若首元素地址为 LOC(a1)、每个元素占 l 个字节，则 LOC(ai)=LOC(a1)+(i-1)l。顺序表通常同时维护当前长度与容量，支持 O(1) 随机访问，但容量固定或扩容时需要重新分配与复制。",
+      "content_type": "concept"
+    },
+    {
+      "id": "cs408-syllabus-linear-lists",
+      "title": "408 考纲：线性表范围",
+      "core_question": "408 线性表模块要求覆盖哪些内容？",
+      "summary": "线性表模块覆盖基本概念、顺序存储、链式存储和线性表应用，重点比较访问、插删与空间特征。",
+      "definition": "408 线性表模块包括线性表的基本概念、顺序存储实现、链式存储实现和线性表应用。复习范围应能解释顺序表与单链表、双链表、循环链表的表示与基本操作，并从访问、插入删除、空间开销和适用场景比较不同实现。",
+      "content_type": "concept"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "syllabus-note-cs408-sequential-list-insert-delete",
+      "type": "paragraph",
+      "content": "插入需把后缀右移，删除需把后缀左移，因此平均和最坏时间为 O(n)。\n\n在位置 i 插入元素前先检查 i 与容量，再从表尾向 i 右移元素后写入新值；删除位置 i 时保存目标，再把 i+1 之后的元素依次左移。移动方向必须避免覆盖尚未搬走的数据，操作完成后更新长度。\n\n对应 2026 数据结构考纲叶子条目：线性表的顺序存储。"
+    }
+  ]
+}

@@ -1,0 +1,124 @@
+{
+  "concept": {
+    "id": "ods-dualarraydeque-representation",
+    "title": "DualArrayDeque 的双栈表示",
+    "aliases": [
+      "DualArrayDeque",
+      "two-stack deque",
+      "双栈双端队列"
+    ],
+    "content_type": "concept",
+    "location": {
+      "course_id": "open-data-structures",
+      "chapter_id": "array-based-lists",
+      "section_id": "2-5-dualarraydeque",
+      "parent_id": null,
+      "order": 19
+    },
+    "core_question": "DualArrayDeque 如何用两个 ArrayStack 表示一个逻辑序列？",
+    "summary": "front 逆序保存前半段，back 正序保存后半段，元素总数等于两个栈的 size 之和。",
+    "definition": "DualArrayDeque 用 front 与 back 两个 ArrayStack 表示 List。front 逆序保存逻辑前缀，back 正序保存逻辑后缀，$n=front.size()+back.size()$。若 $i<front.size()$，对应 front 中的下标为 $front.size()-i-1$；否则对应 back 中的 $i-front.size()$。",
+    "prerequisite_ids": [
+      "ods-arraystack-random-access"
+    ],
+    "relations": [
+      {
+        "type": "leads_to",
+        "target_id": "ods-dualarraydeque-end-operations",
+        "description": "理解《DualArrayDeque 的双栈表示》是继续学习目标知识点的直接基础。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "把一列卡片从中间分成两摞：左半摞倒序叠放、右半摞正序叠放，两端卡片都靠近各自栈顶。",
+      "mapping": {
+        "左半摞": "front",
+        "右半摞": "back",
+        "倒序叠放": "front 的反向下标映射"
+      },
+      "boundary": "类比不保证两摞始终等大；尺寸失衡由独立的 balance 机制处理。"
+    },
+    "retrieval": {
+      "keywords": [
+        "DualArrayDeque 的双栈表示",
+        "DualArrayDeque",
+        "two-stack deque",
+        "双栈双端队列"
+      ],
+      "query_examples": [
+        "DualArrayDeque 如何用两个 ArrayStack 表示一个逻辑序列？",
+        "DualArrayDeque 的双栈表示怎么理解",
+        "DualArrayDeque 的双栈表示的关键条件是什么"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "ods-000299-paragraph-seclabel-dualarraydeque-index-dualar",
+      "ods-000300-algorithm-begin-flushleft-hspace-1em-ensuremat",
+      "ods-000301-paragraph-a-dualarraydeque-does-not-explicitly",
+      "ods-000302-algorithm-begin-flushleft-hspace-1em-ensuremat",
+      "ods-000303-paragraph-the-ensuremath-ensuremath-ensuremath",
+      "ods-000304-algorithm-begin-flushleft-hspace-1em-ensuremat",
+      "ods-000305-paragraph-note-that-if-an-index-ensuremath-ens"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "ods-arraystack-random-access",
+      "title": "ArrayStack 的随机访问",
+      "core_question": "ArrayStack 为什么能在常数时间读取或修改任意位置？",
+      "summary": "ArrayStack 将逻辑下标 i 直接映射到 a[i]，所以边界检查后的 get 与 set 都是常数时间。",
+      "definition": "ArrayStack 把逻辑序列的第 i 个元素保存在后备数组 a 的第 i 个槽位。get(i) 在下标合法时返回 a[i]；set(i,x) 保存旧值、把 a[i] 改为 x 并返回旧值。两者均不随元素数量增长而增加定位步骤。",
+      "content_type": "algorithm"
+    },
+    {
+      "id": "ods-dualarraydeque-end-operations",
+      "title": "DualArrayDeque 的按位更新",
+      "core_question": "DualArrayDeque 如何把按位插入删除转交给正确的内部栈？",
+      "summary": "位置落在前半段时用反向下标操作 front，否则用偏移后的下标操作 back，随后检查平衡。",
+      "definition": "DualArrayDeque 根据 i 是否小于 front.size() 选择内部栈。前半段使用反向下标，后半段使用减去 front.size() 的局部下标；add 与 remove 完成后调用 balance。忽略平衡成本，更新时间为 $O(1+\\min\\{i,n-i\\})$。",
+      "content_type": "algorithm"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "ods-000299-paragraph-seclabel-dualarraydeque-index-dualar",
+      "type": "paragraph",
+      "content": "\\seclabel{dualarraydeque} \\index{DualArrayDeque@DualArrayDeque} Next, we present a data structure, the DualArrayDeque that achieves the same performance bounds as an ArrayDeque by using two ArrayStacks. Although the asymptotic performance of the DualArrayDeque is no better than that of the ArrayDeque, it is still worth studying, since it offers a good example of how to make a sophisticated data structure by combining two simpler data structures. A DualArrayDeque represents a list using two ArrayStacks. Recall that an ArrayStack is fast when the operations on it modify elements near the end. A DualArrayDeque places two ArrayStacks, called \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{front}}}} and \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{back}}}}, back-to-back so that operations are fast at either end."
+    },
+    {
+      "id": "ods-000300-algorithm-begin-flushleft-hspace-1em-ensuremat",
+      "type": "algorithm",
+      "content": "\\begin{flushleft}\n\\hspace*{1em} \\ensuremath{\\mathrm{initialize}()}\\\\\n\\hspace*{1em} \\hspace*{1em} \\ensuremath{\\ensuremath{\\mathit{front}} \\gets  \\ensuremath{\\mathrm{\\mathrm{ArrayStack}}()}}\\\\\n\\hspace*{1em} \\hspace*{1em} \\ensuremath{\\ensuremath{\\mathit{back}} \\gets  \\ensuremath{\\mathrm{\\mathrm{ArrayStack}}()}}\\\\\n\\end{flushleft}"
+    },
+    {
+      "id": "ods-000301-paragraph-a-dualarraydeque-does-not-explicitly",
+      "type": "paragraph",
+      "content": "A DualArrayDeque does not explicitly store the number, \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}, of elements it contains. It doesn't need to, since it contains $\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}=\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{front}}.\\mathrm{size}()}} + \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{back}}.\\mathrm{size}()}}$ elements. Nevertheless, when analyzing the DualArrayDeque we will still use \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}} to denote the number of elements it contains."
+    },
+    {
+      "id": "ods-000302-algorithm-begin-flushleft-hspace-1em-ensuremat",
+      "type": "algorithm",
+      "content": "\\begin{flushleft}\n\\hspace*{1em} \\ensuremath{\\mathrm{size}()}\\\\\n\\hspace*{1em} \\hspace*{1em} {\\color{black} \\textbf{return}} \\ensuremath{\\ensuremath{\\mathit{front}}.\\mathrm{size}() + \\ensuremath{\\mathit{back}}.\\mathrm{size}()}\\\\\n\\end{flushleft}"
+    },
+    {
+      "id": "ods-000303-paragraph-the-ensuremath-ensuremath-ensuremath",
+      "type": "paragraph",
+      "content": "The \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{front}}}} ArrayStack stores the list elements that whose indices are $0,\\ldots,\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{front}}.\\mathrm{size}()}}-1$, but stores them in reverse order. The \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{back}}}} ArrayStack contains list elements with indices in $\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{front}}.\\mathrm{size}()}},\\ldots,\\ensuremath{\\ensuremath{\\mathrm{size}()}}-1$ in the normal order. In this way, \\ensuremath{\\ensuremath{\\mathrm{get}(\\ensuremath{\\mathit{i}})}} and \\ensuremath{\\ensuremath{\\mathrm{set}(\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{x}})}} translate into appropriate calls to \\ensuremath{\\ensuremath{\\mathrm{get}(\\ensuremath{\\mathit{i}})}} or \\ensuremath{\\ensuremath{\\mathrm{set}(\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{x}})}} on either \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{front}}}} or \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{back}}}}, which take $O(1)$ time per operation."
+    },
+    {
+      "id": "ods-000304-algorithm-begin-flushleft-hspace-1em-ensuremat",
+      "type": "algorithm",
+      "content": "\\begin{flushleft}\n\\hspace*{1em} \\ensuremath{\\mathrm{get}(\\ensuremath{\\mathit{i}})}\\\\\n\\hspace*{1em} \\hspace*{1em} {\\color{black} \\textbf{if}} \\ensuremath{\\ensuremath{\\mathit{i}} < \\ensuremath{\\mathit{front}}.\\mathrm{size}()} {\\color{black} \\textbf{then}} \\\\\n\\hspace*{1em} \\hspace*{1em} \\hspace*{1em} {\\color{black} \\textbf{return}} \\ensuremath{\\ensuremath{\\mathit{front}}.\\mathrm{get}(\\ensuremath{\\mathit{front}}.\\mathrm{size}()-\\ensuremath{\\mathit{i}}-1})\\\\\n\\hspace*{1em} \\hspace*{1em} {\\color{black} \\textbf{else}} \\\\\n\\hspace*{1em} \\hspace*{1em} \\hspace*{1em} {\\color{black} \\textbf{return}} \\ensuremath{\\ensuremath{\\mathit{back}}.\\mathrm{get}(\\ensuremath{\\mathit{i}}-\\ensuremath{\\mathit{front}}.\\mathrm{size}()})\\\\\n\\ \\\\\n\\hspace*{1em} \\ensuremath{\\mathrm{set}(\\ensuremath{\\mathit{i}}, \\ensuremath{\\mathit{x}})}\\\\\n\\hspace*{1em} \\hspace*{1em} {\\color{black} \\textbf{if}} \\ensuremath{\\ensuremath{\\mathit{i}} < \\ensuremath{\\mathit{front}}.\\mathrm{size}()} {\\color{black} \\textbf{then}} \\\\\n\\hspace*{1em} \\hspace*{1em} \\hspace*{1em} {\\color{black} \\textbf{return}} \\ensuremath{\\ensuremath{\\mathit{front}}.\\mathrm{set}(\\ensuremath{\\mathit{front}}.\\mathrm{size}()-\\ensuremath{\\mathit{i}}-1, x})\\\\\n\\hspace*{1em} \\hspace*{1em} {\\color{black} \\textbf{else}} \\\\\n\\hspace*{1em} \\hspace*{1em} \\hspace*{1em} {\\color{black} \\textbf{return}} \\ensuremath{\\ensuremath{\\mathit{back}}.\\mathrm{set}(\\ensuremath{\\mathit{i}}-\\ensuremath{\\mathit{front}}.\\mathrm{size}(), x})\\\\\n\\end{flushleft}"
+    },
+    {
+      "id": "ods-000305-paragraph-note-that-if-an-index-ensuremath-ens",
+      "type": "paragraph",
+      "content": "Note that if an index $\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{i}}}}<\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{front}}.\\mathrm{size}()}}$, then it corresponds to the element of \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{front}}}} at position $\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{front}}.\\mathrm{size}()}}-\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{i}}}}-1$, since the elements of \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{front}}}} are stored in reverse order. Adding and removing elements from a DualArrayDeque is illustrated in \\figref{dualarraydeque}. The \\ensuremath{\\ensuremath{\\mathrm{add}(\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{x}})}} operation manipulates either \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{front}}}} or \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{back}}}}, as appropriate:"
+    }
+  ]
+}

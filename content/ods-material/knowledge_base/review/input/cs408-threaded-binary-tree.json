@@ -1,0 +1,94 @@
+{
+  "concept": {
+    "id": "cs408-threaded-binary-tree",
+    "title": "线索二叉树的线索化思想",
+    "aliases": [
+      "threaded binary tree",
+      "线索化"
+    ],
+    "content_type": "mechanism",
+    "location": {
+      "course_id": "cs408-data-structures",
+      "chapter_id": "408-trees",
+      "section_id": "cs408-binary-tree",
+      "parent_id": null,
+      "order": 10
+    },
+    "core_question": "线索二叉树如何利用空孩子指针保存遍历前驱和后继？",
+    "summary": "线索化用标志位区分孩子指针和线索，把部分空指针改为指向遍历前驱或后继。",
+    "definition": "在二叉链表的 n+1 个空孩子指针中，可按某种遍历次序建立线索。ltag 或 rtag 标明对应指针是孩子还是线索；中序线索树最常见，能在不使用递归栈的情况下寻找中序前驱与后继。",
+    "prerequisite_ids": [
+      "cs408-binary-tree-linked-storage",
+      "cs408-binary-tree-depth-traversals"
+    ],
+    "relations": [
+      {
+        "type": "part_of",
+        "target_id": "cs408-syllabus-trees",
+        "description": "线索二叉树的线索化思想是树和二叉树考纲模块中的原子知识点。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "像把家谱卡片上原本空白的箭头改成“上一个访问者”和“下一个访问者”的快捷链接。",
+      "mapping": {
+        "直观对象": "线索二叉树的线索化思想",
+        "对应机制": "线索化用标志位区分孩子指针和线索，把部分空指针改为指向遍历前驱或后继。"
+      },
+      "boundary": "类比只用于建立直觉；正式作答仍需使用定义、操作步骤、适用条件和复杂度结论。"
+    },
+    "retrieval": {
+      "keywords": [
+        "线索二叉树的线索化思想",
+        "threaded binary tree",
+        "线索化"
+      ],
+      "query_examples": [
+        "线索二叉树如何利用空孩子指针保存遍历前驱和后继？",
+        "线索二叉树的线索化思想的步骤、性质和复杂度是什么？",
+        "线索二叉树的线索化思想有哪些适用条件和易错边界？"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "syllabus-note-cs408-threaded-binary-tree"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "cs408-binary-tree-linked-storage",
+      "title": "二叉链表与三叉链表",
+      "core_question": "链式二叉树如何表示左右孩子和父结点？",
+      "summary": "二叉链表结点保存数据、左孩子指针和右孩子指针，三叉链表再保存父指针。",
+      "definition": "二叉链表适合一般形态的二叉树，空孩子用 null 表示；若二叉树有 n 个结点，2n 个孩子指针中有 n-1 个指向孩子，其余 n+1 个为空。增加 parent 指针形成三叉链表，可常数时间向上移动但增加空间与维护成本。",
+      "content_type": "concept"
+    },
+    {
+      "id": "cs408-binary-tree-depth-traversals",
+      "title": "二叉树先序、中序与后序遍历",
+      "core_question": "先序、中序和后序遍历如何安排根与左右子树的访问顺序？",
+      "summary": "三种深度遍历分别采用根左右、左根右和左右根顺序，每个结点访问一次。",
+      "definition": "先序遍历先访问根，再递归左、右子树；中序遍历先左子树，再根、右子树；后序遍历先左、右子树，最后访问根。递归实现时间 O(n)，额外栈空间与树高 h 同阶；非递归实现使用显式栈保存待处理状态。",
+      "content_type": "algorithm"
+    },
+    {
+      "id": "cs408-syllabus-trees",
+      "title": "408 考纲：树和二叉树范围",
+      "core_question": "408 树和二叉树模块覆盖哪些结构与应用？",
+      "summary": "该模块覆盖树与二叉树性质、存储和遍历，线索化、森林转换，以及 Huffman、并查集和堆等应用。",
+      "definition": "408 的树和二叉树模块包括树的基本概念，二叉树的定义、性质、顺序与链式存储、遍历和线索化，树与森林的存储、转换和遍历，以及 Huffman 树与编码、并查集和堆的应用。复习需要同时具备性质计算、结构转换、手工过程和算法实现能力。",
+      "content_type": "concept"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "syllabus-note-cs408-threaded-binary-tree",
+      "type": "paragraph",
+      "content": "线索化用标志位区分孩子指针和线索，把部分空指针改为指向遍历前驱或后继。\n\n在二叉链表的 n+1 个空孩子指针中，可按某种遍历次序建立线索。ltag 或 rtag 标明对应指针是孩子还是线索；中序线索树最常见，能在不使用递归栈的情况下寻找中序前驱与后继。\n\n对应 2026 数据结构考纲叶子条目：线索二叉树的基本概念和构造。"
+    }
+  ]
+}

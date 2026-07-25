@@ -1,0 +1,85 @@
+{
+  "concept": {
+    "id": "cs408-k-way-external-merge",
+    "title": "多路平衡归并",
+    "aliases": [
+      "k-way merge",
+      "balanced merge"
+    ],
+    "content_type": "algorithm",
+    "location": {
+      "course_id": "cs408-data-structures",
+      "chapter_id": "408-sorting",
+      "section_id": "cs408-external-sorting",
+      "parent_id": null,
+      "order": 15
+    },
+    "core_question": "k 路归并如何影响外部排序的归并趟数与内部选择成本？",
+    "summary": "每趟同时合并 k 个有序段可减少趟数，但需要更多输入缓冲并高效选择当前最小记录。",
+    "definition": "若初始归并段数为 r，理想 k 路平衡归并约需 ⌈log_k r⌉ 趟。每一路需要输入缓冲，另需输出缓冲；若线性比较 k 个段首会增加 CPU 成本，可用败者树把每次选择降到 O(log k)。实际路数受内存缓冲和设备并行能力限制。",
+    "prerequisite_ids": [
+      "cs408-external-sorting-runs"
+    ],
+    "relations": [
+      {
+        "type": "part_of",
+        "target_id": "cs408-syllabus-sorting",
+        "description": "多路平衡归并是排序考纲模块中的原子知识点。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "像同时汇总多本有序名册，开的桌子越多轮次越少，但每桌都要占空间并需要快速判断当前最小条目。",
+      "mapping": {
+        "直观对象": "多路平衡归并",
+        "对应机制": "每趟同时合并 k 个有序段可减少趟数，但需要更多输入缓冲并高效选择当前最小记录。"
+      },
+      "boundary": "类比只用于建立直觉；正式作答仍需使用定义、操作步骤、适用条件和复杂度结论。"
+    },
+    "retrieval": {
+      "keywords": [
+        "多路平衡归并",
+        "k-way merge",
+        "balanced merge"
+      ],
+      "query_examples": [
+        "k 路归并如何影响外部排序的归并趟数与内部选择成本？",
+        "多路平衡归并的步骤、性质和复杂度是什么？",
+        "多路平衡归并有哪些适用条件和易错边界？"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "syllabus-note-cs408-k-way-external-merge"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "cs408-external-sorting-runs",
+      "title": "外部排序与初始归并段",
+      "core_question": "当待排序数据无法全部装入内存时，外部排序怎样组织处理？",
+      "summary": "先分批读入内存形成有序初始归并段，再通过多趟外存归并得到最终有序文件。",
+      "definition": "外部排序的主要成本是块读写而非内存比较。基本流程先把每批能装入内存的记录内部排序并写成有序归并段，再反复把若干段合并。减少初始段数量、增加有效归并路数和缩短归并趟数可显著降低 I/O。",
+      "content_type": "concept"
+    },
+    {
+      "id": "cs408-syllabus-sorting",
+      "title": "408 考纲：排序范围",
+      "core_question": "408 排序模块覆盖哪些算法与分析维度？",
+      "summary": "排序模块覆盖插入、交换、选择、希尔、快速、堆、归并、基数和外部排序，并要求比较稳定性与复杂度。",
+      "definition": "408 排序模块包括排序基本概念、直接与折半插入排序、冒泡排序、简单选择排序、希尔排序、快速排序、堆排序、二路归并排序、基数排序和外部排序，以及排序算法的分析与应用。复习时需要比较最好、平均和最坏时间、辅助空间、稳定性、原地性与适用场景。",
+      "content_type": "concept"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "syllabus-note-cs408-k-way-external-merge",
+      "type": "paragraph",
+      "content": "每趟同时合并 k 个有序段可减少趟数，但需要更多输入缓冲并高效选择当前最小记录。\n\n若初始归并段数为 r，理想 k 路平衡归并约需 ⌈log_k r⌉ 趟。每一路需要输入缓冲，另需输出缓冲；若线性比较 k 个段首会增加 CPU 成本，可用败者树把每次选择降到 O(log k)。实际路数受内存缓冲和设备并行能力限制。\n\n对应 2026 数据结构考纲叶子条目：外部排序。"
+    }
+  ]
+}

@@ -1,0 +1,88 @@
+{
+  "concept": {
+    "id": "cs408-core-extension-boundary",
+    "title": "408 正式范围与扩展结构边界",
+    "aliases": [
+      "408 扩展考点",
+      "机试面试扩展",
+      "Trie Fenwick 线段树"
+    ],
+    "content_type": "comparison",
+    "location": {
+      "course_id": "cs408-data-structures",
+      "chapter_id": "408-data-structures-exam-guide",
+      "section_id": "cs408-study-strategy",
+      "parent_id": null,
+      "order": 13
+    },
+    "core_question": "如何区分 408 正式范围与课程考试、机试和面试扩展？",
+    "summary": "正式复习以七大考纲模块为边界；Trie、Fenwick 树、线段树、单调结构和状态压缩等应明确标为扩展。",
+    "definition": "408 正式范围应以当年考纲列出的七大数据结构模块及其细目为准。报告把 Trie、Fenwick 树、线段树、单调栈与单调队列、状态压缩和部分字符串扩展算法列为课程考试、机试、竞赛或面试的补充内容；这些内容可拓展能力，但不能无标识地混入 408 官方考点。",
+    "prerequisite_ids": [
+      "cs408-data-structure-syllabus-map"
+    ],
+    "relations": [
+      {
+        "type": "related",
+        "target_id": "cs408-review-priority-path",
+        "description": "优先路径应先覆盖正式范围，再按目标决定是否追加扩展结构。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "正式考纲像必修课表，扩展结构像选修工具箱；选修能增强解题能力，却不能被写成必修课表中的官方条目。",
+      "mapping": {
+        "必修课表": "408 正式考纲",
+        "选修工具箱": "机试与面试扩展",
+        "课程标签": "范围来源标识"
+      },
+      "boundary": "扩展内容是否值得学习取决于目标场景；边界也可能随年度考纲变化，需定期复核。"
+    },
+    "retrieval": {
+      "keywords": [
+        "408 正式范围与扩展结构边界",
+        "408 扩展考点",
+        "机试面试扩展",
+        "Trie Fenwick 线段树"
+      ],
+      "query_examples": [
+        "如何区分 408 正式范围与课程考试、机试和面试扩展？",
+        "408 正式范围与扩展结构边界具体包括什么？",
+        "复习408 正式范围与扩展结构边界时最容易混淆的边界是什么？"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "report-cs408-core-extension-boundary"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "cs408-data-structure-syllabus-map",
+      "title": "408 数据结构七大考纲模块",
+      "core_question": "2026 公开考纲把数据结构范围组织成哪些模块？",
+      "summary": "数据结构范围由基本概念、线性表、栈队列与数组、树与二叉树、图、查找和排序七大模块组成。",
+      "definition": "报告采用并经公开 2026 考纲复核的数据结构目录包含七个一级模块：基本概念；线性表；栈、队列和数组；树和二叉树；图；查找；排序。该目录用于组织考试范围，不等同于知识之间的前置图，也不说明各模块的官方出题频率。",
+      "content_type": "concept"
+    },
+    {
+      "id": "cs408-review-priority-path",
+      "title": "408 数据结构建议复习主线",
+      "core_question": "报告建议按什么主线组织 408 数据结构复习？",
+      "summary": "建议从线性结构进入树、图、查找、排序和字符串匹配，先建立过程与复杂度能力，再处理综合应用。",
+      "definition": "报告建议的复习主线是：线性表基本操作，栈与队列应用，二叉树遍历与线索化，Huffman、并查集与堆，图的存储与 BFS/DFS，最小生成树、最短路径与拓扑排序，查找结构，排序比较与复杂度分析，最后补齐字符串模式匹配。该顺序是复习组织建议，不是官方频率结论。",
+      "content_type": "application"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "report-cs408-core-extension-boundary",
+      "type": "paragraph",
+      "content": "报告明确把 Trie、树状数组、线段树、单调栈/队列、状态压缩和字符串扩展算法标为 408 正式考纲之外的课程考试、机试、竞赛或面试扩展。"
+    }
+  ]
+}

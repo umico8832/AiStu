@@ -1,0 +1,85 @@
+{
+  "concept": {
+    "id": "cs408-sparse-matrix-triples",
+    "title": "稀疏矩阵三元组表示",
+    "aliases": [
+      "sparse matrix",
+      "triple table"
+    ],
+    "content_type": "concept",
+    "location": {
+      "course_id": "cs408-data-structures",
+      "chapter_id": "408-stacks-queues-arrays",
+      "section_id": "cs408-array-storage",
+      "parent_id": null,
+      "order": 15
+    },
+    "core_question": "稀疏矩阵如何只记录非零元素？",
+    "summary": "三元组表为每个非零元素保存行号、列号和值，并记录矩阵规模。",
+    "definition": "当非零元素远少于总元素时，可用 (row,column,value) 三元组按行或列有序保存非零项，同时记录行数、列数和非零项数。访问任意位置不再是直接 O(1)，但存储量从 Θ(mn) 降为与非零项数量 t 同阶。",
+    "prerequisite_ids": [
+      "cs408-multidimensional-array-address"
+    ],
+    "relations": [
+      {
+        "type": "part_of",
+        "target_id": "cs408-syllabus-stacks-queues-arrays",
+        "description": "稀疏矩阵三元组表示是栈、队列和数组考纲模块中的原子知识点。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "像只在地图上登记有建筑的坐标和值，而不是为每块空地都建立记录。",
+      "mapping": {
+        "直观对象": "稀疏矩阵三元组表示",
+        "对应机制": "三元组表为每个非零元素保存行号、列号和值，并记录矩阵规模。"
+      },
+      "boundary": "类比只用于建立直觉；正式作答仍需使用定义、操作步骤、适用条件和复杂度结论。"
+    },
+    "retrieval": {
+      "keywords": [
+        "稀疏矩阵三元组表示",
+        "sparse matrix",
+        "triple table"
+      ],
+      "query_examples": [
+        "稀疏矩阵如何只记录非零元素？",
+        "稀疏矩阵三元组表示的步骤、性质和复杂度是什么？",
+        "稀疏矩阵三元组表示有哪些适用条件和易错边界？"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "syllabus-note-cs408-sparse-matrix-triples"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "cs408-multidimensional-array-address",
+      "title": "多维数组的行优先与列优先地址",
+      "core_question": "怎样把多维数组下标映射为连续存储地址？",
+      "summary": "行优先让最右下标变化最快，列优先让最左下标变化最快，地址由各维跨度加权求和。",
+      "definition": "二维数组 A[m][n] 每元素占 L 字节、下标从 0 开始时，行优先地址为 base+(i·n+j)L，列优先为 base+(j·m+i)L。更高维数组按每一维之后或之前各维长度的乘积计算跨度，并先统一下标基准。",
+      "content_type": "formula"
+    },
+    {
+      "id": "cs408-syllabus-stacks-queues-arrays",
+      "title": "408 考纲：栈、队列和数组范围",
+      "core_question": "408 栈、队列和数组模块覆盖哪些内容？",
+      "summary": "该模块覆盖栈与队列的概念和顺序、链式实现，多维数组存储、特殊矩阵压缩及相关应用。",
+      "definition": "408 的栈、队列和数组模块包括栈与队列的基本概念、顺序存储结构、链式存储结构，多维数组的存储，特殊矩阵的压缩存储，以及栈、队列和数组的应用。常见能力包括判断栈序列、分析循环队列、推导地址映射和使用线性结构解决表达式或遍历问题。",
+      "content_type": "concept"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "syllabus-note-cs408-sparse-matrix-triples",
+      "type": "paragraph",
+      "content": "三元组表为每个非零元素保存行号、列号和值，并记录矩阵规模。\n\n当非零元素远少于总元素时，可用 (row,column,value) 三元组按行或列有序保存非零项，同时记录行数、列数和非零项数。访问任意位置不再是直接 O(1)，但存储量从 Θ(mn) 降为与非零项数量 t 同阶。\n\n对应 2026 数据结构考纲叶子条目：特殊矩阵的压缩存储。"
+    }
+  ]
+}

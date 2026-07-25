@@ -83,6 +83,9 @@ export function VisualizationComponent({
   );
   const current = steps[stepIndex] ?? steps[0]!;
   const [prediction, setPrediction] = useState<number | null>(null);
+  const [predictionRetryCount, setPredictionRetryCount] = useState(0);
+  const predictionComplete =
+    prediction === balance.targetFrontCount;
 
   const setStep = (next: number) => {
     const clamped = Math.min(steps.length - 1, Math.max(0, next));
@@ -155,21 +158,28 @@ export function VisualizationComponent({
                     <button
                       key={answer}
                       type="button"
+                      disabled={predictionComplete}
                       onClick={() => {
                         setPrediction(answer);
+                        const correct =
+                          answer === balance.targetFrontCount;
                         onInteraction({
                           type: "prediction_submitted",
                           sessionId,
                           visualizationId: spec.visualizationId,
                           pauseId: "balanced-front-size",
                           answerId: `front-size-${answer}`,
-                          correct:
-                            answer === balance.targetFrontCount,
-                          retryCount: 0,
+                          correct,
+                          retryCount: predictionRetryCount,
                           occurredAt: Date.now(),
                         });
+                        if (!correct) {
+                          setPredictionRetryCount(
+                            (count) => count + 1,
+                          );
+                        }
                       }}
-                      className={`rounded-xl border px-3 py-2 text-xs font-bold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 ${
+                      className={`min-h-11 rounded-xl border px-3 py-2 text-xs font-bold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 disabled:cursor-default ${
                         prediction === answer
                           ? answer === balance.targetFrontCount
                             ? "border-emerald-300 bg-emerald-100 text-emerald-900"
@@ -181,6 +191,20 @@ export function VisualizationComponent({
                     </button>
                   ))}
                 </div>
+                {prediction !== null ? (
+                  <p
+                    role="status"
+                    className={`m-0 mt-2 text-xs font-semibold ${
+                      predictionComplete
+                        ? "text-emerald-700"
+                        : "text-rose-700"
+                    }`}
+                  >
+                    {predictionComplete
+                      ? `正确。floor(${balance.logical.length}/2) = ${balance.targetFrontCount}。`
+                      : "再用 floor(n/2) 计算 front 的目标大小。"}
+                  </p>
+                ) : null}
               </div>
             ) : null}
           </div>
@@ -215,7 +239,10 @@ export function VisualizationComponent({
             </div>
             <div className="flex flex-wrap items-center gap-2">
               {balance.logical.map((value, index) => (
-                <div key={value} className="flex items-center gap-2">
+                <div
+                  key={`${index}-${value}`}
+                  className="flex items-center gap-2"
+                >
                   {current.revealSplit &&
                   index === balance.targetFrontCount ? (
                     <span

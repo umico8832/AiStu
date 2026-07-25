@@ -1,0 +1,98 @@
+{
+  "concept": {
+    "id": "cs408-review-priority-path",
+    "title": "408 数据结构建议复习主线",
+    "aliases": [
+      "408 复习顺序",
+      "备考优先路径",
+      "命题承载度"
+    ],
+    "content_type": "application",
+    "location": {
+      "course_id": "cs408-data-structures",
+      "chapter_id": "408-data-structures-exam-guide",
+      "section_id": "cs408-study-strategy",
+      "parent_id": null,
+      "order": 14
+    },
+    "core_question": "报告建议按什么主线组织 408 数据结构复习？",
+    "summary": "建议从线性结构进入树、图、查找、排序和字符串匹配，先建立过程与复杂度能力，再处理综合应用。",
+    "definition": "报告建议的复习主线是：线性表基本操作，栈与队列应用，二叉树遍历与线索化，Huffman、并查集与堆，图的存储与 BFS/DFS，最小生成树、最短路径与拓扑排序，查找结构，排序比较与复杂度分析，最后补齐字符串模式匹配。该顺序是复习组织建议，不是官方频率结论。",
+    "prerequisite_ids": [
+      "cs408-data-structure-syllabus-map",
+      "cs408-frequency-evidence-boundary"
+    ],
+    "relations": [
+      {
+        "type": "leads_to",
+        "target_id": "cs408-eight-week-review-plan",
+        "description": "主线可以进一步映射为分阶段的八周复习安排。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "这条主线像从平地走向复杂路网：先掌握局部、线性的移动规则，再进入层次结构、多点关系和综合算法。",
+      "mapping": {
+        "平地": "线性结构",
+        "层次道路": "树",
+        "复杂路网": "图",
+        "路线比较": "查找与排序算法分析"
+      },
+      "boundary": "建议顺序不适用于所有基础水平，也不表示排在后面的内容分值更低；个体计划可以调整。"
+    },
+    "retrieval": {
+      "keywords": [
+        "408 数据结构建议复习主线",
+        "408 复习顺序",
+        "备考优先路径",
+        "命题承载度"
+      ],
+      "query_examples": [
+        "报告建议按什么主线组织 408 数据结构复习？",
+        "408 数据结构建议复习主线具体包括什么？",
+        "复习408 数据结构建议复习主线时最容易混淆的边界是什么？"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "report-cs408-review-priority-path"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "cs408-data-structure-syllabus-map",
+      "title": "408 数据结构七大考纲模块",
+      "core_question": "2026 公开考纲把数据结构范围组织成哪些模块？",
+      "summary": "数据结构范围由基本概念、线性表、栈队列与数组、树与二叉树、图、查找和排序七大模块组成。",
+      "definition": "报告采用并经公开 2026 考纲复核的数据结构目录包含七个一级模块：基本概念；线性表；栈、队列和数组；树和二叉树；图；查找；排序。该目录用于组织考试范围，不等同于知识之间的前置图，也不说明各模块的官方出题频率。",
+      "content_type": "concept"
+    },
+    {
+      "id": "cs408-frequency-evidence-boundary",
+      "title": "408 知识点频率的证据边界",
+      "core_question": "如何区分 408 官方考频与复习资料给出的优先级建议？",
+      "summary": "报告未找到官方按知识点和年份统计的频率表，因此官方频率应标为未指定，备考优先级只能作为非官方建议。",
+      "definition": "当公开官方材料只规定考试范围、目标和试卷结构，却没有提供按知识点与年份汇总的频率表时，知识库不能把培训资料或个人统计包装成官方频率。可把真题统计、命题承载度和复习优先级作为带来源的方法性建议，但必须与官方范围事实分开标识。",
+      "content_type": "concept"
+    },
+    {
+      "id": "cs408-eight-week-review-plan",
+      "title": "408 数据结构八周复习阶段",
+      "core_question": "报告如何把 408 数据结构主线安排为八周复习阶段？",
+      "summary": "八周安排依次完成基础与线性结构、树图、查找排序、综合训练、错题回炉和冲刺模板固化。",
+      "definition": "报告的八周模板把第 1 至 2 周用于基本概念、复杂度和线性结构，第 3 至 4 周主攻树、二叉树与图，第 5 至 6 周强化查找、排序和 KMP，第 7 周进行真题风格套卷与错题归类，第 8 周回炉薄弱点并固化公式、算法模板和高频陷阱。它是可调整的通用计划，不是用户掌握状态。",
+      "content_type": "application"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "report-cs408-review-priority-path",
+      "type": "paragraph",
+      "content": "报告给出优先主线：线性表，栈队列，二叉树，Huffman/并查集/堆，图遍历与应用，查找，排序与复杂度，字符串模式匹配；并说明这是复习组织工具而非官方频率。"
+    }
+  ]
+}

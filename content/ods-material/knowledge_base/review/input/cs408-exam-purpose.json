@@ -1,0 +1,78 @@
+{
+  "concept": {
+    "id": "cs408-exam-purpose",
+    "title": "408 计算机学科专业基础考试定位",
+    "aliases": [
+      "408 考试性质",
+      "计算机学科专业基础",
+      "全国统一命题科目"
+    ],
+    "content_type": "concept",
+    "location": {
+      "course_id": "cs408-data-structures",
+      "chapter_id": "408-data-structures-exam-guide",
+      "section_id": "cs408-exam-positioning",
+      "parent_id": null,
+      "order": 1
+    },
+    "core_question": "408 计算机学科专业基础考试的定位和目的是什么？",
+    "summary": "408 是面向计算机相关硕士研究生选拔的全国统一命题科目，重点评价本科专业基础与分析解决问题能力。",
+    "definition": "计算机学科专业基础考试是全国硕士研究生招生考试中的统一命题科目，覆盖数据结构、计算机组成原理、操作系统和计算机网络。它用于评价考生对本科阶段专业基础知识、基本理论和基本方法的掌握，以及综合分析、判断和解决问题的能力。",
+    "prerequisite_ids": [],
+    "relations": [
+      {
+        "type": "leads_to",
+        "target_id": "cs408-exam-structure",
+        "description": "理解考试定位后才能正确解释试卷分值、时长与题型结构。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "它像一场四个专业基础模块共同组成的综合体检，不只检查是否记住术语，还检查能否把原理用于分析真实问题。",
+      "mapping": {
+        "四个体检项目": "四门专业基础课程",
+        "检查报告": "试卷作答结果",
+        "综合判断": "分析与解决问题能力"
+      },
+      "boundary": "类比只说明综合评价性质，不表示四个模块题量相同，也不能替代当年正式招生文件。"
+    },
+    "retrieval": {
+      "keywords": [
+        "408 计算机学科专业基础考试定位",
+        "408 考试性质",
+        "计算机学科专业基础",
+        "全国统一命题科目"
+      ],
+      "query_examples": [
+        "408 计算机学科专业基础考试的定位和目的是什么？",
+        "408 计算机学科专业基础考试定位具体包括什么？",
+        "复习408 计算机学科专业基础考试定位时最容易混淆的边界是什么？"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "report-cs408-exam-purpose"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "cs408-exam-structure",
+      "title": "408 试卷结构与数据结构分值",
+      "core_question": "408 试卷的时长、总分、题型和数据结构分值如何组成？",
+      "summary": "2026 公开考纲显示试卷满分 150 分、180 分钟，数据结构 45 分，题型为 40 道单选共 80 分与综合应用题 70 分。",
+      "definition": "按报告采用并经公开 2026 考纲 PDF 复核的结构，408 试卷满分为 150 分，考试时间为 180 分钟。内容分值为数据结构 45 分、计算机组成原理 45 分、操作系统 35 分、计算机网络 25 分；题型结构为 40 道单项选择题共 80 分和综合应用题共 70 分。",
+      "content_type": "formula"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "report-cs408-exam-purpose",
+      "type": "paragraph",
+      "content": "408 是计算机学科专业基础全国统一命题科目，覆盖数据结构、计算机组成原理、操作系统和计算机网络，目标是考查本科专业基础以及分析、判断和解决问题的能力。"
+    }
+  ]
+}

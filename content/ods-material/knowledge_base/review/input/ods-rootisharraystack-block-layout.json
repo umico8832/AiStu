@@ -1,0 +1,118 @@
+{
+  "concept": {
+    "id": "ods-rootisharraystack-block-layout",
+    "title": "RootishArrayStack 的递增块布局",
+    "aliases": [
+      "RootishArrayStack",
+      "rootish blocks",
+      "递增数组块"
+    ],
+    "content_type": "concept",
+    "location": {
+      "course_id": "open-data-structures",
+      "chapter_id": "array-based-lists",
+      "section_id": "2-6-rootisharraystack",
+      "parent_id": null,
+      "order": 24
+    },
+    "core_question": "RootishArrayStack 如何用递增大小的数组块保存线性序列？",
+    "summary": "它使用大小依次为 1,2,…,r 的数组块，总容量为 r(r+1)/2，并按逻辑顺序跨块存放元素。",
+    "definition": "RootishArrayStack 维护 r 个数组块，第 b 个块的长度为 b+1。所有块总容量为 $1+2+\\cdots+r=r(r+1)/2$，逻辑元素按下标顺序依次填入这些块。与单一后备数组相比，它通过增加或删除整块控制额外空间。",
+    "prerequisite_ids": [
+      "ods-array-backed-storage"
+    ],
+    "relations": [
+      {
+        "type": "leads_to",
+        "target_id": "ods-rootisharraystack-index-mapping",
+        "description": "理解《RootishArrayStack 的递增块布局》是继续学习目标知识点的直接基础。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "像一组逐层变长的书架：第一层放 1 本、第二层放 2 本，依次增加，书按层连续编号摆放。",
+      "mapping": {
+        "第 b 层书架": "块 b",
+        "层长 b+1": "块容量",
+        "连续编号": "逻辑元素顺序"
+      },
+      "boundary": "类比不说明如何由全局下标计算块号，也不表示块在内存中彼此连续。"
+    },
+    "retrieval": {
+      "keywords": [
+        "RootishArrayStack 的递增块布局",
+        "RootishArrayStack",
+        "rootish blocks",
+        "递增数组块"
+      ],
+      "query_examples": [
+        "RootishArrayStack 如何用递增大小的数组块保存线性序列？",
+        "RootishArrayStack 的递增块布局怎么理解",
+        "RootishArrayStack 的递增块布局的关键条件是什么"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "ods-000333-paragraph-seclabel-rootisharraystack-index-roo",
+      "ods-000334-equation-1-2-3-cdots-ensuremath-ensuremath-en",
+      "ods-000335-paragraph-elements-the-above-formula-can-be-ob",
+      "ods-000336-figure_caption-a-sequence-of-ensuremath-ensuremath-",
+      "ods-000337-algorithm-begin-flushleft-hspace-1em-ensuremat",
+      "ods-000338-figure_caption-the-number-of-white-squares-is-1-2-3"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "ods-array-backed-storage",
+      "title": "数组后备存储的共同特征",
+      "core_question": "用数组作为后备存储会带来哪些共同的性能与空间特征？",
+      "summary": "数组后备存储支持常数时间随机访问，但中间更新需要搬移元素，容量调整的偶发成本需摊还分析。",
+      "definition": "数组后备存储是用一个或多个数组保存线性序列元素的实现方式。它利用数组按下标直接定位元素，同时受连续槽位和固定数组长度约束；插入、删除可能搬移元素，容量不足或空闲过多时还要调整存储空间。",
+      "content_type": "concept"
+    },
+    {
+      "id": "ods-rootisharraystack-index-mapping",
+      "title": "RootishArrayStack 的下标到块映射",
+      "core_question": "RootishArrayStack 如何由逻辑下标 i 计算块号和块内下标？",
+      "summary": "块号为 ceil((-3+sqrt(9+8i))/2)，块内下标为 i-b(b+1)/2。",
+      "definition": "对逻辑下标 i，所在块 b 是满足 $(b+1)(b+2)/2\\ge i+1$ 的最小非负整数，因此 $b=\\lceil(-3+\\sqrt{9+8i})/2\\rceil$。在 b 之前共有 $b(b+1)/2$ 个槽位，所以块内下标为 $j=i-b(b+1)/2$。据此 get 与 set 可直接访问 blocks[b][j]。",
+      "content_type": "formula"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "ods-000333-paragraph-seclabel-rootisharraystack-index-roo",
+      "type": "paragraph",
+      "content": "\\seclabel{rootisharraystack} \\index{RootishArrayStack@RootishArrayStack} One of the drawbacks of all previous data structures in this chapter is that, because they store their data in one or two arrays and they avoid resizing these arrays too often, the arrays frequently are not very full. For example, immediately after a \\ensuremath{\\ensuremath{\\mathrm{resize}()}} operation on an ArrayStack, the backing array \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{a}}}} is only half full. Even worse, there are times when only one third of \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{a}}}} contains data. In this section, we discuss the RootishArrayStack data structure, that addresses the problem of wasted space. The RootishArrayStack stores \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}} elements using $O(\\sqrt{\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}})$ arrays. In these arrays, at most $O(\\sqrt{\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}})$ array locations are unused at any time. All remaining array locations are used to store data. Therefore, these data structures waste at most $O(\\sqrt{\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}})$ space when storing \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}} elements. A RootishArrayStack stores its elements in a list of \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{r}}}} arrays called \\emph{blocks} that are numbered $0,1,\\ldots,\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{r}}}}-1$. See \\figref{rootisharraystack}. Block $b$ contains $b+1$ elements. Therefore, all \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{r}}}} blocks contain a total of"
+    },
+    {
+      "id": "ods-000334-equation-1-2-3-cdots-ensuremath-ensuremath-en",
+      "type": "equation",
+      "content": "\\[\n  1+ 2+ 3+\\cdots +\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{r}}}} = \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{r}}}}(\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{r}}}}+1)/2\n\\]"
+    },
+    {
+      "id": "ods-000335-paragraph-elements-the-above-formula-can-be-ob",
+      "type": "paragraph",
+      "content": "elements. The above formula can be obtained as shown in \\figref{gauss}."
+    },
+    {
+      "id": "ods-000336-figure_caption-a-sequence-of-ensuremath-ensuremath-",
+      "type": "figure_caption",
+      "content": "A sequence of \\ensuremath{\\ensuremath{\\mathrm{add}(\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{x}})}} and \\ensuremath{\\ensuremath{\\mathrm{remove}(\\ensuremath{\\mathit{i}})}} operations on a RootishArrayStack. Arrows denote elements being copied."
+    },
+    {
+      "id": "ods-000337-algorithm-begin-flushleft-hspace-1em-ensuremat",
+      "type": "algorithm",
+      "content": "\\begin{flushleft}\n\\hspace*{1em} \\ensuremath{\\mathrm{initialize}()}\\\\\n\\hspace*{1em} \\hspace*{1em} \\ensuremath{\\ensuremath{\\mathit{n}} \\gets  \\ensuremath{0}}\\\\\n\\hspace*{1em} \\hspace*{1em} \\ensuremath{\\ensuremath{\\mathit{blocks}} \\gets  \\ensuremath{\\mathrm{\\mathrm{ArrayStack}}()}}\\\\\n\\end{flushleft}"
+    },
+    {
+      "id": "ods-000338-figure_caption-the-number-of-white-squares-is-1-2-3",
+      "type": "figure_caption",
+      "content": "The number of white squares is $1+2+3+\\cdots+\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{r}}}}$. The number of shaded squares is the same. Together the white and shaded squares make a rectangle consisting of $\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{r}}}}(\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{r}}}}+1)$ squares."
+    }
+  ]
+}

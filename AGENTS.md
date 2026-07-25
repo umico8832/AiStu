@@ -1,8 +1,11 @@
 # Kaleidoscope Agent Guide
 
-## 0. 必读文档
+本文件只记录 AI Agent 在本仓库工作的强制规则。产品目标、范围、架构与项目状态
+分别由 `docs/` 下的核心文档维护，不在这里重复。
 
-开始产品设计、架构调整或工程实现前，按顺序阅读：
+## 1. 开始前必须阅读
+
+进行产品设计、架构调整或工程实现前，按顺序阅读：
 
 1. `AGENTS.md`
 2. `docs/PRODUCT_DIRECTION.md`
@@ -10,183 +13,51 @@
 4. `docs/ARCHITECTURE.md`
 5. `docs/ROADMAP.md`
 
-`docs/README.md` 是文档索引和维护规则。
+文档导航、维护职责和阅读路径见 [`docs/README.md`](docs/README.md)。
 
-若文档冲突：
+发生冲突时，按以下优先级处理：
 
-- 用户当前任务中的明确要求优先；
-- 产品范围以 `MVP_SCOPE.md` 为准；
-- 技术边界以 `ARCHITECTURE.md` 为准；
-- 当前状态以 `ROADMAP.md` 为准；
-- 安全约束和数据域隔离不得被隐式放宽。
+1. 用户当前任务中的明确要求；
+2. 本文件中的安全与工程硬约束；
+3. `MVP_SCOPE.md` 中的当前范围；
+4. `ARCHITECTURE.md` 中的技术边界；
+5. `PRODUCT_DIRECTION.md` 中的长期原则；
+6. `ROADMAP.md` 中的当前状态与执行顺序。
 
-不要把计划写成已完成。形成新的长期决策后，必须同步更新相关文档。
+不得以临时实现隐式放宽安全边界或数据域隔离。形成新的长期决策时，同一任务内更新
+对应核心文档；需要保留权衡过程时新增 ADR。
 
-## 1. 当前产品方向
+## 2. 修改前
 
-Kaleidoscope 是面向计算机学习的桌面端 AI 教学 MVP。
+- 检查当前工作树，保留并绕开用户已有修改；
+- 阅读相关源码、依赖和邻近测试，不假设文档中的计划已经实现；
+- 先确认改动属于当前 MVP，再决定是否实现；
+- 复用现有组件、运行时和已验证课件，不无理由重写；
+- Git 操作遵守 [`docs/AGENT_GIT_RULES.md`](docs/AGENT_GIT_RULES.md)；
+- 未经用户当前任务明确许可，不得执行 `git add`、`git commit` 或 `git push`。
 
-当前核心界面是 AI 对话首页。用户在对话中表达困惑，AI 判断是否需要可视化，
-选择已有可视化资源，并用结构化场景数据生成课件建议。新课件必须由用户明确确认
-后才在应用内渲染，AI 的 `open_visualization` 命令不得直接打开页面。
+## 3. 产品硬约束
 
-应用任意时刻只能显示一个活动可视化页面。新的可视化请求更新或替换当前页面，
-不得创建多标签、并排课件、画中画或可视化页面栈。
+- 首页核心是 AI 对话，不是终端或 IDE；
+- 新课件先以建议卡出现，只有用户明确确认后才能打开；
+- 任意时刻只有一个活动可视化 session；
+- 同一课件通过受限 patch 更新，不同课件原子替换；
+- 可视化打开时保持对话组件、滚动位置、草稿和流式状态；
+- 课件事件只作为结构化学习事件记录，不伪装成用户消息自动发送；
+- AI 只能选择已注册课件并生成通过 Schema 的数据；
+- 用户不能编辑或执行课件代码；
+- 当前范围不包含真实终端、Monaco、Tree-sitter、node-pty、xterm.js、LSP、
+  调试器或 AI 动态生成前端源码；
+- 知识事实、社区内容、用户学习状态和临时对话状态属于不同数据域，不得混写；
+- 专项学习足迹只记录参与、有效时长、内容接触和课件练习证据，不得把浏览、自评
+  或内容覆盖自动判定为掌握；
+- 未经独立审查的课件或内容不得标记为 `reviewed`。
 
-正确交互是：
+完整范围与验收标准只在 [`docs/MVP_SCOPE.md`](docs/MVP_SCOPE.md) 维护。
 
-```text
-对话首页
-→ AI 理解学习问题
-→ 选择 concept_id 和 visualization_id
-→ 生成受约束的 VisualizationSessionSpec
-→ 在对话中显示课件建议卡
-→ 用户确认打开
-→ Schema 校验
-→ 加载已注册 React 可视化组件
-→ 在对话页面上方展开或覆盖
-→ 用户操作课件
-→ 交互结果返回对话教学流程
-```
+## 4. 架构与安全硬约束
 
-主页对话状态必须保留。关闭可视化后，用户返回同一会话和原位置。
-课件的步骤、预测和完成事件只能作为结构化学习事件记录，不得自动创建或发送
-伪装成用户输入的对话消息。
-
-## 2. 已取消的旧方向
-
-以下内容不属于当前 MVP，不得继续实现：
-
-- 用户修改代码驱动动画；
-- 可编辑 Monaco；
-- Tree-sitter；
-- ProgramModel；
-- 动态解析任意 C；
-- node-pty；
-- xterm.js；
-- 真实终端；
-- TerminalOverlay；
-- 完整 IDE、LSP、调试器；
-- 在 Renderer 中执行 AI 生成的任意代码。
-
-现有课件中的代码可以作为只读教学材料显示，但用户不能编辑。
-
-## 3. 现有资产
-
-React 调用栈课件原型：
-
-```text
-/Users/umico/Documents/Kaleidoscope/call-stack-visualizer
-```
-
-该原型已通过 typecheck、lint 和 build。后续必须迁移复用，不要重写已验证的视觉、
-动画和教学逻辑。
-
-标准知识库：
-
-```text
-/Users/umico/Documents/ods-material/knowledge_base
-```
-
-知识库属于独立知识内容域。桌面应用通过 `concept_id` 和 `visualization_id` 使用
-知识与课件，不把 React 代码写入知识库。
-
-## 4. 当前技术栈
-
-- Node.js 22.21.0（当前黑客松开发机基线）
-- Electron
-- electron-vite
-- electron-builder
-- pnpm workspace
-- React 19
-- TypeScript strict
-- Tailwind CSS 4，使用 `@tailwindcss/vite`
-- Motion，统一使用 `motion/react`
-- Zustand
-- Zod 4
-- Vitest
-- Playwright
-
-建立 workspace 时必须提交 `.node-version`、`package.json#engines`、
-`package.json#packageManager` 和 `pnpm-lock.yaml`。固定实际使用的 Electron 与
-工具链版本，不使用浮动的 `latest` 作为可复现构建依据。依赖版本以创建项目时验证
-通过的兼容组合为准，不为了追新阻塞 MVP 开发。
-
-根据实际 AI Provider 再选择流式请求库，不要提前引入大型 Agent 框架。
-
-现有原型使用 `framer-motion`。迁移时统一为 `motion/react`，不要长期保留两套
-Motion 依赖。
-
-## 5. 推荐工程结构
-
-```text
-Kaleidoscope/
-├── apps/
-│   └── desktop/
-│       └── src/
-│           ├── main/
-│           ├── preload/
-│           └── renderer/
-├── packages/
-│   ├── contracts/
-│   ├── tutor-runtime/
-│   ├── visualization-runtime/
-│   ├── lessons/
-│   │   └── call-stack/
-│   └── ui/
-├── docs/
-├── pnpm-workspace.yaml
-└── package.json
-```
-
-可以根据 electron-vite 约定调整路径，但分层职责不能改变。
-
-## 6. Electron 分层
-
-### Main
-
-负责：
-
-- BrowserWindow 生命周期；
-- 安全配置；
-- 本地持久化；
-- 受控知识资源读取；
-- AI Provider 凭据与请求；
-- 流式响应转发；
-- IPC 服务端；
-- 应用日志和错误处理。
-
-API Key、凭据和完整环境变量不得进入 Renderer。
-
-### Preload
-
-负责：
-
-- 使用 `contextBridge` 暴露最小领域 API；
-- 隔离 `ipcRenderer`；
-- 为 Renderer 提供强类型接口；
-- 将流式事件转换为可取消订阅；
-- 不包含 React 或教学业务 UI。
-
-禁止暴露 `ipcRenderer`、通用 `send/invoke`、Node 模块或任意文件接口。
-
-### Renderer
-
-负责：
-
-- AI 对话首页；
-- 消息流和输入框；
-- 可视化容器；
-- 已注册课件；
-- 课件交互；
-- Renderer UI 状态；
-- 结构化错误和加载状态。
-
-Renderer 不得直接访问 Node、文件系统、系统凭据或任意动态代码执行能力。
-
-## 7. 强制安全要求
-
-BrowserWindow 必须使用：
+Electron 窗口必须保持：
 
 ```ts
 {
@@ -194,276 +65,52 @@ BrowserWindow 必须使用：
     nodeIntegration: false,
     contextIsolation: true,
     sandbox: true,
-    preload: preloadPath
-  }
+    preload: preloadPath,
+  },
 }
 ```
 
-所有 IPC 输入使用共享 Zod Schema 校验，并校验 IPC sender 来自当前受信任的应用
-页面。参数合法不等于调用来源可信。
+- Main 管理窗口、安全策略、持久化、知识文件、AI Provider、凭据和 IPC handler；
+- Preload 只通过 `contextBridge` 暴露最小、强类型的领域 API；
+- Renderer 只负责 React UI 和可序列化状态，不访问 Node、文件系统、进程或凭据；
+- 所有 IPC 输入使用共享 Zod Schema，并验证 sender 来自受信任应用页面；
+- 默认拒绝未明确允许的权限请求，拦截非白名单导航和新窗口；
+- AI 输出与知识 chunks 均按不可信数据处理；
+- 禁止通用 `send`、`invoke`、任意文件访问、任意代码执行和远程组件加载 API；
+- 禁止执行或直接注入 AI 生成的 React、JavaScript、HTML 或 CSS；
+- API Key、Cookie、Token、完整环境变量和敏感日志不得进入 Renderer。
 
-Main 必须默认拒绝未明确允许的权限请求，拦截非白名单导航和新窗口。开发环境可以
-使用 electron-vite 开发地址；打包版本优先使用应用自有协议加载本地 Renderer，
-不得因此阻塞日常 HMR。
+详细边界、数据流和状态归属见 [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md)。
 
-不得暴露：
+## 5. 工程约定
 
-```ts
-send(channel, payload)
-invoke(channel, payload)
-readAnyFile(path)
-executeCode(source)
-loadRemoteComponent(url)
-```
-
-AI 输出一律视为不可信数据。AI 只能：
-
-- 选择允许的 `visualization_id`；
-- 生成符合 Schema 的场景参数或页面补丁；
-- 生成课件支持范围内的步骤数据；
-- 生成对话文本和教学提示。
-
-AI 不能：
-
-- 生成并执行 React/JavaScript 源码；
-- 注入 HTML；
-- 指定任意本地模块；
-- 指定任意文件路径；
-- 绕过可视化注册表；
-- 把未经校验的数据直接传给复杂组件。
-
-## 8. 对话首页
-
-首页是产品核心，不是临时启动页。
-
-至少包括：
-
-- 消息列表；
-- 用户与 AI 消息；
-- 流式回答；
-- 输入框；
-- 发送、停止生成和重试；
-- 错误状态；
-- 当前会话状态；
-- AI 发起可视化的入口；
-- 可视化关闭后继续原对话。
-
-对话历史、当前生成状态和可视化状态应分开管理。
-
-首次进入且尚无消息时，首页使用不可滚动的单屏空状态，只保留核心说明、两个快捷
-问题和输入框。不得用更多卡片或提示胶囊把首屏撑出滚动区域。只有产生用户消息或
-AI 回复后，消息视口才允许纵向滚动。
-
-本阶段不要求复杂会话搜索、云同步、多人协作或多模型市场。
-
-## 9. 可视化运行方式
-
-可视化不是 AI 每次生成的新页面源码。
-
-正确模式：
-
-```text
-已有 React 可视化模板
-+ AI 生成的结构化 VisualizationSessionSpec / VisualizationPatch
-= 当前教学场景
-```
-
-推荐接口：
-
-```ts
-interface VisualizationRegistration {
-  id: string;
-  conceptIds: string[];
-  specSchema: ZodType;
-  load: () => Promise<VisualizationModule>;
-  status: "draft" | "review_pending" | "reviewed";
-  version: number;
-}
-```
-
-运行时必须：
-
-1. 根据 `visualization_id` 查静态注册表；
-2. 拒绝未知 ID；
-3. 用对应 Zod Schema 校验 AI 场景数据；
-4. 对数值、步骤数和文本长度设置上限；
-5. lazy load 已审核的 React 组件；
-6. 通过 props 传入已校验数据；
-7. 捕获组件错误并允许返回对话；
-8. 把用户交互结果以结构化事件返回 Tutor。
-
-AI 可以根据用户后续表达的困惑继续调整当前页面，但只允许修改课件预先声明的
-安全字段，例如演示数据、允许的步骤选择与顺序、当前强调、对象高亮、解释或类比
-文本、预测问题、暂停点、初始视图和预定义布局参数。AI 不得修改或执行
-React、JavaScript、HTML、CSS 源码。现有课件能力不足时，应退回文字讲解并记录
-缺失能力，不能临时生成不受控页面。
-
-## 10. 可视化与对话布局
-
-对话首页始终是底层页面。
-
-可视化打开时：
-
-- 在对话页面上方使用应用内 overlay、sheet 或 workspace；
-- 不销毁对话组件；
-- 不丢失滚动位置、草稿或流式消息；
-- 提供清晰的关闭和返回入口；
-- 可以保留一部分对话上下文可见；
-- 课件关闭后回到同一会话；
-- 可视化交互结果能成为后续对话输入。
-- 任意时刻只存在一个活动可视化 session；
-- 相同可视化的新请求更新当前页面，不新建第二个页面；
-- 不同可视化的新请求原子替换当前页面。
-
-具体比例可在设计阶段调整，但“下面是原有对话页面，不是终端”是确定要求。
-
-## 11. 现有课件迁移
-
-迁移 `call-stack-visualizer` 时：
-
-- 保留组件职责；
-- 保留动画和 reduced-motion；
-- 保留前进、后退、重置；
-- 保留受控/非受控状态接口；
-- 保留静态 `lessonSteps`；
-- 代码面板保持只读；
-- 先完成等价迁移，再改造成接受结构化场景数据；
-- 不同时重写视觉设计和教学过程。
-
-课件可以接受 AI 调整后的安全参数，例如：
-
-- 初始展示步骤；
-- 允许的示例输入；
-- 强调的栈帧；
-- 教学提示；
-- 是否暂停在某一预测点；
-- 预定义范围内的步骤序列变体。
-
-这些参数必须由课件专属 Schema 限制。
-
-## 12. 状态归属
-
-Zustand 可管理 Renderer UI 状态：
-
-- 当前会话；
-- 消息列表；
-- 输入草稿；
-- 流式生成状态；
-- 当前可视化 ID；
-- 当前可视化 session spec；
-- 可视化打开状态；
-- 课件当前步骤；
-- 可视化交互结果。
-
-不要把所有状态放进单体 store。至少区分：
-
-- conversation；
-- visualization；
-- application UI。
-
-`visualization` store 只保存 `activeSession | null`，不得保存同时展示的 session
-数组、标签页或并排页面状态。
-
-长期用户知识状态属于独立用户学习域，不应直接混入临时对话 store。
-
-## 13. 可视化资源与知识点绑定
-
-知识点通过 `visualization_ids` 引用桌面可视化资源。
-
-要求：
-
-- ID 稳定；
-- 一个知识点可以关联多个可视化；
-- 一个可视化可以服务多个知识点；
-- 桌面注册表与知识库引用一致；
-- React 代码只在桌面 monorepo；
-- 知识库不保存 React 源码；
-- 可视化准确性未审查时不能标记为 reviewed。
-
-调用栈原型当前没有对应 ODS 第 2 章知识点，不得强行绑定或编造 `concept_id`。
-
-## 14. 当前 MVP 范围
-
-当前应完成：
-
-- pnpm workspace；
-- Electron main/preload/renderer 骨架；
-- AI 对话首页；
-- 类型化 IPC；
-- AI Provider 抽象和流式回答；
-- Main-only 本地 KnowledgeService、RAG chunks 检索和可验证引用；
-- 调用栈课件迁移；
-- ArrayStack 按位插入课件；
-- ArrayQueue 循环数组表示课件；
-- DualArrayDeque 再平衡课件；
-- 可视化注册表；
-- `VisualizationSessionSpec`；
-- `VisualizationPatch` 与 revision 校验；
-- 单一 `activeSession` 生命周期；
-- AI 选择和调整已有可视化；
-- 对话页面上的可视化 overlay/workspace；
-- 可视化交互结果返回对话；
-- 同一知识点的受约束多视角表达与切换；
-- 与知识内容域分离的最小用户学习事件和个人知识万花筒；
-- 本地、受审核状态约束的社区投稿与学校社区最小闭环；
-- 本地最小会话持久化；
-- Vitest、Playwright、build 和打包验证。
-
-当前不做：
-
-- 用户编辑代码；
-- 任意代码解析或执行；
-- 终端；
-- IDE；
-- 自由生成前端源码；
-- 云端向量库、embedding 管线和跨课程完整 RAG；
-- 商业级完整用户知识追踪和自动掌握度判定；
-- 云端实时多人社区、社交关系和未经审核投稿自动进入权威知识库；
-- 多窗口和插件系统；
-- 未经优先级筛选一次实现大量可视化。
-
-## 15. 推荐实施顺序
-
-1. 建立 pnpm workspace 和 Electron 安全骨架；
-2. 建立 contracts；
-3. 实现对话首页静态 UI 和状态模型；
-4. 建立 AI Provider 抽象与流式 IPC；
-5. 迁移调用栈课件；
-6. 建立 visualization registry 和 session spec；
-7. 实现对话之上的可视化容器；
-8. 让 AI 选择调用栈课件，并生成受约束参数或页面补丁；
-9. 把课件交互结果返回对话；
-10. 完成持久化、测试、构建和打包验证；
-11. 建立多视角知识万花筒；
-12. 建立独立用户学习事件与个人知识万花筒；
-13. 建立本地社区投稿、审核和学校社区最小闭环；
-14. 完成真实场景、视觉包装、全链路验收和黑客松发布。
-
-## 16. 工程规则
-
-开始修改前：
-
-- 阅读项目文档；
-- 检查现有代码和依赖；
-- 检查用户已有修改；
-- 不假设未验证能力已经存在；
-- 不重写现有课件。
-
-实现时：
-
-- 使用 pnpm；
-- 使用 Node.js 22.21.0；
-- 保持锁文件和 `packageManager` 字段同步；
-- TypeScript strict；
-- 避免 `any`；
-- 跨进程数据必须可序列化；
-- IPC 和 AI 输出必须验证；
+- 使用 pnpm workspace；
+- 开发基线为 Node.js 22.21.0、pnpm 11.9.0；
+- 保持 `.node-version`、`package.json#engines`、`packageManager` 与锁文件同步；
+- 使用 TypeScript strict，避免 `any`；
+- 跨进程数据必须可序列化并经过共享 Schema；
+- React 动画统一使用 `motion/react`；
+- Renderer 状态至少分为 conversation、visualization 和 application UI；
+- 跨会话的专项学习足迹使用独立用户学习 store，不混入 conversation store；
+- `visualizationStore` 只保存 `activeSession | null`；
 - 不把本机绝对路径写入运行时代码；
-- 不在 Renderer 存储密钥；
-- 不引入与 MVP 无关的重量级依赖；
-- 不把 AI 文本当作可信代码或 HTML。
+- 不引入与当前范围无关的重量级框架；
+- 课件开发遵守
+  [`docs/guides/LESSON_DEVELOPMENT.md`](docs/guides/LESSON_DEVELOPMENT.md)。
 
-完成后运行适用命令：
+## 6. 用户界面文案
+
+- 页面只保留用户理解当前任务、状态和下一步所需的信息；
+- 不把 Agent 注释、实现边界、Schema、测试提示、架构说明或维护者备注写进产品正文；
+- 不用大段免责声明解释尚未实现的功能；
+- 功能不可用时使用简短状态、禁用按钮和就近操作反馈；
+- AI 文本只渲染受限 Markdown，不解析模型提供的 HTML；
+- 修改 UI 后检查是否残留开发者导向文案。
+
+## 7. 验证与交付
+
+根据改动范围执行 [`docs/guides/TESTING.md`](docs/guides/TESTING.md) 中的验证矩阵。
+应用代码的常规质量门是：
 
 ```bash
 pnpm typecheck
@@ -472,47 +119,14 @@ pnpm test
 pnpm build
 ```
 
-凡本轮修改了应用代码，在完成适用检查后必须关闭或停止此前由 Agent 启动的
-Kaleidoscope 开发实例或应用窗口，再从当前工作树启动最新应用，确保旧窗口被替换、
-桌面上只保留一个供用户验收的最新实例。不得只报告构建通过而不启动应用；若启动
-失败，必须明确报告错误和当前阻塞。纯文档修改不要求重启应用。
+涉及 Electron、持久化、路由、IPC、课件容器或打包配置时，还要执行相应的
+Playwright 与 macOS 打包验收。
 
-涉及 Electron 时还要运行打包产物启动验证。
+凡本轮修改了应用代码，在检查通过后必须停止此前由 Agent 启动的 Kaleidoscope
+开发实例或应用窗口，再从当前工作树启动最新应用，确保桌面上只保留一个供用户验收
+的最新实例。启动失败时明确报告错误与阻塞。
 
-Electron Fuses 属于发布加固步骤，在打包验收阶段配置和验证，不要求在早期 UI
-开发阶段反复处理。
+纯文档修改不要求重启应用，也不要求运行与内容无关的应用构建；必须至少执行
+`pnpm docs:check`，并检查文档职责和相互矛盾的状态表述。
 
-## 17. 完成标准
-
-不能只以“页面能打开”作为完成。
-
-当前是黑客松持续开发阶段。MVP 条目是稳定底座，不代表此后停止新增经过范围确认的
-功能。最终交付以 GitHub 上的 macOS arm64 应用和完整演示视频为准；Developer ID
-签名、公证、Windows 发布、商业级监控和真实逐 token 流式输出不作为阻塞项。
-
-MVP 完成至少意味着：
-
-- 对话首页可正常发送、流式显示和继续会话；
-- AI 能选择已注册可视化；
-- AI 场景数据会被严格校验；
-- AI 页面补丁通过 session、revision 和课件 Schema 校验；
-- 调用栈课件在桌面应用内正确渲染；
-- 三项首批 ODS 课件能通过真实 `concept_id` 在注册表中关联并安全渲染；
-- 任意时刻只渲染一个可视化页面；
-- AI 能根据用户反馈在课件声明的安全范围内调整当前页面；
-- 可视化打开时对话状态不丢失；
-- 用户交互结果能返回对话；
-- 知识事实型回答能引用本轮检索到的知识库 chunk；
-- 未匹配知识会明确降级，未知或伪造 chunk ID 会被拒绝；
-- 同一知识点能通过受约束视角呈现，切换视角不改写知识事实；
-- 个人知识万花筒只依据结构化学习证据更新，并与标准知识库分离；
-- 社区投稿保留来源和审核状态，未经审核内容不得进入权威知识回答；
-- 未知 visualization ID 和非法 spec 会安全失败；
-- Renderer 无 Node 权限；
-- macOS 打包产物携带可用的知识库 RAG 快照；
-- typecheck、lint、测试、build 和打包验证通过；
-- 文档与真实实现一致。
-
-
-进行git操作请参考
-docs目录下的AGENT_GIT_RULES
+发布流程与产物要求见 [`docs/guides/RELEASE.md`](docs/guides/RELEASE.md)。

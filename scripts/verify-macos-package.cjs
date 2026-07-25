@@ -54,6 +54,16 @@ if (process.platform === "darwin") {
     ["--verify", "--deep", "--strict", appPath],
     { stdio: "inherit" },
   );
+  const extendedAttributes = execFileSync(
+    "/usr/bin/xattr",
+    ["-r", appPath],
+    { encoding: "utf8" },
+  );
+  if (/com\.apple\.quarantine/u.test(extendedAttributes)) {
+    throw new Error(
+      "Packaged application contains macOS quarantine metadata.",
+    );
+  }
 }
 
 console.log(

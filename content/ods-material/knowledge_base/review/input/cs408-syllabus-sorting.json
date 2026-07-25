@@ -1,0 +1,79 @@
+{
+  "concept": {
+    "id": "cs408-syllabus-sorting",
+    "title": "408 考纲：排序范围",
+    "aliases": [
+      "排序考点",
+      "内部排序",
+      "外部排序"
+    ],
+    "content_type": "concept",
+    "location": {
+      "course_id": "cs408-data-structures",
+      "chapter_id": "408-data-structures-exam-guide",
+      "section_id": "cs408-official-syllabus",
+      "parent_id": null,
+      "order": 12
+    },
+    "core_question": "408 排序模块覆盖哪些算法与分析维度？",
+    "summary": "排序模块覆盖插入、交换、选择、希尔、快速、堆、归并、基数和外部排序，并要求比较稳定性与复杂度。",
+    "definition": "408 排序模块包括排序基本概念、直接与折半插入排序、冒泡排序、简单选择排序、希尔排序、快速排序、堆排序、二路归并排序、基数排序和外部排序，以及排序算法的分析与应用。复习时需要比较最好、平均和最坏时间、辅助空间、稳定性、原地性与适用场景。",
+    "prerequisite_ids": [],
+    "relations": [
+      {
+        "type": "part_of",
+        "target_id": "cs408-data-structure-syllabus-map",
+        "description": "该知识点描述七大考纲模块中的排序部分。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "排序算法像整理同一批卡片的不同流程：有人逐张插入，有人交换错位卡片，有人分组再合并；结果相同，过程成本和顺序保持能力不同。",
+      "mapping": {
+        "逐张插入": "插入排序",
+        "交换错位": "交换类排序",
+        "分组再合并": "归并排序",
+        "顺序保持": "稳定性"
+      },
+      "boundary": "类比不能直接推出复杂度和稳定性；每种算法仍需按操作规则独立判断。"
+    },
+    "retrieval": {
+      "keywords": [
+        "408 考纲：排序范围",
+        "排序考点",
+        "内部排序",
+        "外部排序"
+      ],
+      "query_examples": [
+        "408 排序模块覆盖哪些算法与分析维度？",
+        "408 考纲：排序范围具体包括什么？",
+        "复习408 考纲：排序范围时最容易混淆的边界是什么？"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "report-cs408-syllabus-sorting"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "cs408-data-structure-syllabus-map",
+      "title": "408 数据结构七大考纲模块",
+      "core_question": "2026 公开考纲把数据结构范围组织成哪些模块？",
+      "summary": "数据结构范围由基本概念、线性表、栈队列与数组、树与二叉树、图、查找和排序七大模块组成。",
+      "definition": "报告采用并经公开 2026 考纲复核的数据结构目录包含七个一级模块：基本概念；线性表；栈、队列和数组；树和二叉树；图；查找；排序。该目录用于组织考试范围，不等同于知识之间的前置图，也不说明各模块的官方出题频率。",
+      "content_type": "concept"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "report-cs408-syllabus-sorting",
+      "type": "paragraph",
+      "content": "报告和公开 2026 考纲列出直接与折半插入、冒泡、选择、希尔、快速、堆、二路归并、基数、外部排序及分析应用。"
+    }
+  ]
+}

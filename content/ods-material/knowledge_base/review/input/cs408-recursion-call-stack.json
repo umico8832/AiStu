@@ -1,0 +1,85 @@
+{
+  "concept": {
+    "id": "cs408-recursion-call-stack",
+    "title": "递归与调用栈",
+    "aliases": [
+      "call stack",
+      "递归栈"
+    ],
+    "content_type": "mechanism",
+    "location": {
+      "course_id": "cs408-data-structures",
+      "chapter_id": "408-stacks-queues-arrays",
+      "section_id": "cs408-stack-basics",
+      "parent_id": null,
+      "order": 7
+    },
+    "core_question": "递归调用为什么天然遵循栈的后进先出顺序？",
+    "summary": "每次调用保存参数、局部变量、返回地址和执行状态，最深层调用必须先返回。",
+    "definition": "函数调用会创建活动记录并压入调用栈；递归继续时上一层暂停在调用点。基例结束后，最内层活动记录先弹出并把结果交给调用者，随后逐层恢复。递归深度决定额外栈空间，缺少有效基例会导致栈持续增长。",
+    "prerequisite_ids": [
+      "cs408-stack-lifo"
+    ],
+    "relations": [
+      {
+        "type": "part_of",
+        "target_id": "cs408-syllabus-stacks-queues-arrays",
+        "description": "递归与调用栈是栈、队列和数组考纲模块中的原子知识点。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "像进入一串嵌套房间，每进入一间就留下返回路线，离开时只能先退出最后进入的房间。",
+      "mapping": {
+        "直观对象": "递归与调用栈",
+        "对应机制": "每次调用保存参数、局部变量、返回地址和执行状态，最深层调用必须先返回。"
+      },
+      "boundary": "类比只用于建立直觉；正式作答仍需使用定义、操作步骤、适用条件和复杂度结论。"
+    },
+    "retrieval": {
+      "keywords": [
+        "递归与调用栈",
+        "call stack",
+        "递归栈"
+      ],
+      "query_examples": [
+        "递归调用为什么天然遵循栈的后进先出顺序？",
+        "递归与调用栈的步骤、性质和复杂度是什么？",
+        "递归与调用栈有哪些适用条件和易错边界？"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "syllabus-note-cs408-recursion-call-stack"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "cs408-stack-lifo",
+      "title": "栈的 LIFO 语义与基本操作",
+      "core_question": "栈为什么称为后进先出的受限线性表？",
+      "summary": "栈只允许在栈顶插入和删除，最后压入的元素最先弹出。",
+      "definition": "栈是只在一端进行插入和删除的线性表，这一端称为栈顶，另一端称为栈底。push 压入元素，pop 删除并返回栈顶，top 只读取栈顶；空栈执行 pop 或 top 必须按接口规则处理下溢。",
+      "content_type": "concept"
+    },
+    {
+      "id": "cs408-syllabus-stacks-queues-arrays",
+      "title": "408 考纲：栈、队列和数组范围",
+      "core_question": "408 栈、队列和数组模块覆盖哪些内容？",
+      "summary": "该模块覆盖栈与队列的概念和顺序、链式实现，多维数组存储、特殊矩阵压缩及相关应用。",
+      "definition": "408 的栈、队列和数组模块包括栈与队列的基本概念、顺序存储结构、链式存储结构，多维数组的存储，特殊矩阵的压缩存储，以及栈、队列和数组的应用。常见能力包括判断栈序列、分析循环队列、推导地址映射和使用线性结构解决表达式或遍历问题。",
+      "content_type": "concept"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "syllabus-note-cs408-recursion-call-stack",
+      "type": "paragraph",
+      "content": "每次调用保存参数、局部变量、返回地址和执行状态，最深层调用必须先返回。\n\n函数调用会创建活动记录并压入调用栈；递归继续时上一层暂停在调用点。基例结束后，最内层活动记录先弹出并把结果交给调用者，随后逐层恢复。递归深度决定额外栈空间，缺少有效基例会导致栈持续增长。\n\n对应 2026 数据结构考纲叶子条目：栈、队列和数组的应用。"
+    }
+  ]
+}

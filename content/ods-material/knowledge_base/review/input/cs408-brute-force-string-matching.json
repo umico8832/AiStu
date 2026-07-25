@@ -1,0 +1,85 @@
+{
+  "concept": {
+    "id": "cs408-brute-force-string-matching",
+    "title": "朴素字符串模式匹配",
+    "aliases": [
+      "brute force matching",
+      "BF 算法"
+    ],
+    "content_type": "algorithm",
+    "location": {
+      "course_id": "cs408-data-structures",
+      "chapter_id": "408-searching",
+      "section_id": "cs408-string-search",
+      "parent_id": null,
+      "order": 26
+    },
+    "core_question": "BF 模式匹配怎样逐个尝试文本起点？",
+    "summary": "在每个可能起点从模式首字符开始比较，失配后文本起点右移一位重新开始。",
+    "definition": "文本长度 n、模式长度 m 时，BF 最坏可能在许多起点重复比较相同字符，时间 O(nm)，额外空间 O(1)。若匹配成功返回起始位置；实现必须处理空模式和 n<m 等边界约定。",
+    "prerequisite_ids": [
+      "cs408-search-concepts"
+    ],
+    "relations": [
+      {
+        "type": "part_of",
+        "target_id": "cs408-syllabus-searching",
+        "description": "朴素字符串模式匹配是查找考纲模块中的原子知识点。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "像把透明模板依次覆盖到文本每个起点，每次都从模板第一格重新核对。",
+      "mapping": {
+        "直观对象": "朴素字符串模式匹配",
+        "对应机制": "在每个可能起点从模式首字符开始比较，失配后文本起点右移一位重新开始。"
+      },
+      "boundary": "类比只用于建立直觉；正式作答仍需使用定义、操作步骤、适用条件和复杂度结论。"
+    },
+    "retrieval": {
+      "keywords": [
+        "朴素字符串模式匹配",
+        "brute force matching",
+        "BF 算法"
+      ],
+      "query_examples": [
+        "BF 模式匹配怎样逐个尝试文本起点？",
+        "朴素字符串模式匹配的步骤、性质和复杂度是什么？",
+        "朴素字符串模式匹配有哪些适用条件和易错边界？"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "syllabus-note-cs408-brute-force-string-matching"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "cs408-search-concepts",
+      "title": "查找表、关键字与查找结果",
+      "core_question": "查找问题中的查找表、关键字、成功与失败分别是什么？",
+      "summary": "查找依据关键字在记录集合中确定匹配记录，成功返回位置或记录，失败确认不存在。",
+      "definition": "查找表是同一类型记录构成的集合，关键字是能标识或区分记录的数据项。静态查找表只查询，动态查找表还允许插入和删除；评价算法时必须同时考虑成功、失败查找以及数据是否有序。",
+      "content_type": "concept"
+    },
+    {
+      "id": "cs408-syllabus-searching",
+      "title": "408 考纲：查找范围",
+      "core_question": "408 查找模块覆盖哪些查找结构和算法？",
+      "summary": "查找模块覆盖顺序、分块、折半查找，BST、AVL、红黑树、B/B+树、散列表、字符串匹配及分析应用。",
+      "definition": "408 查找模块包括查找基本概念，顺序查找、分块查找、折半查找，二叉搜索树、平衡二叉树和红黑树，B 树的基本操作与 B+ 树基本概念，散列表，字符串模式匹配，以及查找算法的分析与应用。不同方法必须结合前提、操作成本和数据场景比较。",
+      "content_type": "concept"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "syllabus-note-cs408-brute-force-string-matching",
+      "type": "paragraph",
+      "content": "在每个可能起点从模式首字符开始比较，失配后文本起点右移一位重新开始。\n\n文本长度 n、模式长度 m 时，BF 最坏可能在许多起点重复比较相同字符，时间 O(nm)，额外空间 O(1)。若匹配成功返回起始位置；实现必须处理空模式和 n<m 等边界约定。\n\n对应 2026 数据结构考纲叶子条目：字符串模式匹配。"
+    }
+  ]
+}

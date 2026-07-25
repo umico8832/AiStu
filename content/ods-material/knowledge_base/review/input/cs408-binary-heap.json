@@ -1,0 +1,85 @@
+{
+  "concept": {
+    "id": "cs408-binary-heap",
+    "title": "二叉堆的结构与堆序性",
+    "aliases": [
+      "binary heap",
+      "heap order"
+    ],
+    "content_type": "concept",
+    "location": {
+      "course_id": "cs408-data-structures",
+      "chapter_id": "408-trees",
+      "section_id": "cs408-binary-tree",
+      "parent_id": null,
+      "order": 19
+    },
+    "core_question": "二叉堆怎样同时满足完全二叉树结构和局部有序条件？",
+    "summary": "二叉堆是完全二叉树，大根堆父关键字不小于孩子，小根堆父关键字不大于孩子。",
+    "definition": "二叉堆通常用数组层序存储。大根堆保证每条父子边上父值≥子值，因此根为全局最大值；小根堆相反。堆只保证父子局部有序，兄弟和不同子树之间不要求完全排序。",
+    "prerequisite_ids": [
+      "cs408-full-complete-binary-tree"
+    ],
+    "relations": [
+      {
+        "type": "part_of",
+        "target_id": "cs408-syllabus-trees",
+        "description": "二叉堆的结构与堆序性是树和二叉树考纲模块中的原子知识点。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "像锦标赛层级中每位上级至少不弱于直接下级，但不同分区的成员并没有完整名次。",
+      "mapping": {
+        "直观对象": "二叉堆的结构与堆序性",
+        "对应机制": "二叉堆是完全二叉树，大根堆父关键字不小于孩子，小根堆父关键字不大于孩子。"
+      },
+      "boundary": "类比只用于建立直觉；正式作答仍需使用定义、操作步骤、适用条件和复杂度结论。"
+    },
+    "retrieval": {
+      "keywords": [
+        "二叉堆的结构与堆序性",
+        "binary heap",
+        "heap order"
+      ],
+      "query_examples": [
+        "二叉堆怎样同时满足完全二叉树结构和局部有序条件？",
+        "二叉堆的结构与堆序性的步骤、性质和复杂度是什么？",
+        "二叉堆的结构与堆序性有哪些适用条件和易错边界？"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "syllabus-note-cs408-binary-heap"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "cs408-full-complete-binary-tree",
+      "title": "满二叉树与完全二叉树",
+      "core_question": "满二叉树和完全二叉树有什么区别？",
+      "summary": "满二叉树每层都达到最大结点数，完全二叉树只要求按满树层序编号连续占据前 n 个位置。",
+      "definition": "高度 h 的满二叉树含 2^h-1 个结点。完全二叉树除最后一层外均满，最后一层结点从左向右连续；按从 1 开始编号时，结点 i 的父结点为 floor(i/2)，孩子为 2i 与 2i+1（若存在）。",
+      "content_type": "comparison"
+    },
+    {
+      "id": "cs408-syllabus-trees",
+      "title": "408 考纲：树和二叉树范围",
+      "core_question": "408 树和二叉树模块覆盖哪些结构与应用？",
+      "summary": "该模块覆盖树与二叉树性质、存储和遍历，线索化、森林转换，以及 Huffman、并查集和堆等应用。",
+      "definition": "408 的树和二叉树模块包括树的基本概念，二叉树的定义、性质、顺序与链式存储、遍历和线索化，树与森林的存储、转换和遍历，以及 Huffman 树与编码、并查集和堆的应用。复习需要同时具备性质计算、结构转换、手工过程和算法实现能力。",
+      "content_type": "concept"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "syllabus-note-cs408-binary-heap",
+      "type": "paragraph",
+      "content": "二叉堆是完全二叉树，大根堆父关键字不小于孩子，小根堆父关键字不大于孩子。\n\n二叉堆通常用数组层序存储。大根堆保证每条父子边上父值≥子值，因此根为全局最大值；小根堆相反。堆只保证父子局部有序，兄弟和不同子树之间不要求完全排序。\n\n对应 2026 数据结构考纲叶子条目：堆及其应用。"
+    }
+  ]
+}

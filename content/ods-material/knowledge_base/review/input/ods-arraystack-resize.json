@@ -1,0 +1,98 @@
+{
+  "concept": {
+    "id": "ods-arraystack-resize",
+    "title": "ArrayStack 的容量调整",
+    "aliases": [
+      "ArrayStack resize",
+      "动态数组扩缩容"
+    ],
+    "content_type": "mechanism",
+    "location": {
+      "course_id": "open-data-structures",
+      "chapter_id": "array-based-lists",
+      "section_id": "2-1-2-growing-and-shrinking",
+      "parent_id": null,
+      "order": 6
+    },
+    "core_question": "ArrayStack 如何在容量不足或空闲过多时调整后备数组？",
+    "summary": "resize 分配大小 max(1,2n) 的新数组并复制 n 个有效元素，使容量重新与元素数量保持同阶。",
+    "definition": "ArrayStack 的 resize 创建长度为 $\\max(1,2n)$ 的新数组 b，把旧数组中 n 个有效元素按原顺序复制到 b[0..n-1]，再令 a 指向 b。一次调用复制 n 个元素，因而耗时 $O(n)$；相同机制既可扩容也可在删除后的低占用率下缩容。",
+    "prerequisite_ids": [
+      "ods-array-size-capacity"
+    ],
+    "relations": [
+      {
+        "type": "leads_to",
+        "target_id": "ods-arraystack-amortized-resize",
+        "description": "理解《ArrayStack 的容量调整》是继续学习目标知识点的直接基础。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "像把资料从过大或已装满的文件柜搬到一个约为当前资料量两倍的新柜中，资料顺序保持不变。",
+      "mapping": {
+        "资料量": "有效元素数 n",
+        "新文件柜": "新数组 b",
+        "逐份搬运": "复制有效元素"
+      },
+      "boundary": "类比只反映本书采用的 2n 策略；不同库可能使用其他增长因子或内存管理方式。"
+    },
+    "retrieval": {
+      "keywords": [
+        "ArrayStack 的容量调整",
+        "ArrayStack resize",
+        "动态数组扩缩容"
+      ],
+      "query_examples": [
+        "ArrayStack 如何在容量不足或空闲过多时调整后备数组？",
+        "ArrayStack 的容量调整怎么理解",
+        "ArrayStack 的容量调整的关键条件是什么"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "ods-000230-paragraph-the-ensuremath-ensuremath-mathrm-res",
+      "ods-000231-algorithm-begin-flushleft-hspace-1em-ensuremat",
+      "ods-000232-paragraph-analyzing-the-actual-cost-of-the-ens"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "ods-array-size-capacity",
+      "title": "元素数量与数组容量",
+      "core_question": "数组式线性表中的元素数量与后备数组容量有什么区别？",
+      "summary": "元素数量 n 只统计有效元素，容量 length(a) 是可用槽位总数，必须始终满足 n 不超过容量。",
+      "definition": "在数组式线性表中，元素数量 n 表示当前有效元素个数，后备数组容量 length(a) 表示已分配槽位总数。有效元素只占其中一部分，基本不变量是 $0\\le n\\le \\mathrm{length}(a)$；空闲槽位不是逻辑元素。",
+      "content_type": "concept"
+    },
+    {
+      "id": "ods-arraystack-amortized-resize",
+      "title": "ArrayStack 调整容量的摊还成本",
+      "core_question": "为什么 ArrayStack 的单次 resize 虽为 O(n)，平均到更新操作仍是 O(1)？",
+      "summary": "两次足够昂贵的容量调整之间必须积累足够多次更新，因此 m 次更新的全部 resize 总成本为 O(m)。",
+      "definition": "从空 ArrayStack 开始执行任意 $m\\ge1$ 次 add 与 remove，所有 resize 调用花费的总时间为 $O(m)$。依据是一次调整完成后，容量与 n 保持固定比例；再次达到扩容或缩容阈值前必须发生与当时 n 同阶的更新，这些更新可共同承担下一次线性复制成本。",
+      "content_type": "theorem"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "ods-000230-paragraph-the-ensuremath-ensuremath-mathrm-res",
+      "type": "paragraph",
+      "content": "The \\ensuremath{\\ensuremath{\\mathrm{resize}()}} method is fairly straightforward; it allocates a new array \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{b}}}} whose size is $2\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}$ and copies the \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}} elements of \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{a}}}} into the first \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}} positions in \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{b}}}}, and then sets \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{a}}}} to \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{b}}}}. Thus, after a call to \\ensuremath{\\ensuremath{\\mathrm{resize}()}}, $\\ensuremath{\\ensuremath{\\mathrm{length}(\\ensuremath{\\mathit{a}})}} = 2\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}$."
+    },
+    {
+      "id": "ods-000231-algorithm-begin-flushleft-hspace-1em-ensuremat",
+      "type": "algorithm",
+      "content": "\\begin{flushleft}\n\\hspace*{1em} \\ensuremath{\\mathrm{resize}()}\\\\\n\\hspace*{1em} \\hspace*{1em} \\ensuremath{\\ensuremath{\\mathit{b}} \\gets  \\ensuremath{\\mathrm{new\\_array}(\\mathrm{max}(1, 2\\cdot \\ensuremath{\\mathit{n}})})}\\\\\n\\hspace*{1em} \\hspace*{1em} \\ensuremath{\\ensuremath{\\mathit{b}}[\\ensuremath{0,1,\\ldots,\\ensuremath{\\ensuremath{\\mathit{n}}-1}] \\gets  \\ensuremath{\\mathit{a}}[\\ensuremath{0,1,\\ldots,\\ensuremath{\\mathit{n}}-1}]}}\\\\\n\\hspace*{1em} \\hspace*{1em} \\ensuremath{\\ensuremath{\\mathit{a}} \\gets  \\ensuremath{b}}\\\\\n\\end{flushleft}"
+    },
+    {
+      "id": "ods-000232-paragraph-analyzing-the-actual-cost-of-the-ens",
+      "type": "paragraph",
+      "content": "Analyzing the actual cost of the \\ensuremath{\\ensuremath{\\mathrm{resize}()}} operation is easy. It allocates an array \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{b}}}} of size $2\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}$ and copies the \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}} elements of \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{a}}}} into \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{b}}}}. This takes $O(\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}})$ time. The running time analysis from the previous section ignored the cost of calls to \\ensuremath{\\ensuremath{\\mathrm{resize}()}}. In this section we analyze this cost using a technique known as \\emph{amortized analysis}. This technique does not try to determine the cost of resizing during each individual \\ensuremath{\\ensuremath{\\mathrm{add}(\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{x}})}} and \\ensuremath{\\ensuremath{\\mathrm{remove}(\\ensuremath{\\mathit{i}})}} operation. Instead, it considers the cost of all calls to \\ensuremath{\\ensuremath{\\mathrm{resize}()}} during a sequence of $m$ calls to \\ensuremath{\\ensuremath{\\mathrm{add}(\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{x}})}} or \\ensuremath{\\ensuremath{\\mathrm{remove}(\\ensuremath{\\mathit{i}})}}. In particular, we will show:"
+    }
+  ]
+}

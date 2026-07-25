@@ -1,0 +1,78 @@
+{
+  "concept": {
+    "id": "cs408-frequency-evidence-boundary",
+    "title": "408 知识点频率的证据边界",
+    "aliases": [
+      "官方频率未指定",
+      "考频统计边界",
+      "备考优先级"
+    ],
+    "content_type": "concept",
+    "location": {
+      "course_id": "cs408-data-structures",
+      "chapter_id": "408-data-structures-exam-guide",
+      "section_id": "cs408-exam-positioning",
+      "parent_id": null,
+      "order": 4
+    },
+    "core_question": "如何区分 408 官方考频与复习资料给出的优先级建议？",
+    "summary": "报告未找到官方按知识点和年份统计的频率表，因此官方频率应标为未指定，备考优先级只能作为非官方建议。",
+    "definition": "当公开官方材料只规定考试范围、目标和试卷结构，却没有提供按知识点与年份汇总的频率表时，知识库不能把培训资料或个人统计包装成官方频率。可把真题统计、命题承载度和复习优先级作为带来源的方法性建议，但必须与官方范围事实分开标识。",
+    "prerequisite_ids": [],
+    "relations": [
+      {
+        "type": "related",
+        "target_id": "cs408-review-priority-path",
+        "description": "优先复习路径属于报告建议，必须服从官方范围并保留非官方标签。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "考纲像官方地图，告诉你道路边界；优先级像旅行者攻略，能建议先走哪条路，却不能冒充地图上的法定标记。",
+      "mapping": {
+        "官方地图": "考纲范围",
+        "旅行者攻略": "复习优先级",
+        "法定标记": "官方频率结论"
+      },
+      "boundary": "这不表示真题统计没有价值，只表示统计口径、年份范围和来源必须单独说明。"
+    },
+    "retrieval": {
+      "keywords": [
+        "408 知识点频率的证据边界",
+        "官方频率未指定",
+        "考频统计边界",
+        "备考优先级"
+      ],
+      "query_examples": [
+        "如何区分 408 官方考频与复习资料给出的优先级建议？",
+        "408 知识点频率的证据边界具体包括什么？",
+        "复习408 知识点频率的证据边界时最容易混淆的边界是什么？"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "report-cs408-frequency-evidence-boundary"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "cs408-review-priority-path",
+      "title": "408 数据结构建议复习主线",
+      "core_question": "报告建议按什么主线组织 408 数据结构复习？",
+      "summary": "建议从线性结构进入树、图、查找、排序和字符串匹配，先建立过程与复杂度能力，再处理综合应用。",
+      "definition": "报告建议的复习主线是：线性表基本操作，栈与队列应用，二叉树遍历与线索化，Huffman、并查集与堆，图的存储与 BFS/DFS，最小生成树、最短路径与拓扑排序，查找结构，排序比较与复杂度分析，最后补齐字符串模式匹配。该顺序是复习组织建议，不是官方频率结论。",
+      "content_type": "application"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "report-cs408-frequency-evidence-boundary",
+      "type": "paragraph",
+      "content": "报告明确说明未找到官方按“知识点—年份”粒度统计的出题频率表，因此频率栏统一标注“未指定”，另设备考优先级作为非官方复习组织工具。"
+    }
+  ]
+}

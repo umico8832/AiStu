@@ -1,0 +1,94 @@
+{
+  "concept": {
+    "id": "cs408-depth-first-search",
+    "title": "深度优先搜索",
+    "aliases": [
+      "DFS",
+      "depth first search"
+    ],
+    "content_type": "algorithm",
+    "location": {
+      "course_id": "cs408-data-structures",
+      "chapter_id": "408-graphs",
+      "section_id": "cs408-graph-traversal",
+      "parent_id": null,
+      "order": 8
+    },
+    "core_question": "DFS 如何沿一条路径尽可能深入后再回溯？",
+    "summary": "访问顶点后递归或用栈处理未访问邻接点，走不通时回退到最近分叉。",
+    "definition": "DFS 为每个顶点维护 visited 标记。访问 u 后依次检查邻接点 v，未访问则递归 DFS(v)；非递归版本用显式栈。对非连通图需从每个未访问顶点重新启动，得到深度优先森林。",
+    "prerequisite_ids": [
+      "cs408-adjacency-list",
+      "cs408-stack-lifo"
+    ],
+    "relations": [
+      {
+        "type": "part_of",
+        "target_id": "cs408-syllabus-graphs",
+        "description": "深度优先搜索是图考纲模块中的原子知识点。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "像探索迷宫时沿一条岔路走到底，遇到死路再退回最近尚有未走分支的位置。",
+      "mapping": {
+        "直观对象": "深度优先搜索",
+        "对应机制": "访问顶点后递归或用栈处理未访问邻接点，走不通时回退到最近分叉。"
+      },
+      "boundary": "类比只用于建立直觉；正式作答仍需使用定义、操作步骤、适用条件和复杂度结论。"
+    },
+    "retrieval": {
+      "keywords": [
+        "深度优先搜索",
+        "DFS",
+        "depth first search"
+      ],
+      "query_examples": [
+        "DFS 如何沿一条路径尽可能深入后再回溯？",
+        "深度优先搜索的步骤、性质和复杂度是什么？",
+        "深度优先搜索有哪些适用条件和易错边界？"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "syllabus-note-cs408-depth-first-search"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "cs408-adjacency-list",
+      "title": "图的邻接表",
+      "core_question": "邻接表如何只保存实际存在的边？",
+      "summary": "每个顶点维护邻接顶点链表或动态表，空间为 O(V+E)，适合稀疏图。",
+      "definition": "邻接表包含顶点表和每个顶点的边表。无向边通常在两个端点的表中各出现一次，有向边可保存出边或入边。枚举顶点邻居与其度数同阶，但判断任意两点是否相邻可能需要搜索边表。",
+      "content_type": "concept"
+    },
+    {
+      "id": "cs408-stack-lifo",
+      "title": "栈的 LIFO 语义与基本操作",
+      "core_question": "栈为什么称为后进先出的受限线性表？",
+      "summary": "栈只允许在栈顶插入和删除，最后压入的元素最先弹出。",
+      "definition": "栈是只在一端进行插入和删除的线性表，这一端称为栈顶，另一端称为栈底。push 压入元素，pop 删除并返回栈顶，top 只读取栈顶；空栈执行 pop 或 top 必须按接口规则处理下溢。",
+      "content_type": "concept"
+    },
+    {
+      "id": "cs408-syllabus-graphs",
+      "title": "408 考纲：图范围",
+      "core_question": "408 图模块要求掌握哪些表示、遍历和应用？",
+      "summary": "图模块覆盖基本概念、邻接矩阵与邻接表等存储、BFS/DFS，以及生成树、最短路、拓扑排序和关键路径。",
+      "definition": "408 图模块包括图的基本概念，邻接矩阵、邻接表、邻接多重表和十字链表等存储与基本操作，深度优先搜索和广度优先搜索，以及最小生成树、最短路径、拓扑排序和关键路径等基本应用。复习时需能在给定表示上手推过程并分析复杂度。",
+      "content_type": "concept"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "syllabus-note-cs408-depth-first-search",
+      "type": "paragraph",
+      "content": "访问顶点后递归或用栈处理未访问邻接点，走不通时回退到最近分叉。\n\nDFS 为每个顶点维护 visited 标记。访问 u 后依次检查邻接点 v，未访问则递归 DFS(v)；非递归版本用显式栈。对非连通图需从每个未访问顶点重新启动，得到深度优先森林。\n\n对应 2026 数据结构考纲叶子条目：深度优先搜索。"
+    }
+  ]
+}

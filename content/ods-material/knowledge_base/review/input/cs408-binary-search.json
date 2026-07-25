@@ -1,0 +1,94 @@
+{
+  "concept": {
+    "id": "cs408-binary-search",
+    "title": "折半查找",
+    "aliases": [
+      "binary search",
+      "二分查找"
+    ],
+    "content_type": "algorithm",
+    "location": {
+      "course_id": "cs408-data-structures",
+      "chapter_id": "408-searching",
+      "section_id": "cs408-linear-search",
+      "parent_id": null,
+      "order": 6
+    },
+    "core_question": "折半查找怎样利用有序顺序表不断缩小区间？",
+    "summary": "比较中点后排除不可能的一半，成功和失败时间均为 O(log n)。",
+    "definition": "折半查找要求支持随机访问且关键字有序。维护闭区间 [low,high] 或半开区间，按统一约定计算 mid；目标小于中值缩小右界，大于则提高左界。循环条件和边界更新必须保证区间严格缩小。",
+    "prerequisite_ids": [
+      "cs408-search-concepts",
+      "cs408-sequential-list-storage"
+    ],
+    "relations": [
+      {
+        "type": "part_of",
+        "target_id": "cs408-syllabus-searching",
+        "description": "折半查找是查找考纲模块中的原子知识点。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "像在有序字典中先翻中间页，根据字母顺序只保留前半或后半继续查。",
+      "mapping": {
+        "直观对象": "折半查找",
+        "对应机制": "比较中点后排除不可能的一半，成功和失败时间均为 O(log n)。"
+      },
+      "boundary": "类比只用于建立直觉；正式作答仍需使用定义、操作步骤、适用条件和复杂度结论。"
+    },
+    "retrieval": {
+      "keywords": [
+        "折半查找",
+        "binary search",
+        "二分查找"
+      ],
+      "query_examples": [
+        "折半查找怎样利用有序顺序表不断缩小区间？",
+        "折半查找的步骤、性质和复杂度是什么？",
+        "折半查找有哪些适用条件和易错边界？"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "syllabus-note-cs408-binary-search"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "cs408-search-concepts",
+      "title": "查找表、关键字与查找结果",
+      "core_question": "查找问题中的查找表、关键字、成功与失败分别是什么？",
+      "summary": "查找依据关键字在记录集合中确定匹配记录，成功返回位置或记录，失败确认不存在。",
+      "definition": "查找表是同一类型记录构成的集合，关键字是能标识或区分记录的数据项。静态查找表只查询，动态查找表还允许插入和删除；评价算法时必须同时考虑成功、失败查找以及数据是否有序。",
+      "content_type": "concept"
+    },
+    {
+      "id": "cs408-sequential-list-storage",
+      "title": "顺序表的存储表示",
+      "core_question": "顺序表如何用连续存储单元表示线性表？",
+      "summary": "顺序表把逻辑相邻元素放在物理连续位置，通过首地址和元素大小直接计算任意元素地址。",
+      "definition": "若首元素地址为 LOC(a1)、每个元素占 l 个字节，则 LOC(ai)=LOC(a1)+(i-1)l。顺序表通常同时维护当前长度与容量，支持 O(1) 随机访问，但容量固定或扩容时需要重新分配与复制。",
+      "content_type": "concept"
+    },
+    {
+      "id": "cs408-syllabus-searching",
+      "title": "408 考纲：查找范围",
+      "core_question": "408 查找模块覆盖哪些查找结构和算法？",
+      "summary": "查找模块覆盖顺序、分块、折半查找，BST、AVL、红黑树、B/B+树、散列表、字符串匹配及分析应用。",
+      "definition": "408 查找模块包括查找基本概念，顺序查找、分块查找、折半查找，二叉搜索树、平衡二叉树和红黑树，B 树的基本操作与 B+ 树基本概念，散列表，字符串模式匹配，以及查找算法的分析与应用。不同方法必须结合前提、操作成本和数据场景比较。",
+      "content_type": "concept"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "syllabus-note-cs408-binary-search",
+      "type": "paragraph",
+      "content": "比较中点后排除不可能的一半，成功和失败时间均为 O(log n)。\n\n折半查找要求支持随机访问且关键字有序。维护闭区间 [low,high] 或半开区间，按统一约定计算 mid；目标小于中值缩小右界，大于则提高左界。循环条件和边界更新必须保证区间严格缩小。\n\n对应 2026 数据结构考纲叶子条目：折半查找法。"
+    }
+  ]
+}

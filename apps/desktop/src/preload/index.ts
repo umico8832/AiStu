@@ -3,6 +3,8 @@ import {
   chatSendInputSchema,
   chatStreamEventSchema,
   ipcChannels,
+  knowledgeCourseRequestSchema,
+  knowledgeCourseSchema,
   persistedAppStateV2Schema,
   type KaleidoscopeApi,
 } from "@kaleidoscope/contracts";
@@ -27,6 +29,16 @@ const api: KaleidoscopeApi = {
       };
       ipcRenderer.on(ipcChannels.chatEvent, handler);
       return () => ipcRenderer.removeListener(ipcChannels.chatEvent, handler);
+    },
+  },
+  knowledge: {
+    async loadCourse(input) {
+      const validated = knowledgeCourseRequestSchema.parse(input);
+      const raw: unknown = await ipcRenderer.invoke(
+        ipcChannels.knowledgeCourseLoad,
+        validated,
+      );
+      return knowledgeCourseSchema.parse(raw);
     },
   },
   persistence: {

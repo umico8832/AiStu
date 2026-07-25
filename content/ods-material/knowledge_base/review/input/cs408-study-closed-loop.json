@@ -1,0 +1,88 @@
+{
+  "concept": {
+    "id": "cs408-study-closed-loop",
+    "title": "408 数据结构学习闭环",
+    "aliases": [
+      "看懂画图手推手写",
+      "错题复盘闭环",
+      "输入推导实现总结"
+    ],
+    "content_type": "application",
+    "location": {
+      "course_id": "cs408-data-structures",
+      "chapter_id": "408-data-structures-exam-guide",
+      "section_id": "cs408-study-strategy",
+      "parent_id": null,
+      "order": 16
+    },
+    "core_question": "报告建议怎样把一次数据结构学习做成闭环？",
+    "summary": "每个学习单元应经历看懂、画图、手推、手写、口头解释和错题重做，而不是停在看懂答案。",
+    "definition": "报告建议把数据结构学习组织为连续闭环：阅读教材或讲义建立输入，画出结构，手推操作与复杂度，手写伪代码或核心实现，用自己的语言解释机制，再记录错因并二次重做。只有可复现的推导和实现输出，才能作为比“看过答案”更可靠的理解证据。",
+    "prerequisite_ids": [
+      "cs408-three-layer-mastery"
+    ],
+    "relations": [
+      {
+        "type": "leads_to",
+        "target_id": "cs408-eight-week-review-plan",
+        "description": "学习闭环可以作为八周计划中每周和每日任务的统一执行模板。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "闭环像驾驶训练：看规则只是输入，实际观察、操作、讲解和复盘必须连续完成，才能在新路况下独立应对。",
+      "mapping": {
+        "看规则": "阅读概念",
+        "实际操作": "手推与手写",
+        "复盘路况": "错题归因与重做"
+      },
+      "boundary": "类比不规定固定每日时长，也不能以完成动作数量直接替代正确性和迁移能力评估。"
+    },
+    "retrieval": {
+      "keywords": [
+        "408 数据结构学习闭环",
+        "看懂画图手推手写",
+        "错题复盘闭环",
+        "输入推导实现总结"
+      ],
+      "query_examples": [
+        "报告建议怎样把一次数据结构学习做成闭环？",
+        "408 数据结构学习闭环具体包括什么？",
+        "复习408 数据结构学习闭环时最容易混淆的边界是什么？"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "report-cs408-study-closed-loop"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "cs408-three-layer-mastery",
+      "title": "408 数据结构三层掌握标准",
+      "core_question": "如何把 408 数据结构考查目标转成可执行的掌握标准？",
+      "summary": "一个知识点至少要达到会说概念与公式、会手推结构和复杂度、会手写核心算法框架三个层次。",
+      "definition": "报告把数据结构掌握标准归纳为三层：第一层能准确说明概念、性质和公式；第二层能画结构、手推操作过程并分析时间与空间复杂度；第三层能用伪代码或 C/C++ 写出核心算法框架，并说明适用条件和易错边界。三层共同对应考纲的概念、实现、分析与设计要求。",
+      "content_type": "application"
+    },
+    {
+      "id": "cs408-eight-week-review-plan",
+      "title": "408 数据结构八周复习阶段",
+      "core_question": "报告如何把 408 数据结构主线安排为八周复习阶段？",
+      "summary": "八周安排依次完成基础与线性结构、树图、查找排序、综合训练、错题回炉和冲刺模板固化。",
+      "definition": "报告的八周模板把第 1 至 2 周用于基本概念、复杂度和线性结构，第 3 至 4 周主攻树、二叉树与图，第 5 至 6 周强化查找、排序和 KMP，第 7 周进行真题风格套卷与错题归类，第 8 周回炉薄弱点并固化公式、算法模板和高频陷阱。它是可调整的通用计划，不是用户掌握状态。",
+      "content_type": "application"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "report-cs408-study-closed-loop",
+      "type": "paragraph",
+      "content": "报告要求每周形成“看懂→画图→手推→手写→讲给自己听→二次重做错题”的闭环，并警告只停留在看懂答案会导致实际考试失效。"
+    }
+  ]
+}

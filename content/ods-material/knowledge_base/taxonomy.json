@@ -1,0 +1,1837 @@
+{
+  "version": 2,
+  "courses": [
+    {
+      "course_id": "open-data-structures",
+      "title": "Open Data Structures",
+      "title_zh": "开放数据结构",
+      "source_edition": "pseudocode/Python",
+      "chapters": [
+        {
+          "id": "acknowledgments",
+          "title": "Acknowledgments",
+          "title_zh": "Acknowledgments",
+          "order": 0,
+          "source_chapter_number": null,
+          "sections": []
+        },
+        {
+          "id": "why-this-book",
+          "title": "Why This Book?",
+          "title_zh": "Why This Book?",
+          "order": 0,
+          "source_chapter_number": null,
+          "sections": []
+        },
+        {
+          "id": "introduction",
+          "title": "Introduction",
+          "title_zh": "引言",
+          "order": 1,
+          "source_chapter_number": 1,
+          "sections": [
+            {
+              "id": "1-1-the-need-for-efficiency",
+              "title": "The Need for Efficiency",
+              "title_zh": "The Need for Efficiency",
+              "order": 1,
+              "source_section_number": "1.1",
+              "subsections": [],
+              "concept_ids": []
+            },
+            {
+              "id": "1-2-interfaces",
+              "title": "Interfaces",
+              "title_zh": "Interfaces",
+              "order": 2,
+              "source_section_number": "1.2",
+              "subsections": [
+                {
+                  "id": "1-2-1-the-queue-stack-and-deque-interfaces",
+                  "title": "The Queue, Stack, and Deque Interfaces",
+                  "title_zh": "The Queue, Stack, and Deque Interfaces",
+                  "order": 1,
+                  "source_subsection_number": "1.2.1",
+                  "concept_ids": []
+                },
+                {
+                  "id": "1-2-2-the-list-interface",
+                  "title": "The List Interface: Linear Sequences",
+                  "title_zh": "The List Interface: Linear Sequences",
+                  "order": 2,
+                  "source_subsection_number": "1.2.2",
+                  "concept_ids": []
+                },
+                {
+                  "id": "1-2-3-the-uset-interface",
+                  "title": "The USet Interface: Unordered Sets",
+                  "title_zh": "The USet Interface: Unordered Sets",
+                  "order": 3,
+                  "source_subsection_number": "1.2.3",
+                  "concept_ids": []
+                },
+                {
+                  "id": "1-2-4-the-sset-interface",
+                  "title": "The SSet Interface: Sorted Sets",
+                  "title_zh": "The SSet Interface: Sorted Sets",
+                  "order": 4,
+                  "source_subsection_number": "1.2.4",
+                  "concept_ids": []
+                }
+              ],
+              "concept_ids": []
+            },
+            {
+              "id": "1-3-mathematical-background",
+              "title": "Mathematical Background",
+              "title_zh": "Mathematical Background",
+              "order": 3,
+              "source_section_number": "1.3",
+              "subsections": [
+                {
+                  "id": "1-3-1-exponentials-and-logarithms",
+                  "title": "Exponentials and Logarithms",
+                  "title_zh": "Exponentials and Logarithms",
+                  "order": 1,
+                  "source_subsection_number": "1.3.1",
+                  "concept_ids": []
+                },
+                {
+                  "id": "1-3-2-factorials",
+                  "title": "Factorials",
+                  "title_zh": "Factorials",
+                  "order": 2,
+                  "source_subsection_number": "1.3.2",
+                  "concept_ids": []
+                },
+                {
+                  "id": "1-3-3-asymptotic-notation",
+                  "title": "Asymptotic Notation",
+                  "title_zh": "Asymptotic Notation",
+                  "order": 3,
+                  "source_subsection_number": "1.3.3",
+                  "concept_ids": []
+                },
+                {
+                  "id": "1-3-4-randomization-and-probability",
+                  "title": "Randomization and Probability",
+                  "title_zh": "Randomization and Probability",
+                  "order": 4,
+                  "source_subsection_number": "1.3.4",
+                  "concept_ids": []
+                }
+              ],
+              "concept_ids": []
+            },
+            {
+              "id": "1-4-the-model-of-computation",
+              "title": "The Model of Computation",
+              "title_zh": "The Model of Computation",
+              "order": 4,
+              "source_section_number": "1.4",
+              "subsections": [],
+              "concept_ids": []
+            },
+            {
+              "id": "1-5-correctness-time-complexity-and-space-complexity",
+              "title": "Correctness, Time Complexity, and Space Complexity",
+              "title_zh": "Correctness, Time Complexity, and Space Complexity",
+              "order": 5,
+              "source_section_number": "1.5",
+              "subsections": [],
+              "concept_ids": []
+            },
+            {
+              "id": "1-6-code-samples",
+              "title": "Code Samples",
+              "title_zh": "Code Samples",
+              "order": 6,
+              "source_section_number": "1.6",
+              "subsections": [],
+              "concept_ids": []
+            },
+            {
+              "id": "1-7-list-of-data-structures",
+              "title": "List of Data Structures",
+              "title_zh": "List of Data Structures",
+              "order": 7,
+              "source_section_number": "1.7",
+              "subsections": [],
+              "concept_ids": []
+            },
+            {
+              "id": "1-8-discussion-and-exercises",
+              "title": "Discussion and Exercises",
+              "title_zh": "Discussion and Exercises",
+              "order": 8,
+              "source_section_number": "1.8",
+              "subsections": [],
+              "concept_ids": []
+            }
+          ]
+        },
+        {
+          "id": "array-based-lists",
+          "title": "Array-Based Lists",
+          "title_zh": "基于数组的线性表",
+          "order": 2,
+          "source_chapter_number": 2,
+          "sections": [
+            {
+              "id": "2-1-arraystack",
+              "title": "ArrayStack: Fast Stack Operations Using an Array",
+              "title_zh": "ArrayStack：用数组实现快速栈操作",
+              "order": 1,
+              "source_section_number": "2.1",
+              "subsections": [
+                {
+                  "id": "2-1-1-the-basics",
+                  "title": "The Basics",
+                  "title_zh": "基本操作",
+                  "order": 1,
+                  "source_subsection_number": "2.1.1",
+                  "concept_ids": [
+                    "ods-arraystack-random-access",
+                    "ods-arraystack-insertion",
+                    "ods-arraystack-removal"
+                  ]
+                },
+                {
+                  "id": "2-1-2-growing-and-shrinking",
+                  "title": "Growing and Shrinking",
+                  "title_zh": "扩容与缩容",
+                  "order": 2,
+                  "source_subsection_number": "2.1.2",
+                  "concept_ids": [
+                    "ods-arraystack-resize",
+                    "ods-arraystack-amortized-resize"
+                  ]
+                },
+                {
+                  "id": "2-1-3-summary",
+                  "title": "Summary",
+                  "title_zh": "小结",
+                  "order": 3,
+                  "source_subsection_number": "2.1.3",
+                  "concept_ids": [
+                    "ods-arraystack-performance"
+                  ]
+                }
+              ],
+              "concept_ids": [
+                "ods-array-backed-storage",
+                "ods-array-size-capacity"
+              ]
+            },
+            {
+              "id": "2-2-fastarraystack",
+              "title": "FastArrayStack: An Optimized ArrayStack",
+              "title_zh": "FastArrayStack：优化的 ArrayStack",
+              "order": 2,
+              "source_section_number": "2.2",
+              "subsections": [],
+              "concept_ids": [
+                "ods-fastarraystack-block-copy"
+              ]
+            },
+            {
+              "id": "2-3-arrayqueue",
+              "title": "ArrayQueue: An Array-Based Queue",
+              "title_zh": "ArrayQueue：基于数组的队列",
+              "order": 3,
+              "source_section_number": "2.3",
+              "subsections": [
+                {
+                  "id": "2-3-1-summary",
+                  "title": "Summary",
+                  "title_zh": "小结",
+                  "order": 1,
+                  "source_subsection_number": "2.3.1",
+                  "concept_ids": [
+                    "ods-arrayqueue-performance"
+                  ]
+                }
+              ],
+              "concept_ids": [
+                "ods-modular-array-indexing",
+                "ods-arrayqueue-representation",
+                "ods-arrayqueue-enqueue",
+                "ods-arrayqueue-dequeue",
+                "ods-arrayqueue-resize"
+              ]
+            },
+            {
+              "id": "2-4-arraydeque",
+              "title": "ArrayDeque: Fast Deque Operations Using an Array",
+              "title_zh": "ArrayDeque：用数组实现快速双端队列操作",
+              "order": 4,
+              "source_section_number": "2.4",
+              "subsections": [
+                {
+                  "id": "2-4-1-summary",
+                  "title": "Summary",
+                  "title_zh": "小结",
+                  "order": 1,
+                  "source_subsection_number": "2.4.1",
+                  "concept_ids": [
+                    "ods-arraydeque-performance"
+                  ]
+                }
+              ],
+              "concept_ids": [
+                "ods-arraydeque-representation",
+                "ods-arraydeque-nearest-end-shifting"
+              ]
+            },
+            {
+              "id": "2-5-dualarraydeque",
+              "title": "DualArrayDeque: Building a Deque from Two Stacks",
+              "title_zh": "DualArrayDeque：用两个栈构造双端队列",
+              "order": 5,
+              "source_section_number": "2.5",
+              "subsections": [
+                {
+                  "id": "2-5-1-balancing",
+                  "title": "Balancing",
+                  "title_zh": "再平衡",
+                  "order": 1,
+                  "source_subsection_number": "2.5.1",
+                  "concept_ids": [
+                    "ods-dualarraydeque-balance",
+                    "ods-dualarraydeque-amortized-balance"
+                  ]
+                },
+                {
+                  "id": "2-5-2-summary",
+                  "title": "Summary",
+                  "title_zh": "小结",
+                  "order": 2,
+                  "source_subsection_number": "2.5.2",
+                  "concept_ids": [
+                    "ods-dualarraydeque-performance"
+                  ]
+                }
+              ],
+              "concept_ids": [
+                "ods-dualarraydeque-representation",
+                "ods-dualarraydeque-end-operations"
+              ]
+            },
+            {
+              "id": "2-6-rootisharraystack",
+              "title": "RootishArrayStack: A Space-Efficient Array Stack",
+              "title_zh": "RootishArrayStack：空间高效的数组栈",
+              "order": 6,
+              "source_section_number": "2.6",
+              "subsections": [
+                {
+                  "id": "2-6-1-analysis-of-growing-and-shrinking",
+                  "title": "Analysis of Growing and Shrinking",
+                  "title_zh": "扩容与缩容的分析",
+                  "order": 1,
+                  "source_subsection_number": "2.6.1",
+                  "concept_ids": [
+                    "ods-rootisharraystack-grow-shrink"
+                  ]
+                },
+                {
+                  "id": "2-6-2-space-usage",
+                  "title": "Space Usage",
+                  "title_zh": "空间使用",
+                  "order": 2,
+                  "source_subsection_number": "2.6.2",
+                  "concept_ids": [
+                    "ods-rootisharraystack-space"
+                  ]
+                },
+                {
+                  "id": "2-6-3-summary",
+                  "title": "Summary",
+                  "title_zh": "小结",
+                  "order": 3,
+                  "source_subsection_number": "2.6.3",
+                  "concept_ids": [
+                    "ods-rootisharraystack-performance"
+                  ]
+                }
+              ],
+              "concept_ids": [
+                "ods-rootisharraystack-block-layout",
+                "ods-rootisharraystack-index-mapping",
+                "ods-rootisharraystack-update"
+              ]
+            },
+            {
+              "id": "2-7-discussion-and-exercises",
+              "title": "Discussion and Exercises",
+              "title_zh": "讨论与练习",
+              "order": 7,
+              "source_section_number": "2.7",
+              "subsections": [],
+              "concept_ids": [
+                "ods-array-layout-tradeoffs"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "linked-lists",
+          "title": "Linked Lists",
+          "title_zh": "链表",
+          "order": 3,
+          "source_chapter_number": 3,
+          "sections": [
+            {
+              "id": "3-1-sllist",
+              "title": "SLList: A Singly-Linked List",
+              "title_zh": "SLList: A Singly-Linked List",
+              "order": 1,
+              "source_section_number": "3.1",
+              "subsections": [
+                {
+                  "id": "3-1-1-queue-operations",
+                  "title": "Queue Operations",
+                  "title_zh": "Queue Operations",
+                  "order": 1,
+                  "source_subsection_number": "3.1.1",
+                  "concept_ids": []
+                },
+                {
+                  "id": "3-1-2-summary",
+                  "title": "Summary",
+                  "title_zh": "Summary",
+                  "order": 2,
+                  "source_subsection_number": "3.1.2",
+                  "concept_ids": []
+                }
+              ],
+              "concept_ids": []
+            },
+            {
+              "id": "3-2-dllist",
+              "title": "DLList: A Doubly-Linked List",
+              "title_zh": "DLList: A Doubly-Linked List",
+              "order": 2,
+              "source_section_number": "3.2",
+              "subsections": [
+                {
+                  "id": "3-2-1-adding-and-removing",
+                  "title": "Adding and Removing",
+                  "title_zh": "Adding and Removing",
+                  "order": 1,
+                  "source_subsection_number": "3.2.1",
+                  "concept_ids": []
+                },
+                {
+                  "id": "3-2-2-summary",
+                  "title": "Summary",
+                  "title_zh": "Summary",
+                  "order": 2,
+                  "source_subsection_number": "3.2.2",
+                  "concept_ids": []
+                }
+              ],
+              "concept_ids": []
+            },
+            {
+              "id": "3-3-selist",
+              "title": "SEList: A Space-Efficient Linked List",
+              "title_zh": "SEList: A Space-Efficient Linked List",
+              "order": 3,
+              "source_section_number": "3.3",
+              "subsections": [
+                {
+                  "id": "3-3-1-space-requirements",
+                  "title": "Space Requirements",
+                  "title_zh": "Space Requirements",
+                  "order": 1,
+                  "source_subsection_number": "3.3.1",
+                  "concept_ids": []
+                },
+                {
+                  "id": "3-3-2-finding-elements",
+                  "title": "Finding Elements",
+                  "title_zh": "Finding Elements",
+                  "order": 2,
+                  "source_subsection_number": "3.3.2",
+                  "concept_ids": []
+                },
+                {
+                  "id": "3-3-3-adding-an-element",
+                  "title": "Adding an Element",
+                  "title_zh": "Adding an Element",
+                  "order": 3,
+                  "source_subsection_number": "3.3.3",
+                  "concept_ids": []
+                },
+                {
+                  "id": "3-3-4-removing-an-element",
+                  "title": "Removing an Element",
+                  "title_zh": "Removing an Element",
+                  "order": 4,
+                  "source_subsection_number": "3.3.4",
+                  "concept_ids": []
+                },
+                {
+                  "id": "3-3-5-amortized-analysis-of-spreading-and-gathering",
+                  "title": "Amortized Analysis of Spreading and Gathering",
+                  "title_zh": "Amortized Analysis of Spreading and Gathering",
+                  "order": 5,
+                  "source_subsection_number": "3.3.5",
+                  "concept_ids": []
+                },
+                {
+                  "id": "3-3-6-summary",
+                  "title": "Summary",
+                  "title_zh": "Summary",
+                  "order": 6,
+                  "source_subsection_number": "3.3.6",
+                  "concept_ids": []
+                }
+              ],
+              "concept_ids": []
+            },
+            {
+              "id": "3-4-discussion-and-exercises",
+              "title": "Discussion and Exercises",
+              "title_zh": "Discussion and Exercises",
+              "order": 4,
+              "source_section_number": "3.4",
+              "subsections": [],
+              "concept_ids": []
+            }
+          ]
+        },
+        {
+          "id": "skiplists",
+          "title": "Skiplists",
+          "title_zh": "跳表",
+          "order": 4,
+          "source_chapter_number": 4,
+          "sections": [
+            {
+              "id": "4-1-the-basic-structure",
+              "title": "The Basic Structure",
+              "title_zh": "The Basic Structure",
+              "order": 1,
+              "source_section_number": "4.1",
+              "subsections": [],
+              "concept_ids": []
+            },
+            {
+              "id": "4-2-skiplistsset",
+              "title": "SkiplistSSet: An Efficient SSet",
+              "title_zh": "SkiplistSSet: An Efficient SSet",
+              "order": 2,
+              "source_section_number": "4.2",
+              "subsections": [
+                {
+                  "id": "4-2-1-summary",
+                  "title": "Summary",
+                  "title_zh": "Summary",
+                  "order": 1,
+                  "source_subsection_number": "4.2.1",
+                  "concept_ids": []
+                }
+              ],
+              "concept_ids": []
+            },
+            {
+              "id": "4-3-skiplistlist",
+              "title": "SkiplistList: An Efficient Random-Access List",
+              "title_zh": "SkiplistList: An Efficient Random-Access List",
+              "order": 3,
+              "source_section_number": "4.3",
+              "subsections": [
+                {
+                  "id": "4-3-1-summary",
+                  "title": "Summary",
+                  "title_zh": "Summary",
+                  "order": 1,
+                  "source_subsection_number": "4.3.1",
+                  "concept_ids": []
+                }
+              ],
+              "concept_ids": []
+            },
+            {
+              "id": "4-4-analysis-of-skiplists",
+              "title": "Analysis of Skiplists",
+              "title_zh": "Analysis of Skiplists",
+              "order": 4,
+              "source_section_number": "4.4",
+              "subsections": [],
+              "concept_ids": []
+            },
+            {
+              "id": "4-5-discussion-and-exercises",
+              "title": "Discussion and Exercises",
+              "title_zh": "Discussion and Exercises",
+              "order": 5,
+              "source_section_number": "4.5",
+              "subsections": [],
+              "concept_ids": []
+            }
+          ]
+        },
+        {
+          "id": "hash-tables",
+          "title": "Hash Tables",
+          "title_zh": "哈希表",
+          "order": 5,
+          "source_chapter_number": 5,
+          "sections": [
+            {
+              "id": "5-1-chainedhashtable",
+              "title": "ChainedHashTable: Hashing with Chaining",
+              "title_zh": "ChainedHashTable: Hashing with Chaining",
+              "order": 1,
+              "source_section_number": "5.1",
+              "subsections": [
+                {
+                  "id": "5-1-1-multiplicative-hashing",
+                  "title": "Multiplicative Hashing",
+                  "title_zh": "Multiplicative Hashing",
+                  "order": 1,
+                  "source_subsection_number": "5.1.1",
+                  "concept_ids": []
+                },
+                {
+                  "id": "5-1-2-summary",
+                  "title": "Summary",
+                  "title_zh": "Summary",
+                  "order": 2,
+                  "source_subsection_number": "5.1.2",
+                  "concept_ids": []
+                }
+              ],
+              "concept_ids": []
+            },
+            {
+              "id": "5-2-linearhashtable",
+              "title": "LinearHashTable: Linear Probing",
+              "title_zh": "LinearHashTable: Linear Probing",
+              "order": 2,
+              "source_section_number": "5.2",
+              "subsections": [
+                {
+                  "id": "5-2-1-analysis-of-linear-probing",
+                  "title": "Analysis of Linear Probing",
+                  "title_zh": "Analysis of Linear Probing",
+                  "order": 1,
+                  "source_subsection_number": "5.2.1",
+                  "concept_ids": []
+                },
+                {
+                  "id": "5-2-2-summary",
+                  "title": "Summary",
+                  "title_zh": "Summary",
+                  "order": 2,
+                  "source_subsection_number": "5.2.2",
+                  "concept_ids": []
+                },
+                {
+                  "id": "5-2-3-tabulation-hashing",
+                  "title": "Tabulation Hashing",
+                  "title_zh": "Tabulation Hashing",
+                  "order": 3,
+                  "source_subsection_number": "5.2.3",
+                  "concept_ids": []
+                }
+              ],
+              "concept_ids": []
+            },
+            {
+              "id": "5-3-hash-codes",
+              "title": "Hash Codes",
+              "title_zh": "Hash Codes",
+              "order": 3,
+              "source_section_number": "5.3",
+              "subsections": [
+                {
+                  "id": "5-3-1-hash-codes-for-primitive-data-types",
+                  "title": "Hash Codes for Primitive Data Types",
+                  "title_zh": "Hash Codes for Primitive Data Types",
+                  "order": 1,
+                  "source_subsection_number": "5.3.1",
+                  "concept_ids": []
+                },
+                {
+                  "id": "5-3-2-hash-codes-for-compound-objects",
+                  "title": "Hash Codes for Compound Objects",
+                  "title_zh": "Hash Codes for Compound Objects",
+                  "order": 2,
+                  "source_subsection_number": "5.3.2",
+                  "concept_ids": []
+                },
+                {
+                  "id": "5-3-3-hash-codes-for-arrays-and-strings",
+                  "title": "Hash Codes for Arrays and Strings",
+                  "title_zh": "Hash Codes for Arrays and Strings",
+                  "order": 3,
+                  "source_subsection_number": "5.3.3",
+                  "concept_ids": []
+                }
+              ],
+              "concept_ids": []
+            },
+            {
+              "id": "5-4-discussion-and-exercises",
+              "title": "Discussion and Exercises",
+              "title_zh": "Discussion and Exercises",
+              "order": 4,
+              "source_section_number": "5.4",
+              "subsections": [],
+              "concept_ids": []
+            }
+          ]
+        },
+        {
+          "id": "binary-trees",
+          "title": "Binary Trees",
+          "title_zh": "二叉树",
+          "order": 6,
+          "source_chapter_number": 6,
+          "sections": [
+            {
+              "id": "6-1-binarytree",
+              "title": "BinaryTree: A Basic Binary Tree",
+              "title_zh": "BinaryTree: A Basic Binary Tree",
+              "order": 1,
+              "source_section_number": "6.1",
+              "subsections": [
+                {
+                  "id": "6-1-1-recursive-algorithms",
+                  "title": "Recursive Algorithms",
+                  "title_zh": "Recursive Algorithms",
+                  "order": 1,
+                  "source_subsection_number": "6.1.1",
+                  "concept_ids": []
+                },
+                {
+                  "id": "6-1-2-traversing-binary-trees",
+                  "title": "Traversing Binary Trees",
+                  "title_zh": "Traversing Binary Trees",
+                  "order": 2,
+                  "source_subsection_number": "6.1.2",
+                  "concept_ids": []
+                }
+              ],
+              "concept_ids": []
+            },
+            {
+              "id": "6-2-binarysearchtree",
+              "title": "BinarySearchTree: An Unbalanced Binary Search Tree",
+              "title_zh": "BinarySearchTree: An Unbalanced Binary Search Tree",
+              "order": 2,
+              "source_section_number": "6.2",
+              "subsections": [
+                {
+                  "id": "6-2-1-searching",
+                  "title": "Searching",
+                  "title_zh": "Searching",
+                  "order": 1,
+                  "source_subsection_number": "6.2.1",
+                  "concept_ids": []
+                },
+                {
+                  "id": "6-2-2-addition",
+                  "title": "Addition",
+                  "title_zh": "Addition",
+                  "order": 2,
+                  "source_subsection_number": "6.2.2",
+                  "concept_ids": []
+                },
+                {
+                  "id": "6-2-3-removal",
+                  "title": "Removal",
+                  "title_zh": "Removal",
+                  "order": 3,
+                  "source_subsection_number": "6.2.3",
+                  "concept_ids": []
+                },
+                {
+                  "id": "6-2-4-summary",
+                  "title": "Summary",
+                  "title_zh": "Summary",
+                  "order": 4,
+                  "source_subsection_number": "6.2.4",
+                  "concept_ids": []
+                }
+              ],
+              "concept_ids": []
+            },
+            {
+              "id": "6-3-discussion-and-exercises",
+              "title": "Discussion and Exercises",
+              "title_zh": "Discussion and Exercises",
+              "order": 3,
+              "source_section_number": "6.3",
+              "subsections": [],
+              "concept_ids": []
+            }
+          ]
+        },
+        {
+          "id": "random-binary-search-trees",
+          "title": "Random Binary Search Trees",
+          "title_zh": "随机二叉搜索树",
+          "order": 7,
+          "source_chapter_number": 7,
+          "sections": [
+            {
+              "id": "7-1-random-binary-search-trees",
+              "title": "Random Binary Search Trees",
+              "title_zh": "Random Binary Search Trees",
+              "order": 1,
+              "source_section_number": "7.1",
+              "subsections": [
+                {
+                  "id": "7-1-1-proof-of-lemref-rbs",
+                  "title": "Proof of \\lemref{rbs}",
+                  "title_zh": "Proof of \\lemref{rbs}",
+                  "order": 1,
+                  "source_subsection_number": "7.1.1",
+                  "concept_ids": []
+                },
+                {
+                  "id": "7-1-2-summary",
+                  "title": "Summary",
+                  "title_zh": "Summary",
+                  "order": 2,
+                  "source_subsection_number": "7.1.2",
+                  "concept_ids": []
+                }
+              ],
+              "concept_ids": []
+            },
+            {
+              "id": "7-2-treap",
+              "title": "Treap: A Randomized Binary Search Tree",
+              "title_zh": "Treap: A Randomized Binary Search Tree",
+              "order": 2,
+              "source_section_number": "7.2",
+              "subsections": [
+                {
+                  "id": "7-2-1-summary",
+                  "title": "Summary",
+                  "title_zh": "Summary",
+                  "order": 1,
+                  "source_subsection_number": "7.2.1",
+                  "concept_ids": []
+                }
+              ],
+              "concept_ids": []
+            },
+            {
+              "id": "7-3-discussion-and-exercises",
+              "title": "Discussion and Exercises",
+              "title_zh": "Discussion and Exercises",
+              "order": 3,
+              "source_section_number": "7.3",
+              "subsections": [],
+              "concept_ids": []
+            }
+          ]
+        },
+        {
+          "id": "scapegoat-trees",
+          "title": "Scapegoat Trees",
+          "title_zh": "替罪羊树",
+          "order": 8,
+          "source_chapter_number": 8,
+          "sections": [
+            {
+              "id": "8-1-scapegoattree",
+              "title": "ScapegoatTree: A Binary Search Tree with Partial Rebuilding",
+              "title_zh": "ScapegoatTree: A Binary Search Tree with Partial Rebuilding",
+              "order": 1,
+              "source_section_number": "8.1",
+              "subsections": [
+                {
+                  "id": "8-1-1-analysis-of-correctness-and-running-time",
+                  "title": "Analysis of Correctness and Running-Time",
+                  "title_zh": "Analysis of Correctness and Running-Time",
+                  "order": 1,
+                  "source_subsection_number": "8.1.1",
+                  "concept_ids": []
+                },
+                {
+                  "id": "8-1-2-summary",
+                  "title": "Summary",
+                  "title_zh": "Summary",
+                  "order": 2,
+                  "source_subsection_number": "8.1.2",
+                  "concept_ids": []
+                }
+              ],
+              "concept_ids": []
+            },
+            {
+              "id": "8-2-discussion-and-exercises",
+              "title": "Discussion and Exercises",
+              "title_zh": "Discussion and Exercises",
+              "order": 2,
+              "source_section_number": "8.2",
+              "subsections": [],
+              "concept_ids": []
+            }
+          ]
+        },
+        {
+          "id": "red-black-trees",
+          "title": "Red-Black Trees",
+          "title_zh": "红黑树",
+          "order": 9,
+          "source_chapter_number": 9,
+          "sections": [
+            {
+              "id": "9-1-2-4-trees",
+              "title": "2-4 Trees",
+              "title_zh": "2-4 Trees",
+              "order": 1,
+              "source_section_number": "9.1",
+              "subsections": [
+                {
+                  "id": "9-1-1-adding-a-leaf",
+                  "title": "Adding a Leaf",
+                  "title_zh": "Adding a Leaf",
+                  "order": 1,
+                  "source_subsection_number": "9.1.1",
+                  "concept_ids": []
+                },
+                {
+                  "id": "9-1-2-removing-a-leaf",
+                  "title": "Removing a Leaf",
+                  "title_zh": "Removing a Leaf",
+                  "order": 2,
+                  "source_subsection_number": "9.1.2",
+                  "concept_ids": []
+                }
+              ],
+              "concept_ids": []
+            },
+            {
+              "id": "9-2-redblacktree",
+              "title": "RedBlackTree: A Simulated 2-4 Tree",
+              "title_zh": "RedBlackTree: A Simulated 2-4 Tree",
+              "order": 2,
+              "source_section_number": "9.2",
+              "subsections": [
+                {
+                  "id": "9-2-1-red-black-trees-and-2-4-trees",
+                  "title": "Red-Black Trees and 2-4 Trees",
+                  "title_zh": "Red-Black Trees and 2-4 Trees",
+                  "order": 1,
+                  "source_subsection_number": "9.2.1",
+                  "concept_ids": []
+                },
+                {
+                  "id": "9-2-2-left-leaning-red-black-trees",
+                  "title": "Left-Leaning Red-Black Trees",
+                  "title_zh": "Left-Leaning Red-Black Trees",
+                  "order": 2,
+                  "source_subsection_number": "9.2.2",
+                  "concept_ids": []
+                },
+                {
+                  "id": "9-2-3-addition",
+                  "title": "Addition",
+                  "title_zh": "Addition",
+                  "order": 3,
+                  "source_subsection_number": "9.2.3",
+                  "concept_ids": []
+                },
+                {
+                  "id": "9-2-4-removal",
+                  "title": "Removal",
+                  "title_zh": "Removal",
+                  "order": 4,
+                  "source_subsection_number": "9.2.4",
+                  "concept_ids": []
+                }
+              ],
+              "concept_ids": []
+            },
+            {
+              "id": "9-3-summary",
+              "title": "Summary",
+              "title_zh": "Summary",
+              "order": 3,
+              "source_section_number": "9.3",
+              "subsections": [],
+              "concept_ids": []
+            },
+            {
+              "id": "9-4-discussion-and-exercises",
+              "title": "Discussion and Exercises",
+              "title_zh": "Discussion and Exercises",
+              "order": 4,
+              "source_section_number": "9.4",
+              "subsections": [],
+              "concept_ids": []
+            }
+          ]
+        },
+        {
+          "id": "heaps",
+          "title": "Heaps",
+          "title_zh": "堆",
+          "order": 10,
+          "source_chapter_number": 10,
+          "sections": [
+            {
+              "id": "10-1-binaryheap",
+              "title": "BinaryHeap: An Implicit Binary Tree",
+              "title_zh": "BinaryHeap: An Implicit Binary Tree",
+              "order": 1,
+              "source_section_number": "10.1",
+              "subsections": [
+                {
+                  "id": "10-1-1-summary",
+                  "title": "Summary",
+                  "title_zh": "Summary",
+                  "order": 1,
+                  "source_subsection_number": "10.1.1",
+                  "concept_ids": []
+                }
+              ],
+              "concept_ids": []
+            },
+            {
+              "id": "10-2-meldableheap",
+              "title": "MeldableHeap: A Randomized Meldable Heap",
+              "title_zh": "MeldableHeap: A Randomized Meldable Heap",
+              "order": 2,
+              "source_section_number": "10.2",
+              "subsections": [
+                {
+                  "id": "10-2-1-analysis-of-ensuremath-ensuremath-mathrm-merge-ensuremath-mathit-h-1-ensuremath-mathit-h-2",
+                  "title": "Analysis of \\ensuremath{\\ensuremath{\\mathrm{merge}(\\ensuremath{\\mathit{h_1}},\\ensuremath{\\mathit{h_2}})}}",
+                  "title_zh": "Analysis of \\ensuremath{\\ensuremath{\\mathrm{merge}(\\ensuremath{\\mathit{h_1}},\\ensuremath{\\mathit{h_2}})}}",
+                  "order": 1,
+                  "source_subsection_number": "10.2.1",
+                  "concept_ids": []
+                },
+                {
+                  "id": "10-2-2-summary",
+                  "title": "Summary",
+                  "title_zh": "Summary",
+                  "order": 2,
+                  "source_subsection_number": "10.2.2",
+                  "concept_ids": []
+                }
+              ],
+              "concept_ids": []
+            },
+            {
+              "id": "10-3-discussion-and-exercises",
+              "title": "Discussion and Exercises",
+              "title_zh": "Discussion and Exercises",
+              "order": 3,
+              "source_section_number": "10.3",
+              "subsections": [],
+              "concept_ids": []
+            }
+          ]
+        },
+        {
+          "id": "sorting-algorithms",
+          "title": "Sorting Algorithms",
+          "title_zh": "排序算法",
+          "order": 11,
+          "source_chapter_number": 11,
+          "sections": [
+            {
+              "id": "11-1-comparison-based-sorting",
+              "title": "Comparison-Based Sorting",
+              "title_zh": "Comparison-Based Sorting",
+              "order": 1,
+              "source_section_number": "11.1",
+              "subsections": [
+                {
+                  "id": "11-1-1-merge-sort",
+                  "title": "Merge-Sort",
+                  "title_zh": "Merge-Sort",
+                  "order": 1,
+                  "source_subsection_number": "11.1.1",
+                  "concept_ids": []
+                },
+                {
+                  "id": "11-1-2-quicksort",
+                  "title": "Quicksort",
+                  "title_zh": "Quicksort",
+                  "order": 2,
+                  "source_subsection_number": "11.1.2",
+                  "concept_ids": []
+                },
+                {
+                  "id": "11-1-3-heap-sort",
+                  "title": "Heap-sort",
+                  "title_zh": "Heap-sort",
+                  "order": 3,
+                  "source_subsection_number": "11.1.3",
+                  "concept_ids": []
+                },
+                {
+                  "id": "11-1-4-a-lower-bound-for-comparison-based-sorting",
+                  "title": "A Lower-Bound for Comparison-Based Sorting",
+                  "title_zh": "A Lower-Bound for Comparison-Based Sorting",
+                  "order": 4,
+                  "source_subsection_number": "11.1.4",
+                  "concept_ids": []
+                }
+              ],
+              "concept_ids": []
+            },
+            {
+              "id": "11-2-counting-sort-and-radix-sort",
+              "title": "Counting Sort and Radix Sort",
+              "title_zh": "Counting Sort and Radix Sort",
+              "order": 2,
+              "source_section_number": "11.2",
+              "subsections": [
+                {
+                  "id": "11-2-1-counting-sort",
+                  "title": "Counting Sort",
+                  "title_zh": "Counting Sort",
+                  "order": 1,
+                  "source_subsection_number": "11.2.1",
+                  "concept_ids": []
+                },
+                {
+                  "id": "11-2-2-radix-sort",
+                  "title": "Radix-Sort",
+                  "title_zh": "Radix-Sort",
+                  "order": 2,
+                  "source_subsection_number": "11.2.2",
+                  "concept_ids": []
+                }
+              ],
+              "concept_ids": []
+            },
+            {
+              "id": "11-3-discussion-and-exercises",
+              "title": "Discussion and Exercises",
+              "title_zh": "Discussion and Exercises",
+              "order": 3,
+              "source_section_number": "11.3",
+              "subsections": [],
+              "concept_ids": []
+            }
+          ]
+        },
+        {
+          "id": "graphs",
+          "title": "Graphs",
+          "title_zh": "图",
+          "order": 12,
+          "source_chapter_number": 12,
+          "sections": [
+            {
+              "id": "12-1-adjacencymatrix",
+              "title": "AdjacencyMatrix: Representing a Graph by a Matrix",
+              "title_zh": "AdjacencyMatrix: Representing a Graph by a Matrix",
+              "order": 1,
+              "source_section_number": "12.1",
+              "subsections": [],
+              "concept_ids": []
+            },
+            {
+              "id": "12-2-adjacencylists",
+              "title": "AdjacencyLists: A Graph as a Collection of Lists",
+              "title_zh": "AdjacencyLists: A Graph as a Collection of Lists",
+              "order": 2,
+              "source_section_number": "12.2",
+              "subsections": [],
+              "concept_ids": []
+            },
+            {
+              "id": "12-3-graph-traversal",
+              "title": "Graph Traversal",
+              "title_zh": "Graph Traversal",
+              "order": 3,
+              "source_section_number": "12.3",
+              "subsections": [
+                {
+                  "id": "12-3-1-breadth-first-search",
+                  "title": "Breadth-First Search",
+                  "title_zh": "Breadth-First Search",
+                  "order": 1,
+                  "source_subsection_number": "12.3.1",
+                  "concept_ids": []
+                },
+                {
+                  "id": "12-3-2-depth-first-search",
+                  "title": "Depth-First Search",
+                  "title_zh": "Depth-First Search",
+                  "order": 2,
+                  "source_subsection_number": "12.3.2",
+                  "concept_ids": []
+                }
+              ],
+              "concept_ids": []
+            },
+            {
+              "id": "12-4-discussion-and-exercises",
+              "title": "Discussion and Exercises",
+              "title_zh": "Discussion and Exercises",
+              "order": 4,
+              "source_section_number": "12.4",
+              "subsections": [],
+              "concept_ids": []
+            }
+          ]
+        },
+        {
+          "id": "data-structures-for-integers",
+          "title": "Data Structures for Integers",
+          "title_zh": "整数数据结构",
+          "order": 13,
+          "source_chapter_number": 13,
+          "sections": [
+            {
+              "id": "13-1-binarytrie",
+              "title": "BinaryTrie: A digital search tree",
+              "title_zh": "BinaryTrie: A digital search tree",
+              "order": 1,
+              "source_section_number": "13.1",
+              "subsections": [],
+              "concept_ids": []
+            },
+            {
+              "id": "13-2-xfasttrie",
+              "title": "XFastTrie: Searching in Doubly-Logarithmic Time",
+              "title_zh": "XFastTrie: Searching in Doubly-Logarithmic Time",
+              "order": 2,
+              "source_section_number": "13.2",
+              "subsections": [],
+              "concept_ids": []
+            },
+            {
+              "id": "13-3-yfasttrie",
+              "title": "YFastTrie: A Doubly-Logarithmic Time SSet",
+              "title_zh": "YFastTrie: A Doubly-Logarithmic Time SSet",
+              "order": 3,
+              "source_section_number": "13.3",
+              "subsections": [],
+              "concept_ids": []
+            },
+            {
+              "id": "13-4-discussion-and-exercises",
+              "title": "Discussion and Exercises",
+              "title_zh": "Discussion and Exercises",
+              "order": 4,
+              "source_section_number": "13.4",
+              "subsections": [],
+              "concept_ids": []
+            }
+          ]
+        },
+        {
+          "id": "external-memory-searching",
+          "title": "External Memory Searching",
+          "title_zh": "外部存储搜索",
+          "order": 14,
+          "source_chapter_number": 14,
+          "sections": [
+            {
+              "id": "14-1-the-block-store",
+              "title": "The Block Store",
+              "title_zh": "The Block Store",
+              "order": 1,
+              "source_section_number": "14.1",
+              "subsections": [],
+              "concept_ids": []
+            },
+            {
+              "id": "14-2-b-trees",
+              "title": "B-Trees",
+              "title_zh": "B-Trees",
+              "order": 2,
+              "source_section_number": "14.2",
+              "subsections": [
+                {
+                  "id": "14-2-1-searching",
+                  "title": "Searching",
+                  "title_zh": "Searching",
+                  "order": 1,
+                  "source_subsection_number": "14.2.1",
+                  "concept_ids": []
+                },
+                {
+                  "id": "14-2-2-addition",
+                  "title": "Addition",
+                  "title_zh": "Addition",
+                  "order": 2,
+                  "source_subsection_number": "14.2.2",
+                  "concept_ids": []
+                },
+                {
+                  "id": "14-2-3-removal",
+                  "title": "Removal",
+                  "title_zh": "Removal",
+                  "order": 3,
+                  "source_subsection_number": "14.2.3",
+                  "concept_ids": []
+                },
+                {
+                  "id": "14-2-4-amortized-analysis-of-b-trees",
+                  "title": "Amortized Analysis of $B$-Trees",
+                  "title_zh": "Amortized Analysis of $B$-Trees",
+                  "order": 4,
+                  "source_subsection_number": "14.2.4",
+                  "concept_ids": []
+                }
+              ],
+              "concept_ids": []
+            },
+            {
+              "id": "14-3-discussion-and-exercises",
+              "title": "Discussion and Exercises",
+              "title_zh": "Discussion and Exercises",
+              "order": 3,
+              "source_section_number": "14.3",
+              "subsections": [],
+              "concept_ids": []
+            }
+          ]
+        },
+        {
+          "id": "bibliography",
+          "title": "Bibliography",
+          "title_zh": "Bibliography",
+          "order": 0,
+          "source_chapter_number": null,
+          "sections": []
+        },
+        {
+          "id": "index",
+          "title": "Index",
+          "title_zh": "Index",
+          "order": 0,
+          "source_chapter_number": null,
+          "sections": []
+        }
+      ]
+    },
+    {
+      "course_id": "cs408-data-structures",
+      "title": "408 Data Structures Exam Guide",
+      "title_zh": "408 数据结构考纲与复习指南",
+      "source_edition": "2026 report, verified 2026-07-25",
+      "chapters": [
+        {
+          "id": "408-data-structures-exam-guide",
+          "title": "408 Data Structures Exam Guide",
+          "title_zh": "408 数据结构考纲与复习指南",
+          "order": 1,
+          "source_chapter_number": null,
+          "sections": [
+            {
+              "id": "cs408-exam-positioning",
+              "title": "Exam positioning and evidence",
+              "title_zh": "考试定位与证据边界",
+              "order": 1,
+              "source_section_number": "1",
+              "subsections": [],
+              "concept_ids": [
+                "cs408-exam-purpose",
+                "cs408-exam-structure",
+                "cs408-data-structure-objectives",
+                "cs408-frequency-evidence-boundary"
+              ]
+            },
+            {
+              "id": "cs408-official-syllabus",
+              "title": "Official data-structure syllabus",
+              "title_zh": "数据结构考纲范围",
+              "order": 2,
+              "source_section_number": "2",
+              "subsections": [],
+              "concept_ids": [
+                "cs408-data-structure-syllabus-map",
+                "cs408-syllabus-basic-concepts",
+                "cs408-syllabus-linear-lists",
+                "cs408-syllabus-stacks-queues-arrays",
+                "cs408-syllabus-trees",
+                "cs408-syllabus-graphs",
+                "cs408-syllabus-searching",
+                "cs408-syllabus-sorting"
+              ]
+            },
+            {
+              "id": "cs408-study-strategy",
+              "title": "Study strategy",
+              "title_zh": "复习策略与训练闭环",
+              "order": 3,
+              "source_section_number": "3",
+              "subsections": [],
+              "concept_ids": [
+                "cs408-core-extension-boundary",
+                "cs408-review-priority-path",
+                "cs408-three-layer-mastery",
+                "cs408-study-closed-loop",
+                "cs408-eight-week-review-plan"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "408-basic-concepts",
+          "title": "Basic Concepts",
+          "title_zh": "基本概念",
+          "order": 2,
+          "source_chapter_number": 1,
+          "sections": [
+            {
+              "id": "cs408-basic-data-structure",
+              "title": "Data structures",
+              "title_zh": "数据结构基本概念",
+              "order": 1,
+              "source_section_number": "1.1",
+              "subsections": [],
+              "concept_ids": [
+                "cs408-data-terms",
+                "cs408-logical-storage-operations",
+                "cs408-abstract-data-type"
+              ]
+            },
+            {
+              "id": "cs408-basic-algorithm",
+              "title": "Algorithms and complexity",
+              "title_zh": "算法与复杂度",
+              "order": 2,
+              "source_section_number": "1.2",
+              "subsections": [],
+              "concept_ids": [
+                "cs408-algorithm-characteristics",
+                "cs408-algorithm-correctness",
+                "cs408-time-complexity",
+                "cs408-space-complexity",
+                "cs408-asymptotic-notation",
+                "cs408-complexity-estimation"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "408-linear-lists",
+          "title": "Linear Lists",
+          "title_zh": "线性表",
+          "order": 3,
+          "source_chapter_number": 2,
+          "sections": [
+            {
+              "id": "cs408-linear-list-basics",
+              "title": "Linear-list basics",
+              "title_zh": "线性表基本概念",
+              "order": 1,
+              "source_section_number": "2.1",
+              "subsections": [],
+              "concept_ids": []
+            },
+            {
+              "id": "cs408-linear-list-sequential",
+              "title": "Sequential representation",
+              "title_zh": "顺序存储",
+              "order": 2,
+              "source_section_number": "2.2",
+              "subsections": [],
+              "concept_ids": [
+                "cs408-sequential-list-storage",
+                "cs408-sequential-list-insert-delete"
+              ]
+            },
+            {
+              "id": "cs408-linear-list-linked",
+              "title": "Linked representation",
+              "title_zh": "链式存储",
+              "order": 3,
+              "source_section_number": "2.3",
+              "subsections": [],
+              "concept_ids": [
+                "cs408-singly-linked-list",
+                "cs408-doubly-linked-list",
+                "cs408-circular-linked-list"
+              ]
+            },
+            {
+              "id": "cs408-linear-list-applications",
+              "title": "Applications",
+              "title_zh": "线性表应用",
+              "order": 4,
+              "source_section_number": "2.4",
+              "subsections": [],
+              "concept_ids": [
+                "cs408-linear-list-definition-operations",
+                "cs408-linked-list-insert-delete",
+                "cs408-linked-list-reversal",
+                "cs408-linked-list-merge",
+                "cs408-sequential-vs-linked"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "408-stacks-queues-arrays",
+          "title": "Stacks, Queues and Arrays",
+          "title_zh": "栈、队列和数组",
+          "order": 4,
+          "source_chapter_number": 3,
+          "sections": [
+            {
+              "id": "cs408-stack-basics",
+              "title": "Stacks",
+              "title_zh": "栈",
+              "order": 1,
+              "source_section_number": "3.1",
+              "subsections": [],
+              "concept_ids": [
+                "cs408-stack-lifo",
+                "cs408-sequential-stack",
+                "cs408-linked-stack",
+                "cs408-stack-pop-sequences",
+                "cs408-recursion-call-stack",
+                "cs408-circular-queue-representation",
+                "cs408-circular-queue-state"
+              ]
+            },
+            {
+              "id": "cs408-queue-basics",
+              "title": "Queues",
+              "title_zh": "队列",
+              "order": 2,
+              "source_section_number": "3.2",
+              "subsections": [],
+              "concept_ids": [
+                "cs408-queue-fifo",
+                "cs408-linked-queue"
+              ]
+            },
+            {
+              "id": "cs408-array-storage",
+              "title": "Array storage",
+              "title_zh": "数组与压缩存储",
+              "order": 3,
+              "source_section_number": "3.3",
+              "subsections": [],
+              "concept_ids": [
+                "cs408-multidimensional-array-address",
+                "cs408-symmetric-matrix-compression",
+                "cs408-triangular-diagonal-matrix-compression",
+                "cs408-sparse-matrix-triples"
+              ]
+            },
+            {
+              "id": "cs408-stack-queue-applications",
+              "title": "Applications",
+              "title_zh": "栈和队列应用",
+              "order": 4,
+              "source_section_number": "3.4",
+              "subsections": [],
+              "concept_ids": [
+                "cs408-parentheses-matching",
+                "cs408-expression-evaluation",
+                "cs408-queue-applications"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "408-trees",
+          "title": "Trees and Binary Trees",
+          "title_zh": "树和二叉树",
+          "order": 5,
+          "source_chapter_number": 4,
+          "sections": [
+            {
+              "id": "cs408-tree-basics",
+              "title": "Tree basics",
+              "title_zh": "树的基本概念",
+              "order": 1,
+              "source_section_number": "4.1",
+              "subsections": [],
+              "concept_ids": [
+                "cs408-tree-terms"
+              ]
+            },
+            {
+              "id": "cs408-binary-tree",
+              "title": "Binary trees",
+              "title_zh": "二叉树",
+              "order": 2,
+              "source_section_number": "4.2",
+              "subsections": [],
+              "concept_ids": [
+                "cs408-tree-edge-node-properties",
+                "cs408-binary-tree-properties",
+                "cs408-full-complete-binary-tree",
+                "cs408-binary-tree-sequential-storage",
+                "cs408-binary-tree-linked-storage",
+                "cs408-binary-tree-depth-traversals",
+                "cs408-binary-tree-level-order",
+                "cs408-binary-tree-reconstruction",
+                "cs408-threaded-binary-tree",
+                "cs408-threaded-predecessor-successor",
+                "cs408-tree-storage-representations",
+                "cs408-tree-forest-binary-conversion",
+                "cs408-disjoint-set-optimization",
+                "cs408-binary-heap",
+                "cs408-heap-applications"
+              ]
+            },
+            {
+              "id": "cs408-tree-forest",
+              "title": "Trees and forests",
+              "title_zh": "树与森林",
+              "order": 3,
+              "source_section_number": "4.3",
+              "subsections": [],
+              "concept_ids": [
+                "cs408-tree-forest-traversal"
+              ]
+            },
+            {
+              "id": "cs408-tree-applications",
+              "title": "Applications",
+              "title_zh": "树和二叉树应用",
+              "order": 4,
+              "source_section_number": "4.4",
+              "subsections": [],
+              "concept_ids": [
+                "cs408-huffman-tree",
+                "cs408-huffman-coding",
+                "cs408-disjoint-set",
+                "cs408-heap-operations"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "408-graphs",
+          "title": "Graphs",
+          "title_zh": "图",
+          "order": 6,
+          "source_chapter_number": 5,
+          "sections": [
+            {
+              "id": "cs408-graph-basics",
+              "title": "Graph basics",
+              "title_zh": "图的基本概念",
+              "order": 1,
+              "source_section_number": "5.1",
+              "subsections": [],
+              "concept_ids": [
+                "cs408-graph-definition"
+              ]
+            },
+            {
+              "id": "cs408-graph-storage",
+              "title": "Storage",
+              "title_zh": "图的存储与操作",
+              "order": 2,
+              "source_section_number": "5.2",
+              "subsections": [],
+              "concept_ids": [
+                "cs408-adjacency-matrix",
+                "cs408-adjacency-list",
+                "cs408-orthogonal-list",
+                "cs408-adjacency-multilist",
+                "cs408-graph-storage-comparison"
+              ]
+            },
+            {
+              "id": "cs408-graph-traversal",
+              "title": "Traversal",
+              "title_zh": "图的遍历",
+              "order": 3,
+              "source_section_number": "5.3",
+              "subsections": [],
+              "concept_ids": [
+                "cs408-depth-first-search",
+                "cs408-breadth-first-search",
+                "cs408-graph-traversal-complexity"
+              ]
+            },
+            {
+              "id": "cs408-graph-applications",
+              "title": "Applications",
+              "title_zh": "图的应用",
+              "order": 4,
+              "source_section_number": "5.4",
+              "subsections": [],
+              "concept_ids": [
+                "cs408-graph-degree-path-connectivity",
+                "cs408-minimum-spanning-tree",
+                "cs408-prim-algorithm",
+                "cs408-kruskal-algorithm",
+                "cs408-shortest-path-problem",
+                "cs408-dijkstra-algorithm",
+                "cs408-floyd-warshall",
+                "cs408-topological-sort",
+                "cs408-critical-path"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "408-searching",
+          "title": "Searching",
+          "title_zh": "查找",
+          "order": 7,
+          "source_chapter_number": 6,
+          "sections": [
+            {
+              "id": "cs408-search-basics",
+              "title": "Search basics",
+              "title_zh": "查找基本概念",
+              "order": 1,
+              "source_section_number": "6.1",
+              "subsections": [],
+              "concept_ids": [
+                "cs408-search-concepts",
+                "cs408-average-search-length",
+                "cs408-search-method-selection"
+              ]
+            },
+            {
+              "id": "cs408-linear-search",
+              "title": "Linear and indexed search",
+              "title_zh": "线性与索引查找",
+              "order": 2,
+              "source_section_number": "6.2",
+              "subsections": [],
+              "concept_ids": [
+                "cs408-sequential-search",
+                "cs408-sequential-search-sentinel",
+                "cs408-block-search",
+                "cs408-binary-search",
+                "cs408-binary-search-decision-tree",
+                "cs408-bst-property-search",
+                "cs408-bst-insert-delete",
+                "cs408-avl-rotations",
+                "cs408-avl-updates",
+                "cs408-red-black-adjustment",
+                "cs408-b-tree-properties",
+                "cs408-separate-chaining",
+                "cs408-open-addressing"
+              ]
+            },
+            {
+              "id": "cs408-tree-search",
+              "title": "Tree search",
+              "title_zh": "树型查找",
+              "order": 3,
+              "source_section_number": "6.3",
+              "subsections": [],
+              "concept_ids": [
+                "cs408-avl-balance",
+                "cs408-red-black-properties",
+                "cs408-b-tree-search",
+                "cs408-b-tree-insertion",
+                "cs408-b-tree-deletion",
+                "cs408-b-plus-tree",
+                "cs408-b-tree-vs-b-plus"
+              ]
+            },
+            {
+              "id": "cs408-hash-search",
+              "title": "Hashing",
+              "title_zh": "散列查找",
+              "order": 4,
+              "source_section_number": "6.4",
+              "subsections": [],
+              "concept_ids": [
+                "cs408-hash-table",
+                "cs408-hash-functions",
+                "cs408-hash-load-factor-asl"
+              ]
+            },
+            {
+              "id": "cs408-string-search",
+              "title": "String matching",
+              "title_zh": "字符串模式匹配",
+              "order": 5,
+              "source_section_number": "6.5",
+              "subsections": [],
+              "concept_ids": [
+                "cs408-brute-force-string-matching",
+                "cs408-kmp-prefix-function",
+                "cs408-kmp-matching",
+                "cs408-next-nextval"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "408-sorting",
+          "title": "Sorting",
+          "title_zh": "排序",
+          "order": 8,
+          "source_chapter_number": 7,
+          "sections": [
+            {
+              "id": "cs408-sorting-basics",
+              "title": "Sorting foundations",
+              "title_zh": "排序基础",
+              "order": 1,
+              "source_section_number": "7.1",
+              "subsections": [],
+              "concept_ids": [
+                "cs408-sorting-concepts"
+              ]
+            },
+            {
+              "id": "cs408-internal-sorting",
+              "title": "Internal sorting",
+              "title_zh": "内部排序",
+              "order": 2,
+              "source_section_number": "7.2",
+              "subsections": [],
+              "concept_ids": [
+                "cs408-direct-insertion-sort",
+                "cs408-binary-insertion-sort",
+                "cs408-bubble-sort",
+                "cs408-selection-sort",
+                "cs408-shell-sort",
+                "cs408-quick-partition",
+                "cs408-quick-sort-analysis",
+                "cs408-heap-sort",
+                "cs408-merge-sort",
+                "cs408-radix-sort"
+              ]
+            },
+            {
+              "id": "cs408-external-sorting",
+              "title": "External sorting",
+              "title_zh": "外部排序",
+              "order": 3,
+              "source_section_number": "7.3",
+              "subsections": [],
+              "concept_ids": [
+                "cs408-external-sorting-runs",
+                "cs408-k-way-external-merge",
+                "cs408-loser-tree",
+                "cs408-replacement-selection",
+                "cs408-optimal-merge-tree"
+              ]
+            },
+            {
+              "id": "cs408-sorting-analysis",
+              "title": "Analysis and selection",
+              "title_zh": "排序分析与选择",
+              "order": 4,
+              "source_section_number": "7.4",
+              "subsections": [],
+              "concept_ids": [
+                "cs408-comparison-sorting-lower-bound",
+                "cs408-sorting-method-selection"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

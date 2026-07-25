@@ -1,0 +1,205 @@
+{
+  "chapter": "408-sorting",
+  "sections": [
+    {
+      "section_id": "cs408-sorting-basics",
+      "proposed_concepts": [
+        {
+          "temporary_id": "408-sorting-candidate-001",
+          "proposed_title": "排序、稳定性与内部外部排序",
+          "core_question": "排序问题有哪些基本术语和评价维度？",
+          "content_type": "concept",
+          "source_record_ids": [
+            "syllabus-note-cs408-sorting-concepts"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        }
+      ]
+    },
+    {
+      "section_id": "cs408-internal-sorting",
+      "proposed_concepts": [
+        {
+          "temporary_id": "408-sorting-candidate-002",
+          "proposed_title": "直接插入排序",
+          "core_question": "直接插入排序怎样维护逐步扩大的有序区？",
+          "content_type": "algorithm",
+          "source_record_ids": [
+            "syllabus-note-cs408-direct-insertion-sort"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        },
+        {
+          "temporary_id": "408-sorting-candidate-003",
+          "proposed_title": "折半插入排序",
+          "core_question": "折半插入排序减少了什么，又没有减少什么？",
+          "content_type": "algorithm",
+          "source_record_ids": [
+            "syllabus-note-cs408-binary-insertion-sort"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        },
+        {
+          "temporary_id": "408-sorting-candidate-004",
+          "proposed_title": "冒泡排序",
+          "core_question": "冒泡排序如何通过相邻交换把极值送到边界？",
+          "content_type": "algorithm",
+          "source_record_ids": [
+            "syllabus-note-cs408-bubble-sort"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        },
+        {
+          "temporary_id": "408-sorting-candidate-005",
+          "proposed_title": "简单选择排序",
+          "core_question": "简单选择排序每趟怎样确定一个最终位置？",
+          "content_type": "algorithm",
+          "source_record_ids": [
+            "syllabus-note-cs408-selection-sort"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        },
+        {
+          "temporary_id": "408-sorting-candidate-006",
+          "proposed_title": "希尔排序",
+          "core_question": "希尔排序怎样利用增量分组改善插入排序？",
+          "content_type": "algorithm",
+          "source_record_ids": [
+            "syllabus-note-cs408-shell-sort"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        },
+        {
+          "temporary_id": "408-sorting-candidate-007",
+          "proposed_title": "快速排序的划分",
+          "core_question": "一次快速排序划分怎样把枢轴放到最终位置？",
+          "content_type": "mechanism",
+          "source_record_ids": [
+            "syllabus-note-cs408-quick-partition"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        },
+        {
+          "temporary_id": "408-sorting-candidate-008",
+          "proposed_title": "快速排序与复杂度分析",
+          "core_question": "快速排序的划分平衡程度怎样决定复杂度？",
+          "content_type": "algorithm",
+          "source_record_ids": [
+            "syllabus-note-cs408-quick-sort-analysis"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        },
+        {
+          "temporary_id": "408-sorting-candidate-009",
+          "proposed_title": "堆排序",
+          "core_question": "堆排序怎样反复选择极值并原地完成排序？",
+          "content_type": "algorithm",
+          "source_record_ids": [
+            "syllabus-note-cs408-heap-sort"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        },
+        {
+          "temporary_id": "408-sorting-candidate-010",
+          "proposed_title": "二路归并排序",
+          "core_question": "二路归并排序怎样合并两个有序序列？",
+          "content_type": "algorithm",
+          "source_record_ids": [
+            "syllabus-note-cs408-merge-sort"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        },
+        {
+          "temporary_id": "408-sorting-candidate-011",
+          "proposed_title": "基数排序",
+          "core_question": "基数排序怎样按关键字各位完成非比较排序？",
+          "content_type": "algorithm",
+          "source_record_ids": [
+            "syllabus-note-cs408-radix-sort"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        }
+      ]
+    },
+    {
+      "section_id": "cs408-external-sorting",
+      "proposed_concepts": [
+        {
+          "temporary_id": "408-sorting-candidate-014",
+          "proposed_title": "外部排序与初始归并段",
+          "core_question": "当待排序数据无法全部装入内存时，外部排序怎样组织处理？",
+          "content_type": "concept",
+          "source_record_ids": [
+            "syllabus-note-cs408-external-sorting-runs"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        },
+        {
+          "temporary_id": "408-sorting-candidate-015",
+          "proposed_title": "多路平衡归并",
+          "core_question": "k 路归并如何影响外部排序的归并趟数与内部选择成本？",
+          "content_type": "algorithm",
+          "source_record_ids": [
+            "syllabus-note-cs408-k-way-external-merge"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        },
+        {
+          "temporary_id": "408-sorting-candidate-016",
+          "proposed_title": "败者树",
+          "core_question": "败者树怎样加速多路归并中的最小记录选择？",
+          "content_type": "mechanism",
+          "source_record_ids": [
+            "syllabus-note-cs408-loser-tree"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        },
+        {
+          "temporary_id": "408-sorting-candidate-017",
+          "proposed_title": "置换选择生成初始归并段",
+          "core_question": "置换选择怎样让初始归并段平均长于内存容量？",
+          "content_type": "algorithm",
+          "source_record_ids": [
+            "syllabus-note-cs408-replacement-selection"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        },
+        {
+          "temporary_id": "408-sorting-candidate-018",
+          "proposed_title": "最佳归并树",
+          "core_question": "长度不等的初始归并段怎样安排合并顺序以减少总 I/O？",
+          "content_type": "theorem",
+          "source_record_ids": [
+            "syllabus-note-cs408-optimal-merge-tree"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        }
+      ]
+    },
+    {
+      "section_id": "cs408-sorting-analysis",
+      "proposed_concepts": [
+        {
+          "temporary_id": "408-sorting-candidate-012",
+          "proposed_title": "比较排序的下界",
+          "core_question": "为什么一般比较排序最坏至少需要 Ω(n log n) 次比较？",
+          "content_type": "theorem",
+          "source_record_ids": [
+            "syllabus-note-cs408-comparison-sorting-lower-bound"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        },
+        {
+          "temporary_id": "408-sorting-candidate-013",
+          "proposed_title": "内部排序算法的比较与选择",
+          "core_question": "怎样结合规模、初始有序性、稳定性和空间选择排序算法？",
+          "content_type": "comparison",
+          "source_record_ids": [
+            "syllabus-note-cs408-sorting-method-selection"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        }
+      ]
+    }
+  ]
+}

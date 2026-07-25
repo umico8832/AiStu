@@ -1,0 +1,110 @@
+{
+  "concept": {
+    "id": "ods-rootisharraystack-update",
+    "title": "RootishArrayStack 的按位插入与删除",
+    "aliases": [
+      "RootishArrayStack add/remove",
+      "分块数组更新"
+    ],
+    "content_type": "algorithm",
+    "location": {
+      "course_id": "open-data-structures",
+      "chapter_id": "array-based-lists",
+      "section_id": "2-6-rootisharraystack",
+      "parent_id": null,
+      "order": 26
+    },
+    "core_question": "RootishArrayStack 如何跨数组块完成按位插入和删除？",
+    "summary": "它通过 get/set 按逻辑下标逐位搬移元素，插入右移后写入，删除左移后收回空块。",
+    "definition": "RootishArrayStack 的 add(i,x) 在总容量不足时先 grow，令 n 增加，再从尾部向 i 逐个执行 set(j,get(j-1))，最后 set(i,x)。remove(i) 保存原值，从 i 起执行 set(j,get(j+1)) 左移，令 n 减少，并在存在多余空块时 shrink。忽略块增删时，两者分别为 $O(1+n-i)$ 与 $O(n-i)$。",
+    "prerequisite_ids": [
+      "ods-rootisharraystack-index-mapping"
+    ],
+    "relations": [
+      {
+        "type": "leads_to",
+        "target_id": "ods-rootisharraystack-performance",
+        "description": "理解《RootishArrayStack 的按位插入与删除》是继续学习目标知识点的直接基础。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "书虽分布在不同层书架，但仍按一个总编号序列搬移；插入时从后向前挪，删除时从前向后补。",
+      "mapping": {
+        "总编号序列": "逻辑下标",
+        "跨层挪书": "get/set 搬移",
+        "空出或补上位置": "插入或删除"
+      },
+      "boundary": "类比不表示相邻逻辑元素一定处在同一数组块，也不含 grow/shrink 的分配成本。"
+    },
+    "retrieval": {
+      "keywords": [
+        "RootishArrayStack 的按位插入与删除",
+        "RootishArrayStack add/remove",
+        "分块数组更新"
+      ],
+      "query_examples": [
+        "RootishArrayStack 如何跨数组块完成按位插入和删除？",
+        "RootishArrayStack 的按位插入与删除怎么理解",
+        "RootishArrayStack 的按位插入与删除的关键条件是什么"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "ods-000350-paragraph-if-we-use-any-of-the-data-structures",
+      "ods-000351-algorithm-begin-flushleft-hspace-1em-ensuremat",
+      "ods-000354-paragraph-ignoring-the-cost-of-the-ensuremath-",
+      "ods-000355-algorithm-begin-flushleft-hspace-1em-ensuremat",
+      "ods-000357-paragraph-once-again-ignoring-the-cost-of-the-"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "ods-rootisharraystack-index-mapping",
+      "title": "RootishArrayStack 的下标到块映射",
+      "core_question": "RootishArrayStack 如何由逻辑下标 i 计算块号和块内下标？",
+      "summary": "块号为 ceil((-3+sqrt(9+8i))/2)，块内下标为 i-b(b+1)/2。",
+      "definition": "对逻辑下标 i，所在块 b 是满足 $(b+1)(b+2)/2\\ge i+1$ 的最小非负整数，因此 $b=\\lceil(-3+\\sqrt{9+8i})/2\\rceil$。在 b 之前共有 $b(b+1)/2$ 个槽位，所以块内下标为 $j=i-b(b+1)/2$。据此 get 与 set 可直接访问 blocks[b][j]。",
+      "content_type": "formula"
+    },
+    {
+      "id": "ods-rootisharraystack-performance",
+      "title": "RootishArrayStack 的时间与空间复杂度",
+      "core_question": "RootishArrayStack 在随机访问、更新和额外空间之间做了怎样的权衡？",
+      "summary": "它保留 O(1) 随机访问和 O(1+n-i) 按位更新，同时把浪费空间降为 O(sqrt(n))。",
+      "definition": "RootishArrayStack 的 get 与 set 为 $O(1)$，忽略 grow 与 shrink 时，add(i,x) 与 remove(i) 为 $O(1+n-i)$。从空结构开始的 m 次更新中，块增长和收缩的总成本为 $O(m)$；在任意时刻，未使用槽位和块目录造成的额外空间为 $O(\\sqrt n)$。",
+      "content_type": "theorem"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "ods-000350-paragraph-if-we-use-any-of-the-data-structures",
+      "type": "paragraph",
+      "content": "If we use any of the data structures in this chapter for representing the \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{blocks}}}} list, then \\ensuremath{\\ensuremath{\\mathrm{get}(\\ensuremath{\\mathit{i}})}} and \\ensuremath{\\ensuremath{\\mathrm{set}(\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{x}})}} will each run in constant time. The \\ensuremath{\\ensuremath{\\mathrm{add}(\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{x}})}} method will, by now, look familiar. We first check to see if our data structure is full, by checking if the number of blocks, \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{r}}}}, is such that $\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{r}}}}(\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{r}}}}+1)/2 = \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}$. If so, we call \\ensuremath{\\ensuremath{\\mathrm{grow}()}} to add another block. With this done, we shift elements with indices $\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{i}}}},\\ldots,\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}-1$ to the right by one position to make room for the new element with index \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{i}}}}:"
+    },
+    {
+      "id": "ods-000351-algorithm-begin-flushleft-hspace-1em-ensuremat",
+      "type": "algorithm",
+      "content": "\\begin{flushleft}\n\\hspace*{1em} \\ensuremath{\\mathrm{add}(\\ensuremath{\\mathit{i}}, \\ensuremath{\\mathit{x}})}\\\\\n\n\\hspace*{1em} \\hspace*{1em} \\ensuremath{\\ensuremath{\\mathit{r}} \\gets  \\ensuremath{\\ensuremath{\\mathit{blocks}}.\\mathrm{size}()}}\\\\\n\\hspace*{1em} \\hspace*{1em} {\\color{black} \\textbf{if}} \\ensuremath{\\ensuremath{\\mathit{r}}\\cdot (\\ensuremath{\\mathit{r}}+1)/2 < \\ensuremath{\\mathit{n}} + 1} {\\color{black} \\textbf{then}}  \\ensuremath{\\mathrm{grow}()}\\\\\n\\hspace*{1em} \\hspace*{1em} \\ensuremath{\\ensuremath{\\mathit{n}} \\gets  \\ensuremath{\\ensuremath{\\mathit{n}} + 1}}\\\\\n\\hspace*{1em} \\hspace*{1em} {\\color{black} \\textbf{for}} \\ensuremath{j} {\\color{black} \\textbf{in}} \\ensuremath{\\ensuremath{\\mathit{n}}-1,\\ensuremath{\\mathit{n}}-2,\\ensuremath{\\mathit{n}}-3,\\ldots,\\ensuremath{\\mathit{i}}+1} {\\color{black} \\textbf{do}} \\\\\n\\hspace*{1em} \\hspace*{1em} \\hspace*{1em} \\ensuremath{\\mathrm{set}(\\ensuremath{\\mathit{j}}, \\mathrm{get}(\\ensuremath{\\mathit{j}}-1)})\\\\\n\\hspace*{1em} \\hspace*{1em} \\ensuremath{\\mathrm{set}(\\ensuremath{\\mathit{i}}, \\ensuremath{\\mathit{x}})}\\\\\n\\end{flushleft}"
+    },
+    {
+      "id": "ods-000354-paragraph-ignoring-the-cost-of-the-ensuremath-",
+      "type": "paragraph",
+      "content": "Ignoring the cost of the \\ensuremath{\\ensuremath{\\mathrm{grow}()}} operation, the cost of an \\ensuremath{\\ensuremath{\\mathrm{add}(\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{x}})}} operation is dominated by the cost of shifting and is therefore $O(1+\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}-\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{i}}}})$, just like an ArrayStack. The \\ensuremath{\\ensuremath{\\mathrm{remove}(\\ensuremath{\\mathit{i}})}} operation is similar to \\ensuremath{\\ensuremath{\\mathrm{add}(\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{x}})}}. It shifts the elements with indices $\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{i}}}}+1,\\ldots,\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}$ left by one position and then, if there is more than one empty block, it calls the \\ensuremath{\\ensuremath{\\mathrm{shrink}()}} method to remove all but one of the unused blocks:"
+    },
+    {
+      "id": "ods-000355-algorithm-begin-flushleft-hspace-1em-ensuremat",
+      "type": "algorithm",
+      "content": "\\begin{flushleft}\n\\hspace*{1em} \\ensuremath{\\mathrm{remove}(\\ensuremath{\\mathit{i}})}\\\\\n\n\\hspace*{1em} \\hspace*{1em} \\ensuremath{\\ensuremath{\\mathit{x}} \\gets  \\ensuremath{\\mathrm{get}(\\ensuremath{\\mathit{i}})}}\\\\\n\\hspace*{1em} \\hspace*{1em} {\\color{black} \\textbf{for}} \\ensuremath{j} {\\color{black} \\textbf{in}} \\ensuremath{\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{i}}+1,\\ensuremath{\\mathit{i}}+2,\\ldots,\\ensuremath{\\mathit{n}}-2} {\\color{black} \\textbf{do}} \\\\\n\\hspace*{1em} \\hspace*{1em} \\hspace*{1em} \\ensuremath{\\mathrm{set}(\\ensuremath{\\mathit{j}}, \\mathrm{get}(\\ensuremath{\\mathit{j}}+1)})\\\\\n\\hspace*{1em} \\hspace*{1em} \\ensuremath{\\ensuremath{\\mathit{n}} \\gets  \\ensuremath{\\ensuremath{\\mathit{n}} - 1}}\\\\\n\\hspace*{1em} \\hspace*{1em} \\ensuremath{\\ensuremath{\\mathit{r}} \\gets  \\ensuremath{\\ensuremath{\\mathit{blocks}}.\\mathrm{size}()}}\\\\\n\\hspace*{1em} \\hspace*{1em} {\\color{black} \\textbf{if}} \\ensuremath{(\\ensuremath{\\mathit{r}}-2)\\cdot (\\ensuremath{\\mathit{r}}-1)/2 \\ge n} {\\color{black} \\textbf{then}}  \\ensuremath{\\mathrm{shrink}()}\\\\\n\\hspace*{1em} \\hspace*{1em} {\\color{black} \\textbf{return}} \\ensuremath{\\ensuremath{\\mathit{x}}}\\\\\n\\end{flushleft}"
+    },
+    {
+      "id": "ods-000357-paragraph-once-again-ignoring-the-cost-of-the-",
+      "type": "paragraph",
+      "content": "Once again, ignoring the cost of the \\ensuremath{\\ensuremath{\\mathrm{shrink}()}} operation, the cost of a \\ensuremath{\\ensuremath{\\mathrm{remove}(\\ensuremath{\\mathit{i}})}} operation is dominated by the cost of shifting and is therefore $O(\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}-\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{i}}}})$."
+    }
+  ]
+}

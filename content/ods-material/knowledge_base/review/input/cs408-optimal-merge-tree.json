@@ -1,0 +1,94 @@
+{
+  "concept": {
+    "id": "cs408-optimal-merge-tree",
+    "title": "最佳归并树",
+    "aliases": [
+      "optimal merge tree",
+      "optimal merging"
+    ],
+    "content_type": "theorem",
+    "location": {
+      "course_id": "cs408-data-structures",
+      "chapter_id": "408-sorting",
+      "section_id": "cs408-external-sorting",
+      "parent_id": null,
+      "order": 18
+    },
+    "core_question": "长度不等的初始归并段怎样安排合并顺序以减少总 I/O？",
+    "summary": "把各段长度作为叶权构造 Huffman 型最佳归并树，让较短段更早、更深地参与合并。",
+    "definition": "归并树的带权路径长度等于各初始段在多趟归并中被读写的累计规模。二路情形按 Huffman 原理每次合并最短的两个段可使总成本最小；k 路情形需补入权为 0 的虚段，使叶子数满足 (n-1) mod (k-1)=0，再构造 k 叉最佳归并树。",
+    "prerequisite_ids": [
+      "cs408-huffman-tree",
+      "cs408-external-sorting-runs"
+    ],
+    "relations": [
+      {
+        "type": "part_of",
+        "target_id": "cs408-syllabus-sorting",
+        "description": "最佳归并树是排序考纲模块中的原子知识点。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "像合并文件时先拼小文件，避免大文件在许多轮里被反复搬运。",
+      "mapping": {
+        "直观对象": "最佳归并树",
+        "对应机制": "把各段长度作为叶权构造 Huffman 型最佳归并树，让较短段更早、更深地参与合并。"
+      },
+      "boundary": "类比只用于建立直觉；正式作答仍需使用定义、操作步骤、适用条件和复杂度结论。"
+    },
+    "retrieval": {
+      "keywords": [
+        "最佳归并树",
+        "optimal merge tree",
+        "optimal merging"
+      ],
+      "query_examples": [
+        "长度不等的初始归并段怎样安排合并顺序以减少总 I/O？",
+        "最佳归并树的步骤、性质和复杂度是什么？",
+        "最佳归并树有哪些适用条件和易错边界？"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "syllabus-note-cs408-optimal-merge-tree"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "cs408-huffman-tree",
+      "title": "Huffman 树与带权路径长度",
+      "core_question": "Huffman 算法如何构造带权路径长度最小的二叉树？",
+      "summary": "反复选取权值最小的两棵树合并，最终得到叶权给定时 WPL 最小的二叉树。",
+      "definition": "带权路径长度 WPL 是各叶结点权值与其根到叶路径长度乘积之和。Huffman 构造每次从森林中取两棵根权最小的树作为新根的左右子树，新根权为两者之和，重复直到只剩一棵树。",
+      "content_type": "algorithm"
+    },
+    {
+      "id": "cs408-external-sorting-runs",
+      "title": "外部排序与初始归并段",
+      "core_question": "当待排序数据无法全部装入内存时，外部排序怎样组织处理？",
+      "summary": "先分批读入内存形成有序初始归并段，再通过多趟外存归并得到最终有序文件。",
+      "definition": "外部排序的主要成本是块读写而非内存比较。基本流程先把每批能装入内存的记录内部排序并写成有序归并段，再反复把若干段合并。减少初始段数量、增加有效归并路数和缩短归并趟数可显著降低 I/O。",
+      "content_type": "concept"
+    },
+    {
+      "id": "cs408-syllabus-sorting",
+      "title": "408 考纲：排序范围",
+      "core_question": "408 排序模块覆盖哪些算法与分析维度？",
+      "summary": "排序模块覆盖插入、交换、选择、希尔、快速、堆、归并、基数和外部排序，并要求比较稳定性与复杂度。",
+      "definition": "408 排序模块包括排序基本概念、直接与折半插入排序、冒泡排序、简单选择排序、希尔排序、快速排序、堆排序、二路归并排序、基数排序和外部排序，以及排序算法的分析与应用。复习时需要比较最好、平均和最坏时间、辅助空间、稳定性、原地性与适用场景。",
+      "content_type": "concept"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "syllabus-note-cs408-optimal-merge-tree",
+      "type": "paragraph",
+      "content": "把各段长度作为叶权构造 Huffman 型最佳归并树，让较短段更早、更深地参与合并。\n\n归并树的带权路径长度等于各初始段在多趟归并中被读写的累计规模。二路情形按 Huffman 原理每次合并最短的两个段可使总成本最小；k 路情形需补入权为 0 的虚段，使叶子数满足 (n-1) mod (k-1)=0，再构造 k 叉最佳归并树。\n\n对应 2026 数据结构考纲叶子条目：外部排序、排序算法的分析及应用。"
+    }
+  ]
+}

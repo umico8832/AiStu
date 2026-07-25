@@ -1,0 +1,85 @@
+{
+  "concept": {
+    "id": "cs408-radix-sort",
+    "title": "基数排序",
+    "aliases": [
+      "radix sort",
+      "LSD sorting"
+    ],
+    "content_type": "algorithm",
+    "location": {
+      "course_id": "cs408-data-structures",
+      "chapter_id": "408-sorting",
+      "section_id": "cs408-internal-sorting",
+      "parent_id": null,
+      "order": 11
+    },
+    "core_question": "基数排序怎样按关键字各位完成非比较排序？",
+    "summary": "按最低位优先或最高位优先，对每一位进行稳定分配和收集，逐位形成整体次序。",
+    "definition": "LSD 基数排序从最低有效位开始，把记录稳定地分配到 r 个桶并按桶序收集，重复 d 位后有序，时间 O(d(n+r))，辅助空间 O(n+r)。它依赖关键字能拆成有限位和稳定的逐位过程，不受比较排序 Ω(n log n) 下界约束。",
+    "prerequisite_ids": [
+      "cs408-sorting-concepts"
+    ],
+    "relations": [
+      {
+        "type": "part_of",
+        "target_id": "cs408-syllabus-sorting",
+        "description": "基数排序是排序考纲模块中的原子知识点。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "像先按个位把号码分箱并保持箱内顺序，再按十位分箱，低位次序会被稳定保留。",
+      "mapping": {
+        "直观对象": "基数排序",
+        "对应机制": "按最低位优先或最高位优先，对每一位进行稳定分配和收集，逐位形成整体次序。"
+      },
+      "boundary": "类比只用于建立直觉；正式作答仍需使用定义、操作步骤、适用条件和复杂度结论。"
+    },
+    "retrieval": {
+      "keywords": [
+        "基数排序",
+        "radix sort",
+        "LSD sorting"
+      ],
+      "query_examples": [
+        "基数排序怎样按关键字各位完成非比较排序？",
+        "基数排序的步骤、性质和复杂度是什么？",
+        "基数排序有哪些适用条件和易错边界？"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "syllabus-note-cs408-radix-sort"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "cs408-sorting-concepts",
+      "title": "排序、稳定性与内部外部排序",
+      "core_question": "排序问题有哪些基本术语和评价维度？",
+      "summary": "排序按关键字重排记录；稳定性描述相等关键字的相对次序，内部与外部排序按数据能否全部驻留内存区分。",
+      "definition": "排序把记录序列按一个或多个关键字组织成非递减或非递增次序。若任意相等关键字记录在排序后仍保持原相对次序，算法稳定；否则不稳定。全部数据可在内存中完成的是内部排序，需要在内存与外存间分批交换数据的是外部排序。",
+      "content_type": "concept"
+    },
+    {
+      "id": "cs408-syllabus-sorting",
+      "title": "408 考纲：排序范围",
+      "core_question": "408 排序模块覆盖哪些算法与分析维度？",
+      "summary": "排序模块覆盖插入、交换、选择、希尔、快速、堆、归并、基数和外部排序，并要求比较稳定性与复杂度。",
+      "definition": "408 排序模块包括排序基本概念、直接与折半插入排序、冒泡排序、简单选择排序、希尔排序、快速排序、堆排序、二路归并排序、基数排序和外部排序，以及排序算法的分析与应用。复习时需要比较最好、平均和最坏时间、辅助空间、稳定性、原地性与适用场景。",
+      "content_type": "concept"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "syllabus-note-cs408-radix-sort",
+      "type": "paragraph",
+      "content": "按最低位优先或最高位优先，对每一位进行稳定分配和收集，逐位形成整体次序。\n\nLSD 基数排序从最低有效位开始，把记录稳定地分配到 r 个桶并按桶序收集，重复 d 位后有序，时间 O(d(n+r))，辅助空间 O(n+r)。它依赖关键字能拆成有限位和稳定的逐位过程，不受比较排序 Ω(n log n) 下界约束。\n\n对应 2026 数据结构考纲叶子条目：基数排序、排序算法的分析及应用。"
+    }
+  ]
+}

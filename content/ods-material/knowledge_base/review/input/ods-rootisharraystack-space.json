@@ -1,0 +1,112 @@
+{
+  "concept": {
+    "id": "ods-rootisharraystack-space",
+    "title": "RootishArrayStack 的浪费空间界",
+    "aliases": [
+      "wasted space",
+      "Rootish space usage",
+      "O(sqrt(n)) space"
+    ],
+    "content_type": "theorem",
+    "location": {
+      "course_id": "open-data-structures",
+      "chapter_id": "array-based-lists",
+      "section_id": "2-6-2-space-usage",
+      "parent_id": null,
+      "order": 28
+    },
+    "core_question": "为什么 RootishArrayStack 只浪费 O(sqrt(n)) 个数组槽位？",
+    "summary": "收缩规则保证最多两个末尾块不满，而块数 r=O(sqrt(n))，所以未用槽位与块目录开销均为 O(sqrt(n))。",
+    "definition": "若 RootishArrayStack 存有 n 个元素和 r 个块，收缩不变量给出 $(r-2)(r-1)/2\\le n$，从而 $r\\le(3+\\sqrt{8n+1})/2=O(\\sqrt n)$。仅最后两个块可能不满，其总长度至多 2r-1；保存 r 个块引用也需 O(r) 空间，因此总浪费空间为 $O(\\sqrt n)$。",
+    "prerequisite_ids": [
+      "ods-rootisharraystack-grow-shrink"
+    ],
+    "relations": [
+      {
+        "type": "leads_to",
+        "target_id": "ods-rootisharraystack-performance",
+        "description": "理解《RootishArrayStack 的浪费空间界》是继续学习目标知识点的直接基础。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "逐层变长的书架中，只有最后一两层可能空着较多位置；层数只按藏书量的平方根增长，所以空位也受平方根级别限制。",
+      "mapping": {
+        "层数": "块数 r",
+        "最后一两层空位": "未使用数组槽位",
+        "平方根增长": "r=O(sqrt(n))"
+      },
+      "boundary": "类比表达渐近上界，不给出具体 n 下的精确内存字节数或对象头开销。"
+    },
+    "retrieval": {
+      "keywords": [
+        "RootishArrayStack 的浪费空间界",
+        "wasted space",
+        "Rootish space usage",
+        "O(sqrt(n)) space"
+      ],
+      "query_examples": [
+        "为什么 RootishArrayStack 只浪费 O(sqrt(n)) 个数组槽位？",
+        "RootishArrayStack 的浪费空间界怎么理解",
+        "RootishArrayStack 的浪费空间界的关键条件是什么"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "ods-000361-paragraph-seclabel-rootishspaceusage-next-we-a",
+      "ods-000362-equation-ensuremath-ensuremath-ensuremath-mat",
+      "ods-000363-paragraph-again-using-the-quadratic-equation-o",
+      "ods-000364-equation-ensuremath-ensuremath-ensuremath-mat",
+      "ods-000365-paragraph-the-last-two-blocks-have-sizes-ensur"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "ods-rootisharraystack-grow-shrink",
+      "title": "RootishArrayStack 的块增长与收缩",
+      "core_question": "RootishArrayStack 何时增加或删除数组块？",
+      "summary": "容量不足时追加长度 r+1 的块，空块超过一个时删除尾部多余块，并保持最多两个块未完全装满。",
+      "definition": "若 r 个块的总容量 $r(r+1)/2$ 小于 n+1，grow 追加一个长度为 r+1 的数组块。删除后，shrink 在移除倒数第二块仍能容纳 n 个元素时持续删除尾块，从而只保留必要块和至多一个额外空块。grow 与 shrink 本身不复制已有元素。",
+      "content_type": "mechanism"
+    },
+    {
+      "id": "ods-rootisharraystack-performance",
+      "title": "RootishArrayStack 的时间与空间复杂度",
+      "core_question": "RootishArrayStack 在随机访问、更新和额外空间之间做了怎样的权衡？",
+      "summary": "它保留 O(1) 随机访问和 O(1+n-i) 按位更新，同时把浪费空间降为 O(sqrt(n))。",
+      "definition": "RootishArrayStack 的 get 与 set 为 $O(1)$，忽略 grow 与 shrink 时，add(i,x) 与 remove(i) 为 $O(1+n-i)$。从空结构开始的 m 次更新中，块增长和收缩的总成本为 $O(m)$；在任意时刻，未使用槽位和块目录造成的额外空间为 $O(\\sqrt n)$。",
+      "content_type": "theorem"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "ods-000361-paragraph-seclabel-rootishspaceusage-next-we-a",
+      "type": "paragraph",
+      "content": "\\seclabel{rootishspaceusage} Next, we analyze the amount of extra space used by a RootishArrayStack. In particular, we want to count any space used by a RootishArrayStack that is not an array element currently used to hold a list element. We call all such space \\emph{wasted space}. \\index{wasted space} The \\ensuremath{\\ensuremath{\\mathrm{remove}(\\ensuremath{\\mathit{i}})}} operation ensures that a RootishArrayStack never has more than two blocks that are not completely full. The number of blocks, \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{r}}}}, used by a RootishArrayStack that stores \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}} elements therefore satisfies"
+    },
+    {
+      "id": "ods-000362-equation-ensuremath-ensuremath-ensuremath-mat",
+      "type": "equation",
+      "content": "\\[\n    (\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{r}}}}-2)(\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{r}}}}-1)/2 \\le \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}} \\enspace .\n\\]"
+    },
+    {
+      "id": "ods-000363-paragraph-again-using-the-quadratic-equation-o",
+      "type": "paragraph",
+      "content": "Again, using the quadratic equation on this gives"
+    },
+    {
+      "id": "ods-000364-equation-ensuremath-ensuremath-ensuremath-mat",
+      "type": "equation",
+      "content": "\\[\n   \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{r}}}} \\le \\frac{1}{2}\\left(3+\\sqrt{8\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}+1}\\right) = O(\\sqrt{\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}}) \\enspace .\n\\]"
+    },
+    {
+      "id": "ods-000365-paragraph-the-last-two-blocks-have-sizes-ensur",
+      "type": "paragraph",
+      "content": "The last two blocks have sizes \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{r}}}} and \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{r}}-1}}, so the space wasted by these two blocks is at most $2\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{r}}}}-1 = O(\\sqrt{\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}})$. If we store the blocks in (for example) an ArrayStack, then the amount of space wasted by the List that stores those \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{r}}}} blocks is also $O(\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{r}}}})=O(\\sqrt{\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}})$. The other space needed for storing \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}} and other accounting information is $O(1)$. Therefore, the total amount of wasted space in a RootishArrayStack is $O(\\sqrt{\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}})$. Next, we argue that this space usage is optimal for any data structure that starts out empty and can support the addition of one item at a time. More precisely, we will show that, at some point during the addition of \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}} items, the data structure is wasting at least in $\\sqrt{\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}}$ space (though it may be only wasted for a moment). Suppose we start with an empty data structure and we add \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}} items one at a time. At the end of this process, all \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}} items are stored in the structure and distributed among a collection of \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{r}}}} memory blocks. If $\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{r}}}}\\ge \\sqrt{\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}}$, then the data structure must be using \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{r}}}} pointers (or references) to keep track of these \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{r}}}} blocks, and these pointers are wasted space. On the other hand, if $\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{r}}}} < \\sqrt{\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}}$ then, by the pigeonhole principle, some block must have size at least $\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}/\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{r}}}} > \\sqrt{\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}}$. Consider the moment at which this block was first allocated. Immediately after it was allocated, this block was empty, and was therefore wasting $\\sqrt{\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}}$ space. Therefore, at some point in time during the insertion of \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}} elements, the data structure was wasting $\\sqrt{\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}}$ space."
+    }
+  ]
+}

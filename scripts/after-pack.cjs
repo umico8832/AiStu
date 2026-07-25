@@ -1,13 +1,10 @@
 const path = require("node:path");
-const { execFile } = require("node:child_process");
-const { promisify } = require("node:util");
 const {
   flipFuses,
   FuseVersion,
   FuseV1Options,
 } = require("@electron/fuses");
-
-const execFileAsync = promisify(execFile);
+const { prepareMacApp } = require("./prepare-macos-app.cjs");
 
 module.exports = async function afterPack(context) {
   const productFilename = context.packager.appInfo.productFilename;
@@ -31,15 +28,8 @@ module.exports = async function afterPack(context) {
   });
 
   if (context.electronPlatformName === "darwin") {
-    // Apple Silicon will terminate a modified Electron binary whose bundled
-    // signature no longer matches. Apply a local ad-hoc signature after fuse
-    // mutation; electron-builder replaces it when a Developer ID is supplied.
-    await execFileAsync("/usr/bin/codesign", [
-      "--force",
-      "--deep",
-      "--sign",
-      "-",
+    await prepareMacApp(
       path.join(context.appOutDir, appBundleName),
-    ]);
+    );
   }
 };

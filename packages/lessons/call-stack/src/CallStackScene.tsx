@@ -23,6 +23,7 @@ import type { LessonStep, ValueTransfer } from "./types";
 interface CallStackSceneProps {
   step: LessonStep;
   layoutGroupId: string;
+  summaryQuestion: string;
 }
 
 interface Point {
@@ -109,7 +110,13 @@ function ReturnTransfer({ transfer, container }: ReturnTransferProps) {
   );
 }
 
-function SummaryPanel({ step }: { step: LessonStep }) {
+function SummaryPanel({
+  step,
+  summaryQuestion,
+}: {
+  step: LessonStep;
+  summaryQuestion: string;
+}) {
   if (!step.summaryItems) {
     return null;
   }
@@ -142,6 +149,10 @@ function SummaryPanel({ step }: { step: LessonStep }) {
           </div>
         ))}
       </dl>
+      <p className="m-0 mt-3 border-t border-emerald-100 pt-3 text-xs font-medium leading-5 text-slate-700">
+        <span className="font-semibold text-emerald-800">带走问题：</span>
+        {summaryQuestion}
+      </p>
     </motion.section>
   );
 }
@@ -149,6 +160,7 @@ function SummaryPanel({ step }: { step: LessonStep }) {
 export function CallStackScene({
   step,
   layoutGroupId,
+  summaryQuestion,
 }: CallStackSceneProps) {
   const [sceneElement, setSceneElement] = useState<HTMLDivElement | null>(null);
   const captureSceneElement = useCallback((node: HTMLDivElement | null) => {
@@ -299,7 +311,10 @@ export function CallStackScene({
               ) : null}
             </AnimatePresence>
 
-            <SummaryPanel step={step} />
+            <SummaryPanel
+              step={step}
+              summaryQuestion={summaryQuestion}
+            />
 
             <AnimatePresence mode="wait">
               {primaryNote ? (

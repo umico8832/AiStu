@@ -1,0 +1,94 @@
+{
+  "concept": {
+    "id": "cs408-binary-insertion-sort",
+    "title": "折半插入排序",
+    "aliases": [
+      "binary insertion sort",
+      "折半插入"
+    ],
+    "content_type": "algorithm",
+    "location": {
+      "course_id": "cs408-data-structures",
+      "chapter_id": "408-sorting",
+      "section_id": "cs408-internal-sorting",
+      "parent_id": null,
+      "order": 3
+    },
+    "core_question": "折半插入排序减少了什么，又没有减少什么？",
+    "summary": "它在有序区用二分查找定位插入点，减少关键字比较，但记录移动仍可能是二次量级。",
+    "definition": "折半插入排序利用已排序前缀，在其中二分确定待排记录的插入位置，再整体后移其后的记录。比较次数降为 O(n log n)，但最坏和平均移动次数仍为 O(n²)，所以总时间仍是 O(n²)；用恰当的相等元素插入边界可保持稳定。",
+    "prerequisite_ids": [
+      "cs408-direct-insertion-sort",
+      "cs408-binary-search"
+    ],
+    "relations": [
+      {
+        "type": "part_of",
+        "target_id": "cs408-syllabus-sorting",
+        "description": "折半插入排序是排序考纲模块中的原子知识点。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "像先用目录快速找到文件夹位置，但仍要把后面的全部文件挪开一格。",
+      "mapping": {
+        "直观对象": "折半插入排序",
+        "对应机制": "它在有序区用二分查找定位插入点，减少关键字比较，但记录移动仍可能是二次量级。"
+      },
+      "boundary": "类比只用于建立直觉；正式作答仍需使用定义、操作步骤、适用条件和复杂度结论。"
+    },
+    "retrieval": {
+      "keywords": [
+        "折半插入排序",
+        "binary insertion sort",
+        "折半插入"
+      ],
+      "query_examples": [
+        "折半插入排序减少了什么，又没有减少什么？",
+        "折半插入排序的步骤、性质和复杂度是什么？",
+        "折半插入排序有哪些适用条件和易错边界？"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "syllabus-note-cs408-binary-insertion-sort"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "cs408-direct-insertion-sort",
+      "title": "直接插入排序",
+      "core_question": "直接插入排序怎样维护逐步扩大的有序区？",
+      "summary": "每轮取出一个待排记录，在前方已排序区中从后向前寻找位置并移动记录后插入。",
+      "definition": "第 i 轮把 A[i] 暂存为哨兵，从有序区 A[0..i-1] 末端向前比较；大于待插入关键字的记录依次后移，最终把暂存记录放入空位。最好时间 O(n)，平均和最坏 O(n²)，辅助空间 O(1)，通常稳定且适合基本有序或规模较小的数据。",
+      "content_type": "algorithm"
+    },
+    {
+      "id": "cs408-binary-search",
+      "title": "折半查找",
+      "core_question": "折半查找怎样利用有序顺序表不断缩小区间？",
+      "summary": "比较中点后排除不可能的一半，成功和失败时间均为 O(log n)。",
+      "definition": "折半查找要求支持随机访问且关键字有序。维护闭区间 [low,high] 或半开区间，按统一约定计算 mid；目标小于中值缩小右界，大于则提高左界。循环条件和边界更新必须保证区间严格缩小。",
+      "content_type": "algorithm"
+    },
+    {
+      "id": "cs408-syllabus-sorting",
+      "title": "408 考纲：排序范围",
+      "core_question": "408 排序模块覆盖哪些算法与分析维度？",
+      "summary": "排序模块覆盖插入、交换、选择、希尔、快速、堆、归并、基数和外部排序，并要求比较稳定性与复杂度。",
+      "definition": "408 排序模块包括排序基本概念、直接与折半插入排序、冒泡排序、简单选择排序、希尔排序、快速排序、堆排序、二路归并排序、基数排序和外部排序，以及排序算法的分析与应用。复习时需要比较最好、平均和最坏时间、辅助空间、稳定性、原地性与适用场景。",
+      "content_type": "concept"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "syllabus-note-cs408-binary-insertion-sort",
+      "type": "paragraph",
+      "content": "它在有序区用二分查找定位插入点，减少关键字比较，但记录移动仍可能是二次量级。\n\n折半插入排序利用已排序前缀，在其中二分确定待排记录的插入位置，再整体后移其后的记录。比较次数降为 O(n log n)，但最坏和平均移动次数仍为 O(n²)，所以总时间仍是 O(n²)；用恰当的相等元素插入边界可保持稳定。\n\n对应 2026 数据结构考纲叶子条目：折半插入排序、排序算法的分析及应用。"
+    }
+  ]
+}

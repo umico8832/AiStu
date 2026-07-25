@@ -1,0 +1,85 @@
+{
+  "concept": {
+    "id": "cs408-expression-evaluation",
+    "title": "表达式转换与求值",
+    "aliases": [
+      "postfix evaluation",
+      "逆波兰表达式"
+    ],
+    "content_type": "algorithm",
+    "location": {
+      "course_id": "cs408-data-structures",
+      "chapter_id": "408-stacks-queues-arrays",
+      "section_id": "cs408-stack-queue-applications",
+      "parent_id": null,
+      "order": 6
+    },
+    "core_question": "栈如何支持中缀、后缀表达式转换与求值？",
+    "summary": "运算数栈保存数值，运算符栈依据优先级和结合性决定何时弹出计算。",
+    "definition": "中缀转后缀时直接输出运算数，运算符按优先级、结合性和括号规则进出栈；后缀求值时遇运算数入栈，遇二元运算符依次弹出右、左操作数计算后压回。操作数弹出顺序不能颠倒。",
+    "prerequisite_ids": [
+      "cs408-stack-lifo"
+    ],
+    "relations": [
+      {
+        "type": "part_of",
+        "target_id": "cs408-syllabus-stacks-queues-arrays",
+        "description": "表达式转换与求值是栈、队列和数组考纲模块中的原子知识点。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "像把待办数字放入材料栈，把运算符按优先级排队，条件成熟时取最近的材料完成一步计算。",
+      "mapping": {
+        "直观对象": "表达式转换与求值",
+        "对应机制": "运算数栈保存数值，运算符栈依据优先级和结合性决定何时弹出计算。"
+      },
+      "boundary": "类比只用于建立直觉；正式作答仍需使用定义、操作步骤、适用条件和复杂度结论。"
+    },
+    "retrieval": {
+      "keywords": [
+        "表达式转换与求值",
+        "postfix evaluation",
+        "逆波兰表达式"
+      ],
+      "query_examples": [
+        "栈如何支持中缀、后缀表达式转换与求值？",
+        "表达式转换与求值的步骤、性质和复杂度是什么？",
+        "表达式转换与求值有哪些适用条件和易错边界？"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "syllabus-note-cs408-expression-evaluation"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "cs408-stack-lifo",
+      "title": "栈的 LIFO 语义与基本操作",
+      "core_question": "栈为什么称为后进先出的受限线性表？",
+      "summary": "栈只允许在栈顶插入和删除，最后压入的元素最先弹出。",
+      "definition": "栈是只在一端进行插入和删除的线性表，这一端称为栈顶，另一端称为栈底。push 压入元素，pop 删除并返回栈顶，top 只读取栈顶；空栈执行 pop 或 top 必须按接口规则处理下溢。",
+      "content_type": "concept"
+    },
+    {
+      "id": "cs408-syllabus-stacks-queues-arrays",
+      "title": "408 考纲：栈、队列和数组范围",
+      "core_question": "408 栈、队列和数组模块覆盖哪些内容？",
+      "summary": "该模块覆盖栈与队列的概念和顺序、链式实现，多维数组存储、特殊矩阵压缩及相关应用。",
+      "definition": "408 的栈、队列和数组模块包括栈与队列的基本概念、顺序存储结构、链式存储结构，多维数组的存储，特殊矩阵的压缩存储，以及栈、队列和数组的应用。常见能力包括判断栈序列、分析循环队列、推导地址映射和使用线性结构解决表达式或遍历问题。",
+      "content_type": "concept"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "syllabus-note-cs408-expression-evaluation",
+      "type": "paragraph",
+      "content": "运算数栈保存数值，运算符栈依据优先级和结合性决定何时弹出计算。\n\n中缀转后缀时直接输出运算数，运算符按优先级、结合性和括号规则进出栈；后缀求值时遇运算数入栈，遇二元运算符依次弹出右、左操作数计算后压回。操作数弹出顺序不能颠倒。\n\n对应 2026 数据结构考纲叶子条目：栈、队列和数组的应用。"
+    }
+  ]
+}

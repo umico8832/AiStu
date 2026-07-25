@@ -1,0 +1,94 @@
+{
+  "concept": {
+    "id": "cs408-hash-load-factor-asl",
+    "title": "散列表装填因子与查找性能",
+    "aliases": [
+      "load factor",
+      "hash ASL"
+    ],
+    "content_type": "theorem",
+    "location": {
+      "course_id": "cs408-data-structures",
+      "chapter_id": "408-searching",
+      "section_id": "cs408-hash-search",
+      "parent_id": null,
+      "order": 25
+    },
+    "core_question": "装填因子怎样影响散列冲突和平均查找长度？",
+    "summary": "装填因子 α=n/m 越大通常冲突越多；性能还取决于散列函数、冲突策略和关键字分布。",
+    "definition": "链地址法的平均桶长与 α 同阶，开放定址在 α 接近 1 时探测长度会急剧增加，因此需要扩容和重散列。计算 ASL 时应按实际插入产生的探测序列分别统计成功记录和各失败起始地址。",
+    "prerequisite_ids": [
+      "cs408-average-search-length",
+      "cs408-open-addressing"
+    ],
+    "relations": [
+      {
+        "type": "part_of",
+        "target_id": "cs408-syllabus-searching",
+        "description": "散列表装填因子与查找性能是查找考纲模块中的原子知识点。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "像停车场越接近满位，寻找空位的平均绕行距离越长。",
+      "mapping": {
+        "直观对象": "散列表装填因子与查找性能",
+        "对应机制": "装填因子 α=n/m 越大通常冲突越多；性能还取决于散列函数、冲突策略和关键字分布。"
+      },
+      "boundary": "类比只用于建立直觉；正式作答仍需使用定义、操作步骤、适用条件和复杂度结论。"
+    },
+    "retrieval": {
+      "keywords": [
+        "散列表装填因子与查找性能",
+        "load factor",
+        "hash ASL"
+      ],
+      "query_examples": [
+        "装填因子怎样影响散列冲突和平均查找长度？",
+        "散列表装填因子与查找性能的步骤、性质和复杂度是什么？",
+        "散列表装填因子与查找性能有哪些适用条件和易错边界？"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "syllabus-note-cs408-hash-load-factor-asl"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "cs408-average-search-length",
+      "title": "平均查找长度",
+      "core_question": "平均查找长度如何衡量一次查找的期望比较次数？",
+      "summary": "ASL 是各查找情况比较次数按发生概率加权的期望，成功与失败通常分别计算。",
+      "definition": "若第 i 种查找情况发生概率为 pi、需要 ci 次关键字比较，则 ASL=Σpi·ci。概率未知时常假设等概率。不同算法的失败查找可能对应区间、空链或探测终点，必须按具体结构列出失败情况。",
+      "content_type": "formula"
+    },
+    {
+      "id": "cs408-open-addressing",
+      "title": "开放定址法与探测序列",
+      "core_question": "开放定址法如何在表内寻找冲突后的空槽？",
+      "summary": "按线性、平方或双散列探测序列检查其他槽，查找必须沿同一序列直到命中或遇到真正空槽。",
+      "definition": "开放定址把所有记录保存在表数组内，要求装填因子小于 1。线性探测易产生一次聚集，平方探测和双散列改善分布；删除通常使用墓碑标记，直接置空会截断其他记录的探测链。",
+      "content_type": "algorithm"
+    },
+    {
+      "id": "cs408-syllabus-searching",
+      "title": "408 考纲：查找范围",
+      "core_question": "408 查找模块覆盖哪些查找结构和算法？",
+      "summary": "查找模块覆盖顺序、分块、折半查找，BST、AVL、红黑树、B/B+树、散列表、字符串匹配及分析应用。",
+      "definition": "408 查找模块包括查找基本概念，顺序查找、分块查找、折半查找，二叉搜索树、平衡二叉树和红黑树，B 树的基本操作与 B+ 树基本概念，散列表，字符串模式匹配，以及查找算法的分析与应用。不同方法必须结合前提、操作成本和数据场景比较。",
+      "content_type": "concept"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "syllabus-note-cs408-hash-load-factor-asl",
+      "type": "paragraph",
+      "content": "装填因子 α=n/m 越大通常冲突越多；性能还取决于散列函数、冲突策略和关键字分布。\n\n链地址法的平均桶长与 α 同阶，开放定址在 α 接近 1 时探测长度会急剧增加，因此需要扩容和重散列。计算 ASL 时应按实际插入产生的探测序列分别统计成功记录和各失败起始地址。\n\n对应 2026 数据结构考纲叶子条目：散列表、查找算法的分析及应用。"
+    }
+  ]
+}

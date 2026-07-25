@@ -1,0 +1,85 @@
+{
+  "concept": {
+    "id": "cs408-bst-insert-delete",
+    "title": "二叉搜索树插入与删除",
+    "aliases": [
+      "BST insertion",
+      "BST deletion"
+    ],
+    "content_type": "algorithm",
+    "location": {
+      "course_id": "cs408-data-structures",
+      "chapter_id": "408-searching",
+      "section_id": "cs408-linear-search",
+      "parent_id": null,
+      "order": 9
+    },
+    "core_question": "BST 怎样插入新关键字并删除不同度数的结点？",
+    "summary": "插入落在失败查找位置；删除叶或单孩子结点直接接替，双孩子结点用前驱或后继替换。",
+    "definition": "插入沿查找路径到空指针建立叶结点。删除叶结点直接断开；只有一个孩子时让孩子接替；有两个孩子时用中序前驱或后继的关键字替换目标，再删除那个至多只有一个孩子的结点。所有修改必须保持中序有序。",
+    "prerequisite_ids": [
+      "cs408-bst-property-search"
+    ],
+    "relations": [
+      {
+        "type": "part_of",
+        "target_id": "cs408-syllabus-searching",
+        "description": "二叉搜索树插入与删除是查找考纲模块中的原子知识点。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "像维护分类目录：新记录放到唯一空位，删除中间目录时用相邻有序记录接班。",
+      "mapping": {
+        "直观对象": "二叉搜索树插入与删除",
+        "对应机制": "插入落在失败查找位置；删除叶或单孩子结点直接接替，双孩子结点用前驱或后继替换。"
+      },
+      "boundary": "类比只用于建立直觉；正式作答仍需使用定义、操作步骤、适用条件和复杂度结论。"
+    },
+    "retrieval": {
+      "keywords": [
+        "二叉搜索树插入与删除",
+        "BST insertion",
+        "BST deletion"
+      ],
+      "query_examples": [
+        "BST 怎样插入新关键字并删除不同度数的结点？",
+        "二叉搜索树插入与删除的步骤、性质和复杂度是什么？",
+        "二叉搜索树插入与删除有哪些适用条件和易错边界？"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "syllabus-note-cs408-bst-insert-delete"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "cs408-bst-property-search",
+      "title": "二叉搜索树性质与查找",
+      "core_question": "二叉搜索树怎样利用关键字有序性查找？",
+      "summary": "对每个结点，左子树关键字更小、右子树更大，中序遍历得到有序序列。",
+      "definition": "查找从根开始，目标小于当前关键字进入左子树，大于则进入右子树，相等成功。时间与树高 h 同阶；形态平衡时约 O(log n)，按有序序列插入可能退化为链，最坏 O(n)。",
+      "content_type": "concept"
+    },
+    {
+      "id": "cs408-syllabus-searching",
+      "title": "408 考纲：查找范围",
+      "core_question": "408 查找模块覆盖哪些查找结构和算法？",
+      "summary": "查找模块覆盖顺序、分块、折半查找，BST、AVL、红黑树、B/B+树、散列表、字符串匹配及分析应用。",
+      "definition": "408 查找模块包括查找基本概念，顺序查找、分块查找、折半查找，二叉搜索树、平衡二叉树和红黑树，B 树的基本操作与 B+ 树基本概念，散列表，字符串模式匹配，以及查找算法的分析与应用。不同方法必须结合前提、操作成本和数据场景比较。",
+      "content_type": "concept"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "syllabus-note-cs408-bst-insert-delete",
+      "type": "paragraph",
+      "content": "插入落在失败查找位置；删除叶或单孩子结点直接接替，双孩子结点用前驱或后继替换。\n\n插入沿查找路径到空指针建立叶结点。删除叶结点直接断开；只有一个孩子时让孩子接替；有两个孩子时用中序前驱或后继的关键字替换目标，再删除那个至多只有一个孩子的结点。所有修改必须保持中序有序。\n\n对应 2026 数据结构考纲叶子条目：二叉搜索树。"
+    }
+  ]
+}

@@ -1,0 +1,106 @@
+{
+  "concept": {
+    "id": "ods-rootisharraystack-grow-shrink",
+    "title": "RootishArrayStack 的块增长与收缩",
+    "aliases": [
+      "grow/shrink",
+      "块级扩缩容",
+      "Rootish capacity"
+    ],
+    "content_type": "mechanism",
+    "location": {
+      "course_id": "open-data-structures",
+      "chapter_id": "array-based-lists",
+      "section_id": "2-6-1-analysis-of-growing-and-shrinking",
+      "parent_id": null,
+      "order": 27
+    },
+    "core_question": "RootishArrayStack 何时增加或删除数组块？",
+    "summary": "容量不足时追加长度 r+1 的块，空块超过一个时删除尾部多余块，并保持最多两个块未完全装满。",
+    "definition": "若 r 个块的总容量 $r(r+1)/2$ 小于 n+1，grow 追加一个长度为 r+1 的数组块。删除后，shrink 在移除倒数第二块仍能容纳 n 个元素时持续删除尾块，从而只保留必要块和至多一个额外空块。grow 与 shrink 本身不复制已有元素。",
+    "prerequisite_ids": [
+      "ods-rootisharraystack-block-layout"
+    ],
+    "relations": [
+      {
+        "type": "leads_to",
+        "target_id": "ods-rootisharraystack-space",
+        "description": "理解《RootishArrayStack 的块增长与收缩》是继续学习目标知识点的直接基础。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "书架坐满时只在末尾加一层更长的书架；书减少后，若末尾整层已经多余，就整层撤掉。",
+      "mapping": {
+        "加一层": "grow 追加块",
+        "整层撤掉": "shrink 删除尾块",
+        "坐满": "总容量不足"
+      },
+      "boundary": "类比不决定数组分配和释放的实际时间；不同运行环境可能把分配视为不同成本。"
+    },
+    "retrieval": {
+      "keywords": [
+        "RootishArrayStack 的块增长与收缩",
+        "grow/shrink",
+        "块级扩缩容",
+        "Rootish capacity"
+      ],
+      "query_examples": [
+        "RootishArrayStack 何时增加或删除数组块？",
+        "RootishArrayStack 的块增长与收缩怎么理解",
+        "RootishArrayStack 的块增长与收缩的关键条件是什么"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "ods-000352-paragraph-the-ensuremath-ensuremath-mathrm-gro",
+      "ods-000353-algorithm-begin-flushleft-hspace-1em-ensuremat",
+      "ods-000356-algorithm-begin-flushleft-hspace-1em-ensuremat",
+      "ods-000359-paragraph-the-above-analysis-of-ensuremath-ens"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "ods-rootisharraystack-block-layout",
+      "title": "RootishArrayStack 的递增块布局",
+      "core_question": "RootishArrayStack 如何用递增大小的数组块保存线性序列？",
+      "summary": "它使用大小依次为 1,2,…,r 的数组块，总容量为 r(r+1)/2，并按逻辑顺序跨块存放元素。",
+      "definition": "RootishArrayStack 维护 r 个数组块，第 b 个块的长度为 b+1。所有块总容量为 $1+2+\\cdots+r=r(r+1)/2$，逻辑元素按下标顺序依次填入这些块。与单一后备数组相比，它通过增加或删除整块控制额外空间。",
+      "content_type": "concept"
+    },
+    {
+      "id": "ods-rootisharraystack-space",
+      "title": "RootishArrayStack 的浪费空间界",
+      "core_question": "为什么 RootishArrayStack 只浪费 O(sqrt(n)) 个数组槽位？",
+      "summary": "收缩规则保证最多两个末尾块不满，而块数 r=O(sqrt(n))，所以未用槽位与块目录开销均为 O(sqrt(n))。",
+      "definition": "若 RootishArrayStack 存有 n 个元素和 r 个块，收缩不变量给出 $(r-2)(r-1)/2\\le n$，从而 $r\\le(3+\\sqrt{8n+1})/2=O(\\sqrt n)$。仅最后两个块可能不满，其总长度至多 2r-1；保存 r 个块引用也需 O(r) 空间，因此总浪费空间为 $O(\\sqrt n)$。",
+      "content_type": "theorem"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "ods-000352-paragraph-the-ensuremath-ensuremath-mathrm-gro",
+      "type": "paragraph",
+      "content": "The \\ensuremath{\\ensuremath{\\mathrm{grow}()}} method does what we expect. It adds a new block:"
+    },
+    {
+      "id": "ods-000353-algorithm-begin-flushleft-hspace-1em-ensuremat",
+      "type": "algorithm",
+      "content": "\\begin{flushleft}\n\\hspace*{1em} \\ensuremath{\\mathrm{grow}()}\\\\\n\\hspace*{1em} \\hspace*{1em} \\ensuremath{\\ensuremath{\\mathit{blocks}}.\\mathrm{append}(\\mathrm{new\\_array}(\\ensuremath{\\mathit{blocks}}.\\mathrm{size}()+1}))\\\\\n\\end{flushleft}"
+    },
+    {
+      "id": "ods-000356-algorithm-begin-flushleft-hspace-1em-ensuremat",
+      "type": "algorithm",
+      "content": "\\begin{flushleft}\n\\hspace*{1em} \\ensuremath{\\mathrm{shrink}()}\\\\\n\\hspace*{1em} \\hspace*{1em} \\ensuremath{\\ensuremath{\\mathit{r}} \\gets  \\ensuremath{\\ensuremath{\\mathit{blocks}}.\\mathrm{size}()}}\\\\\n\\hspace*{1em} \\hspace*{1em} {\\color{black} \\textbf{while}} \\ensuremath{\\ensuremath{\\mathit{r}} > 0} {\\color{black} \\textbf{and}} \\ensuremath{(\\ensuremath{\\mathit{r}}-2)\\cdot (\\ensuremath{\\mathit{r}}-1)/2 \\ge n} {\\color{black} \\textbf{do}} \\\\\n\\hspace*{1em} \\hspace*{1em} \\hspace*{1em} \\ensuremath{\\ensuremath{\\mathit{blocks}}.\\mathrm{remove}(\\ensuremath{\\mathit{blocks}}.\\mathrm{size}()-1})\\\\\n\\hspace*{1em} \\hspace*{1em} \\hspace*{1em} \\ensuremath{\\ensuremath{\\mathit{r}} \\gets  \\ensuremath{\\ensuremath{\\mathit{r}} - 1}}\\\\\n\\end{flushleft}"
+    },
+    {
+      "id": "ods-000359-paragraph-the-above-analysis-of-ensuremath-ens",
+      "type": "paragraph",
+      "content": "The above analysis of \\ensuremath{\\ensuremath{\\mathrm{add}(\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{x}})}} and \\ensuremath{\\ensuremath{\\mathrm{remove}(\\ensuremath{\\mathit{i}})}} does not account for the cost of \\ensuremath{\\ensuremath{\\mathrm{grow}()}} and \\ensuremath{\\ensuremath{\\mathrm{shrink}()}}. Note that, unlike the \\ensuremath{\\ensuremath{\\mathrm{ArrayStack}.\\mathrm{resize}()}} operation, \\ensuremath{\\ensuremath{\\mathrm{grow}()}} and \\ensuremath{\\ensuremath{\\mathrm{shrink}()}} do not copy any data. They only allocate or free an array of size \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{r}}}}. In some environments, this takes only constant time, while in others, it may require time proportional to \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{r}}}}. We note that, immediately after a call to \\ensuremath{\\ensuremath{\\mathrm{grow}()}} or \\ensuremath{\\ensuremath{\\mathrm{shrink}()}}, the situation is clear. The final block is completely empty, and all other blocks are completely full. Another call to \\ensuremath{\\ensuremath{\\mathrm{grow}()}} or \\ensuremath{\\ensuremath{\\mathrm{shrink}()}} will not happen until at least $\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{r}}}}-1$ elements have been added or removed. Therefore, even if \\ensuremath{\\ensuremath{\\mathrm{grow}()}} and \\ensuremath{\\ensuremath{\\mathrm{shrink}()}} take $O(\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{r}}}})$ time, this cost can be amortized over at least $\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{r}}}}-1$ \\ensuremath{\\ensuremath{\\mathrm{add}(\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{x}})}} or \\ensuremath{\\ensuremath{\\mathrm{remove}(\\ensuremath{\\mathit{i}})}} operations, so that the amortized cost of \\ensuremath{\\ensuremath{\\mathrm{grow}()}} and \\ensuremath{\\ensuremath{\\mathrm{shrink}()}} is $O(1)$ per operation."
+    }
+  ]
+}

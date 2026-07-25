@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opendatastructures.org/schemas/machine-readable-record-1.0.0.json",
+  "title": "Open Data Structures machine-readable record",
+  "type": "object",
+  "required": [
+    "id",
+    "document_order",
+    "type",
+    "chapter_number",
+    "section_number",
+    "heading_path",
+    "content_format",
+    "content",
+    "raw_latex",
+    "source_file",
+    "source_line_start",
+    "source_line_end",
+    "labels",
+    "references",
+    "citations",
+    "language"
+  ],
+  "properties": {
+    "id": {"type": "string", "minLength": 1},
+    "document_order": {"type": "integer", "minimum": 1},
+    "type": {
+      "enum": [
+        "metadata",
+        "part",
+        "chapter",
+        "section",
+        "subsection",
+        "subsubsection",
+        "paragraph",
+        "list",
+        "list_item",
+        "equation",
+        "equation_group",
+        "theorem",
+        "lemma",
+        "corollary",
+        "proof",
+        "definition",
+        "example",
+        "exercise",
+        "code",
+        "algorithm",
+        "table",
+        "figure_caption",
+        "footnote",
+        "bibliography_entry",
+        "index_entry",
+        "horizontal_break",
+        "unknown_environment"
+      ]
+    },
+    "chapter_number": {"type": ["integer", "null"]},
+    "section_number": {"type": ["string", "null"]},
+    "subsection_number": {"type": ["string", "null"]},
+    "subsubsection_number": {"type": ["string", "null"]},
+    "heading_path": {"type": "array", "items": {"type": "string"}},
+    "content_format": {"const": "latex"},
+    "content": {"type": "string"},
+    "raw_latex": {"type": "string"},
+    "source_file": {"type": "string", "minLength": 1},
+    "source_line_start": {"type": "integer", "minimum": 1},
+    "source_line_end": {"type": "integer", "minimum": 1},
+    "labels": {"type": "array", "items": {"type": "string"}},
+    "references": {"type": "array", "items": {"type": "string"}},
+    "citations": {"type": "array", "items": {"type": "string"}},
+    "language": {"const": "en"},
+    "generated_source_file": {"type": "string"},
+    "original_source_file": {"type": "string"},
+    "code_source_file": {"type": "string"},
+    "source_spans": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["source_file", "source_line_start", "source_line_end"],
+        "properties": {
+          "source_file": {"type": "string"},
+          "source_line_start": {"type": "integer", "minimum": 1},
+          "source_line_end": {"type": "integer", "minimum": 1},
+          "role": {"type": "string"}
+        }
+      }
+    }
+  },
+  "additionalProperties": true
+}

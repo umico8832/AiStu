@@ -1,0 +1,94 @@
+{
+  "concept": {
+    "id": "cs408-binary-tree-level-order",
+    "title": "二叉树层序遍历",
+    "aliases": [
+      "level order traversal",
+      "层次遍历"
+    ],
+    "content_type": "algorithm",
+    "location": {
+      "course_id": "cs408-data-structures",
+      "chapter_id": "408-trees",
+      "section_id": "cs408-binary-tree",
+      "parent_id": null,
+      "order": 8
+    },
+    "core_question": "层序遍历为什么需要队列？",
+    "summary": "根先入队，每次出队访问结点并将其左右孩子入队，可按层从左到右访问。",
+    "definition": "层序遍历用 FIFO 队列保存已发现但尚未访问的结点：根入队，循环取出队头并访问，再依次把非空左、右孩子入队。每个结点入队出队一次，时间 O(n)，队列最大空间取决于树的最大宽度。",
+    "prerequisite_ids": [
+      "cs408-binary-tree-linked-storage",
+      "cs408-queue-fifo"
+    ],
+    "relations": [
+      {
+        "type": "part_of",
+        "target_id": "cs408-syllabus-trees",
+        "description": "二叉树层序遍历是树和二叉树考纲模块中的原子知识点。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "像按楼层参观大楼，先把当前层的房间全部登记，再进入下一层。",
+      "mapping": {
+        "直观对象": "二叉树层序遍历",
+        "对应机制": "根先入队，每次出队访问结点并将其左右孩子入队，可按层从左到右访问。"
+      },
+      "boundary": "类比只用于建立直觉；正式作答仍需使用定义、操作步骤、适用条件和复杂度结论。"
+    },
+    "retrieval": {
+      "keywords": [
+        "二叉树层序遍历",
+        "level order traversal",
+        "层次遍历"
+      ],
+      "query_examples": [
+        "层序遍历为什么需要队列？",
+        "二叉树层序遍历的步骤、性质和复杂度是什么？",
+        "二叉树层序遍历有哪些适用条件和易错边界？"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "syllabus-note-cs408-binary-tree-level-order"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "cs408-binary-tree-linked-storage",
+      "title": "二叉链表与三叉链表",
+      "core_question": "链式二叉树如何表示左右孩子和父结点？",
+      "summary": "二叉链表结点保存数据、左孩子指针和右孩子指针，三叉链表再保存父指针。",
+      "definition": "二叉链表适合一般形态的二叉树，空孩子用 null 表示；若二叉树有 n 个结点，2n 个孩子指针中有 n-1 个指向孩子，其余 n+1 个为空。增加 parent 指针形成三叉链表，可常数时间向上移动但增加空间与维护成本。",
+      "content_type": "concept"
+    },
+    {
+      "id": "cs408-queue-fifo",
+      "title": "队列的 FIFO 语义与基本操作",
+      "core_question": "队列为什么称为先进先出的受限线性表？",
+      "summary": "队列在队尾插入、队头删除，先入队的元素先出队。",
+      "definition": "队列只允许在一端入队 enqueue，在另一端出队 dequeue；插入端称队尾，删除端称队头。front 读取队头，判空和长度操作维护结构状态；空队列出队必须按接口规则处理下溢。",
+      "content_type": "concept"
+    },
+    {
+      "id": "cs408-syllabus-trees",
+      "title": "408 考纲：树和二叉树范围",
+      "core_question": "408 树和二叉树模块覆盖哪些结构与应用？",
+      "summary": "该模块覆盖树与二叉树性质、存储和遍历，线索化、森林转换，以及 Huffman、并查集和堆等应用。",
+      "definition": "408 的树和二叉树模块包括树的基本概念，二叉树的定义、性质、顺序与链式存储、遍历和线索化，树与森林的存储、转换和遍历，以及 Huffman 树与编码、并查集和堆的应用。复习需要同时具备性质计算、结构转换、手工过程和算法实现能力。",
+      "content_type": "concept"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "syllabus-note-cs408-binary-tree-level-order",
+      "type": "paragraph",
+      "content": "根先入队，每次出队访问结点并将其左右孩子入队，可按层从左到右访问。\n\n层序遍历用 FIFO 队列保存已发现但尚未访问的结点：根入队，循环取出队头并访问，再依次把非空左、右孩子入队。每个结点入队出队一次，时间 O(n)，队列最大空间取决于树的最大宽度。\n\n对应 2026 数据结构考纲叶子条目：二叉树的遍历。"
+    }
+  ]
+}

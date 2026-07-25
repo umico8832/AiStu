@@ -36,6 +36,7 @@ export function VisualizationComponent({
   const current = steps[stepIndex] ?? steps[0]!;
   const { capacity, headIndex, elements } = spec.scenario;
   const [prediction, setPrediction] = useState<number | null>(null);
+  const [predictionRetryCount, setPredictionRetryCount] = useState(0);
   const physicalValues = Array.from(
     { length: capacity },
     (): string | null => null,
@@ -75,6 +76,7 @@ export function VisualizationComponent({
     predictedLogicalIndex,
     capacity,
   );
+  const predictionComplete = prediction === correctPrediction;
   return (
     <MotionConfig reducedMotion="user">
       <LessonFrame
@@ -126,20 +128,27 @@ export function VisualizationComponent({
                     <button
                       key={answer}
                       type="button"
+                      disabled={predictionComplete}
                       onClick={() => {
                         setPrediction(answer);
+                        const correct = answer === correctPrediction;
                         onInteraction({
                           type: "prediction_submitted",
                           sessionId,
                           visualizationId: spec.visualizationId,
                           pauseId: "wraparound-index",
                           answerId: `physical-${answer}`,
-                          correct: answer === correctPrediction,
-                          retryCount: 0,
+                          correct,
+                          retryCount: predictionRetryCount,
                           occurredAt: Date.now(),
                         });
+                        if (!correct) {
+                          setPredictionRetryCount(
+                            (count) => count + 1,
+                          );
+                        }
                       }}
-                      className={`rounded-xl border px-3 py-2 text-xs font-bold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 ${
+                      className={`min-h-11 rounded-xl border px-3 py-2 text-xs font-bold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 disabled:cursor-default ${
                         prediction === answer
                           ? answer === correctPrediction
                             ? "border-emerald-300 bg-emerald-100 text-emerald-900"
@@ -151,13 +160,27 @@ export function VisualizationComponent({
                     </button>
                   ))}
                 </div>
+                {prediction !== null ? (
+                  <p
+                    role="status"
+                    className={`m-0 mt-2 text-xs font-semibold ${
+                      predictionComplete
+                        ? "text-emerald-700"
+                        : "text-rose-700"
+                    }`}
+                  >
+                    {predictionComplete
+                      ? `正确。(${headIndex}+${predictedLogicalIndex}) mod ${capacity} = ${correctPrediction}。`
+                      : "别直接相加到底；越过数组末端后还要取模。"}
+                  </p>
+                ) : null}
               </div>
             ) : null}
           </div>
         }
       >
         <div className="grid h-full gap-4 lg:grid-cols-[minmax(380px,1fr)_minmax(260px,0.7fr)]">
-          <div className="relative flex min-h-[390px] items-center justify-center rounded-[22px] border border-slate-200 bg-white shadow-sm">
+          <div className="relative flex min-h-[390px] items-center justify-center overflow-x-auto rounded-[22px] border border-slate-200 bg-white shadow-sm">
             <div className="absolute left-5 top-5">
               <p className="m-0 text-xs font-semibold uppercase tracking-[0.14em] text-indigo-500">
                 physical array
@@ -166,7 +189,7 @@ export function VisualizationComponent({
                 下标首尾相接
               </p>
             </div>
-            <div className="relative size-[320px]">
+            <div className="relative size-[320px] shrink-0">
               <div className="absolute inset-[72px] flex flex-col items-center justify-center rounded-full border border-dashed border-indigo-200 bg-indigo-50/60 text-center">
                 <span className="text-xs font-semibold text-indigo-600">
                   logical head
@@ -234,7 +257,7 @@ export function VisualizationComponent({
                   logicalIndex === current.logicalIndex;
                 return (
                   <motion.div
-                    key={element}
+                    key={`${logicalIndex}-${element}`}
                     animate={{ x: active ? 5 : 0 }}
                     className={`flex items-center gap-3 rounded-xl border px-3 py-2 ${
                       active

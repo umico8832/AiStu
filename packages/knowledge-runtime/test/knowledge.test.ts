@@ -11,6 +11,7 @@ function chunk(
   chunkType: KnowledgeRagChunk["chunkType"],
   title: string,
   text: string,
+  courseId = "open-data-structures",
 ): KnowledgeRagChunk {
   return {
     chunkId: `rag-${conceptId}-${chunkType}`,
@@ -19,7 +20,7 @@ function chunk(
     title,
     text,
     metadata: {
-      courseId: "open-data-structures",
+      courseId,
       chapterId: "array-based-lists",
       sectionId: "2-1-arraystack",
       contentType: "concept",
@@ -111,5 +112,36 @@ describe("knowledge runtime", () => {
     expect(result.chunks[0]?.conceptId).toBe(
       "ods-array-size-capacity",
     );
+  });
+
+  it("limits retrieval to the active course scope", () => {
+    const scopedChunks = [
+      chunk(
+        "ods-linear-list",
+        "core",
+        "线性表",
+        "线性表由有限个同类型数据元素构成。",
+      ),
+      chunk(
+        "cs408-linear-list",
+        "core",
+        "线性表",
+        "408 数据结构中的线性表具有有限序列和逻辑次序。",
+        "cs408-data-structures",
+      ),
+    ];
+    const result = new KnowledgeIndex(scopedChunks).retrieve(
+      "线性表是什么？",
+      [],
+      "cs408-data-structures",
+    );
+
+    expect(result.status).toBe("found");
+    expect(
+      result.chunks.every(
+        (item) =>
+          item.metadata.courseId === "cs408-data-structures",
+      ),
+    ).toBe(true);
   });
 });

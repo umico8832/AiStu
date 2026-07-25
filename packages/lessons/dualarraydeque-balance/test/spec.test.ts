@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+  buildDualArrayDequeBalanceSteps,
   defaultDualArrayDequeBalanceSessionSpec,
   deriveDualArrayDequeBalanceState,
   dualArrayDequeBalanceSessionSpecSchema,
@@ -17,6 +18,22 @@ describe("DualArrayDeque balance lesson", () => {
     expect([...state.newFront].reverse().concat(state.newBack)).toEqual(
       state.logical,
     );
+  });
+
+  it("describes the actual heavy side in both imbalance directions", () => {
+    const backHeavy = buildDualArrayDequeBalanceSteps(
+      defaultDualArrayDequeBalanceSessionSpec,
+    );
+    expect(backHeavy[1]?.title).toBe("back=7 > 3 × front=2");
+
+    const frontHeavy = buildDualArrayDequeBalanceSteps({
+      ...defaultDualArrayDequeBalanceSessionSpec,
+      scenario: {
+        ...defaultDualArrayDequeBalanceSessionSpec.scenario,
+        frontCount: 7,
+      },
+    });
+    expect(frontHeavy[1]?.title).toBe("front=7 > 3 × back=2");
   });
 
   it("rejects an already balanced scenario", () => {

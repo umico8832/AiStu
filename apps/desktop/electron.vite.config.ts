@@ -12,6 +12,7 @@ export default defineConfig({
           "@kaleidoscope/lesson-arrayqueue-representation",
           "@kaleidoscope/lesson-arraystack-insertion",
           "@kaleidoscope/lesson-call-stack",
+          "@kaleidoscope/lesson-cs408-core-visualizations",
           "@kaleidoscope/lesson-dualarraydeque-balance",
           "@kaleidoscope/tutor-runtime",
           "@kaleidoscope/ui",

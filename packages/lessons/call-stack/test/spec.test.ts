@@ -3,6 +3,7 @@ import {
   applyCallStackPatchOperations,
   callStackSessionSpecSchema,
   defaultCallStackSessionSpec,
+  lessonSteps,
 } from "../src";
 
 describe("call-stack lesson spec", () => {
@@ -38,5 +39,14 @@ describe("call-stack lesson spec", () => {
       })),
     });
     expect(parsed.success).toBe(false);
+  });
+
+  it("does not invent a sub variable before the base case returns", () => {
+    const baseCase = lessonSteps.find((step) => step.id === "base-case");
+    const baseFrame = baseCase?.frames.find(
+      (frame) => frame.id === "frame-factorial-1",
+    );
+    expect(baseFrame?.variables).toEqual([{ name: "n", value: "1" }]);
+    expect(baseFrame?.returnValue).toBe("1");
   });
 });

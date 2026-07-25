@@ -1,7 +1,6 @@
 const {
   accessSync,
   copyFileSync,
-  existsSync,
   mkdirSync,
   readFileSync,
 } = require("node:fs");
@@ -12,7 +11,12 @@ const configuredRoot =
   process.env.KALEIDOSCOPE_KNOWLEDGE_BASE_PATH?.trim();
 const knowledgeRoot = configuredRoot
   ? path.resolve(configuredRoot)
-  : path.resolve(repositoryRoot, "..", "ods-material", "knowledge_base");
+  : path.resolve(
+      repositoryRoot,
+      "content",
+      "ods-material",
+      "knowledge_base",
+    );
 const sourcePath = path.join(knowledgeRoot, "rag", "chunks.jsonl");
 const snapshotPath = path.join(
   repositoryRoot,
@@ -53,20 +57,17 @@ function validatedLines(filePath) {
 }
 
 function checkSnapshot() {
+  accessSync(sourcePath);
   accessSync(snapshotPath);
-  const snapshot = validatedLines(snapshotPath);
-  if (
-    existsSync(sourcePath) &&
-    readFileSync(sourcePath).compare(readFileSync(snapshotPath)) !== 0
-  ) {
+  const source = validatedLines(sourcePath);
+  validatedLines(snapshotPath);
+  if (readFileSync(sourcePath).compare(readFileSync(snapshotPath)) !== 0) {
     throw new Error(
       "Packaged knowledge snapshot is stale. Run `pnpm sync:knowledge`.",
     );
   }
   console.log(
-    existsSync(sourcePath)
-      ? `Knowledge snapshot is current (${snapshot.length} chunks).`
-      : `Knowledge snapshot is valid (${snapshot.length} chunks; authoritative source is not available on this machine).`,
+    `Knowledge source and packaged snapshot are current (${source.length} chunks).`,
   );
 }
 

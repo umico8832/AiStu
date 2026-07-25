@@ -1,0 +1,100 @@
+{
+  "concept": {
+    "id": "ods-arrayqueue-enqueue",
+    "title": "ArrayQueue 的入队",
+    "aliases": [
+      "enqueue",
+      "ArrayQueue add",
+      "循环队列入队"
+    ],
+    "content_type": "algorithm",
+    "location": {
+      "course_id": "open-data-structures",
+      "chapter_id": "array-based-lists",
+      "section_id": "2-3-arrayqueue",
+      "parent_id": null,
+      "order": 12
+    },
+    "core_question": "ArrayQueue 如何在不搬移已有元素的情况下完成入队？",
+    "summary": "容量足够时，新元素直接写入 (j+n) mod capacity，再把 n 加一，不移动已有队列元素。",
+    "definition": "ArrayQueue 的 add(x) 在 n+1 超过容量时先 resize；随后把 x 写入物理槽位 $(j+n)\\bmod \\mathrm{length}(a)$，再令 n 增加 1。该槽位对应当前逻辑队尾之后的位置，已有元素无需移动。",
+    "prerequisite_ids": [
+      "ods-arrayqueue-representation"
+    ],
+    "relations": [
+      {
+        "type": "leads_to",
+        "target_id": "ods-arrayqueue-performance",
+        "description": "理解《ArrayQueue 的入队》是继续学习目标知识点的直接基础。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "在环形传送带的队尾空位放入新货，只需根据队首和现有货物数找到下一个槽位，无需推动整条货物队列。",
+      "mapping": {
+        "队尾空位": "(j+n) mod capacity",
+        "新货": "x",
+        "现有货物数": "n"
+      },
+      "boundary": "类比不包含数组已满时 resize 的线性复制成本。"
+    },
+    "retrieval": {
+      "keywords": [
+        "ArrayQueue 的入队",
+        "enqueue",
+        "ArrayQueue add",
+        "循环队列入队"
+      ],
+      "query_examples": [
+        "ArrayQueue 如何在不搬移已有元素的情况下完成入队？",
+        "ArrayQueue 的入队怎么理解",
+        "ArrayQueue 的入队的关键条件是什么"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "ods-000268-paragraph-a-sequence-of-ensuremath-ensuremath-",
+      "ods-000269-figure_caption-a-sequence-of-ensuremath-ensuremath-",
+      "ods-000270-algorithm-begin-flushleft-hspace-1em-ensuremat"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "ods-arrayqueue-representation",
+      "title": "ArrayQueue 的循环数组表示",
+      "core_question": "ArrayQueue 如何用有限数组表示 FIFO 队列？",
+      "summary": "ArrayQueue 用 j 标记队首、n 记录元素数，并把第 k 个队列元素存到 (j+k) mod capacity。",
+      "definition": "ArrayQueue 用后备数组 a、队首物理下标 j 和元素数 n 表示 FIFO 序列。逻辑位置 k 的元素位于 $a[(j+k)\\bmod \\mathrm{length}(a)]$，其中 $0\\le k<n$。这一不变量让队首可以随删除向前移动而无需整体搬移。",
+      "content_type": "concept"
+    },
+    {
+      "id": "ods-arrayqueue-performance",
+      "title": "ArrayQueue 的操作复杂度",
+      "core_question": "ArrayQueue 的入队、出队和容量调整具有怎样的复杂度保证？",
+      "summary": "忽略 resize 时入队与出队均为 O(1)，从空队列开始的 m 次操作中所有 resize 总成本为 O(m)。",
+      "definition": "ArrayQueue 实现 FIFO Queue 接口时，add(x) 与 remove() 在不触发 resize 的情况下均执行常数次数的下标计算和读写，时间为 $O(1)$。从空队列开始执行任意 m 次更新，所有 resize 的总时间为 $O(m)$，所以更新具有 $O(1)$ 摊还时间。",
+      "content_type": "theorem"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "ods-000268-paragraph-a-sequence-of-ensuremath-ensuremath-",
+      "type": "paragraph",
+      "content": "A sequence of \\ensuremath{\\ensuremath{\\mathrm{add}(\\ensuremath{\\mathit{x}})}} and \\ensuremath{\\ensuremath{\\mathrm{remove}()}} operations on an ArrayQueue is illustrated in \\figref{arrayqueue}. To implement \\ensuremath{\\ensuremath{\\mathrm{add}(\\ensuremath{\\mathit{x}})}}, we first check if \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{a}}}} is full and, if necessary, call \\ensuremath{\\ensuremath{\\mathrm{resize}()}} to increase the size of \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{a}}}}. Next, we store \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{x}}}} in \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{a}}[(\\ensuremath{\\mathit{j}}+\\ensuremath{\\mathit{n}})\\bmod \\mathrm{length}(\\ensuremath{\\mathit{a}})]}} and increment \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}."
+    },
+    {
+      "id": "ods-000269-figure_caption-a-sequence-of-ensuremath-ensuremath-",
+      "type": "figure_caption",
+      "content": "A sequence of \\ensuremath{\\ensuremath{\\mathrm{add}(\\ensuremath{\\mathit{x}})}} and \\ensuremath{\\ensuremath{\\mathrm{remove}(\\ensuremath{\\mathit{i}})}} operations on an ArrayQueue. Arrows denote elements being copied. Operations that result in a call to \\ensuremath{\\ensuremath{\\mathrm{resize}()}} are marked with an asterisk."
+    },
+    {
+      "id": "ods-000270-algorithm-begin-flushleft-hspace-1em-ensuremat",
+      "type": "algorithm",
+      "content": "\\begin{flushleft}\n\\hspace*{1em} \\ensuremath{\\mathrm{add}(\\ensuremath{\\mathit{x}})}\\\\\n\\hspace*{1em} \\hspace*{1em} {\\color{black} \\textbf{if}} \\ensuremath{\\ensuremath{\\mathit{n}} + 1 > \\mathrm{length}(\\ensuremath{\\mathit{a}})} {\\color{black} \\textbf{then}}  \\ensuremath{\\mathrm{resize}()}\\\\\n\\hspace*{1em} \\hspace*{1em} \\ensuremath{\\ensuremath{\\mathit{a}}[\\ensuremath{(\\ensuremath{\\mathit{j}}+\\ensuremath{\\mathit{n}}) \\bmod  \\mathrm{length}(\\ensuremath{\\mathit{a}})}] \\gets  \\ensuremath{x}}\\\\\n\\hspace*{1em} \\hspace*{1em} \\ensuremath{\\ensuremath{\\mathit{n}} \\gets  \\ensuremath{\\ensuremath{\\mathit{n}} + 1}}\\\\\n\\hspace*{1em} \\hspace*{1em} {\\color{black} \\textbf{return}} \\ensuremath{\\ensuremath{\\mathit{true}}}\\\\\n\\end{flushleft}"
+    }
+  ]
+}

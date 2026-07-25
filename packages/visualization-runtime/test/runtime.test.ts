@@ -3,6 +3,12 @@ import {
   VISUALIZATION_ID_ARRAYQUEUE_REPRESENTATION,
   VISUALIZATION_ID_ARRAYSTACK_INSERTION,
   VISUALIZATION_ID_CALL_STACK,
+  VISUALIZATION_ID_CS408_AVL_ROTATION,
+  VISUALIZATION_ID_CS408_BINARY_SEARCH,
+  VISUALIZATION_ID_CS408_BINARY_TREE_TRAVERSAL,
+  VISUALIZATION_ID_CS408_GRAPH_TRAVERSAL,
+  VISUALIZATION_ID_CS408_KMP_MATCHING,
+  VISUALIZATION_ID_CS408_QUICK_SORT_PARTITION,
   VISUALIZATION_ID_DUALARRAYDEQUE_BALANCE,
 } from "@kaleidoscope/contracts";
 import {
@@ -22,10 +28,16 @@ describe("visualization runtime", () => {
       VISUALIZATION_ID_ARRAYSTACK_INSERTION,
       VISUALIZATION_ID_ARRAYQUEUE_REPRESENTATION,
       VISUALIZATION_ID_DUALARRAYDEQUE_BALANCE,
+      VISUALIZATION_ID_CS408_BINARY_TREE_TRAVERSAL,
+      VISUALIZATION_ID_CS408_GRAPH_TRAVERSAL,
+      VISUALIZATION_ID_CS408_BINARY_SEARCH,
+      VISUALIZATION_ID_CS408_AVL_ROTATION,
+      VISUALIZATION_ID_CS408_KMP_MATCHING,
+      VISUALIZATION_ID_CS408_QUICK_SORT_PARTITION,
     ]);
-    expect(visualizationRegistry[0]?.conceptIds).toEqual([]);
-    for (const registration of visualizationRegistry.slice(1)) {
+    for (const registration of visualizationRegistry) {
       expect(registration.conceptIds.length).toBeGreaterThan(0);
+      expect(registration.status).toBe("reviewed");
     }
   });
 
@@ -84,6 +96,12 @@ describe("visualization runtime", () => {
       [VISUALIZATION_ID_ARRAYSTACK_INSERTION, "write", 5],
       [VISUALIZATION_ID_ARRAYQUEUE_REPRESENTATION, "wraparound", 3],
       [VISUALIZATION_ID_DUALARRAYDEQUE_BALANCE, "rebuild", 4],
+      [VISUALIZATION_ID_CS408_BINARY_TREE_TRAVERSAL, "boundary", 4],
+      [VISUALIZATION_ID_CS408_GRAPH_TRAVERSAL, "invariant", 2],
+      [VISUALIZATION_ID_CS408_BINARY_SEARCH, "process", 1],
+      [VISUALIZATION_ID_CS408_AVL_ROTATION, "overview", 0],
+      [VISUALIZATION_ID_CS408_KMP_MATCHING, "boundary", 4],
+      [VISUALIZATION_ID_CS408_QUICK_SORT_PARTITION, "invariant", 2],
     ] as const;
     for (const [visualizationId, focus, expectedStep] of cases) {
       const current = createDefaultVisualizationSession(visualizationId);

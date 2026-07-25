@@ -1,0 +1,78 @@
+{
+  "concept": {
+    "id": "cs408-syllabus-trees",
+    "title": "408 考纲：树和二叉树范围",
+    "aliases": [
+      "树与二叉树考点",
+      "Huffman 树",
+      "并查集与堆"
+    ],
+    "content_type": "concept",
+    "location": {
+      "course_id": "cs408-data-structures",
+      "chapter_id": "408-data-structures-exam-guide",
+      "section_id": "cs408-official-syllabus",
+      "parent_id": null,
+      "order": 9
+    },
+    "core_question": "408 树和二叉树模块覆盖哪些结构与应用？",
+    "summary": "该模块覆盖树与二叉树性质、存储和遍历，线索化、森林转换，以及 Huffman、并查集和堆等应用。",
+    "definition": "408 的树和二叉树模块包括树的基本概念，二叉树的定义、性质、顺序与链式存储、遍历和线索化，树与森林的存储、转换和遍历，以及 Huffman 树与编码、并查集和堆的应用。复习需要同时具备性质计算、结构转换、手工过程和算法实现能力。",
+    "prerequisite_ids": [],
+    "relations": [
+      {
+        "type": "part_of",
+        "target_id": "cs408-data-structure-syllabus-map",
+        "description": "该知识点描述七大考纲模块中的树和二叉树部分。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "这一模块像从族谱展开到工具箱：先理解层次关系和遍历顺序，再利用树形结构完成编码、集合合并和优先级管理。",
+      "mapping": {
+        "族谱": "树和二叉树层次结构",
+        "阅读顺序": "遍历",
+        "工具箱": "Huffman、并查集与堆应用"
+      },
+      "boundary": "类比不能推出二叉树性质、线索规则或堆的局部有序条件，这些必须分别学习。"
+    },
+    "retrieval": {
+      "keywords": [
+        "408 考纲：树和二叉树范围",
+        "树与二叉树考点",
+        "Huffman 树",
+        "并查集与堆"
+      ],
+      "query_examples": [
+        "408 树和二叉树模块覆盖哪些结构与应用？",
+        "408 考纲：树和二叉树范围具体包括什么？",
+        "复习408 考纲：树和二叉树范围时最容易混淆的边界是什么？"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "report-cs408-syllabus-trees"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "cs408-data-structure-syllabus-map",
+      "title": "408 数据结构七大考纲模块",
+      "core_question": "2026 公开考纲把数据结构范围组织成哪些模块？",
+      "summary": "数据结构范围由基本概念、线性表、栈队列与数组、树与二叉树、图、查找和排序七大模块组成。",
+      "definition": "报告采用并经公开 2026 考纲复核的数据结构目录包含七个一级模块：基本概念；线性表；栈、队列和数组；树和二叉树；图；查找；排序。该目录用于组织考试范围，不等同于知识之间的前置图，也不说明各模块的官方出题频率。",
+      "content_type": "concept"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "report-cs408-syllabus-trees",
+      "type": "paragraph",
+      "content": "报告和公开 2026 考纲列出树、二叉树、线索二叉树、树与森林转换，以及 Huffman、并查集和堆的应用。"
+    }
+  ]
+}

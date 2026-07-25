@@ -1,0 +1,2 @@
+{"candidate_a": "ods-arraydeque-performance", "candidate_b": "ods-dualarraydeque-performance", "decision": "keep_both", "reason": "复杂度界相同，但一个基于循环数组、一个基于双栈组合，机制与检索意图不同。"}
+{"candidate_a": "ods-arraystack-resize", "candidate_b": "ods-arrayqueue-resize", "decision": "keep_both", "reason": "两者都重新分配数组，但 ArrayQueue 还必须按循环逻辑顺序线性化并重置 j。"}

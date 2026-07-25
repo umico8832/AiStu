@@ -18,6 +18,7 @@
     "@kaleidoscope/lesson-arrayqueue-representation": "workspace:*",
     "@kaleidoscope/lesson-arraystack-insertion": "workspace:*",
     "@kaleidoscope/lesson-call-stack": "workspace:*",
+    "@kaleidoscope/lesson-cs408-core-visualizations": "workspace:*",
     "@kaleidoscope/lesson-dualarraydeque-balance": "workspace:*",
     "@kaleidoscope/tutor-runtime": "workspace:*",
     "@kaleidoscope/ui": "workspace:*",

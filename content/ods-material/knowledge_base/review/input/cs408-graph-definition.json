@@ -1,0 +1,85 @@
+{
+  "concept": {
+    "id": "cs408-graph-definition",
+    "title": "图、顶点与边",
+    "aliases": [
+      "graph",
+      "vertex edge"
+    ],
+    "content_type": "concept",
+    "location": {
+      "course_id": "cs408-data-structures",
+      "chapter_id": "408-graphs",
+      "section_id": "cs408-graph-basics",
+      "parent_id": null,
+      "order": 1
+    },
+    "core_question": "图结构如何表示元素之间的多对多关系？",
+    "summary": "图 G=(V,E) 由顶点集合和边集合组成，边表示任意两个顶点之间的关系。",
+    "definition": "图由非空有限顶点集合 V 和边集合 E 构成。无向边是无序顶点对，有向边或弧是有序对；不存在重复边且通常不含自环的图称简单图。图不要求像树那样每个结点只有一个父结点。",
+    "prerequisite_ids": [
+      "cs408-logical-storage-operations"
+    ],
+    "relations": [
+      {
+        "type": "part_of",
+        "target_id": "cs408-syllabus-graphs",
+        "description": "图、顶点与边是图考纲模块中的原子知识点。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "像社交网络中用户是顶点，关注或好友关系是边，一个用户可以同时连接许多人。",
+      "mapping": {
+        "直观对象": "图、顶点与边",
+        "对应机制": "图 G=(V,E) 由顶点集合和边集合组成，边表示任意两个顶点之间的关系。"
+      },
+      "boundary": "类比只用于建立直觉；正式作答仍需使用定义、操作步骤、适用条件和复杂度结论。"
+    },
+    "retrieval": {
+      "keywords": [
+        "图、顶点与边",
+        "graph",
+        "vertex edge"
+      ],
+      "query_examples": [
+        "图结构如何表示元素之间的多对多关系？",
+        "图、顶点与边的步骤、性质和复杂度是什么？",
+        "图、顶点与边有哪些适用条件和易错边界？"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "syllabus-note-cs408-graph-definition"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "cs408-logical-storage-operations",
+      "title": "数据结构的逻辑结构、存储结构与运算",
+      "core_question": "数据结构为什么要同时描述逻辑关系、存储方式和运算？",
+      "summary": "同一逻辑结构可以有不同存储实现，基本运算的实现与复杂度由具体存储结构决定。",
+      "definition": "数据结构包含数据元素之间的逻辑关系、这些关系在计算机中的存储表示，以及定义在结构上的运算。逻辑结构回答元素如何关联，存储结构回答关联如何落到内存，运算说明结构允许怎样被访问和修改。",
+      "content_type": "concept"
+    },
+    {
+      "id": "cs408-syllabus-graphs",
+      "title": "408 考纲：图范围",
+      "core_question": "408 图模块要求掌握哪些表示、遍历和应用？",
+      "summary": "图模块覆盖基本概念、邻接矩阵与邻接表等存储、BFS/DFS，以及生成树、最短路、拓扑排序和关键路径。",
+      "definition": "408 图模块包括图的基本概念，邻接矩阵、邻接表、邻接多重表和十字链表等存储与基本操作，深度优先搜索和广度优先搜索，以及最小生成树、最短路径、拓扑排序和关键路径等基本应用。复习时需能在给定表示上手推过程并分析复杂度。",
+      "content_type": "concept"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "syllabus-note-cs408-graph-definition",
+      "type": "paragraph",
+      "content": "图 G=(V,E) 由顶点集合和边集合组成，边表示任意两个顶点之间的关系。\n\n图由非空有限顶点集合 V 和边集合 E 构成。无向边是无序顶点对，有向边或弧是有序对；不存在重复边且通常不含自环的图称简单图。图不要求像树那样每个结点只有一个父结点。\n\n对应 2026 数据结构考纲叶子条目：图的基本概念。"
+    }
+  ]
+}

@@ -1,0 +1,120 @@
+{
+  "concept": {
+    "id": "ods-rootisharraystack-performance",
+    "title": "RootishArrayStack 的时间与空间复杂度",
+    "aliases": [
+      "RootishArrayStack complexity",
+      "Rootish 性能"
+    ],
+    "content_type": "theorem",
+    "location": {
+      "course_id": "open-data-structures",
+      "chapter_id": "array-based-lists",
+      "section_id": "2-6-3-summary",
+      "parent_id": null,
+      "order": 29
+    },
+    "core_question": "RootishArrayStack 在随机访问、更新和额外空间之间做了怎样的权衡？",
+    "summary": "它保留 O(1) 随机访问和 O(1+n-i) 按位更新，同时把浪费空间降为 O(sqrt(n))。",
+    "definition": "RootishArrayStack 的 get 与 set 为 $O(1)$，忽略 grow 与 shrink 时，add(i,x) 与 remove(i) 为 $O(1+n-i)$。从空结构开始的 m 次更新中，块增长和收缩的总成本为 $O(m)$；在任意时刻，未使用槽位和块目录造成的额外空间为 $O(\\sqrt n)$。",
+    "prerequisite_ids": [
+      "ods-rootisharraystack-update",
+      "ods-rootisharraystack-grow-shrink",
+      "ods-rootisharraystack-space"
+    ],
+    "relations": [],
+    "rookie_explanation": {
+      "analogy": "它用多层书架换取更少的长期空座：找书仍可由公式直达，但在序列中间加减书仍要搬动后续书籍。",
+      "mapping": {
+        "多层书架": "递增数组块",
+        "公式直达": "O(1) 下标映射",
+        "搬动后续书籍": "O(n-i) 更新"
+      },
+      "boundary": "类比不表示分块一定比单数组更快；它主要改善浪费空间的渐近界。"
+    },
+    "retrieval": {
+      "keywords": [
+        "RootishArrayStack 的时间与空间复杂度",
+        "RootishArrayStack complexity",
+        "Rootish 性能"
+      ],
+      "query_examples": [
+        "RootishArrayStack 在随机访问、更新和额外空间之间做了怎样的权衡？",
+        "RootishArrayStack 的时间与空间复杂度怎么理解",
+        "RootishArrayStack 的时间与空间复杂度的关键条件是什么"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "ods-000367-paragraph-the-following-theorem-summarizes-our",
+      "ods-000368-theorem-thmlabel-rootisharraystack-a-rootish",
+      "ods-000369-footnote-recall-secref-model-for-a-discussion",
+      "ods-000370-list-item-ensuremath-ensuremath-mathrm-ge",
+      "ods-000371-list_item-ensuremath-ensuremath-mathrm-get-ens",
+      "ods-000372-list_item-ensuremath-ensuremath-mathrm-add-ens"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "ods-rootisharraystack-update",
+      "title": "RootishArrayStack 的按位插入与删除",
+      "core_question": "RootishArrayStack 如何跨数组块完成按位插入和删除？",
+      "summary": "它通过 get/set 按逻辑下标逐位搬移元素，插入右移后写入，删除左移后收回空块。",
+      "definition": "RootishArrayStack 的 add(i,x) 在总容量不足时先 grow，令 n 增加，再从尾部向 i 逐个执行 set(j,get(j-1))，最后 set(i,x)。remove(i) 保存原值，从 i 起执行 set(j,get(j+1)) 左移，令 n 减少，并在存在多余空块时 shrink。忽略块增删时，两者分别为 $O(1+n-i)$ 与 $O(n-i)$。",
+      "content_type": "algorithm"
+    },
+    {
+      "id": "ods-rootisharraystack-grow-shrink",
+      "title": "RootishArrayStack 的块增长与收缩",
+      "core_question": "RootishArrayStack 何时增加或删除数组块？",
+      "summary": "容量不足时追加长度 r+1 的块，空块超过一个时删除尾部多余块，并保持最多两个块未完全装满。",
+      "definition": "若 r 个块的总容量 $r(r+1)/2$ 小于 n+1，grow 追加一个长度为 r+1 的数组块。删除后，shrink 在移除倒数第二块仍能容纳 n 个元素时持续删除尾块，从而只保留必要块和至多一个额外空块。grow 与 shrink 本身不复制已有元素。",
+      "content_type": "mechanism"
+    },
+    {
+      "id": "ods-rootisharraystack-space",
+      "title": "RootishArrayStack 的浪费空间界",
+      "core_question": "为什么 RootishArrayStack 只浪费 O(sqrt(n)) 个数组槽位？",
+      "summary": "收缩规则保证最多两个末尾块不满，而块数 r=O(sqrt(n))，所以未用槽位与块目录开销均为 O(sqrt(n))。",
+      "definition": "若 RootishArrayStack 存有 n 个元素和 r 个块，收缩不变量给出 $(r-2)(r-1)/2\\le n$，从而 $r\\le(3+\\sqrt{8n+1})/2=O(\\sqrt n)$。仅最后两个块可能不满，其总长度至多 2r-1；保存 r 个块引用也需 O(r) 空间，因此总浪费空间为 $O(\\sqrt n)$。",
+      "content_type": "theorem"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "ods-000367-paragraph-the-following-theorem-summarizes-our",
+      "type": "paragraph",
+      "content": "The following theorem summarizes our discussion of the RootishArrayStack data structure:"
+    },
+    {
+      "id": "ods-000368-theorem-thmlabel-rootisharraystack-a-rootish",
+      "type": "theorem",
+      "content": "\\thmlabel{rootisharraystack} A RootishArrayStack implements the List interface. Ignoring the cost of calls to \\ensuremath{\\ensuremath{\\mathrm{grow}()}} and \\ensuremath{\\ensuremath{\\mathrm{shrink}()}}, a RootishArrayStack supports the operations \\begin{itemize} \\item \\ensuremath{\\ensuremath{\\mathrm{get}(\\ensuremath{\\mathit{i}})}} and \\ensuremath{\\ensuremath{\\mathrm{set}(\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{x}})}} in $O(1)$ time per operation; and \\item \\ensuremath{\\ensuremath{\\mathrm{add}(\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{x}})}} and \\ensuremath{\\ensuremath{\\mathrm{remove}(\\ensuremath{\\mathit{i}})}} in $O(1+\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}-\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{i}}}})$ time per operation. \\end{itemize} Furthermore, beginning with an empty RootishArrayStack, any sequence of $m$ \\ensuremath{\\ensuremath{\\mathrm{add}(\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{x}})}} and \\ensuremath{\\ensuremath{\\mathrm{remove}(\\ensuremath{\\mathit{i}})}} operations results in a total of $O(m)$ time spent during all calls to \\ensuremath{\\ensuremath{\\mathrm{grow}()}} and \\ensuremath{\\ensuremath{\\mathrm{shrink}()}}. The space (measured in words)\\footnote{Recall \\secref{model} for a discussion of how memory is measured.} used by a RootishArrayStack that stores \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}} elements is $\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}} +O(\\sqrt{\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}})$."
+    },
+    {
+      "id": "ods-000369-footnote-recall-secref-model-for-a-discussion",
+      "type": "footnote",
+      "content": "Recall \\secref{model} for a discussion of how memory is measured."
+    },
+    {
+      "id": "ods-000370-list-item-ensuremath-ensuremath-mathrm-ge",
+      "type": "list",
+      "content": "\\item \\ensuremath{\\ensuremath{\\mathrm{get}(\\ensuremath{\\mathit{i}})}} and \\ensuremath{\\ensuremath{\\mathrm{set}(\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{x}})}} in $O(1)$ time per operation; and \\item \\ensuremath{\\ensuremath{\\mathrm{add}(\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{x}})}} and \\ensuremath{\\ensuremath{\\mathrm{remove}(\\ensuremath{\\mathit{i}})}} in $O(1+\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}-\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{i}}}})$ time per operation."
+    },
+    {
+      "id": "ods-000371-list_item-ensuremath-ensuremath-mathrm-get-ens",
+      "type": "list_item",
+      "content": "\\ensuremath{\\ensuremath{\\mathrm{get}(\\ensuremath{\\mathit{i}})}} and \\ensuremath{\\ensuremath{\\mathrm{set}(\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{x}})}} in $O(1)$ time per operation; and"
+    },
+    {
+      "id": "ods-000372-list_item-ensuremath-ensuremath-mathrm-add-ens",
+      "type": "list_item",
+      "content": "\\ensuremath{\\ensuremath{\\mathrm{add}(\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{x}})}} and \\ensuremath{\\ensuremath{\\mathrm{remove}(\\ensuremath{\\mathit{i}})}} in $O(1+\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}-\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{i}}}})$ time per operation."
+    }
+  ]
+}

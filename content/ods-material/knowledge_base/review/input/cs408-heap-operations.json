@@ -1,0 +1,85 @@
+{
+  "concept": {
+    "id": "cs408-heap-operations",
+    "title": "堆的插入、删除与建堆",
+    "aliases": [
+      "sift up",
+      "sift down"
+    ],
+    "content_type": "algorithm",
+    "location": {
+      "course_id": "cs408-data-structures",
+      "chapter_id": "408-trees",
+      "section_id": "cs408-tree-applications",
+      "parent_id": null,
+      "order": 20
+    },
+    "core_question": "上滤、下滤和自底向上建堆如何维护堆序？",
+    "summary": "插入在末尾后上滤，删除根用末元素补位后下滤，自底向上建堆为 O(n)。",
+    "definition": "插入保持完全树形状，在数组末尾加入元素并与父结点比较上滤，时间 O(log n)。删除堆顶后把末元素移到根并与更合适的孩子交换下滤，时间 O(log n)。从最后一个非叶结点起依次下滤可在线性时间建堆。",
+    "prerequisite_ids": [
+      "cs408-binary-heap"
+    ],
+    "relations": [
+      {
+        "type": "part_of",
+        "target_id": "cs408-syllabus-trees",
+        "description": "堆的插入、删除与建堆是树和二叉树考纲模块中的原子知识点。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "像新选手从末级逐轮挑战上级，冠军离开后让末位临时补位并向下调整到合适层级。",
+      "mapping": {
+        "直观对象": "堆的插入、删除与建堆",
+        "对应机制": "插入在末尾后上滤，删除根用末元素补位后下滤，自底向上建堆为 O(n)。"
+      },
+      "boundary": "类比只用于建立直觉；正式作答仍需使用定义、操作步骤、适用条件和复杂度结论。"
+    },
+    "retrieval": {
+      "keywords": [
+        "堆的插入、删除与建堆",
+        "sift up",
+        "sift down"
+      ],
+      "query_examples": [
+        "上滤、下滤和自底向上建堆如何维护堆序？",
+        "堆的插入、删除与建堆的步骤、性质和复杂度是什么？",
+        "堆的插入、删除与建堆有哪些适用条件和易错边界？"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "syllabus-note-cs408-heap-operations"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "cs408-binary-heap",
+      "title": "二叉堆的结构与堆序性",
+      "core_question": "二叉堆怎样同时满足完全二叉树结构和局部有序条件？",
+      "summary": "二叉堆是完全二叉树，大根堆父关键字不小于孩子，小根堆父关键字不大于孩子。",
+      "definition": "二叉堆通常用数组层序存储。大根堆保证每条父子边上父值≥子值，因此根为全局最大值；小根堆相反。堆只保证父子局部有序，兄弟和不同子树之间不要求完全排序。",
+      "content_type": "concept"
+    },
+    {
+      "id": "cs408-syllabus-trees",
+      "title": "408 考纲：树和二叉树范围",
+      "core_question": "408 树和二叉树模块覆盖哪些结构与应用？",
+      "summary": "该模块覆盖树与二叉树性质、存储和遍历，线索化、森林转换，以及 Huffman、并查集和堆等应用。",
+      "definition": "408 的树和二叉树模块包括树的基本概念，二叉树的定义、性质、顺序与链式存储、遍历和线索化，树与森林的存储、转换和遍历，以及 Huffman 树与编码、并查集和堆的应用。复习需要同时具备性质计算、结构转换、手工过程和算法实现能力。",
+      "content_type": "concept"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "syllabus-note-cs408-heap-operations",
+      "type": "paragraph",
+      "content": "插入在末尾后上滤，删除根用末元素补位后下滤，自底向上建堆为 O(n)。\n\n插入保持完全树形状，在数组末尾加入元素并与父结点比较上滤，时间 O(log n)。删除堆顶后把末元素移到根并与更合适的孩子交换下滤，时间 O(log n)。从最后一个非叶结点起依次下滤可在线性时间建堆。\n\n对应 2026 数据结构考纲叶子条目：堆及其应用。"
+    }
+  ]
+}

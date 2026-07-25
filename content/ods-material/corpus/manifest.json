@@ -1,0 +1,10 @@
+{
+  "archive_sha256": "d5de09eb3cbf479274bd4c6c974a5090aacc0544fac581e859cd4b187ecc095e",
+  "commit": "9d22c44906dda2017b2ef0c762025bee644b58aa",
+  "downloaded_at": "2026-07-23T13:57:08.366303Z",
+  "extractor_version": "1.0.0",
+  "repository": "https://github.com/patmorin/ods.git",
+  "schema_version": "1.0.0",
+  "selected_edition": "pseudocode/Python",
+  "source_license": "Creative Commons Attribution 2.5 Canada (see retained COPYING)"
+}

@@ -132,7 +132,7 @@ export function CallStackLesson({
         className={`isolate flex min-h-0 w-full flex-col overflow-hidden rounded-[22px] border border-slate-200 bg-slate-50 font-sans text-slate-900 shadow-[0_22px_70px_rgba(15,23,42,0.13)] [&_*]:box-border ${className}`}
         aria-label="栈与函数调用微课件"
       >
-        <header className="flex shrink-0 items-center justify-between gap-5 border-b border-slate-200 bg-white/90 px-5 py-4">
+        <header className="flex shrink-0 flex-wrap items-center justify-between gap-4 border-b border-slate-200 bg-white/90 px-5 py-4">
           <div className="flex min-w-0 items-center gap-3">
             <span className="inline-flex size-10 shrink-0 items-center justify-center rounded-xl border border-blue-100 bg-blue-50 text-blue-700">
               <Layers3 aria-hidden="true" className="size-5" />
@@ -146,7 +146,7 @@ export function CallStackLesson({
                   {renderedState.step + 1} / {LESSON_STEP_COUNT}
                 </span>
               </div>
-              <p className="m-0 mt-0.5 truncate text-sm text-slate-500">
+              <p className="m-0 mt-0.5 text-sm leading-5 text-slate-500">
                 {spec.teachingGoal}
               </p>
             </div>
@@ -162,9 +162,7 @@ export function CallStackLesson({
                 codeOpen: !stateRef.current.codeOpen,
               })
             }
-            onReset={() =>
-              commit({ step: 0, codeOpen: stateRef.current.codeOpen })
-            }
+            onReset={() => setStep(0)}
             onPrevious={() => setStep(stateRef.current.step - 1)}
             onNext={() => setStep(stateRef.current.step + 1)}
           />
@@ -187,6 +185,7 @@ export function CallStackLesson({
             <CallStackScene
               step={currentStep}
               layoutGroupId={layoutGroupId}
+              summaryQuestion={spec.summaryQuestion}
             />
           </motion.div>
         </div>
@@ -238,7 +237,7 @@ export function CallStackLesson({
               {currentStep.stageLabel} · {currentStep.title}
             </p>
             {currentStep.description ? (
-              <p className="m-0 mt-0.5 truncate text-xs text-slate-500">
+              <p className="m-0 mt-0.5 text-xs leading-5 text-slate-500">
                 {currentStep.description}
               </p>
             ) : null}

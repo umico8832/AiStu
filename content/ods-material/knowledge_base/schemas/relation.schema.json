@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "kaleidoscope-kb/relation-2.0.0",
+  "title": "Kaleidoscope standard knowledge-base cross-concept relation",
+  "type": "object",
+  "required": ["source_id", "type", "target_id", "description"],
+  "properties": {
+    "source_id": {"type": "string", "minLength": 5},
+    "type": {
+      "enum": [
+        "prerequisite",
+        "part_of",
+        "leads_to",
+        "often_confused_with",
+        "related"
+      ]
+    },
+    "target_id": {"type": "string", "minLength": 5},
+    "description": {"type": "string", "minLength": 1}
+  },
+  "additionalProperties": false
+}

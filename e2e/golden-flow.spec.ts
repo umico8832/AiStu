@@ -107,7 +107,39 @@ test("golden conversation and visualization flow", async () => {
     await input.press("Enter");
     await confirmSuggestedLesson(page);
     await expect(callStackDialog).toBeVisible();
+    await expect(page.getByText("教学已审查")).toBeVisible();
     await expect(page.getByText("场景参数已校验")).toBeVisible();
+    await expect(callStackDialog).not.toHaveAttribute("aria-modal", "true");
+
+    const dragHandle = page.getByTestId("visualization-drag-handle");
+    const dialogBeforeDrag = await callStackDialog.boundingBox();
+    const dragHandleBox = await dragHandle.boundingBox();
+    expect(dialogBeforeDrag).not.toBeNull();
+    expect(dragHandleBox).not.toBeNull();
+    if (dialogBeforeDrag && dragHandleBox) {
+      await dragHandle.hover({
+        position: { x: 20, y: dragHandleBox.height / 2 },
+      });
+      await page.mouse.down();
+      await expect(callStackDialog).toHaveClass(/ring-2/u);
+      await page.mouse.move(
+        dragHandleBox.x + 100,
+        dragHandleBox.y + dragHandleBox.height / 2 + 36,
+        { steps: 5 },
+      );
+      await page.mouse.up();
+      const dialogAfterDrag = await callStackDialog.boundingBox();
+      expect(dialogAfterDrag?.x).toBeGreaterThan(
+        dialogBeforeDrag.x + 60,
+      );
+      expect(dialogAfterDrag?.y).toBeGreaterThan(
+        dialogBeforeDrag.y + 20,
+      );
+    }
+
+    await input.fill("课件打开时仍可继续整理问题");
+    await expect(input).toHaveValue("课件打开时仍可继续整理问题");
+    await input.fill("");
 
     const security = await page.evaluate(() => ({
       processType: typeof globalThis.process,
@@ -116,11 +148,17 @@ test("golden conversation and visualization flow", async () => {
       }).require,
       apiKeys: Object.keys(window.kaleidoscope).sort(),
       chatKeys: Object.keys(window.kaleidoscope.chat).sort(),
+      knowledgeKeys: Object.keys(window.kaleidoscope.knowledge).sort(),
     }));
     expect(security.processType).toBe("undefined");
     expect(security.requireType).toBe("undefined");
-    expect(security.apiKeys).toEqual(["chat", "persistence"]);
+    expect(security.apiKeys).toEqual([
+      "chat",
+      "knowledge",
+      "persistence",
+    ]);
     expect(security.chatKeys).toEqual(["cancel", "onEvent", "send"]);
+    expect(security.knowledgeKeys).toEqual(["loadCourse"]);
 
     const authoredUserMessageCount = await page
       .getByLabel("你的消息")

@@ -1,0 +1,120 @@
+{
+  "concept": {
+    "id": "ods-arraystack-performance",
+    "title": "ArrayStack 的操作复杂度",
+    "aliases": [
+      "ArrayStack complexity",
+      "数组栈性能"
+    ],
+    "content_type": "theorem",
+    "location": {
+      "course_id": "open-data-structures",
+      "chapter_id": "array-based-lists",
+      "section_id": "2-1-3-summary",
+      "parent_id": null,
+      "order": 8
+    },
+    "core_question": "ArrayStack 各项操作的时间复杂度是什么？",
+    "summary": "get/set 为 O(1)，add/remove(i) 为 O(1+n-i)，尾端 push/pop 的摊还时间为 O(1)。",
+    "definition": "ArrayStack 实现 List 接口时，get(i) 与 set(i,x) 的最坏时间为 $O(1)$；忽略 resize，add(i,x) 与 remove(i) 为 $O(1+n-i)$。从空结构开始的更新序列中，resize 总成本为线性，因此在尾端实现 push 与 pop 时每次操作具有 $O(1)$ 摊还时间。",
+    "prerequisite_ids": [
+      "ods-arraystack-insertion",
+      "ods-arraystack-removal",
+      "ods-arraystack-amortized-resize"
+    ],
+    "relations": [],
+    "rookie_explanation": {
+      "analogy": "在一排编号座位中，直接找某个号码很快；越靠近末尾加减人，需要移动的人越少，所以只操作末尾最省事。",
+      "mapping": {
+        "直接找号码": "get/set",
+        "移动人数": "n-i",
+        "末尾加减": "push/pop"
+      },
+      "boundary": "类比区分了位置相关成本，但没有表达最坏单次扩容仍可能花费线性时间。"
+    },
+    "retrieval": {
+      "keywords": [
+        "ArrayStack 的操作复杂度",
+        "ArrayStack complexity",
+        "数组栈性能"
+      ],
+      "query_examples": [
+        "ArrayStack 各项操作的时间复杂度是什么？",
+        "ArrayStack 的操作复杂度怎么理解",
+        "ArrayStack 的操作复杂度的关键条件是什么"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "ods-000241-paragraph-the-following-theorem-summarizes-the",
+      "ods-000242-theorem-thmlabel-arraystack-an-arraystack-im",
+      "ods-000243-list-item-ensuremath-ensuremath-mathrm-ge",
+      "ods-000244-list_item-ensuremath-ensuremath-mathrm-get-ens",
+      "ods-000245-list_item-ensuremath-ensuremath-mathrm-add-ens",
+      "ods-000246-paragraph-the-arraystack-is-an-efficient-way-t"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "ods-arraystack-insertion",
+      "title": "ArrayStack 的按位插入",
+      "core_question": "ArrayStack 在位置 i 插入元素时为什么要向右搬移元素？",
+      "summary": "插入前需确保容量足够，再把区间 i 到 n-1 右移一格，空出 a[i] 后写入新元素。",
+      "definition": "ArrayStack 的 add(i,x) 在后备数组已满时先扩容，然后把原有下标 i 至 n-1 的元素按从右到左的安全顺序整体右移一位，把 x 写入 a[i]，最后令 n 增加 1。忽略扩容时，其时间为 $O(n-i)$。",
+      "content_type": "algorithm"
+    },
+    {
+      "id": "ods-arraystack-removal",
+      "title": "ArrayStack 的按位删除",
+      "core_question": "ArrayStack 删除位置 i 的元素时为什么要向左搬移元素？",
+      "summary": "删除 a[i] 后需把 i+1 到 n-1 的元素左移填补空位，因此忽略缩容时耗时 O(n-i)。",
+      "definition": "ArrayStack 的 remove(i) 先保存 a[i]，再把下标 i+1 至 n-1 的元素整体左移一位覆盖空缺，令 n 减少 1，并在数组空闲比例达到阈值时触发 resize，最后返回被删除值。忽略 resize 时，其时间为 $O(n-i)$。",
+      "content_type": "algorithm"
+    },
+    {
+      "id": "ods-arraystack-amortized-resize",
+      "title": "ArrayStack 调整容量的摊还成本",
+      "core_question": "为什么 ArrayStack 的单次 resize 虽为 O(n)，平均到更新操作仍是 O(1)？",
+      "summary": "两次足够昂贵的容量调整之间必须积累足够多次更新，因此 m 次更新的全部 resize 总成本为 O(m)。",
+      "definition": "从空 ArrayStack 开始执行任意 $m\\ge1$ 次 add 与 remove，所有 resize 调用花费的总时间为 $O(m)$。依据是一次调整完成后，容量与 n 保持固定比例；再次达到扩容或缩容阈值前必须发生与当时 n 同阶的更新，这些更新可共同承担下一次线性复制成本。",
+      "content_type": "theorem"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "ods-000241-paragraph-the-following-theorem-summarizes-the",
+      "type": "paragraph",
+      "content": "The following theorem summarizes the performance of an ArrayStack:"
+    },
+    {
+      "id": "ods-000242-theorem-thmlabel-arraystack-an-arraystack-im",
+      "type": "theorem",
+      "content": "\\thmlabel{arraystack} An ArrayStack implements the List interface. Ignoring the cost of calls to \\ensuremath{\\ensuremath{\\mathrm{resize}()}}, an ArrayStack supports the operations \\begin{itemize} \\item \\ensuremath{\\ensuremath{\\mathrm{get}(\\ensuremath{\\mathit{i}})}} and \\ensuremath{\\ensuremath{\\mathrm{set}(\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{x}})}} in $O(1)$ time per operation; and \\item \\ensuremath{\\ensuremath{\\mathrm{add}(\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{x}})}} and \\ensuremath{\\ensuremath{\\mathrm{remove}(\\ensuremath{\\mathit{i}})}} in $O(1+\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}-\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{i}}}})$ time per operation. \\end{itemize} Furthermore, beginning with an empty ArrayStack and performing any sequence of $m$ \\ensuremath{\\ensuremath{\\mathrm{add}(\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{x}})}} and \\ensuremath{\\ensuremath{\\mathrm{remove}(\\ensuremath{\\mathit{i}})}} operations results in a total of $O(m)$ time spent during all calls to \\ensuremath{\\ensuremath{\\mathrm{resize}()}}."
+    },
+    {
+      "id": "ods-000243-list-item-ensuremath-ensuremath-mathrm-ge",
+      "type": "list",
+      "content": "\\item \\ensuremath{\\ensuremath{\\mathrm{get}(\\ensuremath{\\mathit{i}})}} and \\ensuremath{\\ensuremath{\\mathrm{set}(\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{x}})}} in $O(1)$ time per operation; and \\item \\ensuremath{\\ensuremath{\\mathrm{add}(\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{x}})}} and \\ensuremath{\\ensuremath{\\mathrm{remove}(\\ensuremath{\\mathit{i}})}} in $O(1+\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}-\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{i}}}})$ time per operation."
+    },
+    {
+      "id": "ods-000244-list_item-ensuremath-ensuremath-mathrm-get-ens",
+      "type": "list_item",
+      "content": "\\ensuremath{\\ensuremath{\\mathrm{get}(\\ensuremath{\\mathit{i}})}} and \\ensuremath{\\ensuremath{\\mathrm{set}(\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{x}})}} in $O(1)$ time per operation; and"
+    },
+    {
+      "id": "ods-000245-list_item-ensuremath-ensuremath-mathrm-add-ens",
+      "type": "list_item",
+      "content": "\\ensuremath{\\ensuremath{\\mathrm{add}(\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{x}})}} and \\ensuremath{\\ensuremath{\\mathrm{remove}(\\ensuremath{\\mathit{i}})}} in $O(1+\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}-\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{i}}}})$ time per operation."
+    },
+    {
+      "id": "ods-000246-paragraph-the-arraystack-is-an-efficient-way-t",
+      "type": "paragraph",
+      "content": "The ArrayStack is an efficient way to implement a Stack. In particular, we can implement \\ensuremath{\\ensuremath{\\mathrm{push}(\\ensuremath{\\mathit{x}})}} as \\ensuremath{\\ensuremath{\\mathrm{add}(\\ensuremath{\\mathit{n}},\\ensuremath{\\mathit{x}})}} and \\ensuremath{\\ensuremath{\\mathrm{pop}()}} as \\ensuremath{\\ensuremath{\\mathrm{remove}(\\ensuremath{\\mathit{n}}-1)}}, in which case these operations will run in $O(1)$ amortized time."
+    }
+  ]
+}

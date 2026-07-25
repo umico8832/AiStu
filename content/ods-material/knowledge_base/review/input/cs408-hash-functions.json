@@ -1,0 +1,85 @@
+{
+  "concept": {
+    "id": "cs408-hash-functions",
+    "title": "散列函数设计",
+    "aliases": [
+      "hash function",
+      "division method"
+    ],
+    "content_type": "mechanism",
+    "location": {
+      "course_id": "cs408-data-structures",
+      "chapter_id": "408-searching",
+      "section_id": "cs408-hash-search",
+      "parent_id": null,
+      "order": 22
+    },
+    "core_question": "怎样设计能均匀分布关键字的散列函数？",
+    "summary": "函数应计算快速、地址范围合法并尽量利用关键字信息，常用除留余数、直接定址、数字分析等方法。",
+    "definition": "除留余数法 H(key)=key mod p 常选不大于表长的合适质数；直接定址适合关键字范围紧凑；数字分析、平方取中和折叠法按关键字分布选取信息。函数不能消除所有冲突，评价需结合实际关键字分布。",
+    "prerequisite_ids": [
+      "cs408-hash-table"
+    ],
+    "relations": [
+      {
+        "type": "part_of",
+        "target_id": "cs408-syllabus-searching",
+        "description": "散列函数设计是查找考纲模块中的原子知识点。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "像设计分拣规则，既要快速，又要避免大量包裹集中到少数格口。",
+      "mapping": {
+        "直观对象": "散列函数设计",
+        "对应机制": "函数应计算快速、地址范围合法并尽量利用关键字信息，常用除留余数、直接定址、数字分析等方法。"
+      },
+      "boundary": "类比只用于建立直觉；正式作答仍需使用定义、操作步骤、适用条件和复杂度结论。"
+    },
+    "retrieval": {
+      "keywords": [
+        "散列函数设计",
+        "hash function",
+        "division method"
+      ],
+      "query_examples": [
+        "怎样设计能均匀分布关键字的散列函数？",
+        "散列函数设计的步骤、性质和复杂度是什么？",
+        "散列函数设计有哪些适用条件和易错边界？"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "syllabus-note-cs408-hash-functions"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "cs408-hash-table",
+      "title": "散列表与直接地址思想",
+      "core_question": "散列表如何由关键字直接计算存储位置？",
+      "summary": "散列函数把关键字映射到表地址，目标是让查找不再依赖元素间比较顺序。",
+      "definition": "散列表由散列函数 H(key) 和冲突处理策略组成。不同关键字可能映射到同一地址形成冲突；理想情况下，查找先计算地址，再在少量冲突记录中确认关键字，平均接近 O(1)，最坏仍可 O(n)。",
+      "content_type": "concept"
+    },
+    {
+      "id": "cs408-syllabus-searching",
+      "title": "408 考纲：查找范围",
+      "core_question": "408 查找模块覆盖哪些查找结构和算法？",
+      "summary": "查找模块覆盖顺序、分块、折半查找，BST、AVL、红黑树、B/B+树、散列表、字符串匹配及分析应用。",
+      "definition": "408 查找模块包括查找基本概念，顺序查找、分块查找、折半查找，二叉搜索树、平衡二叉树和红黑树，B 树的基本操作与 B+ 树基本概念，散列表，字符串模式匹配，以及查找算法的分析与应用。不同方法必须结合前提、操作成本和数据场景比较。",
+      "content_type": "concept"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "syllabus-note-cs408-hash-functions",
+      "type": "paragraph",
+      "content": "函数应计算快速、地址范围合法并尽量利用关键字信息，常用除留余数、直接定址、数字分析等方法。\n\n除留余数法 H(key)=key mod p 常选不大于表长的合适质数；直接定址适合关键字范围紧凑；数字分析、平方取中和折叠法按关键字分布选取信息。函数不能消除所有冲突，评价需结合实际关键字分布。\n\n对应 2026 数据结构考纲叶子条目：散列表。"
+    }
+  ]
+}

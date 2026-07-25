@@ -1,0 +1,85 @@
+{
+  "concept": {
+    "id": "cs408-direct-insertion-sort",
+    "title": "直接插入排序",
+    "aliases": [
+      "insertion sort",
+      "straight insertion"
+    ],
+    "content_type": "algorithm",
+    "location": {
+      "course_id": "cs408-data-structures",
+      "chapter_id": "408-sorting",
+      "section_id": "cs408-internal-sorting",
+      "parent_id": null,
+      "order": 2
+    },
+    "core_question": "直接插入排序怎样维护逐步扩大的有序区？",
+    "summary": "每轮取出一个待排记录，在前方已排序区中从后向前寻找位置并移动记录后插入。",
+    "definition": "第 i 轮把 A[i] 暂存为哨兵，从有序区 A[0..i-1] 末端向前比较；大于待插入关键字的记录依次后移，最终把暂存记录放入空位。最好时间 O(n)，平均和最坏 O(n²)，辅助空间 O(1)，通常稳定且适合基本有序或规模较小的数据。",
+    "prerequisite_ids": [
+      "cs408-sorting-concepts"
+    ],
+    "relations": [
+      {
+        "type": "part_of",
+        "target_id": "cs408-syllabus-sorting",
+        "description": "直接插入排序是排序考纲模块中的原子知识点。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "像整理手中扑克牌，每摸一张就从已排好的牌尾向前找到它的位置。",
+      "mapping": {
+        "直观对象": "直接插入排序",
+        "对应机制": "每轮取出一个待排记录，在前方已排序区中从后向前寻找位置并移动记录后插入。"
+      },
+      "boundary": "类比只用于建立直觉；正式作答仍需使用定义、操作步骤、适用条件和复杂度结论。"
+    },
+    "retrieval": {
+      "keywords": [
+        "直接插入排序",
+        "insertion sort",
+        "straight insertion"
+      ],
+      "query_examples": [
+        "直接插入排序怎样维护逐步扩大的有序区？",
+        "直接插入排序的步骤、性质和复杂度是什么？",
+        "直接插入排序有哪些适用条件和易错边界？"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "syllabus-note-cs408-direct-insertion-sort"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "cs408-sorting-concepts",
+      "title": "排序、稳定性与内部外部排序",
+      "core_question": "排序问题有哪些基本术语和评价维度？",
+      "summary": "排序按关键字重排记录；稳定性描述相等关键字的相对次序，内部与外部排序按数据能否全部驻留内存区分。",
+      "definition": "排序把记录序列按一个或多个关键字组织成非递减或非递增次序。若任意相等关键字记录在排序后仍保持原相对次序，算法稳定；否则不稳定。全部数据可在内存中完成的是内部排序，需要在内存与外存间分批交换数据的是外部排序。",
+      "content_type": "concept"
+    },
+    {
+      "id": "cs408-syllabus-sorting",
+      "title": "408 考纲：排序范围",
+      "core_question": "408 排序模块覆盖哪些算法与分析维度？",
+      "summary": "排序模块覆盖插入、交换、选择、希尔、快速、堆、归并、基数和外部排序，并要求比较稳定性与复杂度。",
+      "definition": "408 排序模块包括排序基本概念、直接与折半插入排序、冒泡排序、简单选择排序、希尔排序、快速排序、堆排序、二路归并排序、基数排序和外部排序，以及排序算法的分析与应用。复习时需要比较最好、平均和最坏时间、辅助空间、稳定性、原地性与适用场景。",
+      "content_type": "concept"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "syllabus-note-cs408-direct-insertion-sort",
+      "type": "paragraph",
+      "content": "每轮取出一个待排记录，在前方已排序区中从后向前寻找位置并移动记录后插入。\n\n第 i 轮把 A[i] 暂存为哨兵，从有序区 A[0..i-1] 末端向前比较；大于待插入关键字的记录依次后移，最终把暂存记录放入空位。最好时间 O(n)，平均和最坏 O(n²)，辅助空间 O(1)，通常稳定且适合基本有序或规模较小的数据。\n\n对应 2026 数据结构考纲叶子条目：直接插入排序、排序算法的分析及应用。"
+    }
+  ]
+}

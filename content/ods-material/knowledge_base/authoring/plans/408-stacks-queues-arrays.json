@@ -1,0 +1,185 @@
+{
+  "chapter": "408-stacks-queues-arrays",
+  "sections": [
+    {
+      "section_id": "cs408-stack-basics",
+      "proposed_concepts": [
+        {
+          "temporary_id": "408-stacks-queues-arrays-candidate-001",
+          "proposed_title": "栈的 LIFO 语义与基本操作",
+          "core_question": "栈为什么称为后进先出的受限线性表？",
+          "content_type": "concept",
+          "source_record_ids": [
+            "syllabus-note-cs408-stack-lifo"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        },
+        {
+          "temporary_id": "408-stacks-queues-arrays-candidate-002",
+          "proposed_title": "顺序栈",
+          "core_question": "顺序栈如何用数组和栈顶指针实现 push 与 pop？",
+          "content_type": "concept",
+          "source_record_ids": [
+            "syllabus-note-cs408-sequential-stack"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        },
+        {
+          "temporary_id": "408-stacks-queues-arrays-candidate-003",
+          "proposed_title": "链栈",
+          "core_question": "链栈如何把链表表头作为栈顶？",
+          "content_type": "concept",
+          "source_record_ids": [
+            "syllabus-note-cs408-linked-stack"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        },
+        {
+          "temporary_id": "408-stacks-queues-arrays-candidate-004",
+          "proposed_title": "合法出栈序列",
+          "core_question": "怎样判断给定序列能否由指定入栈顺序产生？",
+          "content_type": "algorithm",
+          "source_record_ids": [
+            "syllabus-note-cs408-stack-pop-sequences"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        },
+        {
+          "temporary_id": "408-stacks-queues-arrays-candidate-007",
+          "proposed_title": "递归与调用栈",
+          "core_question": "递归调用为什么天然遵循栈的后进先出顺序？",
+          "content_type": "mechanism",
+          "source_record_ids": [
+            "syllabus-note-cs408-recursion-call-stack"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        },
+        {
+          "temporary_id": "408-stacks-queues-arrays-candidate-009",
+          "proposed_title": "循环队列的数组表示",
+          "core_question": "循环队列如何复用数组末端之后的空闲槽位？",
+          "content_type": "concept",
+          "source_record_ids": [
+            "syllabus-note-cs408-circular-queue-representation"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        },
+        {
+          "temporary_id": "408-stacks-queues-arrays-candidate-010",
+          "proposed_title": "循环队列判空、判满与长度",
+          "core_question": "循环队列如何区分队空和队满并计算长度？",
+          "content_type": "formula",
+          "source_record_ids": [
+            "syllabus-note-cs408-circular-queue-state"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        }
+      ]
+    },
+    {
+      "section_id": "cs408-queue-basics",
+      "proposed_concepts": [
+        {
+          "temporary_id": "408-stacks-queues-arrays-candidate-008",
+          "proposed_title": "队列的 FIFO 语义与基本操作",
+          "core_question": "队列为什么称为先进先出的受限线性表？",
+          "content_type": "concept",
+          "source_record_ids": [
+            "syllabus-note-cs408-queue-fifo"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        },
+        {
+          "temporary_id": "408-stacks-queues-arrays-candidate-011",
+          "proposed_title": "链队列",
+          "core_question": "链队列如何用头尾指针实现常数时间入队和出队？",
+          "content_type": "concept",
+          "source_record_ids": [
+            "syllabus-note-cs408-linked-queue"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        }
+      ]
+    },
+    {
+      "section_id": "cs408-array-storage",
+      "proposed_concepts": [
+        {
+          "temporary_id": "408-stacks-queues-arrays-candidate-012",
+          "proposed_title": "多维数组的行优先与列优先地址",
+          "core_question": "怎样把多维数组下标映射为连续存储地址？",
+          "content_type": "formula",
+          "source_record_ids": [
+            "syllabus-note-cs408-multidimensional-array-address"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        },
+        {
+          "temporary_id": "408-stacks-queues-arrays-candidate-013",
+          "proposed_title": "对称矩阵压缩存储",
+          "core_question": "对称矩阵如何只保存一半元素并完成下标映射？",
+          "content_type": "formula",
+          "source_record_ids": [
+            "syllabus-note-cs408-symmetric-matrix-compression"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        },
+        {
+          "temporary_id": "408-stacks-queues-arrays-candidate-014",
+          "proposed_title": "三角矩阵与带状矩阵压缩",
+          "core_question": "三角矩阵和带状矩阵如何利用结构性零元素节省空间？",
+          "content_type": "formula",
+          "source_record_ids": [
+            "syllabus-note-cs408-triangular-diagonal-matrix-compression"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        },
+        {
+          "temporary_id": "408-stacks-queues-arrays-candidate-015",
+          "proposed_title": "稀疏矩阵三元组表示",
+          "core_question": "稀疏矩阵如何只记录非零元素？",
+          "content_type": "concept",
+          "source_record_ids": [
+            "syllabus-note-cs408-sparse-matrix-triples"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        }
+      ]
+    },
+    {
+      "section_id": "cs408-stack-queue-applications",
+      "proposed_concepts": [
+        {
+          "temporary_id": "408-stacks-queues-arrays-candidate-005",
+          "proposed_title": "括号匹配",
+          "core_question": "栈如何判断多种括号是否正确嵌套？",
+          "content_type": "algorithm",
+          "source_record_ids": [
+            "syllabus-note-cs408-parentheses-matching"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        },
+        {
+          "temporary_id": "408-stacks-queues-arrays-candidate-006",
+          "proposed_title": "表达式转换与求值",
+          "core_question": "栈如何支持中缀、后缀表达式转换与求值？",
+          "content_type": "algorithm",
+          "source_record_ids": [
+            "syllabus-note-cs408-expression-evaluation"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        },
+        {
+          "temporary_id": "408-stacks-queues-arrays-candidate-016",
+          "proposed_title": "队列在层次处理与缓冲中的应用",
+          "core_question": "队列为什么适合层次遍历、广度搜索和请求缓冲？",
+          "content_type": "application",
+          "source_record_ids": [
+            "syllabus-note-cs408-queue-applications"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        }
+      ]
+    }
+  ]
+}

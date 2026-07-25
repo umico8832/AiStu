@@ -1,0 +1,85 @@
+{
+  "concept": {
+    "id": "cs408-circular-queue-state",
+    "title": "循环队列判空、判满与长度",
+    "aliases": [
+      "queue full empty",
+      "循环队列长度"
+    ],
+    "content_type": "formula",
+    "location": {
+      "course_id": "cs408-data-structures",
+      "chapter_id": "408-stacks-queues-arrays",
+      "section_id": "cs408-stack-basics",
+      "parent_id": null,
+      "order": 10
+    },
+    "core_question": "循环队列如何区分队空和队满并计算长度？",
+    "summary": "可牺牲一个槽位、增加 size 计数或设置标志位来区分 front=rear 的两种状态。",
+    "definition": "牺牲一个槽位的约定下，front=rear 表示空，(rear+1) mod m=front 表示满，队列长度为 (rear-front+m) mod m，最多存 m-1 个元素。使用 size 计数时可存 m 个元素，但所有操作必须同步维护 size。",
+    "prerequisite_ids": [
+      "cs408-circular-queue-representation"
+    ],
+    "relations": [
+      {
+        "type": "part_of",
+        "target_id": "cs408-syllabus-stacks-queues-arrays",
+        "description": "循环队列判空、判满与长度是栈、队列和数组考纲模块中的原子知识点。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "像环形停车场预留一个空位作为状态标记，看到入口与出口指针重合时才不会混淆全空和全满。",
+      "mapping": {
+        "直观对象": "循环队列判空、判满与长度",
+        "对应机制": "可牺牲一个槽位、增加 size 计数或设置标志位来区分 front=rear 的两种状态。"
+      },
+      "boundary": "类比只用于建立直觉；正式作答仍需使用定义、操作步骤、适用条件和复杂度结论。"
+    },
+    "retrieval": {
+      "keywords": [
+        "循环队列判空、判满与长度",
+        "queue full empty",
+        "循环队列长度"
+      ],
+      "query_examples": [
+        "循环队列如何区分队空和队满并计算长度？",
+        "循环队列判空、判满与长度的步骤、性质和复杂度是什么？",
+        "循环队列判空、判满与长度有哪些适用条件和易错边界？"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "syllabus-note-cs408-circular-queue-state"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "cs408-circular-queue-representation",
+      "title": "循环队列的数组表示",
+      "core_question": "循环队列如何复用数组末端之后的空闲槽位？",
+      "summary": "front 与 rear 通过模运算在数组中回绕，避免顺序队列产生假溢出。",
+      "definition": "容量为 m 的循环队列用 front 指示队头、rear 指示下一入队位置或队尾，具体语义必须统一。逻辑位置通过下标模 m 映射到物理槽位，入队更新 rear=(rear+1) mod m，出队更新 front=(front+1) mod m。",
+      "content_type": "concept"
+    },
+    {
+      "id": "cs408-syllabus-stacks-queues-arrays",
+      "title": "408 考纲：栈、队列和数组范围",
+      "core_question": "408 栈、队列和数组模块覆盖哪些内容？",
+      "summary": "该模块覆盖栈与队列的概念和顺序、链式实现，多维数组存储、特殊矩阵压缩及相关应用。",
+      "definition": "408 的栈、队列和数组模块包括栈与队列的基本概念、顺序存储结构、链式存储结构，多维数组的存储，特殊矩阵的压缩存储，以及栈、队列和数组的应用。常见能力包括判断栈序列、分析循环队列、推导地址映射和使用线性结构解决表达式或遍历问题。",
+      "content_type": "concept"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "syllabus-note-cs408-circular-queue-state",
+      "type": "paragraph",
+      "content": "可牺牲一个槽位、增加 size 计数或设置标志位来区分 front=rear 的两种状态。\n\n牺牲一个槽位的约定下，front=rear 表示空，(rear+1) mod m=front 表示满，队列长度为 (rear-front+m) mod m，最多存 m-1 个元素。使用 size 计数时可存 m 个元素，但所有操作必须同步维护 size。\n\n对应 2026 数据结构考纲叶子条目：栈和队列的顺序存储结构。"
+    }
+  ]
+}

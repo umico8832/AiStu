@@ -34,6 +34,13 @@ export function VisualizationComponent({
   );
   const current = steps[stepIndex] ?? steps[0]!;
   const [prediction, setPrediction] = useState<string | null>(null);
+  const [predictionRetryCount, setPredictionRetryCount] = useState(0);
+  const requiresShift =
+    spec.scenario.insertIndex < spec.scenario.elements.length;
+  const correctPrediction = requiresShift
+    ? "right-to-left"
+    : "no-shift";
+  const predictionComplete = prediction === correctPrediction;
 
   const setStep = (next: number) => {
     const clamped = Math.min(steps.length - 1, Math.max(0, next));
@@ -99,33 +106,49 @@ export function VisualizationComponent({
             {stepIndex === 1 ? (
               <div className="rounded-2xl border border-amber-200 bg-amber-50 p-3">
                 <p className="m-0 text-xs font-semibold text-amber-900">
-                  先预测：应该从哪一端开始搬？
+                  {requiresShift
+                    ? "先预测：应该从哪一端开始搬？"
+                    : "先预测：在末尾插入需要搬移原元素吗？"}
                 </p>
                 <div className="mt-2 grid gap-2">
-                  {[
-                    ["right-to-left", "从最右端开始"],
-                    ["left-to-right", "从插入位置开始"],
-                  ].map(([id, label]) => (
+                  {(requiresShift
+                    ? [
+                        ["right-to-left", "从最右端开始"],
+                        ["left-to-right", "从插入位置开始"],
+                      ]
+                    : [
+                        ["no-shift", "不需要搬移"],
+                        ["left-to-right", "仍从左向右搬移"],
+                      ]
+                  ).map(([id, label]) => (
                     <button
                       key={id}
                       type="button"
+                      disabled={predictionComplete}
                       onClick={() => {
                         const answerId = id!;
                         setPrediction(answerId);
+                        const correct =
+                          answerId === correctPrediction;
                         onInteraction({
                           type: "prediction_submitted",
                           sessionId,
                           visualizationId: spec.visualizationId,
                           pauseId: "shift-direction",
                           answerId,
-                          correct: answerId === "right-to-left",
-                          retryCount: 0,
+                          correct,
+                          retryCount: predictionRetryCount,
                           occurredAt: Date.now(),
                         });
+                        if (!correct) {
+                          setPredictionRetryCount(
+                            (count) => count + 1,
+                          );
+                        }
                       }}
-                      className={`rounded-xl border px-3 py-2 text-left text-xs font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 ${
+                      className={`min-h-11 rounded-xl border px-3 py-2 text-left text-xs font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 disabled:cursor-default ${
                         prediction === id
-                          ? id === "right-to-left"
+                          ? id === correctPrediction
                             ? "border-emerald-300 bg-emerald-100 text-emerald-900"
                             : "border-rose-300 bg-rose-100 text-rose-900"
                           : "border-amber-200 bg-white text-slate-700"
@@ -135,6 +158,22 @@ export function VisualizationComponent({
                     </button>
                   ))}
                 </div>
+                {prediction ? (
+                  <p
+                    role="status"
+                    className={`m-0 mt-2 text-xs font-semibold ${
+                      predictionComplete
+                        ? "text-emerald-700"
+                        : "text-rose-700"
+                    }`}
+                  >
+                    {predictionComplete
+                      ? requiresShift
+                        ? "正确。先搬最右侧元素，才能避免覆盖。"
+                        : "正确。插入点就在 n，直接写入空槽位即可。"
+                      : "再观察插入位置右侧是否还有原元素。"}
+                  </p>
+                ) : null}
               </div>
             ) : null}
           </div>

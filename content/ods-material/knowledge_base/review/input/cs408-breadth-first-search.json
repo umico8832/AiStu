@@ -1,0 +1,94 @@
+{
+  "concept": {
+    "id": "cs408-breadth-first-search",
+    "title": "广度优先搜索",
+    "aliases": [
+      "BFS",
+      "breadth first search"
+    ],
+    "content_type": "algorithm",
+    "location": {
+      "course_id": "cs408-data-structures",
+      "chapter_id": "408-graphs",
+      "section_id": "cs408-graph-traversal",
+      "parent_id": null,
+      "order": 9
+    },
+    "core_question": "BFS 如何按距起点的层次逐层访问图？",
+    "summary": "起点入队，出队时把所有未访问邻接点标记并入队，从而按最少边数距离分层。",
+    "definition": "BFS 在发现顶点时立即设置 visited 并入队，避免同一顶点被重复加入。无权图中，顶点第一次被发现时的层数就是从起点出发的最短边数；对非连通图需对未访问顶点重复启动。",
+    "prerequisite_ids": [
+      "cs408-adjacency-list",
+      "cs408-queue-fifo"
+    ],
+    "relations": [
+      {
+        "type": "part_of",
+        "target_id": "cs408-syllabus-graphs",
+        "description": "广度优先搜索是图考纲模块中的原子知识点。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "像水波从起点向外扩散，先覆盖一跳可达位置，再覆盖两跳位置。",
+      "mapping": {
+        "直观对象": "广度优先搜索",
+        "对应机制": "起点入队，出队时把所有未访问邻接点标记并入队，从而按最少边数距离分层。"
+      },
+      "boundary": "类比只用于建立直觉；正式作答仍需使用定义、操作步骤、适用条件和复杂度结论。"
+    },
+    "retrieval": {
+      "keywords": [
+        "广度优先搜索",
+        "BFS",
+        "breadth first search"
+      ],
+      "query_examples": [
+        "BFS 如何按距起点的层次逐层访问图？",
+        "广度优先搜索的步骤、性质和复杂度是什么？",
+        "广度优先搜索有哪些适用条件和易错边界？"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "syllabus-note-cs408-breadth-first-search"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "cs408-adjacency-list",
+      "title": "图的邻接表",
+      "core_question": "邻接表如何只保存实际存在的边？",
+      "summary": "每个顶点维护邻接顶点链表或动态表，空间为 O(V+E)，适合稀疏图。",
+      "definition": "邻接表包含顶点表和每个顶点的边表。无向边通常在两个端点的表中各出现一次，有向边可保存出边或入边。枚举顶点邻居与其度数同阶，但判断任意两点是否相邻可能需要搜索边表。",
+      "content_type": "concept"
+    },
+    {
+      "id": "cs408-queue-fifo",
+      "title": "队列的 FIFO 语义与基本操作",
+      "core_question": "队列为什么称为先进先出的受限线性表？",
+      "summary": "队列在队尾插入、队头删除，先入队的元素先出队。",
+      "definition": "队列只允许在一端入队 enqueue，在另一端出队 dequeue；插入端称队尾，删除端称队头。front 读取队头，判空和长度操作维护结构状态；空队列出队必须按接口规则处理下溢。",
+      "content_type": "concept"
+    },
+    {
+      "id": "cs408-syllabus-graphs",
+      "title": "408 考纲：图范围",
+      "core_question": "408 图模块要求掌握哪些表示、遍历和应用？",
+      "summary": "图模块覆盖基本概念、邻接矩阵与邻接表等存储、BFS/DFS，以及生成树、最短路、拓扑排序和关键路径。",
+      "definition": "408 图模块包括图的基本概念，邻接矩阵、邻接表、邻接多重表和十字链表等存储与基本操作，深度优先搜索和广度优先搜索，以及最小生成树、最短路径、拓扑排序和关键路径等基本应用。复习时需能在给定表示上手推过程并分析复杂度。",
+      "content_type": "concept"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "syllabus-note-cs408-breadth-first-search",
+      "type": "paragraph",
+      "content": "起点入队，出队时把所有未访问邻接点标记并入队，从而按最少边数距离分层。\n\nBFS 在发现顶点时立即设置 visited 并入队，避免同一顶点被重复加入。无权图中，顶点第一次被发现时的层数就是从起点出发的最短边数；对非连通图需对未访问顶点重复启动。\n\n对应 2026 数据结构考纲叶子条目：广度优先搜索。"
+    }
+  ]
+}

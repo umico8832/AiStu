@@ -1,17 +1,25 @@
-# Packaged knowledge snapshot
+# 桌面运行时知识快照
 
-This directory contains only the runtime RAG snapshot shipped with the desktop
-application. The authoritative knowledge base remains in the independent
-`ods-material/knowledge_base` content domain. The snapshot may contain multiple
-courses and source namespaces; it currently includes ODS concepts and the
-review-pending 408 data-structures exam-guide knowledge island.
+本目录只保存随桌面应用打包的 RAG 运行时快照。权威知识库位于仓库内独立维护的
+`content/ods-material/knowledge_base` 内容域；这里的 JSONL 是派生数据，不是
+authoring 来源。
 
-Refresh and validate the snapshot from the repository root:
+从仓库根目录刷新和检查：
 
 ```bash
 pnpm sync:knowledge
 pnpm check:knowledge-snapshot
 ```
 
-Do not add authoring drafts, review reports, prompts, or knowledge-maintenance
-scripts to the desktop package.
+规则：
+
+- 快照可以包含多门课程与多个 concept 命名空间；
+- Main 负责读取、解析和校验，Renderer 不直接访问文件；
+- 不手工编辑派生 `rag/chunks.jsonl`；
+- 不向桌面包添加 authoring 草稿、审查报告、Prompt 或知识维护脚本；
+- 知识内容的审核状态不能由桌面代码或快照同步流程改变。
+
+完整边界见
+[`../../../../docs/ARCHITECTURE.md`](../../../../docs/ARCHITECTURE.md#10-知识快照)，
+操作流程见
+[`../../../../docs/guides/DEVELOPMENT.md`](../../../../docs/guides/DEVELOPMENT.md#4-知识库与快照)。

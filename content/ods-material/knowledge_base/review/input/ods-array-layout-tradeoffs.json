@@ -1,0 +1,137 @@
+{
+  "concept": {
+    "id": "ods-array-layout-tradeoffs",
+    "title": "数组式线性表的布局权衡",
+    "aliases": [
+      "array layout comparison",
+      "ArrayDeque vs DualArrayDeque",
+      "tiered vector"
+    ],
+    "content_type": "comparison",
+    "location": {
+      "course_id": "open-data-structures",
+      "chapter_id": "array-based-lists",
+      "section_id": "2-7-discussion-and-exercises",
+      "parent_id": null,
+      "order": 30
+    },
+    "core_question": "不同数组式线性表主要在更新位置、空间浪费和实现机制上如何取舍？",
+    "summary": "单数组结构实现直接，双端结构优化靠近两端的更新，分块结构降低空闲空间但增加下标映射复杂度。",
+    "definition": "ArrayStack 以单数组获得直接访问但中间更新搬移后缀；ArrayDeque 与 DualArrayDeque 把更新成本限制到距较近端的范围，后者以两个栈组合实现；RootishArrayStack 用递增块把浪费空间降为 $O(\\sqrt n)$，但需要块号计算。相关分层向量还可用不同块布局取得其他更新界。",
+    "prerequisite_ids": [
+      "ods-arraystack-performance",
+      "ods-arraydeque-performance",
+      "ods-dualarraydeque-performance",
+      "ods-rootisharraystack-performance"
+    ],
+    "relations": [],
+    "rookie_explanation": {
+      "analogy": "同一批书可放在一排长架、两排背靠背的架子或逐层变长的架子上；取书、挪书和空位数量会因布局不同而变化。",
+      "mapping": {
+        "一排长架": "ArrayStack",
+        "背靠背架子": "DualArrayDeque",
+        "逐层变长架子": "RootishArrayStack"
+      },
+      "boundary": "类比只比较本章给出的渐近特征，不能据此断定某结构在所有工作负载和硬件上都更优。"
+    },
+    "retrieval": {
+      "keywords": [
+        "数组式线性表的布局权衡",
+        "array layout comparison",
+        "ArrayDeque vs DualArrayDeque",
+        "tiered vector"
+      ],
+      "query_examples": [
+        "不同数组式线性表主要在更新位置、空间浪费和实现机制上如何取舍？",
+        "数组式线性表的布局权衡怎么理解",
+        "数组式线性表的布局权衡的关键条件是什么"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "ods-000209-table-begin-tabular-l-l-l-hline-ensuremath",
+      "ods-000242-theorem-thmlabel-arraystack-an-arraystack-im",
+      "ods-000294-theorem-thmlabel-arraydeque-an-arraydeque-im",
+      "ods-000328-theorem-thmlabel-dualarraydeque-a-dualarrayd",
+      "ods-000368-theorem-thmlabel-rootisharraystack-a-rootish",
+      "ods-000374-paragraph-most-of-the-data-structures-describe",
+      "ods-000375-paragraph-a-structure-related-to-the-rootishar"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "ods-arraystack-performance",
+      "title": "ArrayStack 的操作复杂度",
+      "core_question": "ArrayStack 各项操作的时间复杂度是什么？",
+      "summary": "get/set 为 O(1)，add/remove(i) 为 O(1+n-i)，尾端 push/pop 的摊还时间为 O(1)。",
+      "definition": "ArrayStack 实现 List 接口时，get(i) 与 set(i,x) 的最坏时间为 $O(1)$；忽略 resize，add(i,x) 与 remove(i) 为 $O(1+n-i)$。从空结构开始的更新序列中，resize 总成本为线性，因此在尾端实现 push 与 pop 时每次操作具有 $O(1)$ 摊还时间。",
+      "content_type": "theorem"
+    },
+    {
+      "id": "ods-arraydeque-performance",
+      "title": "ArrayDeque 的操作复杂度",
+      "core_question": "ArrayDeque 为什么能在两端附近高效插入和删除？",
+      "summary": "get/set 为 O(1)，add/remove(i) 为 O(1+min(i,n-i))，容量调整总成本可线性摊还。",
+      "definition": "ArrayDeque 实现 List 接口时，get 与 set 为 $O(1)$；忽略 resize，add(i,x) 与 remove(i) 为 $O(1+\\min\\{i,n-i\\})$。从空结构开始的 m 次更新中，所有 resize 总时间为 $O(m)$，因此两端位置的更新具有常数摊还时间。",
+      "content_type": "theorem"
+    },
+    {
+      "id": "ods-dualarraydeque-performance",
+      "title": "DualArrayDeque 的操作复杂度",
+      "core_question": "DualArrayDeque 是否达到与 ArrayDeque 相同的渐近性能？",
+      "summary": "它的 get/set 为 O(1)，按位更新为 O(1+min(i,n-i))，resize 与 balance 总成本均可线性摊还。",
+      "definition": "DualArrayDeque 实现 List 接口时，get 与 set 为 $O(1)$；忽略内部 resize 和 balance，add(i,x) 与 remove(i) 为 $O(1+\\min\\{i,n-i\\})$。从空结构开始的 m 次更新中，所有 resize 与 balance 总时间为 $O(m)$，渐近性能与 ArrayDeque 相同。",
+      "content_type": "theorem"
+    },
+    {
+      "id": "ods-rootisharraystack-performance",
+      "title": "RootishArrayStack 的时间与空间复杂度",
+      "core_question": "RootishArrayStack 在随机访问、更新和额外空间之间做了怎样的权衡？",
+      "summary": "它保留 O(1) 随机访问和 O(1+n-i) 按位更新，同时把浪费空间降为 O(sqrt(n))。",
+      "definition": "RootishArrayStack 的 get 与 set 为 $O(1)$，忽略 grow 与 shrink 时，add(i,x) 与 remove(i) 为 $O(1+n-i)$。从空结构开始的 m 次更新中，块增长和收缩的总成本为 $O(m)$；在任意时刻，未使用槽位和块目录造成的额外空间为 $O(\\sqrt n)$。",
+      "content_type": "theorem"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "ods-000209-table-begin-tabular-l-l-l-hline-ensuremath",
+      "type": "table",
+      "content": "\\begin{tabular}{|l|l|l|} \\hline\n & \\ensuremath{\\ensuremath{\\mathrm{get}(\\ensuremath{\\mathit{i}})}}/\\ensuremath{\\ensuremath{\\mathrm{set}(\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{x}})}} & \\ensuremath{\\ensuremath{\\mathrm{add}(\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{x}})}}/\\ensuremath{\\ensuremath{\\mathrm{remove}(\\ensuremath{\\mathit{i}})}} \\\\ \\hline\nArrayStack & $O(1)$ & $O(\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}-\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{i}}}})$ \\\\\nArrayDeque & $O(1)$ & $O(\\min\\{\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{i}}}},\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}-\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{i}}}}\\})$ \\\\\nDualArrayDeque & $O(1)$ & $O(\\min\\{\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{i}}}},\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}-\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{i}}}}\\})$ \\\\\nRootishArrayStack & $O(1)$ & $O(\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}-\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{i}}}})$ \\\\ \\hline\n\\end{tabular}"
+    },
+    {
+      "id": "ods-000242-theorem-thmlabel-arraystack-an-arraystack-im",
+      "type": "theorem",
+      "content": "\\thmlabel{arraystack} An ArrayStack implements the List interface. Ignoring the cost of calls to \\ensuremath{\\ensuremath{\\mathrm{resize}()}}, an ArrayStack supports the operations \\begin{itemize} \\item \\ensuremath{\\ensuremath{\\mathrm{get}(\\ensuremath{\\mathit{i}})}} and \\ensuremath{\\ensuremath{\\mathrm{set}(\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{x}})}} in $O(1)$ time per operation; and \\item \\ensuremath{\\ensuremath{\\mathrm{add}(\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{x}})}} and \\ensuremath{\\ensuremath{\\mathrm{remove}(\\ensuremath{\\mathit{i}})}} in $O(1+\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}-\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{i}}}})$ time per operation. \\end{itemize} Furthermore, beginning with an empty ArrayStack and performing any sequence of $m$ \\ensuremath{\\ensuremath{\\mathrm{add}(\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{x}})}} and \\ensuremath{\\ensuremath{\\mathrm{remove}(\\ensuremath{\\mathit{i}})}} operations results in a total of $O(m)$ time spent during all calls to \\ensuremath{\\ensuremath{\\mathrm{resize}()}}."
+    },
+    {
+      "id": "ods-000294-theorem-thmlabel-arraydeque-an-arraydeque-im",
+      "type": "theorem",
+      "content": "\\thmlabel{arraydeque} An ArrayDeque implements the List interface. Ignoring the cost of calls to \\ensuremath{\\ensuremath{\\mathrm{resize}()}}, an ArrayDeque supports the operations \\begin{itemize} \\item \\ensuremath{\\ensuremath{\\mathrm{get}(\\ensuremath{\\mathit{i}})}} and \\ensuremath{\\ensuremath{\\mathrm{set}(\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{x}})}} in $O(1)$ time per operation; and \\item \\ensuremath{\\ensuremath{\\mathrm{add}(\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{x}})}} and \\ensuremath{\\ensuremath{\\mathrm{remove}(\\ensuremath{\\mathit{i}})}} in $O(1+\\min\\{\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{i}}}},\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}-\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{i}}}}\\})$ time per operation. \\end{itemize} Furthermore, beginning with an empty ArrayDeque, performing any sequence of $m$ \\ensuremath{\\ensuremath{\\mathrm{add}(\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{x}})}} and \\ensuremath{\\ensuremath{\\mathrm{remove}(\\ensuremath{\\mathit{i}})}} operations results in a total of $O(m)$ time spent during all calls to \\ensuremath{\\ensuremath{\\mathrm{resize}()}}."
+    },
+    {
+      "id": "ods-000328-theorem-thmlabel-dualarraydeque-a-dualarrayd",
+      "type": "theorem",
+      "content": "\\thmlabel{dualarraydeque} A DualArrayDeque implements the List interface. Ignoring the cost of calls to \\ensuremath{\\ensuremath{\\mathrm{resize}()}} and \\ensuremath{\\ensuremath{\\mathrm{balance}()}}, a DualArrayDeque supports the operations \\begin{itemize} \\item \\ensuremath{\\ensuremath{\\mathrm{get}(\\ensuremath{\\mathit{i}})}} and \\ensuremath{\\ensuremath{\\mathrm{set}(\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{x}})}} in $O(1)$ time per operation; and \\item \\ensuremath{\\ensuremath{\\mathrm{add}(\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{x}})}} and \\ensuremath{\\ensuremath{\\mathrm{remove}(\\ensuremath{\\mathit{i}})}} in $O(1+\\min\\{\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{i}}}},\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}-\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{i}}}}\\})$ time per operation. \\end{itemize} Furthermore, beginning with an empty DualArrayDeque, any sequence of $m$ \\ensuremath{\\ensuremath{\\mathrm{add}(\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{x}})}} and \\ensuremath{\\ensuremath{\\mathrm{remove}(\\ensuremath{\\mathit{i}})}} operations results in a total of $O(m)$ time spent during all calls to \\ensuremath{\\ensuremath{\\mathrm{resize}()}} and \\ensuremath{\\ensuremath{\\mathrm{balance}()}}."
+    },
+    {
+      "id": "ods-000368-theorem-thmlabel-rootisharraystack-a-rootish",
+      "type": "theorem",
+      "content": "\\thmlabel{rootisharraystack} A RootishArrayStack implements the List interface. Ignoring the cost of calls to \\ensuremath{\\ensuremath{\\mathrm{grow}()}} and \\ensuremath{\\ensuremath{\\mathrm{shrink}()}}, a RootishArrayStack supports the operations \\begin{itemize} \\item \\ensuremath{\\ensuremath{\\mathrm{get}(\\ensuremath{\\mathit{i}})}} and \\ensuremath{\\ensuremath{\\mathrm{set}(\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{x}})}} in $O(1)$ time per operation; and \\item \\ensuremath{\\ensuremath{\\mathrm{add}(\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{x}})}} and \\ensuremath{\\ensuremath{\\mathrm{remove}(\\ensuremath{\\mathit{i}})}} in $O(1+\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}-\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{i}}}})$ time per operation. \\end{itemize} Furthermore, beginning with an empty RootishArrayStack, any sequence of $m$ \\ensuremath{\\ensuremath{\\mathrm{add}(\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{x}})}} and \\ensuremath{\\ensuremath{\\mathrm{remove}(\\ensuremath{\\mathit{i}})}} operations results in a total of $O(m)$ time spent during all calls to \\ensuremath{\\ensuremath{\\mathrm{grow}()}} and \\ensuremath{\\ensuremath{\\mathrm{shrink}()}}. The space (measured in words)\\footnote{Recall \\secref{model} for a discussion of how memory is measured.} used by a RootishArrayStack that stores \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}} elements is $\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}} +O(\\sqrt{\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}})$."
+    },
+    {
+      "id": "ods-000374-paragraph-most-of-the-data-structures-describe",
+      "type": "paragraph",
+      "content": "Most of the data structures described in this chapter are folklore. They can be found in implementations dating back over 30 years. For example, implementations of stacks, queues, and deques, which generalize easily to the ArrayStack, ArrayQueue and ArrayDeque structures described here, are discussed by Knuth \\cite[Section~2.2.2]{k97v1}. Brodnik \\etal\\ \\cite{bcdms99} seem to have been the first to describe the RootishArrayStack and prove a $\\sqrt{n}$ lower-bound like that in \\secref{rootishspaceusage}. They also present a different structure that uses a more sophisticated choice of block sizes in order to avoid computing square roots in the \\ensuremath{\\ensuremath{\\mathrm{i2b}(\\ensuremath{\\mathit{i}})}} method. Within their scheme, the block containing \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{i}}}} is block $\\lfloor\\log (\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{i}}}}+1)\\rfloor$, which is simply the index of the leading 1 bit in the binary representation of $\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{i}}}}+1$. Some computer architectures provide an instruction for computing the index of the leading 1-bit in an integer."
+    },
+    {
+      "id": "ods-000375-paragraph-a-structure-related-to-the-rootishar",
+      "type": "paragraph",
+      "content": "A structure related to the RootishArrayStack is the two-level \\emph{tiered-vector} of Goodrich and Kloss \\cite{gk99}. \\index{tiered-vector} This structure supports the \\ensuremath{\\ensuremath{\\mathrm{get}(\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{x}})}} and \\ensuremath{\\ensuremath{\\mathrm{set}(\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{x}})}} operations in constant time and \\ensuremath{\\ensuremath{\\mathrm{add}(\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{x}})}} and \\ensuremath{\\ensuremath{\\mathrm{remove}(\\ensuremath{\\mathit{i}})}} in $O(\\sqrt{\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}})$ time. These running times are similar to what can be achieved with the more careful implementation of a RootishArrayStack discussed in \\excref{rootisharraystack-fast}."
+    }
+  ]
+}

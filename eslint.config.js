@@ -12,6 +12,8 @@ export default tseslint.config(
       "**/dist/**",
       "**/release/**",
       "**/coverage/**",
+      "playwright-report/**",
+      "test-results/**",
       "call-stack-visualizer/**",
       ".codex/**",
     ],

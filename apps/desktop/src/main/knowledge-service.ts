@@ -1,6 +1,9 @@
 import {
+  knowledgeCourseSchema,
   knowledgeRetrievalContextSchema,
   type ChatSendInput,
+  type KnowledgeCourse,
+  type KnowledgeRagChunk,
   type KnowledgeRetrievalContext,
 } from "@kaleidoscope/contracts";
 import {
@@ -10,6 +13,7 @@ import {
 import { app } from "electron";
 import { readFile } from "node:fs/promises";
 import { isAbsolute, join, resolve } from "node:path";
+import { build408DataStructuresCourse } from "./course-catalog";
 
 const RAG_CHUNKS_RELATIVE_PATH = join("rag", "chunks.jsonl");
 
@@ -47,12 +51,12 @@ function candidateKnowledgeRoots(): string[] {
         : resolve(process.cwd(), configured),
     );
   }
-  candidates.push(join(process.resourcesPath, "knowledge_base"));
   if (!app.isPackaged) {
     candidates.push(
       resolve(
         app.getAppPath(),
-        "../../..",
+        "../..",
+        "content",
         "ods-material",
         "knowledge_base",
       ),
@@ -60,16 +64,31 @@ function candidateKnowledgeRoots(): string[] {
     candidates.push(
       resolve(
         process.cwd(),
-        "../../..",
+        "../..",
+        "content",
+        "ods-material",
+        "knowledge_base",
+      ),
+    );
+    candidates.push(
+      resolve(
+        process.cwd(),
+        "content",
         "ods-material",
         "knowledge_base",
       ),
     );
   }
+  candidates.push(join(process.resourcesPath, "knowledge_base"));
   return Array.from(new Set(candidates));
 }
 
-async function loadKnowledgeIndex(): Promise<KnowledgeIndex> {
+interface LoadedKnowledge {
+  chunks: KnowledgeRagChunk[];
+  index: KnowledgeIndex;
+}
+
+async function loadKnowledge(): Promise<LoadedKnowledge> {
   let lastError: unknown;
   for (const root of candidateKnowledgeRoots()) {
     try {
@@ -82,7 +101,7 @@ async function loadKnowledgeIndex(): Promise<KnowledgeIndex> {
       if (index.size === 0) {
         throw new Error("知识库没有可检索的 RAG chunk。");
       }
-      return index;
+      return { chunks, index };
     } catch (error) {
       lastError = error;
     }
@@ -91,21 +110,38 @@ async function loadKnowledgeIndex(): Promise<KnowledgeIndex> {
 }
 
 export class KnowledgeService {
-  private indexPromise: Promise<KnowledgeIndex> | null = null;
+  private knowledgePromise: Promise<LoadedKnowledge> | null = null;
 
   async retrieve(input: ChatSendInput): Promise<KnowledgeRetrievalContext> {
     const query = latestUserQuery(input);
     try {
-      this.indexPromise ??= loadKnowledgeIndex();
-      const index = await this.indexPromise;
-      return index.retrieve(query, previousConceptIds(input));
+      this.knowledgePromise ??= loadKnowledge();
+      const { index } = await this.knowledgePromise;
+      return index.retrieve(
+        query,
+        previousConceptIds(input),
+        input.studyScope?.courseId ?? null,
+      );
     } catch {
-      this.indexPromise = null;
+      this.knowledgePromise = null;
       return knowledgeRetrievalContextSchema.parse({
         status: "unavailable",
         query,
         chunks: [],
       });
+    }
+  }
+
+  async load408DataStructuresCourse(): Promise<KnowledgeCourse> {
+    try {
+      this.knowledgePromise ??= loadKnowledge();
+      const { chunks } = await this.knowledgePromise;
+      return knowledgeCourseSchema.parse(
+        build408DataStructuresCourse(chunks),
+      );
+    } catch (error) {
+      this.knowledgePromise = null;
+      throw new Error("408 数据结构课程加载失败。", { cause: error });
     }
   }
 }

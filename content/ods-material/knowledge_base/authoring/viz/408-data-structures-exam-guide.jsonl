@@ -1,0 +1,17 @@
+{"concept_id": "cs408-exam-purpose", "recommended": false, "priority": "low", "suggested_type": "process_flow", "reason": "该知识点以稳定文本和清单表达更清楚，当前不需要单独制作交互课件。", "possible_scenes": []}
+{"concept_id": "cs408-exam-structure", "recommended": false, "priority": "low", "suggested_type": "process_flow", "reason": "该知识点以稳定文本和清单表达更清楚，当前不需要单独制作交互课件。", "possible_scenes": []}
+{"concept_id": "cs408-data-structure-objectives", "recommended": false, "priority": "low", "suggested_type": "process_flow", "reason": "该知识点以稳定文本和清单表达更清楚，当前不需要单独制作交互课件。", "possible_scenes": []}
+{"concept_id": "cs408-frequency-evidence-boundary", "recommended": false, "priority": "low", "suggested_type": "process_flow", "reason": "该知识点以稳定文本和清单表达更清楚，当前不需要单独制作交互课件。", "possible_scenes": []}
+{"concept_id": "cs408-data-structure-syllabus-map", "recommended": true, "priority": "medium", "suggested_type": "structure_layout", "reason": "七大考纲模块及其展开关系适合用受约束知识地图展示，但不得把目录关系伪装成知识前置关系。", "possible_scenes": ["七大模块总览", "模块展开与正式范围提示"]}
+{"concept_id": "cs408-syllabus-basic-concepts", "recommended": false, "priority": "low", "suggested_type": "process_flow", "reason": "该知识点以稳定文本和清单表达更清楚，当前不需要单独制作交互课件。", "possible_scenes": []}
+{"concept_id": "cs408-syllabus-linear-lists", "recommended": false, "priority": "low", "suggested_type": "process_flow", "reason": "该知识点以稳定文本和清单表达更清楚，当前不需要单独制作交互课件。", "possible_scenes": []}
+{"concept_id": "cs408-syllabus-stacks-queues-arrays", "recommended": false, "priority": "low", "suggested_type": "process_flow", "reason": "该知识点以稳定文本和清单表达更清楚，当前不需要单独制作交互课件。", "possible_scenes": []}
+{"concept_id": "cs408-syllabus-trees", "recommended": false, "priority": "low", "suggested_type": "process_flow", "reason": "该知识点以稳定文本和清单表达更清楚，当前不需要单独制作交互课件。", "possible_scenes": []}
+{"concept_id": "cs408-syllabus-graphs", "recommended": false, "priority": "low", "suggested_type": "process_flow", "reason": "该知识点以稳定文本和清单表达更清楚，当前不需要单独制作交互课件。", "possible_scenes": []}
+{"concept_id": "cs408-syllabus-searching", "recommended": false, "priority": "low", "suggested_type": "process_flow", "reason": "该知识点以稳定文本和清单表达更清楚，当前不需要单独制作交互课件。", "possible_scenes": []}
+{"concept_id": "cs408-syllabus-sorting", "recommended": false, "priority": "low", "suggested_type": "process_flow", "reason": "该知识点以稳定文本和清单表达更清楚，当前不需要单独制作交互课件。", "possible_scenes": []}
+{"concept_id": "cs408-core-extension-boundary", "recommended": false, "priority": "low", "suggested_type": "process_flow", "reason": "该知识点以稳定文本和清单表达更清楚，当前不需要单独制作交互课件。", "possible_scenes": []}
+{"concept_id": "cs408-review-priority-path", "recommended": false, "priority": "low", "suggested_type": "process_flow", "reason": "该知识点以稳定文本和清单表达更清楚，当前不需要单独制作交互课件。", "possible_scenes": []}
+{"concept_id": "cs408-three-layer-mastery", "recommended": false, "priority": "low", "suggested_type": "process_flow", "reason": "该知识点以稳定文本和清单表达更清楚，当前不需要单独制作交互课件。", "possible_scenes": []}
+{"concept_id": "cs408-study-closed-loop", "recommended": false, "priority": "low", "suggested_type": "process_flow", "reason": "该知识点以稳定文本和清单表达更清楚，当前不需要单独制作交互课件。", "possible_scenes": []}
+{"concept_id": "cs408-eight-week-review-plan", "recommended": false, "priority": "low", "suggested_type": "process_flow", "reason": "该知识点以稳定文本和清单表达更清楚，当前不需要单独制作交互课件。", "possible_scenes": []}

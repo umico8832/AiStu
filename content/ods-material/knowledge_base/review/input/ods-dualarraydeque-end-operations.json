@@ -1,0 +1,164 @@
+{
+  "concept": {
+    "id": "ods-dualarraydeque-end-operations",
+    "title": "DualArrayDeque 的按位更新",
+    "aliases": [
+      "DualArrayDeque add/remove",
+      "双栈按位插入删除"
+    ],
+    "content_type": "algorithm",
+    "location": {
+      "course_id": "open-data-structures",
+      "chapter_id": "array-based-lists",
+      "section_id": "2-5-dualarraydeque",
+      "parent_id": null,
+      "order": 20
+    },
+    "core_question": "DualArrayDeque 如何把按位插入删除转交给正确的内部栈？",
+    "summary": "位置落在前半段时用反向下标操作 front，否则用偏移后的下标操作 back，随后检查平衡。",
+    "definition": "DualArrayDeque 根据 i 是否小于 front.size() 选择内部栈。前半段使用反向下标，后半段使用减去 front.size() 的局部下标；add 与 remove 完成后调用 balance。忽略平衡成本，更新时间为 $O(1+\\min\\{i,n-i\\})$。",
+    "prerequisite_ids": [
+      "ods-dualarraydeque-representation",
+      "ods-arraystack-insertion",
+      "ods-arraystack-removal"
+    ],
+    "relations": [
+      {
+        "type": "leads_to",
+        "target_id": "ods-dualarraydeque-balance",
+        "description": "理解《DualArrayDeque 的按位更新》是继续学习目标知识点的直接基础。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "管理员先判断目标卡片属于左摞还是右摞，再换算成该摞内部的位置完成操作，最后检查两摞是否过度失衡。",
+      "mapping": {
+        "判断左右摞": "与 front.size() 比较",
+        "换算位置": "反向或偏移下标",
+        "检查失衡": "调用 balance"
+      },
+      "boundary": "类比不展开 balance 搬移元素的具体步骤和摊还成本。"
+    },
+    "retrieval": {
+      "keywords": [
+        "DualArrayDeque 的按位更新",
+        "DualArrayDeque add/remove",
+        "双栈按位插入删除"
+      ],
+      "query_examples": [
+        "DualArrayDeque 如何把按位插入删除转交给正确的内部栈？",
+        "DualArrayDeque 的按位更新怎么理解",
+        "DualArrayDeque 的按位更新的关键条件是什么"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "ods-000305-paragraph-note-that-if-an-index-ensuremath-ens",
+      "ods-000306-figure_caption-a-sequence-of-ensuremath-ensuremath-",
+      "ods-000307-algorithm-begin-flushleft-hspace-1em-ensuremat",
+      "ods-000308-paragraph-the-ensuremath-ensuremath-mathrm-add",
+      "ods-000309-equation-begin-equation-o-ensuremath-ensurema",
+      "ods-000310-paragraph-on-the-other-hand-if-ensuremath-ensu",
+      "ods-000311-equation-begin-equation-o-ensuremath-ensurema",
+      "ods-000312-paragraph-notice-that-the-first-case-myeqref-d",
+      "ods-000313-equation-mbox-running-time-of-ensuremath-ensu",
+      "ods-000314-paragraph-thus-the-running-time-of-ensuremath-",
+      "ods-000315-algorithm-begin-flushleft-hspace-1em-ensuremat"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "ods-dualarraydeque-representation",
+      "title": "DualArrayDeque 的双栈表示",
+      "core_question": "DualArrayDeque 如何用两个 ArrayStack 表示一个逻辑序列？",
+      "summary": "front 逆序保存前半段，back 正序保存后半段，元素总数等于两个栈的 size 之和。",
+      "definition": "DualArrayDeque 用 front 与 back 两个 ArrayStack 表示 List。front 逆序保存逻辑前缀，back 正序保存逻辑后缀，$n=front.size()+back.size()$。若 $i<front.size()$，对应 front 中的下标为 $front.size()-i-1$；否则对应 back 中的 $i-front.size()$。",
+      "content_type": "concept"
+    },
+    {
+      "id": "ods-arraystack-insertion",
+      "title": "ArrayStack 的按位插入",
+      "core_question": "ArrayStack 在位置 i 插入元素时为什么要向右搬移元素？",
+      "summary": "插入前需确保容量足够，再把区间 i 到 n-1 右移一格，空出 a[i] 后写入新元素。",
+      "definition": "ArrayStack 的 add(i,x) 在后备数组已满时先扩容，然后把原有下标 i 至 n-1 的元素按从右到左的安全顺序整体右移一位，把 x 写入 a[i]，最后令 n 增加 1。忽略扩容时，其时间为 $O(n-i)$。",
+      "content_type": "algorithm"
+    },
+    {
+      "id": "ods-arraystack-removal",
+      "title": "ArrayStack 的按位删除",
+      "core_question": "ArrayStack 删除位置 i 的元素时为什么要向左搬移元素？",
+      "summary": "删除 a[i] 后需把 i+1 到 n-1 的元素左移填补空位，因此忽略缩容时耗时 O(n-i)。",
+      "definition": "ArrayStack 的 remove(i) 先保存 a[i]，再把下标 i+1 至 n-1 的元素整体左移一位覆盖空缺，令 n 减少 1，并在数组空闲比例达到阈值时触发 resize，最后返回被删除值。忽略 resize 时，其时间为 $O(n-i)$。",
+      "content_type": "algorithm"
+    },
+    {
+      "id": "ods-dualarraydeque-balance",
+      "title": "DualArrayDeque 的再平衡",
+      "core_question": "DualArrayDeque 在什么条件下重新分配 front 与 back 的元素？",
+      "summary": "当一侧超过另一侧三倍时，balance 按逻辑顺序重建两栈，使两侧分别约占一半。",
+      "definition": "当元素数至少为 2 且 front 与 back 的大小相差超过 3 倍时，DualArrayDeque 的 balance 按逻辑序列重建两个 ArrayStack，使 front 保存前 $\\lfloor n/2\\rfloor$ 个元素并逆序排列，back 保存其余 $\\lceil n/2\\rceil$ 个元素并正序排列。一次重建移动 $O(n)$ 个元素。",
+      "content_type": "mechanism"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "ods-000305-paragraph-note-that-if-an-index-ensuremath-ens",
+      "type": "paragraph",
+      "content": "Note that if an index $\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{i}}}}<\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{front}}.\\mathrm{size}()}}$, then it corresponds to the element of \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{front}}}} at position $\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{front}}.\\mathrm{size}()}}-\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{i}}}}-1$, since the elements of \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{front}}}} are stored in reverse order. Adding and removing elements from a DualArrayDeque is illustrated in \\figref{dualarraydeque}. The \\ensuremath{\\ensuremath{\\mathrm{add}(\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{x}})}} operation manipulates either \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{front}}}} or \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{back}}}}, as appropriate:"
+    },
+    {
+      "id": "ods-000306-figure_caption-a-sequence-of-ensuremath-ensuremath-",
+      "type": "figure_caption",
+      "content": "A sequence of \\ensuremath{\\ensuremath{\\mathrm{add}(\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{x}})}} and \\ensuremath{\\ensuremath{\\mathrm{remove}(\\ensuremath{\\mathit{i}})}} operations on a DualArrayDeque. Arrows denote elements being copied. Operations that result in a rebalancing by \\ensuremath{\\ensuremath{\\mathrm{balance}()}} are marked with an asterisk."
+    },
+    {
+      "id": "ods-000307-algorithm-begin-flushleft-hspace-1em-ensuremat",
+      "type": "algorithm",
+      "content": "\\begin{flushleft}\n\\hspace*{1em} \\ensuremath{\\mathrm{add}(\\ensuremath{\\mathit{i}}, \\ensuremath{\\mathit{x}})}\\\\\n\\hspace*{1em} \\hspace*{1em} {\\color{black} \\textbf{if}} \\ensuremath{\\ensuremath{\\mathit{i}} < \\ensuremath{\\mathit{front}}.\\mathrm{size}()} {\\color{black} \\textbf{then}} \\\\\n\\hspace*{1em} \\hspace*{1em} \\hspace*{1em} \\ensuremath{\\ensuremath{\\mathit{front}}.\\mathrm{add}(\\ensuremath{\\mathit{front}}.\\mathrm{size}()-\\ensuremath{\\mathit{i}}, x})\\\\\n\\hspace*{1em} \\hspace*{1em} {\\color{black} \\textbf{else}} \\\\\n\\hspace*{1em} \\hspace*{1em} \\hspace*{1em} \\ensuremath{\\ensuremath{\\mathit{back}}.\\mathrm{add}(\\ensuremath{\\mathit{i}}-\\ensuremath{\\mathit{front}}.\\mathrm{size}(), x})\\\\\n\\hspace*{1em} \\hspace*{1em} \\ensuremath{\\mathrm{balance}()}\\\\\n\\end{flushleft}"
+    },
+    {
+      "id": "ods-000308-paragraph-the-ensuremath-ensuremath-mathrm-add",
+      "type": "paragraph",
+      "content": "The \\ensuremath{\\ensuremath{\\mathrm{add}(\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{x}})}} method performs rebalancing of the two ArrayStacks \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{front}}}} and \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{back}}}}, by calling the \\ensuremath{\\ensuremath{\\mathrm{balance}()}} method. The implementation of \\ensuremath{\\ensuremath{\\mathrm{balance}()}} is described below, but for now it is sufficient to know that \\ensuremath{\\ensuremath{\\mathrm{balance}()}} ensures that, unless $\\ensuremath{\\ensuremath{\\mathrm{size}()}}<2$, \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{front}}.\\mathrm{size}()}} and \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{back}}.\\mathrm{size}()}} do not differ by more than a factor of 3. In particular, $3\\cdot\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{front}}.\\mathrm{size}()}} \\ge \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{back}}.\\mathrm{size}()}}$ and $3\\cdot\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{back}}.\\mathrm{size}()}} \\ge \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{front}}.\\mathrm{size}()}}$. Next we analyze the cost of \\ensuremath{\\ensuremath{\\mathrm{add}(\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{x}})}}, ignoring the cost of calls to \\ensuremath{\\ensuremath{\\mathrm{balance}()}}. If $\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{i}}}}<\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{front}}.\\mathrm{size}()}}$, then \\ensuremath{\\ensuremath{\\mathrm{add}(\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{x}})}} gets implemented by the call to $\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{front}}.\\mathrm{add}(\\ensuremath{\\mathit{front}}.\\mathrm{size}()-\\ensuremath{\\mathit{i}}-1,x})}$. Since \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{front}}}} is an ArrayStack, the cost of this is"
+    },
+    {
+      "id": "ods-000309-equation-begin-equation-o-ensuremath-ensurema",
+      "type": "equation",
+      "content": "\\begin{equation}\n  O(\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{front}}.\\mathrm{size}()}}-(\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{front}}.\\mathrm{size}()}}-\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{i}}}}-1)+1) = O(\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{i}}}}+1) \\enspace .\n  \\eqlabel{das-front}\n\\end{equation}"
+    },
+    {
+      "id": "ods-000310-paragraph-on-the-other-hand-if-ensuremath-ensu",
+      "type": "paragraph",
+      "content": "On the other hand, if $\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{i}}}}\\ge\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{front}}.\\mathrm{size}()}}$, then \\ensuremath{\\ensuremath{\\mathrm{add}(\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{x}})}} gets implemented as $\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{back}}.\\mathrm{add}(\\ensuremath{\\mathit{i}}-\\ensuremath{\\mathit{front}}.\\mathrm{size}(),x})}$. The cost of this is"
+    },
+    {
+      "id": "ods-000311-equation-begin-equation-o-ensuremath-ensurema",
+      "type": "equation",
+      "content": "\\begin{equation}\n  O(\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{back}}.\\mathrm{size}()}}-(\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{i}}}}-\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{front}}.\\mathrm{size}()}})+1) = O(\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}-\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{i}}}}+1) \\enspace .\n  \\eqlabel{das-back}\n\\end{equation}"
+    },
+    {
+      "id": "ods-000312-paragraph-notice-that-the-first-case-myeqref-d",
+      "type": "paragraph",
+      "content": "Notice that the first case \\myeqref{das-front} occurs when $\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{i}}}}<\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}/4$. The second case \\myeqref{das-back} occurs when $\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{i}}}}\\ge 3\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}/4$. When $\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}/4\\le\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{i}}}}<3\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}/4$, we cannot be sure whether the operation affects \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{front}}}} or \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{back}}}}, but in either case, the operation takes $O(\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}})=O(\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{i}}}})=O(\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}-\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{i}}}})$ time, since $\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{i}}}}\\ge \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}/4$ and $\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}-\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{i}}}}> \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}/4$. Summarizing the situation, we have"
+    },
+    {
+      "id": "ods-000313-equation-mbox-running-time-of-ensuremath-ensu",
+      "type": "equation",
+      "content": "\\[\n     \\mbox{Running time of } \\ensuremath{\\ensuremath{\\mathrm{add}(\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{x}})}} \\le \n          \\begin{cases}\n            O(1+ \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{i}}}}) & \\mbox{if $\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{i}}}}< \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}/4$} \\\\\n            O(\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}) & \\mbox{if $\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}/4 \\le \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{i}}}} < 3\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}/4$} \\\\\n            O(1+\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}-\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{i}}}}) & \\mbox{if $\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{i}}}} \\ge 3\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}/4$}\n          \\end{cases}\n\\]"
+    },
+    {
+      "id": "ods-000314-paragraph-thus-the-running-time-of-ensuremath-",
+      "type": "paragraph",
+      "content": "Thus, the running time of \\ensuremath{\\ensuremath{\\mathrm{add}(\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{x}})}}, if we ignore the cost of the call to \\ensuremath{\\ensuremath{\\mathrm{balance}()}}, is $O(1+\\min\\{\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{i}}}}, \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}-\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{i}}}}\\})$. The \\ensuremath{\\ensuremath{\\mathrm{remove}(\\ensuremath{\\mathit{i}})}} operation and its analysis resemble the \\ensuremath{\\ensuremath{\\mathrm{add}(\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{x}})}} operation and analysis."
+    },
+    {
+      "id": "ods-000315-algorithm-begin-flushleft-hspace-1em-ensuremat",
+      "type": "algorithm",
+      "content": "\\begin{flushleft}\n\\hspace*{1em} \\ensuremath{\\mathrm{remove}(\\ensuremath{\\mathit{i}})}\\\\\n\\hspace*{1em} \\hspace*{1em} {\\color{black} \\textbf{if}} \\ensuremath{\\ensuremath{\\mathit{i}} < \\ensuremath{\\mathit{front}}.\\mathrm{size}()} {\\color{black} \\textbf{then}} \\\\\n\\hspace*{1em} \\hspace*{1em} \\hspace*{1em} \\ensuremath{\\ensuremath{\\mathit{x}} \\gets  \\ensuremath{\\ensuremath{\\mathit{front}}.\\mathrm{remove}(\\ensuremath{\\mathit{front}}.\\mathrm{size}()-\\ensuremath{\\mathit{i}}-1})}\\\\\n\\hspace*{1em} \\hspace*{1em} {\\color{black} \\textbf{else}} \\\\\n\\hspace*{1em} \\hspace*{1em} \\hspace*{1em} \\ensuremath{\\ensuremath{\\mathit{x}} \\gets  \\ensuremath{\\ensuremath{\\mathit{back}}.\\mathrm{remove}(\\ensuremath{\\mathit{i}}-\\ensuremath{\\mathit{front}}.\\mathrm{size}()})}\\\\\n\\hspace*{1em} \\hspace*{1em} \\ensuremath{\\mathrm{balance}()}\\\\\n\\hspace*{1em} \\hspace*{1em} {\\color{black} \\textbf{return}} \\ensuremath{\\ensuremath{\\mathit{x}}}\\\\\n\\end{flushleft}"
+    }
+  ]
+}

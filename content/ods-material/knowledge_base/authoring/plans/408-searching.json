@@ -1,0 +1,330 @@
+{
+  "chapter": "408-searching",
+  "sections": [
+    {
+      "section_id": "cs408-search-basics",
+      "proposed_concepts": [
+        {
+          "temporary_id": "408-searching-candidate-001",
+          "proposed_title": "查找表、关键字与查找结果",
+          "core_question": "查找问题中的查找表、关键字、成功与失败分别是什么？",
+          "content_type": "concept",
+          "source_record_ids": [
+            "syllabus-note-cs408-search-concepts"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        },
+        {
+          "temporary_id": "408-searching-candidate-002",
+          "proposed_title": "平均查找长度",
+          "core_question": "平均查找长度如何衡量一次查找的期望比较次数？",
+          "content_type": "formula",
+          "source_record_ids": [
+            "syllabus-note-cs408-average-search-length"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        },
+        {
+          "temporary_id": "408-searching-candidate-030",
+          "proposed_title": "查找方法的分析与选择",
+          "core_question": "怎样根据有序性、动态更新、存储介质和查询类型选择查找结构？",
+          "content_type": "comparison",
+          "source_record_ids": [
+            "syllabus-note-cs408-search-method-selection"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        }
+      ]
+    },
+    {
+      "section_id": "cs408-linear-search",
+      "proposed_concepts": [
+        {
+          "temporary_id": "408-searching-candidate-003",
+          "proposed_title": "顺序查找",
+          "core_question": "顺序查找怎样在线性表中寻找目标关键字？",
+          "content_type": "algorithm",
+          "source_record_ids": [
+            "syllabus-note-cs408-sequential-search"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        },
+        {
+          "temporary_id": "408-searching-candidate-004",
+          "proposed_title": "带哨兵的顺序查找",
+          "core_question": "哨兵如何减少顺序查找循环中的边界判断？",
+          "content_type": "mechanism",
+          "source_record_ids": [
+            "syllabus-note-cs408-sequential-search-sentinel"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        },
+        {
+          "temporary_id": "408-searching-candidate-005",
+          "proposed_title": "分块查找",
+          "core_question": "分块查找如何用块间有序与块内无序折中查找成本？",
+          "content_type": "algorithm",
+          "source_record_ids": [
+            "syllabus-note-cs408-block-search"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        },
+        {
+          "temporary_id": "408-searching-candidate-006",
+          "proposed_title": "折半查找",
+          "core_question": "折半查找怎样利用有序顺序表不断缩小区间？",
+          "content_type": "algorithm",
+          "source_record_ids": [
+            "syllabus-note-cs408-binary-search"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        },
+        {
+          "temporary_id": "408-searching-candidate-007",
+          "proposed_title": "折半查找判定树与 ASL",
+          "core_question": "折半查找的比较过程如何对应判定树？",
+          "content_type": "theorem",
+          "source_record_ids": [
+            "syllabus-note-cs408-binary-search-decision-tree"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        },
+        {
+          "temporary_id": "408-searching-candidate-008",
+          "proposed_title": "二叉搜索树性质与查找",
+          "core_question": "二叉搜索树怎样利用关键字有序性查找？",
+          "content_type": "concept",
+          "source_record_ids": [
+            "syllabus-note-cs408-bst-property-search"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        },
+        {
+          "temporary_id": "408-searching-candidate-009",
+          "proposed_title": "二叉搜索树插入与删除",
+          "core_question": "BST 怎样插入新关键字并删除不同度数的结点？",
+          "content_type": "algorithm",
+          "source_record_ids": [
+            "syllabus-note-cs408-bst-insert-delete"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        },
+        {
+          "temporary_id": "408-searching-candidate-011",
+          "proposed_title": "AVL 的 LL、RR、LR、RL 旋转",
+          "core_question": "四类 AVL 失衡分别怎样通过旋转恢复？",
+          "content_type": "algorithm",
+          "source_record_ids": [
+            "syllabus-note-cs408-avl-rotations"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        },
+        {
+          "temporary_id": "408-searching-candidate-012",
+          "proposed_title": "AVL 插入与删除后的调整",
+          "core_question": "AVL 更新后为什么要沿搜索路径向上检查平衡？",
+          "content_type": "mechanism",
+          "source_record_ids": [
+            "syllabus-note-cs408-avl-updates"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        },
+        {
+          "temporary_id": "408-searching-candidate-014",
+          "proposed_title": "红黑树插入与删除调整",
+          "core_question": "红黑树更新后怎样用变色和旋转恢复性质？",
+          "content_type": "mechanism",
+          "source_record_ids": [
+            "syllabus-note-cs408-red-black-adjustment"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        },
+        {
+          "temporary_id": "408-searching-candidate-015",
+          "proposed_title": "B 树的阶、关键字数与平衡",
+          "core_question": "m 阶 B 树如何限制结点分支和关键字数量？",
+          "content_type": "concept",
+          "source_record_ids": [
+            "syllabus-note-cs408-b-tree-properties"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        },
+        {
+          "temporary_id": "408-searching-candidate-023",
+          "proposed_title": "链地址法处理散列冲突",
+          "core_question": "链地址法如何保存映射到同一散列地址的多个记录？",
+          "content_type": "algorithm",
+          "source_record_ids": [
+            "syllabus-note-cs408-separate-chaining"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        },
+        {
+          "temporary_id": "408-searching-candidate-024",
+          "proposed_title": "开放定址法与探测序列",
+          "core_question": "开放定址法如何在表内寻找冲突后的空槽？",
+          "content_type": "algorithm",
+          "source_record_ids": [
+            "syllabus-note-cs408-open-addressing"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        }
+      ]
+    },
+    {
+      "section_id": "cs408-tree-search",
+      "proposed_concepts": [
+        {
+          "temporary_id": "408-searching-candidate-010",
+          "proposed_title": "AVL 树的平衡条件与高度",
+          "core_question": "AVL 树如何用平衡因子限制树高？",
+          "content_type": "theorem",
+          "source_record_ids": [
+            "syllabus-note-cs408-avl-balance"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        },
+        {
+          "temporary_id": "408-searching-candidate-013",
+          "proposed_title": "红黑树的五条性质与黑高",
+          "core_question": "红黑树通过哪些颜色约束保持近似平衡？",
+          "content_type": "theorem",
+          "source_record_ids": [
+            "syllabus-note-cs408-red-black-properties"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        },
+        {
+          "temporary_id": "408-searching-candidate-016",
+          "proposed_title": "B 树查找",
+          "core_question": "B 树查找怎样在结点内比较并选择下一孩子？",
+          "content_type": "algorithm",
+          "source_record_ids": [
+            "syllabus-note-cs408-b-tree-search"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        },
+        {
+          "temporary_id": "408-searching-candidate-017",
+          "proposed_title": "B 树插入与分裂",
+          "core_question": "B 树插入溢出时怎样分裂结点并向上提升关键字？",
+          "content_type": "algorithm",
+          "source_record_ids": [
+            "syllabus-note-cs408-b-tree-insertion"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        },
+        {
+          "temporary_id": "408-searching-candidate-018",
+          "proposed_title": "B 树删除、借位与合并",
+          "core_question": "B 树删除导致关键字不足时怎样恢复下界？",
+          "content_type": "algorithm",
+          "source_record_ids": [
+            "syllabus-note-cs408-b-tree-deletion"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        },
+        {
+          "temporary_id": "408-searching-candidate-019",
+          "proposed_title": "B+ 树的索引与叶链",
+          "core_question": "B+ 树为什么把完整记录或关键字集中在叶结点？",
+          "content_type": "concept",
+          "source_record_ids": [
+            "syllabus-note-cs408-b-plus-tree"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        },
+        {
+          "temporary_id": "408-searching-candidate-020",
+          "proposed_title": "B 树与 B+ 树比较",
+          "core_question": "B 树和 B+ 树在数据位置、查找终点与范围访问上有什么区别？",
+          "content_type": "comparison",
+          "source_record_ids": [
+            "syllabus-note-cs408-b-tree-vs-b-plus"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        }
+      ]
+    },
+    {
+      "section_id": "cs408-hash-search",
+      "proposed_concepts": [
+        {
+          "temporary_id": "408-searching-candidate-021",
+          "proposed_title": "散列表与直接地址思想",
+          "core_question": "散列表如何由关键字直接计算存储位置？",
+          "content_type": "concept",
+          "source_record_ids": [
+            "syllabus-note-cs408-hash-table"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        },
+        {
+          "temporary_id": "408-searching-candidate-022",
+          "proposed_title": "散列函数设计",
+          "core_question": "怎样设计能均匀分布关键字的散列函数？",
+          "content_type": "mechanism",
+          "source_record_ids": [
+            "syllabus-note-cs408-hash-functions"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        },
+        {
+          "temporary_id": "408-searching-candidate-025",
+          "proposed_title": "散列表装填因子与查找性能",
+          "core_question": "装填因子怎样影响散列冲突和平均查找长度？",
+          "content_type": "theorem",
+          "source_record_ids": [
+            "syllabus-note-cs408-hash-load-factor-asl"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        }
+      ]
+    },
+    {
+      "section_id": "cs408-string-search",
+      "proposed_concepts": [
+        {
+          "temporary_id": "408-searching-candidate-026",
+          "proposed_title": "朴素字符串模式匹配",
+          "core_question": "BF 模式匹配怎样逐个尝试文本起点？",
+          "content_type": "algorithm",
+          "source_record_ids": [
+            "syllabus-note-cs408-brute-force-string-matching"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        },
+        {
+          "temporary_id": "408-searching-candidate-027",
+          "proposed_title": "KMP 的最长相等前后缀",
+          "core_question": "KMP 如何用模式串自身的前后缀信息避免文本回退？",
+          "content_type": "mechanism",
+          "source_record_ids": [
+            "syllabus-note-cs408-kmp-prefix-function"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        },
+        {
+          "temporary_id": "408-searching-candidate-028",
+          "proposed_title": "KMP 模式匹配",
+          "core_question": "KMP 怎样在线性时间内完成文本与模式匹配？",
+          "content_type": "algorithm",
+          "source_record_ids": [
+            "syllabus-note-cs408-kmp-matching"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        },
+        {
+          "temporary_id": "408-searching-candidate-029",
+          "proposed_title": "KMP 的 next 与 nextval 数组",
+          "core_question": "不同教材中的 next、前缀函数和 nextval 为什么下标值可能不同？",
+          "content_type": "formula",
+          "source_record_ids": [
+            "syllabus-note-cs408-next-nextval"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        }
+      ]
+    }
+  ]
+}

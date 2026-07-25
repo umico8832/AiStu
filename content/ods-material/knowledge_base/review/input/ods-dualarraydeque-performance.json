@@ -1,0 +1,119 @@
+{
+  "concept": {
+    "id": "ods-dualarraydeque-performance",
+    "title": "DualArrayDeque 的操作复杂度",
+    "aliases": [
+      "DualArrayDeque complexity",
+      "双栈双端队列复杂度"
+    ],
+    "content_type": "theorem",
+    "location": {
+      "course_id": "open-data-structures",
+      "chapter_id": "array-based-lists",
+      "section_id": "2-5-2-summary",
+      "parent_id": null,
+      "order": 23
+    },
+    "core_question": "DualArrayDeque 是否达到与 ArrayDeque 相同的渐近性能？",
+    "summary": "它的 get/set 为 O(1)，按位更新为 O(1+min(i,n-i))，resize 与 balance 总成本均可线性摊还。",
+    "definition": "DualArrayDeque 实现 List 接口时，get 与 set 为 $O(1)$；忽略内部 resize 和 balance，add(i,x) 与 remove(i) 为 $O(1+\\min\\{i,n-i\\})$。从空结构开始的 m 次更新中，所有 resize 与 balance 总时间为 $O(m)$，渐近性能与 ArrayDeque 相同。",
+    "prerequisite_ids": [
+      "ods-dualarraydeque-end-operations",
+      "ods-dualarraydeque-amortized-balance"
+    ],
+    "relations": [
+      {
+        "type": "related",
+        "target_id": "ods-arraydeque-performance",
+        "description": "两种结构实现机制不同，但达到相同的按位置更新复杂度界。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "一条双向通道既可由一个环形设施实现，也可由两条背靠背的通道拼成；内部结构不同，但到两端的路程等级相同。",
+      "mapping": {
+        "环形设施": "ArrayDeque",
+        "背靠背通道": "DualArrayDeque",
+        "路程等级": "渐近复杂度"
+      },
+      "boundary": "相同的渐近复杂度不表示常数开销、内存布局或实际速度相同。"
+    },
+    "retrieval": {
+      "keywords": [
+        "DualArrayDeque 的操作复杂度",
+        "DualArrayDeque complexity",
+        "双栈双端队列复杂度"
+      ],
+      "query_examples": [
+        "DualArrayDeque 是否达到与 ArrayDeque 相同的渐近性能？",
+        "DualArrayDeque 的操作复杂度怎么理解",
+        "DualArrayDeque 的操作复杂度的关键条件是什么"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "ods-000327-paragraph-the-following-theorem-summarizes-the",
+      "ods-000328-theorem-thmlabel-dualarraydeque-a-dualarrayd",
+      "ods-000329-list-item-ensuremath-ensuremath-mathrm-ge",
+      "ods-000330-list_item-ensuremath-ensuremath-mathrm-get-ens",
+      "ods-000331-list_item-ensuremath-ensuremath-mathrm-add-ens"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "ods-dualarraydeque-end-operations",
+      "title": "DualArrayDeque 的按位更新",
+      "core_question": "DualArrayDeque 如何把按位插入删除转交给正确的内部栈？",
+      "summary": "位置落在前半段时用反向下标操作 front，否则用偏移后的下标操作 back，随后检查平衡。",
+      "definition": "DualArrayDeque 根据 i 是否小于 front.size() 选择内部栈。前半段使用反向下标，后半段使用减去 front.size() 的局部下标；add 与 remove 完成后调用 balance。忽略平衡成本，更新时间为 $O(1+\\min\\{i,n-i\\})$。",
+      "content_type": "algorithm"
+    },
+    {
+      "id": "ods-dualarraydeque-amortized-balance",
+      "title": "DualArrayDeque 再平衡的摊还成本",
+      "core_question": "为什么 DualArrayDeque 的线性再平衡成本可以摊还为每次更新 O(1)？",
+      "summary": "再平衡后两栈大小几乎相等，再次失衡前需积累 Ω(n) 次更新，足以分摊 O(n) 搬移。",
+      "definition": "从空 DualArrayDeque 开始执行 m 次 add 与 remove，所有 balance 重建的总时间为 $O(m)$。可用势能 $\\Phi=|front.size()-back.size()|$ 说明：重建后 $\\Phi\\le1$，单次未重建更新最多让势能增加 1，而触发三倍失衡时势能大于 n/2，因此两次重建之间有与 n 同阶的更新。",
+      "content_type": "theorem"
+    },
+    {
+      "id": "ods-arraydeque-performance",
+      "title": "ArrayDeque 的操作复杂度",
+      "core_question": "ArrayDeque 为什么能在两端附近高效插入和删除？",
+      "summary": "get/set 为 O(1)，add/remove(i) 为 O(1+min(i,n-i))，容量调整总成本可线性摊还。",
+      "definition": "ArrayDeque 实现 List 接口时，get 与 set 为 $O(1)$；忽略 resize，add(i,x) 与 remove(i) 为 $O(1+\\min\\{i,n-i\\})$。从空结构开始的 m 次更新中，所有 resize 总时间为 $O(m)$，因此两端位置的更新具有常数摊还时间。",
+      "content_type": "theorem"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "ods-000327-paragraph-the-following-theorem-summarizes-the",
+      "type": "paragraph",
+      "content": "The following theorem summarizes the properties of a DualArrayDeque:"
+    },
+    {
+      "id": "ods-000328-theorem-thmlabel-dualarraydeque-a-dualarrayd",
+      "type": "theorem",
+      "content": "\\thmlabel{dualarraydeque} A DualArrayDeque implements the List interface. Ignoring the cost of calls to \\ensuremath{\\ensuremath{\\mathrm{resize}()}} and \\ensuremath{\\ensuremath{\\mathrm{balance}()}}, a DualArrayDeque supports the operations \\begin{itemize} \\item \\ensuremath{\\ensuremath{\\mathrm{get}(\\ensuremath{\\mathit{i}})}} and \\ensuremath{\\ensuremath{\\mathrm{set}(\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{x}})}} in $O(1)$ time per operation; and \\item \\ensuremath{\\ensuremath{\\mathrm{add}(\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{x}})}} and \\ensuremath{\\ensuremath{\\mathrm{remove}(\\ensuremath{\\mathit{i}})}} in $O(1+\\min\\{\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{i}}}},\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}-\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{i}}}}\\})$ time per operation. \\end{itemize} Furthermore, beginning with an empty DualArrayDeque, any sequence of $m$ \\ensuremath{\\ensuremath{\\mathrm{add}(\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{x}})}} and \\ensuremath{\\ensuremath{\\mathrm{remove}(\\ensuremath{\\mathit{i}})}} operations results in a total of $O(m)$ time spent during all calls to \\ensuremath{\\ensuremath{\\mathrm{resize}()}} and \\ensuremath{\\ensuremath{\\mathrm{balance}()}}."
+    },
+    {
+      "id": "ods-000329-list-item-ensuremath-ensuremath-mathrm-ge",
+      "type": "list",
+      "content": "\\item \\ensuremath{\\ensuremath{\\mathrm{get}(\\ensuremath{\\mathit{i}})}} and \\ensuremath{\\ensuremath{\\mathrm{set}(\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{x}})}} in $O(1)$ time per operation; and \\item \\ensuremath{\\ensuremath{\\mathrm{add}(\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{x}})}} and \\ensuremath{\\ensuremath{\\mathrm{remove}(\\ensuremath{\\mathit{i}})}} in $O(1+\\min\\{\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{i}}}},\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}-\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{i}}}}\\})$ time per operation."
+    },
+    {
+      "id": "ods-000330-list_item-ensuremath-ensuremath-mathrm-get-ens",
+      "type": "list_item",
+      "content": "\\ensuremath{\\ensuremath{\\mathrm{get}(\\ensuremath{\\mathit{i}})}} and \\ensuremath{\\ensuremath{\\mathrm{set}(\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{x}})}} in $O(1)$ time per operation; and"
+    },
+    {
+      "id": "ods-000331-list_item-ensuremath-ensuremath-mathrm-add-ens",
+      "type": "list_item",
+      "content": "\\ensuremath{\\ensuremath{\\mathrm{add}(\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{x}})}} and \\ensuremath{\\ensuremath{\\mathrm{remove}(\\ensuremath{\\mathit{i}})}} in $O(1+\\min\\{\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{i}}}},\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}-\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{i}}}}\\})$ time per operation."
+    }
+  ]
+}

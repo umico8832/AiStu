@@ -1,0 +1,85 @@
+{
+  "concept": {
+    "id": "cs408-tree-terms",
+    "title": "树的结点、度、层次与路径",
+    "aliases": [
+      "tree terminology",
+      "node degree"
+    ],
+    "content_type": "concept",
+    "location": {
+      "course_id": "cs408-data-structures",
+      "chapter_id": "408-trees",
+      "section_id": "cs408-tree-basics",
+      "parent_id": null,
+      "order": 1
+    },
+    "core_question": "树结构中的根、父子、度、层次、高度和路径分别是什么？",
+    "summary": "树是由一个根和若干互不相交子树构成的层次结构，术语描述结点关系与整体形态。",
+    "definition": "非空树有唯一根结点；除根外每个结点有唯一父结点。结点的子树数称为度，树的度是各结点度的最大值；叶结点度为 0。层次从根开始计数，高度是最大层次或最长向下路径长度，具体采用结点数还是边数必须说明。",
+    "prerequisite_ids": [
+      "cs408-logical-storage-operations"
+    ],
+    "relations": [
+      {
+        "type": "part_of",
+        "target_id": "cs408-syllabus-trees",
+        "description": "树的结点、度、层次与路径是树和二叉树考纲模块中的原子知识点。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "像组织架构图：最高负责人是根，每人只有一个直属上级但可有多个下属。",
+      "mapping": {
+        "直观对象": "树的结点、度、层次与路径",
+        "对应机制": "树是由一个根和若干互不相交子树构成的层次结构，术语描述结点关系与整体形态。"
+      },
+      "boundary": "类比只用于建立直觉；正式作答仍需使用定义、操作步骤、适用条件和复杂度结论。"
+    },
+    "retrieval": {
+      "keywords": [
+        "树的结点、度、层次与路径",
+        "tree terminology",
+        "node degree"
+      ],
+      "query_examples": [
+        "树结构中的根、父子、度、层次、高度和路径分别是什么？",
+        "树的结点、度、层次与路径的步骤、性质和复杂度是什么？",
+        "树的结点、度、层次与路径有哪些适用条件和易错边界？"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "syllabus-note-cs408-tree-terms"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "cs408-logical-storage-operations",
+      "title": "数据结构的逻辑结构、存储结构与运算",
+      "core_question": "数据结构为什么要同时描述逻辑关系、存储方式和运算？",
+      "summary": "同一逻辑结构可以有不同存储实现，基本运算的实现与复杂度由具体存储结构决定。",
+      "definition": "数据结构包含数据元素之间的逻辑关系、这些关系在计算机中的存储表示，以及定义在结构上的运算。逻辑结构回答元素如何关联，存储结构回答关联如何落到内存，运算说明结构允许怎样被访问和修改。",
+      "content_type": "concept"
+    },
+    {
+      "id": "cs408-syllabus-trees",
+      "title": "408 考纲：树和二叉树范围",
+      "core_question": "408 树和二叉树模块覆盖哪些结构与应用？",
+      "summary": "该模块覆盖树与二叉树性质、存储和遍历，线索化、森林转换，以及 Huffman、并查集和堆等应用。",
+      "definition": "408 的树和二叉树模块包括树的基本概念，二叉树的定义、性质、顺序与链式存储、遍历和线索化，树与森林的存储、转换和遍历，以及 Huffman 树与编码、并查集和堆的应用。复习需要同时具备性质计算、结构转换、手工过程和算法实现能力。",
+      "content_type": "concept"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "syllabus-note-cs408-tree-terms",
+      "type": "paragraph",
+      "content": "树是由一个根和若干互不相交子树构成的层次结构，术语描述结点关系与整体形态。\n\n非空树有唯一根结点；除根外每个结点有唯一父结点。结点的子树数称为度，树的度是各结点度的最大值；叶结点度为 0。层次从根开始计数，高度是最大层次或最长向下路径长度，具体采用结点数还是边数必须说明。\n\n对应 2026 数据结构考纲叶子条目：树的基本概念。"
+    }
+  ]
+}

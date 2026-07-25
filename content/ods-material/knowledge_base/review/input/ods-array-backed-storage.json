@@ -1,0 +1,120 @@
+{
+  "concept": {
+    "id": "ods-array-backed-storage",
+    "title": "数组后备存储的共同特征",
+    "aliases": [
+      "后备数组",
+      "backing array",
+      "数组式存储"
+    ],
+    "content_type": "concept",
+    "location": {
+      "course_id": "open-data-structures",
+      "chapter_id": "array-based-lists",
+      "section_id": "2-1-arraystack",
+      "parent_id": null,
+      "order": 1
+    },
+    "core_question": "用数组作为后备存储会带来哪些共同的性能与空间特征？",
+    "summary": "数组后备存储支持常数时间随机访问，但中间更新需要搬移元素，容量调整的偶发成本需摊还分析。",
+    "definition": "数组后备存储是用一个或多个数组保存线性序列元素的实现方式。它利用数组按下标直接定位元素，同时受连续槽位和固定数组长度约束；插入、删除可能搬移元素，容量不足或空闲过多时还要调整存储空间。",
+    "prerequisite_ids": [],
+    "relations": [
+      {
+        "type": "leads_to",
+        "target_id": "ods-array-size-capacity",
+        "description": "理解《数组后备存储的共同特征》是继续学习目标知识点的直接基础。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "它像一排带编号的固定座位：按号码找座位很快，但在中间加减座位会让一侧的人移动，座位不够时还要换更大的排。",
+      "mapping": {
+        "编号座位": "数组下标",
+        "移动一侧的人": "搬移数组元素",
+        "换更大的排": "调整后备数组容量"
+      },
+      "boundary": "类比只解释寻址、搬移和容量变化，不表示数组元素在物理环境中真的由人逐个搬运。"
+    },
+    "retrieval": {
+      "keywords": [
+        "数组后备存储的共同特征",
+        "后备数组",
+        "backing array",
+        "数组式存储"
+      ],
+      "query_examples": [
+        "用数组作为后备存储会带来哪些共同的性能与空间特征？",
+        "数组后备存储的共同特征怎么理解",
+        "数组后备存储的共同特征的关键条件是什么"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "ods-000207-paragraph-chaplabel-arrays-in-this-chapter-we-",
+      "ods-000209-table-begin-tabular-l-l-l-hline-ensuremath",
+      "ods-000211-paragraph-data-structures-that-work-by-storing",
+      "ods-000212-list-item-arrays-offer-constant-time-acce",
+      "ods-000213-list_item-arrays-offer-constant-time-access-to",
+      "ods-000214-list_item-arrays-are-not-very-dynamic-adding-o",
+      "ods-000215-list_item-arrays-cannot-expand-or-shrink-when-",
+      "ods-000216-paragraph-the-third-point-is-important-the-run"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "ods-array-size-capacity",
+      "title": "元素数量与数组容量",
+      "core_question": "数组式线性表中的元素数量与后备数组容量有什么区别？",
+      "summary": "元素数量 n 只统计有效元素，容量 length(a) 是可用槽位总数，必须始终满足 n 不超过容量。",
+      "definition": "在数组式线性表中，元素数量 n 表示当前有效元素个数，后备数组容量 length(a) 表示已分配槽位总数。有效元素只占其中一部分，基本不变量是 $0\\le n\\le \\mathrm{length}(a)$；空闲槽位不是逻辑元素。",
+      "content_type": "concept"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "ods-000207-paragraph-chaplabel-arrays-in-this-chapter-we-",
+      "type": "paragraph",
+      "content": "\\chaplabel{arrays} In this chapter, we will study implementations of the List and Queue interfaces where the underlying data is stored in an array, called the \\emph{backing array}. \\index{backing array} The following table summarizes the running times of operations for the data structures presented in this chapter: \\newlength{\\tabsep} \\setlength{\\tabsep}{\\itemsep} \\addtolength{\\tabsep}{\\parsep} \\addtolength{\\tabsep}{-2pt}"
+    },
+    {
+      "id": "ods-000209-table-begin-tabular-l-l-l-hline-ensuremath",
+      "type": "table",
+      "content": "\\begin{tabular}{|l|l|l|} \\hline\n & \\ensuremath{\\ensuremath{\\mathrm{get}(\\ensuremath{\\mathit{i}})}}/\\ensuremath{\\ensuremath{\\mathrm{set}(\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{x}})}} & \\ensuremath{\\ensuremath{\\mathrm{add}(\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{x}})}}/\\ensuremath{\\ensuremath{\\mathrm{remove}(\\ensuremath{\\mathit{i}})}} \\\\ \\hline\nArrayStack & $O(1)$ & $O(\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}-\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{i}}}})$ \\\\\nArrayDeque & $O(1)$ & $O(\\min\\{\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{i}}}},\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}-\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{i}}}}\\})$ \\\\\nDualArrayDeque & $O(1)$ & $O(\\min\\{\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{i}}}},\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}-\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{i}}}}\\})$ \\\\\nRootishArrayStack & $O(1)$ & $O(\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}-\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{i}}}})$ \\\\ \\hline\n\\end{tabular}"
+    },
+    {
+      "id": "ods-000211-paragraph-data-structures-that-work-by-storing",
+      "type": "paragraph",
+      "content": "Data structures that work by storing data in a single array have many advantages and limitations in common: \\index{arrays}"
+    },
+    {
+      "id": "ods-000212-list-item-arrays-offer-constant-time-acce",
+      "type": "list",
+      "content": "\\item Arrays offer constant time access to any value in the array. This is what allows \\ensuremath{\\ensuremath{\\mathrm{get}(\\ensuremath{\\mathit{i}})}} and \\ensuremath{\\ensuremath{\\mathrm{set}(\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{x}})}} to run in constant time. \\item Arrays are not very dynamic. Adding or removing an element near the middle of a list means that a large number of elements in the array need to be shifted to make room for the newly added element or to fill in the gap created by the deleted element. This is why the operations \\ensuremath{\\ensuremath{\\mathrm{add}(\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{x}})}} and \\ensuremath{\\ensuremath{\\mathrm{remove}(\\ensuremath{\\mathit{i}})}} have running times that depend on \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}} and \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{i}}}}. \\item Arrays cannot expand or shrink. When the number of elements in the data structure exceeds the size of the backing array, a new array needs to be allocated and the data from the old array needs to be copied into the new array. This is an expensive operation."
+    },
+    {
+      "id": "ods-000213-list_item-arrays-offer-constant-time-access-to",
+      "type": "list_item",
+      "content": "Arrays offer constant time access to any value in the array. This is what allows \\ensuremath{\\ensuremath{\\mathrm{get}(\\ensuremath{\\mathit{i}})}} and \\ensuremath{\\ensuremath{\\mathrm{set}(\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{x}})}} to run in constant time."
+    },
+    {
+      "id": "ods-000214-list_item-arrays-are-not-very-dynamic-adding-o",
+      "type": "list_item",
+      "content": "Arrays are not very dynamic. Adding or removing an element near the middle of a list means that a large number of elements in the array need to be shifted to make room for the newly added element or to fill in the gap created by the deleted element. This is why the operations \\ensuremath{\\ensuremath{\\mathrm{add}(\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{x}})}} and \\ensuremath{\\ensuremath{\\mathrm{remove}(\\ensuremath{\\mathit{i}})}} have running times that depend on \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}} and \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{i}}}}."
+    },
+    {
+      "id": "ods-000215-list_item-arrays-cannot-expand-or-shrink-when-",
+      "type": "list_item",
+      "content": "Arrays cannot expand or shrink. When the number of elements in the data structure exceeds the size of the backing array, a new array needs to be allocated and the data from the old array needs to be copied into the new array. This is an expensive operation."
+    },
+    {
+      "id": "ods-000216-paragraph-the-third-point-is-important-the-run",
+      "type": "paragraph",
+      "content": "The third point is important. The running times cited in the table above do not include the cost associated with growing and shrinking the backing array. We will see that, if carefully managed, the cost of growing and shrinking the backing array does not add much to the cost of an \\emph{average} operation. More precisely, if we start with an empty data structure, and perform any sequence of $m$ \\ensuremath{\\ensuremath{\\mathrm{add}(\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{x}})}} or \\ensuremath{\\ensuremath{\\mathrm{remove}(\\ensuremath{\\mathit{i}})}} operations, then the total cost of growing and shrinking the backing array, over the entire sequence of $m$ operations is $O(m)$. Although some individual operations are more expensive, the amortized cost, when amortized over all $m$ operations, is only $O(1)$ per operation."
+    }
+  ]
+}

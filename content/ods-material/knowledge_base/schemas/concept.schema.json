@@ -1,0 +1,150 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "kaleidoscope-kb/concept-2.0.0",
+  "title": "Kaleidoscope standard knowledge-base concept",
+  "type": "object",
+  "required": [
+    "id",
+    "title",
+    "aliases",
+    "content_type",
+    "location",
+    "core_question",
+    "summary",
+    "definition",
+    "prerequisite_ids",
+    "relations",
+    "rookie_explanation",
+    "retrieval",
+    "visualization_ids",
+    "quality",
+    "version"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "minLength": 5,
+      "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)+$"
+    },
+    "title": {"type": "string", "minLength": 2},
+    "aliases": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1}
+    },
+    "content_type": {
+      "enum": [
+        "concept",
+        "mechanism",
+        "algorithm",
+        "formula",
+        "theorem",
+        "comparison",
+        "application"
+      ]
+    },
+    "location": {
+      "type": "object",
+      "required": ["course_id", "chapter_id", "section_id", "order"],
+      "properties": {
+        "course_id": {"type": "string", "minLength": 1},
+        "chapter_id": {"type": "string", "minLength": 1},
+        "section_id": {"type": ["string", "null"]},
+        "parent_id": {"type": ["string", "null"]},
+        "order": {"type": "integer", "minimum": 1}
+      },
+      "additionalProperties": false
+    },
+    "core_question": {"type": "string", "minLength": 5},
+    "summary": {"type": "string", "minLength": 10},
+    "definition": {"type": "string", "minLength": 30},
+    "prerequisite_ids": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 5}
+    },
+    "relations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["type", "target_id", "description"],
+        "properties": {
+          "type": {
+            "enum": ["part_of", "leads_to", "often_confused_with", "related"]
+          },
+          "target_id": {"type": "string", "minLength": 5},
+          "description": {"type": "string", "minLength": 10}
+        },
+        "additionalProperties": false
+      }
+    },
+    "rookie_explanation": {
+      "type": "object",
+      "required": ["analogy", "mapping", "boundary"],
+      "properties": {
+        "analogy": {"type": "string", "minLength": 20},
+        "mapping": {"type": "object"},
+        "boundary": {"type": "string", "minLength": 15}
+      },
+      "additionalProperties": false
+    },
+    "retrieval": {
+      "type": "object",
+      "required": ["keywords", "query_examples"],
+      "properties": {
+        "keywords": {
+          "type": "array",
+          "minItems": 3,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "query_examples": {
+          "type": "array",
+          "minItems": 3,
+          "items": {"type": "string", "minLength": 4}
+        }
+      },
+      "additionalProperties": false
+    },
+    "visualization_ids": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1}
+    },
+    "source_record_ids": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": "string", "minLength": 5}
+    },
+    "quality": {
+      "type": "object",
+      "required": ["status", "issues"],
+      "properties": {
+        "status": {
+          "enum": [
+            "planned",
+            "generated",
+            "review_pending",
+            "revision_required",
+            "reviewed",
+            "published"
+          ]
+        },
+        "issues": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["severity", "type", "description"],
+            "properties": {
+              "severity": {"enum": ["low", "medium", "high", "critical"]},
+              "type": {"type": "string", "minLength": 1},
+              "field": {"type": "string"},
+              "description": {"type": "string", "minLength": 1},
+              "suggested_fix": {"type": "string"}
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "version": {"type": "integer", "minimum": 1}
+  },
+  "additionalProperties": false
+}

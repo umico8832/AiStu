@@ -1,0 +1,85 @@
+{
+  "concept": {
+    "id": "cs408-algorithm-correctness",
+    "title": "算法正确性与边界条件",
+    "aliases": [
+      "correctness proof",
+      "循环不变式"
+    ],
+    "content_type": "theorem",
+    "location": {
+      "course_id": "cs408-data-structures",
+      "chapter_id": "408-basic-concepts",
+      "section_id": "cs408-basic-algorithm",
+      "parent_id": null,
+      "order": 5
+    },
+    "core_question": "怎样说明算法对所有合法输入都正确？",
+    "summary": "正确性要求算法终止，并对每个满足前置条件的输入产生满足后置条件的结果。",
+    "definition": "算法正确性不能只由少数样例证明。完整论证通常包含：明确输入前置条件与输出后置条件；证明循环不变式或递归归纳关系在初始化、保持和终止时成立；同时检查空输入、最小规模、最大边界和重复元素等特殊情况。",
+    "prerequisite_ids": [
+      "cs408-algorithm-characteristics"
+    ],
+    "relations": [
+      {
+        "type": "part_of",
+        "target_id": "cs408-syllabus-basic-concepts",
+        "description": "算法正确性与边界条件是基本概念考纲模块中的原子知识点。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "像证明一座桥安全，不能只让几辆车通过，而要说明设计约束在所有允许载荷下都成立。",
+      "mapping": {
+        "直观对象": "算法正确性与边界条件",
+        "对应机制": "正确性要求算法终止，并对每个满足前置条件的输入产生满足后置条件的结果。"
+      },
+      "boundary": "类比只用于建立直觉；正式作答仍需使用定义、操作步骤、适用条件和复杂度结论。"
+    },
+    "retrieval": {
+      "keywords": [
+        "算法正确性与边界条件",
+        "correctness proof",
+        "循环不变式"
+      ],
+      "query_examples": [
+        "怎样说明算法对所有合法输入都正确？",
+        "算法正确性与边界条件的步骤、性质和复杂度是什么？",
+        "算法正确性与边界条件有哪些适用条件和易错边界？"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "syllabus-note-cs408-algorithm-correctness"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "cs408-algorithm-characteristics",
+      "title": "算法的定义与基本特性",
+      "core_question": "一个过程具备哪些条件才能称为算法？",
+      "summary": "算法是解决一类问题的有限、确定、可行步骤序列，具有输入、输出并能在有限执行后终止。",
+      "definition": "算法是对特定问题求解步骤的有限描述。通常要求步骤具有有穷性、确定性和可行性，允许零个或多个输入，至少产生一个输出；同一问题可以有多个正确算法，再按资源成本比较优劣。",
+      "content_type": "concept"
+    },
+    {
+      "id": "cs408-syllabus-basic-concepts",
+      "title": "408 考纲：基本概念范围",
+      "core_question": "408 数据结构的基本概念模块覆盖什么？",
+      "summary": "基本概念模块覆盖数据结构和算法的基本概念，并为逻辑结构、存储结构、操作实现与复杂度分析奠定语言基础。",
+      "definition": "408 数据结构考纲的基本概念模块显式包含数据结构的基本概念和算法的基本概念。结合考查目标，复习时需要能区分逻辑结构与存储结构，理解基本操作和算法特性，并能用时间复杂度、空间复杂度与渐进数量级评价算法。",
+      "content_type": "concept"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "syllabus-note-cs408-algorithm-correctness",
+      "type": "paragraph",
+      "content": "正确性要求算法终止，并对每个满足前置条件的输入产生满足后置条件的结果。\n\n算法正确性不能只由少数样例证明。完整论证通常包含：明确输入前置条件与输出后置条件；证明循环不变式或递归归纳关系在初始化、保持和终止时成立；同时检查空输入、最小规模、最大边界和重复元素等特殊情况。\n\n对应 2026 数据结构考纲叶子条目：算法的基本概念。"
+    }
+  ]
+}

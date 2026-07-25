@@ -1,0 +1,122 @@
+{
+  "generated_at": "2026-07-25T06:20:33.694697Z",
+  "total_concepts_internal": 169,
+  "total_concepts_published": 169,
+  "total_relations": 363,
+  "total_rag_chunks": 676,
+  "checks": [
+    {
+      "check": "taxonomy_exists",
+      "passed": true,
+      "details": [
+        "knowledge_base/taxonomy.json"
+      ]
+    },
+    {
+      "check": "internal_concepts_present",
+      "passed": true,
+      "details": []
+    },
+    {
+      "check": "all_jsonl_parseable",
+      "passed": true,
+      "details": []
+    },
+    {
+      "check": "all_objects_pass_schema",
+      "passed": true,
+      "details": []
+    },
+    {
+      "check": "concept_ids_globally_unique",
+      "passed": true,
+      "details": []
+    },
+    {
+      "check": "published_is_exact_internal_projection",
+      "passed": true,
+      "details": []
+    },
+    {
+      "check": "relation_targets_exist",
+      "passed": true,
+      "details": []
+    },
+    {
+      "check": "prerequisite_ids_exist",
+      "passed": true,
+      "details": []
+    },
+    {
+      "check": "prerequisites_acyclic",
+      "passed": true,
+      "details": []
+    },
+    {
+      "check": "no_self_reference",
+      "passed": true,
+      "details": []
+    },
+    {
+      "check": "single_core_question",
+      "passed": true,
+      "details": []
+    },
+    {
+      "check": "definition_not_empty",
+      "passed": true,
+      "details": []
+    },
+    {
+      "check": "analogy_not_empty",
+      "passed": true,
+      "details": []
+    },
+    {
+      "check": "boundary_not_empty",
+      "passed": true,
+      "details": []
+    },
+    {
+      "check": "query_examples_at_least_3",
+      "passed": true,
+      "details": []
+    },
+    {
+      "check": "published_free_of_internal_paths",
+      "passed": true,
+      "details": []
+    },
+    {
+      "check": "rag_chunks_link_to_published_concepts",
+      "passed": true,
+      "details": []
+    },
+    {
+      "check": "rag_is_exact_published_derivative",
+      "passed": true,
+      "details": []
+    },
+    {
+      "check": "taxonomy_references_valid",
+      "passed": true,
+      "details": []
+    },
+    {
+      "check": "no_user_state_fields",
+      "passed": true,
+      "details": []
+    },
+    {
+      "check": "no_context_dependent_phrases",
+      "passed": true,
+      "details": []
+    },
+    {
+      "check": "no_deleted_figure_references",
+      "passed": true,
+      "details": []
+    }
+  ],
+  "all_passed": true
+}

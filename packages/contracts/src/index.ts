@@ -8,6 +8,18 @@ export const VISUALIZATION_ID_ARRAYQUEUE_REPRESENTATION =
   "ods.arrayqueue-representation.v1" as const;
 export const VISUALIZATION_ID_DUALARRAYDEQUE_BALANCE =
   "ods.dualarraydeque-balance.v1" as const;
+export const VISUALIZATION_ID_CS408_BINARY_TREE_TRAVERSAL =
+  "cs408.binary-tree-traversal.v1" as const;
+export const VISUALIZATION_ID_CS408_GRAPH_TRAVERSAL =
+  "cs408.graph-traversal.v1" as const;
+export const VISUALIZATION_ID_CS408_BINARY_SEARCH =
+  "cs408.binary-search.v1" as const;
+export const VISUALIZATION_ID_CS408_AVL_ROTATION =
+  "cs408.avl-rotation.v1" as const;
+export const VISUALIZATION_ID_CS408_KMP_MATCHING =
+  "cs408.kmp-matching.v1" as const;
+export const VISUALIZATION_ID_CS408_QUICK_SORT_PARTITION =
+  "cs408.quick-sort-partition.v1" as const;
 
 /**
  * A learning lens changes how an unchanged knowledge object is presented.
@@ -44,6 +56,7 @@ export const ipcChannels = {
   chatSend: "kaleidoscope:chat:send",
   chatCancel: "kaleidoscope:chat:cancel",
   chatEvent: "kaleidoscope:chat:event",
+  knowledgeCourseLoad: "kaleidoscope:knowledge:course-load",
   persistenceLoad: "kaleidoscope:persistence:load",
   persistenceSave: "kaleidoscope:persistence:save",
 } as const;
@@ -62,10 +75,24 @@ export const knowledgeChunkTypeSchema = z.enum([
   "recall",
 ]);
 
+const knowledgeConceptIdSchema = z
+  .string()
+  .min(5)
+  .max(120)
+  .regex(/^[a-z][a-z0-9]*(?:-[a-z0-9]+)+$/u);
+
+const knowledgeChunkIdSchema = z
+  .string()
+  .min(5)
+  .max(160)
+  .regex(
+    /^rag-[a-z][a-z0-9]*(?:-[a-z0-9]+)+-(?:core|relations|rookie|recall)$/u,
+  );
+
 export const knowledgeRagChunkSchema = z
   .object({
-    chunkId: z.string().min(5).max(160).regex(/^rag-ods-/u),
-    conceptId: z.string().min(5).max(120).regex(/^ods-/u),
+    chunkId: knowledgeChunkIdSchema,
+    conceptId: knowledgeConceptIdSchema,
     chunkType: knowledgeChunkTypeSchema,
     title: z.string().trim().min(1).max(200),
     text: z.string().trim().min(10).max(6_000),
@@ -79,7 +106,19 @@ export const knowledgeRagChunkSchema = z
       })
       .strict(),
   })
-  .strict();
+  .strict()
+  .superRefine((value, context) => {
+    if (
+      value.chunkId !==
+      `rag-${value.conceptId}-${value.chunkType}`
+    ) {
+      context.addIssue({
+        code: "custom",
+        path: ["chunkId"],
+        message: "chunkId 必须由 conceptId 和 chunkType 确定",
+      });
+    }
+  });
 
 export type KnowledgeRagChunk = z.infer<typeof knowledgeRagChunkSchema>;
 
@@ -97,17 +136,267 @@ export type KnowledgeRetrievalContext = z.infer<
 
 export const knowledgeCitationSchema = z
   .object({
-    chunkId: z.string().min(5).max(160).regex(/^rag-ods-/u),
-    conceptId: z.string().min(5).max(120).regex(/^ods-/u),
+    chunkId: knowledgeChunkIdSchema,
+    conceptId: knowledgeConceptIdSchema,
     title: z.string().trim().min(1).max(200),
     courseId: z.string().min(1).max(120),
     chapterId: z.string().min(1).max(120),
     sectionId: z.string().min(1).max(120).nullable(),
     knowledgeVersion: z.number().int().min(1).max(10_000),
   })
-  .strict();
+  .strict()
+  .superRefine((value, context) => {
+    if (!value.chunkId.startsWith(`rag-${value.conceptId}-`)) {
+      context.addIssue({
+        code: "custom",
+        path: ["chunkId"],
+        message: "chunkId 必须引用同一个 conceptId",
+      });
+    }
+  });
 
 export type KnowledgeCitation = z.infer<typeof knowledgeCitationSchema>;
+
+export const KNOWLEDGE_COURSE_ID_408_DATA_STRUCTURES =
+  "cs408-data-structures" as const;
+export const KNOWLEDGE_COURSE_TITLE_408_DATA_STRUCTURES =
+  "408 数据结构" as const;
+
+export const knowledgeCourseIdSchema = z.literal(
+  KNOWLEDGE_COURSE_ID_408_DATA_STRUCTURES,
+);
+
+export const knowledgeCourseRequestSchema = z
+  .object({
+    courseId: knowledgeCourseIdSchema,
+  })
+  .strict();
+
+export type KnowledgeCourseRequest = z.infer<
+  typeof knowledgeCourseRequestSchema
+>;
+
+export const conversationStudyScopeSchema = z
+  .object({
+    type: z.literal("course"),
+    courseId: knowledgeCourseIdSchema,
+  })
+  .strict();
+
+export type ConversationStudyScope = z.infer<
+  typeof conversationStudyScopeSchema
+>;
+
+export const courseStudyAssessmentBandSchema = z.enum([
+  "0-30",
+  "31-60",
+  "61-80",
+  "81-100",
+]);
+
+export type CourseStudyAssessmentBand = z.infer<
+  typeof courseStudyAssessmentBandSchema
+>;
+
+export const courseStudyAssessmentSchema = z.discriminatedUnion(
+  "source",
+  [
+    z
+      .object({
+        source: z.literal("preset"),
+        band: courseStudyAssessmentBandSchema,
+      })
+      .strict(),
+    z
+      .object({
+        source: z.literal("custom"),
+        score: z.number().int().min(0).max(100),
+      })
+      .strict(),
+    z
+      .object({
+        source: z.literal("note"),
+        note: z.string().trim().min(1).max(160),
+      })
+      .strict(),
+    z
+      .object({
+        source: z.literal("skipped"),
+      })
+      .strict(),
+  ],
+);
+
+export type CourseStudyAssessment = z.infer<
+  typeof courseStudyAssessmentSchema
+>;
+
+export const courseStudyProfileSchema = z
+  .object({
+    courseId: knowledgeCourseIdSchema,
+    assessment: courseStudyAssessmentSchema,
+    initializedAt: z.number().int().nonnegative(),
+    updatedAt: z.number().int().nonnegative(),
+  })
+  .strict()
+  .refine((profile) => profile.updatedAt >= profile.initializedAt, {
+    message: "updatedAt must not be earlier than initializedAt",
+    path: ["updatedAt"],
+  });
+
+export type CourseStudyProfile = z.infer<
+  typeof courseStudyProfileSchema
+>;
+
+const courseLearningDateSchema = z
+  .string()
+  .regex(/^\d{4}-\d{2}-\d{2}$/u);
+
+export const courseLessonCompletionSchema = z
+  .object({
+    sessionId: z.string().uuid(),
+    visualizationId: z.string().trim().min(1).max(80),
+    occurredAt: z.number().int().nonnegative(),
+  })
+  .strict();
+
+export type CourseLessonCompletion = z.infer<
+  typeof courseLessonCompletionSchema
+>;
+
+export const courseLearningRecordSchema = z
+  .object({
+    courseId: knowledgeCourseIdSchema,
+    firstEngagedAt: z.number().int().nonnegative(),
+    lastEngagedAt: z.number().int().nonnegative(),
+    totalActiveSeconds: z.number().int().min(0).max(315_360_000),
+    engagedConversationIds: z.array(z.string().uuid()).max(500),
+    learningDates: z.array(courseLearningDateSchema).max(3_660),
+    exploredConceptIds: z.array(knowledgeConceptIdSchema).max(2_000),
+    exploredModuleIds: z
+      .array(z.string().trim().min(1).max(120))
+      .max(100),
+    lessonCompletions: z
+      .array(courseLessonCompletionSchema)
+      .max(500),
+    predictionAttempts: z.number().int().min(0).max(100_000),
+    correctPredictions: z.number().int().min(0).max(100_000),
+  })
+  .strict()
+  .superRefine((record, context) => {
+    if (record.lastEngagedAt < record.firstEngagedAt) {
+      context.addIssue({
+        code: "custom",
+        message: "lastEngagedAt must not be earlier than firstEngagedAt",
+        path: ["lastEngagedAt"],
+      });
+    }
+    if (record.correctPredictions > record.predictionAttempts) {
+      context.addIssue({
+        code: "custom",
+        message: "correctPredictions must not exceed predictionAttempts",
+        path: ["correctPredictions"],
+      });
+    }
+    const uniqueFields = [
+      "engagedConversationIds",
+      "learningDates",
+      "exploredConceptIds",
+      "exploredModuleIds",
+    ] as const;
+    for (const field of uniqueFields) {
+      if (new Set(record[field]).size !== record[field].length) {
+        context.addIssue({
+          code: "custom",
+          message: `${field} must contain unique values`,
+          path: [field],
+        });
+      }
+    }
+    const lessonSessionIds = record.lessonCompletions.map(
+      (completion) => completion.sessionId,
+    );
+    if (new Set(lessonSessionIds).size !== lessonSessionIds.length) {
+      context.addIssue({
+        code: "custom",
+        message: "Lesson completion session IDs must be unique",
+        path: ["lessonCompletions"],
+      });
+    }
+  });
+
+export type CourseLearningRecord = z.infer<
+  typeof courseLearningRecordSchema
+>;
+
+export const knowledgeCourseConceptSchema = z
+  .object({
+    id: knowledgeConceptIdSchema,
+    title: z.string().trim().min(1).max(200),
+    coreQuestion: z.string().trim().min(1).max(500),
+    summary: z.string().trim().min(1).max(1_000),
+    definition: z.string().trim().min(1).max(4_000),
+    contentType: z.string().trim().min(1).max(80),
+    chapterId: z.string().trim().min(1).max(120),
+    sectionId: z.string().trim().min(1).max(120).nullable(),
+    order: z.number().int().positive(),
+  })
+  .strict();
+
+export type KnowledgeCourseConcept = z.infer<
+  typeof knowledgeCourseConceptSchema
+>;
+
+export const knowledgeCourseModuleSchema = z
+  .object({
+    id: z.string().trim().min(1).max(120),
+    title: z.string().trim().min(1).max(120),
+    description: z.string().trim().min(1).max(500),
+    order: z.number().int().positive(),
+    concepts: z.array(knowledgeCourseConceptSchema).min(1).max(80),
+  })
+  .strict();
+
+export type KnowledgeCourseModule = z.infer<
+  typeof knowledgeCourseModuleSchema
+>;
+
+export const knowledgeCourseSchema = z
+  .object({
+    id: knowledgeCourseIdSchema,
+    title: z.string().trim().min(1).max(120),
+    subtitle: z.string().trim().min(1).max(240),
+    description: z.string().trim().min(1).max(600),
+    sourceLabel: z.string().trim().min(1).max(160),
+    reviewStatus: z.literal("review_pending"),
+    syllabusItemCount: z.number().int().positive().max(500),
+    conceptCount: z.number().int().positive().max(2_000),
+    moduleCount: z.number().int().positive().max(100),
+    modules: z.array(knowledgeCourseModuleSchema).min(1).max(20),
+  })
+  .strict()
+  .superRefine((course, context) => {
+    if (course.moduleCount !== course.modules.length) {
+      context.addIssue({
+        code: "custom",
+        path: ["moduleCount"],
+        message: "moduleCount 必须等于 modules 数量",
+      });
+    }
+    const conceptCount = course.modules.reduce(
+      (total, module) => total + module.concepts.length,
+      0,
+    );
+    if (course.conceptCount !== conceptCount) {
+      context.addIssue({
+        code: "custom",
+        path: ["conceptCount"],
+        message: "conceptCount 必须等于全部模块知识点数量",
+      });
+    }
+  });
+
+export type KnowledgeCourse = z.infer<typeof knowledgeCourseSchema>;
 
 export const assistantGroundingSchema = z
   .object({
@@ -133,6 +422,10 @@ export const conversationMessageSchema = z
     createdAt: z.number().int().nonnegative(),
     status: messageStatusSchema,
     grounding: assistantGroundingSchema.optional(),
+    suggestedReplies: z
+      .array(z.string().trim().min(1).max(80))
+      .max(4)
+      .optional(),
   })
   .strict();
 
@@ -209,8 +502,22 @@ export const chatSendInputSchema = z
     conversationId: z.string().uuid(),
     messages: z.array(conversationMessageSchema).min(1).max(60),
     activeVisualization: activeVisualizationContextSchema.nullable(),
+    studyScope: conversationStudyScopeSchema.nullable(),
+    studyProfile: courseStudyProfileSchema.nullable().default(null),
   })
-  .strict();
+  .strict()
+  .superRefine((input, context) => {
+    if (
+      input.studyProfile &&
+      input.studyProfile.courseId !== input.studyScope?.courseId
+    ) {
+      context.addIssue({
+        code: "custom",
+        path: ["studyProfile", "courseId"],
+        message: "studyProfile 必须属于当前 studyScope",
+      });
+    }
+  });
 
 export type ChatSendInput = z.infer<typeof chatSendInputSchema>;
 
@@ -271,6 +578,7 @@ export const chatStreamEventSchema = z.discriminatedUnion("type", [
     ...streamEventBase,
     type: z.literal("completed"),
     grounding: assistantGroundingSchema,
+    suggestedReplies: z.array(z.string().trim().min(1).max(80)).max(4),
   }).strict(),
   z.object({
     ...streamEventBase,
@@ -345,6 +653,7 @@ export const persistedConversationV2Schema = z
     messages: z.array(conversationMessageSchema).max(60),
     draft: z.string().max(4_000),
     activeVisualization: persistedVisualizationSessionSchema.nullable(),
+    studyScope: conversationStudyScopeSchema.nullable().default(null),
     createdAt: z.number().int().nonnegative(),
     updatedAt: z.number().int().nonnegative(),
   })
@@ -363,6 +672,14 @@ export const persistedAppStateV2Schema = z
     version: z.literal(2),
     activeConversationId: z.string().uuid(),
     conversations: z.array(persistedConversationV2Schema).min(1).max(30),
+    courseStudyProfiles: z
+      .array(courseStudyProfileSchema)
+      .max(8)
+      .optional(),
+    courseLearningRecords: z
+      .array(courseLearningRecordSchema)
+      .max(8)
+      .optional(),
     preferences: z
       .object({
         reducedMotion: z.boolean().nullable(),
@@ -390,6 +707,32 @@ export const persistedAppStateV2Schema = z
         path: ["activeConversationId"],
       });
     }
+    const courseIds = new Set<string>();
+    for (const [index, profile] of (
+      state.courseStudyProfiles ?? []
+    ).entries()) {
+      if (courseIds.has(profile.courseId)) {
+        context.addIssue({
+          code: "custom",
+          message: "Course study profile IDs must be unique",
+          path: ["courseStudyProfiles", index, "courseId"],
+        });
+      }
+      courseIds.add(profile.courseId);
+    }
+    const learningCourseIds = new Set<string>();
+    for (const [index, record] of (
+      state.courseLearningRecords ?? []
+    ).entries()) {
+      if (learningCourseIds.has(record.courseId)) {
+        context.addIssue({
+          code: "custom",
+          message: "Course learning record IDs must be unique",
+          path: ["courseLearningRecords", index, "courseId"],
+        });
+      }
+      learningCourseIds.add(record.courseId);
+    }
   });
 
 export type PersistedAppStateV2 = z.infer<
@@ -407,7 +750,12 @@ export interface PersistenceApi {
   saveSession(input: PersistedAppStateV2): Promise<void>;
 }
 
+export interface KnowledgeApi {
+  loadCourse(input: KnowledgeCourseRequest): Promise<KnowledgeCourse>;
+}
+
 export interface KaleidoscopeApi {
   chat: ChatApi;
+  knowledge: KnowledgeApi;
   persistence: PersistenceApi;
 }

@@ -77,7 +77,7 @@ export function buildArrayStackInsertionSteps(
       description: "确认至少有一个空槽位后，才开始移动后缀。",
       slots: [...slots],
       activeSource: null,
-      activeTarget: capacity - 1,
+      activeTarget: elements.length,
       insertTarget: null,
       size: elements.length,
     },

@@ -1,0 +1,85 @@
+{
+  "concept": {
+    "id": "cs408-search-concepts",
+    "title": "查找表、关键字与查找结果",
+    "aliases": [
+      "search table",
+      "key"
+    ],
+    "content_type": "concept",
+    "location": {
+      "course_id": "cs408-data-structures",
+      "chapter_id": "408-searching",
+      "section_id": "cs408-search-basics",
+      "parent_id": null,
+      "order": 1
+    },
+    "core_question": "查找问题中的查找表、关键字、成功与失败分别是什么？",
+    "summary": "查找依据关键字在记录集合中确定匹配记录，成功返回位置或记录，失败确认不存在。",
+    "definition": "查找表是同一类型记录构成的集合，关键字是能标识或区分记录的数据项。静态查找表只查询，动态查找表还允许插入和删除；评价算法时必须同时考虑成功、失败查找以及数据是否有序。",
+    "prerequisite_ids": [
+      "cs408-abstract-data-type"
+    ],
+    "relations": [
+      {
+        "type": "part_of",
+        "target_id": "cs408-syllabus-searching",
+        "description": "查找表、关键字与查找结果是查找考纲模块中的原子知识点。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "像在档案库中按身份证号或姓名寻找记录，既要处理找到，也要能确定确实不存在。",
+      "mapping": {
+        "直观对象": "查找表、关键字与查找结果",
+        "对应机制": "查找依据关键字在记录集合中确定匹配记录，成功返回位置或记录，失败确认不存在。"
+      },
+      "boundary": "类比只用于建立直觉；正式作答仍需使用定义、操作步骤、适用条件和复杂度结论。"
+    },
+    "retrieval": {
+      "keywords": [
+        "查找表、关键字与查找结果",
+        "search table",
+        "key"
+      ],
+      "query_examples": [
+        "查找问题中的查找表、关键字、成功与失败分别是什么？",
+        "查找表、关键字与查找结果的步骤、性质和复杂度是什么？",
+        "查找表、关键字与查找结果有哪些适用条件和易错边界？"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "syllabus-note-cs408-search-concepts"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "cs408-abstract-data-type",
+      "title": "抽象数据类型",
+      "core_question": "抽象数据类型如何把接口语义与具体实现分离？",
+      "summary": "ADT 用值集合和操作语义描述结构，对外规定能做什么，而不限定内部怎样存储。",
+      "definition": "抽象数据类型（ADT）由一组数据对象及作用在其上的操作组成，强调操作的输入、输出、前置条件和效果。顺序表与链表可以实现同一线性表 ADT，因为它们对外提供相同语义而内部表示不同。",
+      "content_type": "concept"
+    },
+    {
+      "id": "cs408-syllabus-searching",
+      "title": "408 考纲：查找范围",
+      "core_question": "408 查找模块覆盖哪些查找结构和算法？",
+      "summary": "查找模块覆盖顺序、分块、折半查找，BST、AVL、红黑树、B/B+树、散列表、字符串匹配及分析应用。",
+      "definition": "408 查找模块包括查找基本概念，顺序查找、分块查找、折半查找，二叉搜索树、平衡二叉树和红黑树，B 树的基本操作与 B+ 树基本概念，散列表，字符串模式匹配，以及查找算法的分析与应用。不同方法必须结合前提、操作成本和数据场景比较。",
+      "content_type": "concept"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "syllabus-note-cs408-search-concepts",
+      "type": "paragraph",
+      "content": "查找依据关键字在记录集合中确定匹配记录，成功返回位置或记录，失败确认不存在。\n\n查找表是同一类型记录构成的集合，关键字是能标识或区分记录的数据项。静态查找表只查询，动态查找表还允许插入和删除；评价算法时必须同时考虑成功、失败查找以及数据是否有序。\n\n对应 2026 数据结构考纲叶子条目：查找的基本概念。"
+    }
+  ]
+}

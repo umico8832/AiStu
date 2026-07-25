@@ -59,6 +59,9 @@ importers:
       '@kaleidoscope/lesson-call-stack':
         specifier: workspace:*
         version: link:../../packages/lessons/call-stack
+      '@kaleidoscope/lesson-cs408-core-visualizations':
+        specifier: workspace:*
+        version: link:../../packages/lessons/cs408-core-visualizations
       '@kaleidoscope/lesson-dualarraydeque-balance':
         specifier: workspace:*
         version: link:../../packages/lessons/dualarraydeque-balance
@@ -249,6 +252,43 @@ importers:
         specifier: 4.1.10
         version: 4.1.10(@types/node@24.13.3)(happy-dom@20.11.1)(vite@7.3.6(@types/node@24.13.3)(jiti@2.7.0)(lightningcss@1.32.0))
 
+  packages/lessons/cs408-core-visualizations:
+    dependencies:
+      '@kaleidoscope/contracts':
+        specifier: workspace:*
+        version: link:../../contracts
+      '@kaleidoscope/ui':
+        specifier: workspace:*
+        version: link:../../ui
+      lucide-react:
+        specifier: 1.26.0
+        version: 1.26.0(react@19.2.8)
+      motion:
+        specifier: 12.42.2
+        version: 12.42.2(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
+      react:
+        specifier: 19.2.8
+        version: 19.2.8
+      react-dom:
+        specifier: 19.2.8
+        version: 19.2.8(react@19.2.8)
+      zod:
+        specifier: 4.4.3
+        version: 4.4.3
+    devDependencies:
+      '@types/react':
+        specifier: 19.2.17
+        version: 19.2.17
+      '@types/react-dom':
+        specifier: 19.2.3
+        version: 19.2.3(@types/react@19.2.17)
+      typescript:
+        specifier: 6.0.3
+        version: 6.0.3
+      vitest:
+        specifier: 4.1.10
+        version: 4.1.10(@types/node@24.13.3)(happy-dom@20.11.1)(vite@7.3.6(@types/node@24.13.3)(jiti@2.7.0)(lightningcss@1.32.0))
+
   packages/lessons/dualarraydeque-balance:
     dependencies:
       '@kaleidoscope/contracts':
@@ -294,6 +334,9 @@ importers:
       '@kaleidoscope/lesson-call-stack':
         specifier: workspace:*
         version: link:../lessons/call-stack
+      '@kaleidoscope/lesson-cs408-core-visualizations':
+        specifier: workspace:*
+        version: link:../lessons/cs408-core-visualizations
       '@kaleidoscope/lesson-dualarraydeque-balance':
         specifier: workspace:*
         version: link:../lessons/dualarraydeque-balance
@@ -335,6 +378,9 @@ importers:
       '@kaleidoscope/lesson-call-stack':
         specifier: workspace:*
         version: link:../lessons/call-stack
+      '@kaleidoscope/lesson-cs408-core-visualizations':
+        specifier: workspace:*
+        version: link:../lessons/cs408-core-visualizations
       '@kaleidoscope/lesson-dualarraydeque-balance':
         specifier: workspace:*
         version: link:../lessons/dualarraydeque-balance
@@ -3538,7 +3584,7 @@ snapshots:
     dependencies:
       '@types/http-cache-semantics': 4.2.0
       '@types/keyv': 3.1.4
-      '@types/node': 24.13.3
+      '@types/node': 22.20.1
       '@types/responselike': 1.0.3
 
   '@types/chai@5.2.3':
@@ -3558,7 +3604,7 @@ snapshots:
 
   '@types/fs-extra@9.0.13':
     dependencies:
-      '@types/node': 24.13.3
+      '@types/node': 22.20.1
 
   '@types/http-cache-semantics@4.2.0': {}
 
@@ -3566,7 +3612,7 @@ snapshots:
 
   '@types/keyv@3.1.4':
     dependencies:
-      '@types/node': 24.13.3
+      '@types/node': 22.20.1
 
   '@types/ms@2.1.0': {}
 
@@ -3588,7 +3634,7 @@ snapshots:
 
   '@types/responselike@1.0.3':
     dependencies:
-      '@types/node': 24.13.3
+      '@types/node': 22.20.1
 
   '@types/whatwg-mimetype@3.0.2': {}
 

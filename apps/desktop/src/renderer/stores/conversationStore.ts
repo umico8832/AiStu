@@ -1,5 +1,6 @@
 import type {
   AssistantGrounding,
+  ConversationStudyScope,
   ConversationMessage,
   PersistedAppStateV2,
   PersistedConversationV2,
@@ -31,12 +32,14 @@ interface ConversationState {
   complete: (
     requestId: string,
     grounding: AssistantGrounding,
+    suggestedReplies: string[],
   ) => void;
   cancel: (requestId: string) => void;
   fail: (requestId: string, message: string) => void;
   clearError: () => void;
   createConversation: (
     activeVisualization: PersistedVisualizationSession | null,
+    studyScope?: ConversationStudyScope | null,
   ) => string;
   switchConversation: (
     conversationId: string,
@@ -48,12 +51,16 @@ interface ConversationState {
   ) => PersistedAppStateV2;
 }
 
-function newConversationRecord(now = Date.now()): PersistedConversationV2 {
+function newConversationRecord(
+  now = Date.now(),
+  studyScope: ConversationStudyScope | null = null,
+): PersistedConversationV2 {
   return {
     conversationId: crypto.randomUUID(),
     messages: [],
     draft: "",
     activeVisualization: null,
+    studyScope,
     createdAt: now,
     updatedAt: now,
   };
@@ -190,7 +197,7 @@ export const useConversationStore = create<ConversationState>((set, get) => ({
     }
   },
 
-  complete(requestId, grounding) {
+  complete(requestId, grounding, suggestedReplies) {
     const streaming = get().streaming;
     if (!streaming || streaming.requestId !== requestId) {
       return;
@@ -207,6 +214,7 @@ export const useConversationStore = create<ConversationState>((set, get) => ({
                   "我已经准备好继续。请告诉我你观察到的变化。",
                 status: "complete" as const,
                 grounding,
+                suggestedReplies,
               }
             : message,
         ),
@@ -267,14 +275,31 @@ export const useConversationStore = create<ConversationState>((set, get) => ({
     set({ lastError: null });
   },
 
-  createConversation(activeVisualization) {
+  createConversation(activeVisualization, studyScope = null) {
     const state = get();
     const current = state.getActiveConversation();
     if (current.messages.length === 0 && current.draft.trim().length === 0) {
+      if (
+        current.studyScope?.courseId !== studyScope?.courseId ||
+        current.studyScope?.type !== studyScope?.type
+      ) {
+        set({
+          conversations: replaceActiveConversation(
+            state,
+            (conversation) => ({
+              ...conversation,
+              studyScope,
+              updatedAt: Date.now(),
+            }),
+          ),
+          provider: null,
+          lastError: null,
+        });
+      }
       return current.conversationId;
     }
 
-    const created = newConversationRecord();
+    const created = newConversationRecord(Date.now(), studyScope);
     const archived = replaceActiveConversation(state, (conversation) => ({
       ...conversation,
       activeVisualization,

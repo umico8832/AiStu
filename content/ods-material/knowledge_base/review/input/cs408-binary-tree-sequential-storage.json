@@ -1,0 +1,85 @@
+{
+  "concept": {
+    "id": "cs408-binary-tree-sequential-storage",
+    "title": "二叉树的顺序存储",
+    "aliases": [
+      "array binary tree",
+      "层序编号"
+    ],
+    "content_type": "concept",
+    "location": {
+      "course_id": "cs408-data-structures",
+      "chapter_id": "408-trees",
+      "section_id": "cs408-binary-tree",
+      "parent_id": null,
+      "order": 5
+    },
+    "core_question": "完全二叉树为什么适合用数组顺序存储？",
+    "summary": "层序编号把父子关系转成简单下标公式，完全二叉树不会产生大量空槽。",
+    "definition": "把根放在下标 1 时，结点 i 的左孩子、右孩子和父结点分别位于 2i、2i+1 和 floor(i/2)。该方法对完全二叉树空间紧凑；一般稀疏二叉树会因缺失结点保留大量空位置。",
+    "prerequisite_ids": [
+      "cs408-full-complete-binary-tree"
+    ],
+    "relations": [
+      {
+        "type": "part_of",
+        "target_id": "cs408-syllabus-trees",
+        "description": "二叉树的顺序存储是树和二叉树考纲模块中的原子知识点。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "像按楼层从左到右给座位编号，父子位置可以直接通过编号倍数计算。",
+      "mapping": {
+        "直观对象": "二叉树的顺序存储",
+        "对应机制": "层序编号把父子关系转成简单下标公式，完全二叉树不会产生大量空槽。"
+      },
+      "boundary": "类比只用于建立直觉；正式作答仍需使用定义、操作步骤、适用条件和复杂度结论。"
+    },
+    "retrieval": {
+      "keywords": [
+        "二叉树的顺序存储",
+        "array binary tree",
+        "层序编号"
+      ],
+      "query_examples": [
+        "完全二叉树为什么适合用数组顺序存储？",
+        "二叉树的顺序存储的步骤、性质和复杂度是什么？",
+        "二叉树的顺序存储有哪些适用条件和易错边界？"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "syllabus-note-cs408-binary-tree-sequential-storage"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "cs408-full-complete-binary-tree",
+      "title": "满二叉树与完全二叉树",
+      "core_question": "满二叉树和完全二叉树有什么区别？",
+      "summary": "满二叉树每层都达到最大结点数，完全二叉树只要求按满树层序编号连续占据前 n 个位置。",
+      "definition": "高度 h 的满二叉树含 2^h-1 个结点。完全二叉树除最后一层外均满，最后一层结点从左向右连续；按从 1 开始编号时，结点 i 的父结点为 floor(i/2)，孩子为 2i 与 2i+1（若存在）。",
+      "content_type": "comparison"
+    },
+    {
+      "id": "cs408-syllabus-trees",
+      "title": "408 考纲：树和二叉树范围",
+      "core_question": "408 树和二叉树模块覆盖哪些结构与应用？",
+      "summary": "该模块覆盖树与二叉树性质、存储和遍历，线索化、森林转换，以及 Huffman、并查集和堆等应用。",
+      "definition": "408 的树和二叉树模块包括树的基本概念，二叉树的定义、性质、顺序与链式存储、遍历和线索化，树与森林的存储、转换和遍历，以及 Huffman 树与编码、并查集和堆的应用。复习需要同时具备性质计算、结构转换、手工过程和算法实现能力。",
+      "content_type": "concept"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "syllabus-note-cs408-binary-tree-sequential-storage",
+      "type": "paragraph",
+      "content": "层序编号把父子关系转成简单下标公式，完全二叉树不会产生大量空槽。\n\n把根放在下标 1 时，结点 i 的左孩子、右孩子和父结点分别位于 2i、2i+1 和 floor(i/2)。该方法对完全二叉树空间紧凑；一般稀疏二叉树会因缺失结点保留大量空位置。\n\n对应 2026 数据结构考纲叶子条目：二叉树的顺序存储和链式存储。"
+    }
+  ]
+}

@@ -1,0 +1,78 @@
+{
+  "concept": {
+    "id": "cs408-syllabus-stacks-queues-arrays",
+    "title": "408 考纲：栈、队列和数组范围",
+    "aliases": [
+      "栈队列数组考点",
+      "循环队列",
+      "矩阵压缩存储"
+    ],
+    "content_type": "concept",
+    "location": {
+      "course_id": "cs408-data-structures",
+      "chapter_id": "408-data-structures-exam-guide",
+      "section_id": "cs408-official-syllabus",
+      "parent_id": null,
+      "order": 8
+    },
+    "core_question": "408 栈、队列和数组模块覆盖哪些内容？",
+    "summary": "该模块覆盖栈与队列的概念和顺序、链式实现，多维数组存储、特殊矩阵压缩及相关应用。",
+    "definition": "408 的栈、队列和数组模块包括栈与队列的基本概念、顺序存储结构、链式存储结构，多维数组的存储，特殊矩阵的压缩存储，以及栈、队列和数组的应用。常见能力包括判断栈序列、分析循环队列、推导地址映射和使用线性结构解决表达式或遍历问题。",
+    "prerequisite_ids": [],
+    "relations": [
+      {
+        "type": "part_of",
+        "target_id": "cs408-data-structure-syllabus-map",
+        "description": "该知识点描述七大考纲模块中的栈、队列和数组部分。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "这一模块像三种受约束的物品通道：栈从同一端进出，队列从两端按先后流动，数组用坐标直接定位。",
+      "mapping": {
+        "同端进出": "栈的 LIFO",
+        "两端流动": "队列的 FIFO",
+        "坐标定位": "数组下标映射"
+      },
+      "boundary": "类比只抓住访问规则，不包含循环队列判满约定、地址公式或矩阵压缩细节。"
+    },
+    "retrieval": {
+      "keywords": [
+        "408 考纲：栈、队列和数组范围",
+        "栈队列数组考点",
+        "循环队列",
+        "矩阵压缩存储"
+      ],
+      "query_examples": [
+        "408 栈、队列和数组模块覆盖哪些内容？",
+        "408 考纲：栈、队列和数组范围具体包括什么？",
+        "复习408 考纲：栈、队列和数组范围时最容易混淆的边界是什么？"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "report-cs408-syllabus-stacks-queues-arrays"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "cs408-data-structure-syllabus-map",
+      "title": "408 数据结构七大考纲模块",
+      "core_question": "2026 公开考纲把数据结构范围组织成哪些模块？",
+      "summary": "数据结构范围由基本概念、线性表、栈队列与数组、树与二叉树、图、查找和排序七大模块组成。",
+      "definition": "报告采用并经公开 2026 考纲复核的数据结构目录包含七个一级模块：基本概念；线性表；栈、队列和数组；树和二叉树；图；查找；排序。该目录用于组织考试范围，不等同于知识之间的前置图，也不说明各模块的官方出题频率。",
+      "content_type": "concept"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "report-cs408-syllabus-stacks-queues-arrays",
+      "type": "paragraph",
+      "content": "报告和公开 2026 考纲列出栈队列的概念及顺序、链式存储，多维数组存储，特殊矩阵压缩和应用。"
+    }
+  ]
+}

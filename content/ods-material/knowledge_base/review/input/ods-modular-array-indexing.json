@@ -1,0 +1,136 @@
+{
+  "concept": {
+    "id": "ods-modular-array-indexing",
+    "title": "模运算实现循环下标",
+    "aliases": [
+      "modular arithmetic",
+      "模运算",
+      "wrap around"
+    ],
+    "content_type": "formula",
+    "location": {
+      "course_id": "open-data-structures",
+      "chapter_id": "array-based-lists",
+      "section_id": "2-3-arrayqueue",
+      "parent_id": null,
+      "order": 10
+    },
+    "core_question": "模运算如何把不断增长的逻辑下标映射到有限数组？",
+    "summary": "对容量 m 取模会把任意整数下标映射到 0 至 m-1，使越过数组末端的位置回绕到开头。",
+    "definition": "对整数 a 和正整数 m，$a\\bmod m$ 是满足 $a=r+km$ 且 $0\\le r<m$ 的唯一余数 r。将逻辑位置 p 映射为 $p\\bmod m$，可保证所得物理下标始终落在长度为 m 的数组合法范围内，从而形成循环下标。",
+    "prerequisite_ids": [
+      "ods-array-size-capacity"
+    ],
+    "relations": [
+      {
+        "type": "leads_to",
+        "target_id": "ods-arrayqueue-representation",
+        "description": "理解《模运算实现循环下标》是继续学习目标知识点的直接基础。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "钟表走过 12 点会回到 1 点；同理，数组下标越过最后一个槽位后通过取模回到起点。",
+      "mapping": {
+        "钟表一圈": "数组容量 m",
+        "继续走时": "逻辑下标增加",
+        "回到起点": "取模后的下标"
+      },
+      "boundary": "钟表类比只解释周期回绕；编程语言对负数取模的定义可能不同，必须按具体语言处理。"
+    },
+    "retrieval": {
+      "keywords": [
+        "模运算实现循环下标",
+        "modular arithmetic",
+        "模运算",
+        "wrap around"
+      ],
+      "query_examples": [
+        "模运算如何把不断增长的逻辑下标映射到有限数组？",
+        "模运算实现循环下标怎么理解",
+        "模运算实现循环下标的关键条件是什么"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "ods-000257-paragraph-initially-both-ensuremath-ensuremath",
+      "ods-000258-equation-10-5-15-equiv-3-pmod-12-enspace",
+      "ods-000259-paragraph-we-read-the-latter-part-of-this-equa",
+      "ods-000260-equation-15-bmod-12-3-enspace",
+      "ods-000261-paragraph-more-generally-for-an-integer-a-and-",
+      "ods-000262-paragraph-in-many-programming-languages-includ",
+      "ods-000263-paragraph-modular-arithmetic-is-useful-for-sim",
+      "ods-000264-equation-ensuremath-ensuremath-ensuremath-mat",
+      "ods-000265-paragraph-this-treats-the-array-ensuremath-ens"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "ods-array-size-capacity",
+      "title": "元素数量与数组容量",
+      "core_question": "数组式线性表中的元素数量与后备数组容量有什么区别？",
+      "summary": "元素数量 n 只统计有效元素，容量 length(a) 是可用槽位总数，必须始终满足 n 不超过容量。",
+      "definition": "在数组式线性表中，元素数量 n 表示当前有效元素个数，后备数组容量 length(a) 表示已分配槽位总数。有效元素只占其中一部分，基本不变量是 $0\\le n\\le \\mathrm{length}(a)$；空闲槽位不是逻辑元素。",
+      "content_type": "concept"
+    },
+    {
+      "id": "ods-arrayqueue-representation",
+      "title": "ArrayQueue 的循环数组表示",
+      "core_question": "ArrayQueue 如何用有限数组表示 FIFO 队列？",
+      "summary": "ArrayQueue 用 j 标记队首、n 记录元素数，并把第 k 个队列元素存到 (j+k) mod capacity。",
+      "definition": "ArrayQueue 用后备数组 a、队首物理下标 j 和元素数 n 表示 FIFO 序列。逻辑位置 k 的元素位于 $a[(j+k)\\bmod \\mathrm{length}(a)]$，其中 $0\\le k<n$。这一不变量让队首可以随删除向前移动而无需整体搬移。",
+      "content_type": "concept"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "ods-000257-paragraph-initially-both-ensuremath-ensuremath",
+      "type": "paragraph",
+      "content": "Initially, both \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{j}}}} and \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}} would be set to 0. To add an element, we would place it in \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{a}}[\\ensuremath{\\mathit{j}}+\\ensuremath{\\mathit{n}}]}} and increment \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}. To remove an element, we would remove it from \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{a}}[\\ensuremath{\\mathit{j}}]}}, increment \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{j}}}}, and decrement \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}. Of course, the problem with this solution is that it requires an infinite array. An ArrayQueue simulates this by using a finite array \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{a}}}} and \\emph{modular arithmetic}. \\index{modular arithmetic} This is the kind of arithmetic used when we are talking about the time of day. For example 10:00 plus five hours gives 3:00. Formally, we say that"
+    },
+    {
+      "id": "ods-000258-equation-10-5-15-equiv-3-pmod-12-enspace",
+      "type": "equation",
+      "content": "\\[\n    10 + 5 = 15 \\equiv 3 \\pmod{12} \\enspace .\n\\]"
+    },
+    {
+      "id": "ods-000259-paragraph-we-read-the-latter-part-of-this-equa",
+      "type": "paragraph",
+      "content": "We read the latter part of this equation as ``15 is congruent to 3 modulo 12.'' We can also treat $\\bmod$ as a binary operator, so that"
+    },
+    {
+      "id": "ods-000260-equation-15-bmod-12-3-enspace",
+      "type": "equation",
+      "content": "\\[\n   15 \\bmod 12 = 3 \\enspace .\n\\]"
+    },
+    {
+      "id": "ods-000261-paragraph-more-generally-for-an-integer-a-and-",
+      "type": "paragraph",
+      "content": "More generally, for an integer $a$ and positive integer $m$, $a \\bmod m$ is the unique integer $r\\in\\{0,\\ldots,m-1\\}$ such that $a = r + km$ for some integer $k$. Less formally, the value $r$ is the remainder we get when we divide $a$ by $m$."
+    },
+    {
+      "id": "ods-000262-paragraph-in-many-programming-languages-includ",
+      "type": "paragraph",
+      "content": "In many programming languages, including C, C++, and Java, the mod operate is represented using the \\% symbol.}"
+    },
+    {
+      "id": "ods-000263-paragraph-modular-arithmetic-is-useful-for-sim",
+      "type": "paragraph",
+      "content": "Modular arithmetic is useful for simulating an infinite array, since $\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{i}}}}\\bmod \\ensuremath{\\ensuremath{\\mathrm{length}(\\ensuremath{\\mathit{a}})}}$ always gives a value in the range $0,\\ldots,\\ensuremath{\\ensuremath{\\mathrm{length}(\\ensuremath{\\mathit{a}})-1}}$. Using modular arithmetic we can store the queue elements at array locations"
+    },
+    {
+      "id": "ods-000264-equation-ensuremath-ensuremath-ensuremath-mat",
+      "type": "equation",
+      "content": "\\[ \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{a}}[\\ensuremath{\\mathit{j}}\\bmod \\mathrm{length}(\\ensuremath{\\mathit{a}})]}},\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{a}}[(\\ensuremath{\\mathit{j}}+1)\\bmod \\mathrm{length}(\\ensuremath{\\mathit{a}})]}},\\ldots,\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{a}}[(\\ensuremath{\\mathit{j}}+\\ensuremath{\\mathit{n}}-1)\\bmod \\mathrm{length}(\\ensuremath{\\mathit{a}})]}}\n\\enspace. \\]"
+    },
+    {
+      "id": "ods-000265-paragraph-this-treats-the-array-ensuremath-ens",
+      "type": "paragraph",
+      "content": "This treats the array \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{a}}}} like a \\emph{circular array} \\index{circular array} \\index{array!circular} in which array indices larger than $\\ensuremath{\\ensuremath{\\mathrm{length}(\\ensuremath{\\mathit{a}})}}-1$ ``wrap around'' to the beginning of the array."
+    }
+  ]
+}

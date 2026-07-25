@@ -1,0 +1,94 @@
+{
+  "concept": {
+    "id": "ods-array-size-capacity",
+    "title": "元素数量与数组容量",
+    "aliases": [
+      "size 与 capacity",
+      "逻辑长度",
+      "数组容量"
+    ],
+    "content_type": "concept",
+    "location": {
+      "course_id": "open-data-structures",
+      "chapter_id": "array-based-lists",
+      "section_id": "2-1-arraystack",
+      "parent_id": null,
+      "order": 2
+    },
+    "core_question": "数组式线性表中的元素数量与后备数组容量有什么区别？",
+    "summary": "元素数量 n 只统计有效元素，容量 length(a) 是可用槽位总数，必须始终满足 n 不超过容量。",
+    "definition": "在数组式线性表中，元素数量 n 表示当前有效元素个数，后备数组容量 length(a) 表示已分配槽位总数。有效元素只占其中一部分，基本不变量是 $0\\le n\\le \\mathrm{length}(a)$；空闲槽位不是逻辑元素。",
+    "prerequisite_ids": [
+      "ods-array-backed-storage"
+    ],
+    "relations": [
+      {
+        "type": "leads_to",
+        "target_id": "ods-arraystack-resize",
+        "description": "理解《元素数量与数组容量》是继续学习目标知识点的直接基础。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "容量像教室座位总数，元素数量像实际到场人数；空座位可供后来者使用，但不能被算作已经到场的人。",
+      "mapping": {
+        "座位总数": "capacity",
+        "到场人数": "size",
+        "空座位": "未使用数组槽位"
+      },
+      "boundary": "类比不说明具体扩容比例，也不表示所有语言都公开提供 capacity 属性。"
+    },
+    "retrieval": {
+      "keywords": [
+        "元素数量与数组容量",
+        "size 与 capacity",
+        "逻辑长度",
+        "数组容量"
+      ],
+      "query_examples": [
+        "数组式线性表中的元素数量与后备数组容量有什么区别？",
+        "元素数量与数组容量怎么理解",
+        "元素数量与数组容量的关键条件是什么"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "ods-000218-paragraph-seclabel-arraystack-index-arraystack",
+      "ods-000219-algorithm-begin-flushleft-hspace-1em-ensuremat"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "ods-array-backed-storage",
+      "title": "数组后备存储的共同特征",
+      "core_question": "用数组作为后备存储会带来哪些共同的性能与空间特征？",
+      "summary": "数组后备存储支持常数时间随机访问，但中间更新需要搬移元素，容量调整的偶发成本需摊还分析。",
+      "definition": "数组后备存储是用一个或多个数组保存线性序列元素的实现方式。它利用数组按下标直接定位元素，同时受连续槽位和固定数组长度约束；插入、删除可能搬移元素，容量不足或空闲过多时还要调整存储空间。",
+      "content_type": "concept"
+    },
+    {
+      "id": "ods-arraystack-resize",
+      "title": "ArrayStack 的容量调整",
+      "core_question": "ArrayStack 如何在容量不足或空闲过多时调整后备数组？",
+      "summary": "resize 分配大小 max(1,2n) 的新数组并复制 n 个有效元素，使容量重新与元素数量保持同阶。",
+      "definition": "ArrayStack 的 resize 创建长度为 $\\max(1,2n)$ 的新数组 b，把旧数组中 n 个有效元素按原顺序复制到 b[0..n-1]，再令 a 指向 b。一次调用复制 n 个元素，因而耗时 $O(n)$；相同机制既可扩容也可在删除后的低占用率下缩容。",
+      "content_type": "mechanism"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "ods-000218-paragraph-seclabel-arraystack-index-arraystack",
+      "type": "paragraph",
+      "content": "\\seclabel{arraystack} \\index{ArrayStack@ArrayStack} An ArrayStack implements the list interface using an array \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{a}}}}, called the \\emph{backing array}. The list element with index \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{i}}}} is stored in \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{a}}[\\ensuremath{\\mathit{i}}]}}. At most times, \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{a}}}} is larger than strictly necessary, so an integer \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}} is used to keep track of the number of elements actually stored in \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{a}}}}. In this way, the list elements are stored in \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{a}}[0]}},\\ldots,\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{a}}[\\ensuremath{\\mathit{n}}-1]}} and, at all times, $\\ensuremath{\\ensuremath{\\mathrm{length}(\\ensuremath{\\mathit{a}})}} \\ge \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}$."
+    },
+    {
+      "id": "ods-000219-algorithm-begin-flushleft-hspace-1em-ensuremat",
+      "type": "algorithm",
+      "content": "\\begin{flushleft}\n\\hspace*{1em} \\ensuremath{\\mathrm{initialize}()}\\\\\n\\hspace*{1em} \\hspace*{1em} \\ensuremath{\\ensuremath{\\mathit{a}} \\gets  \\ensuremath{\\mathrm{new\\_array}(1)}}\\\\\n\\hspace*{1em} \\hspace*{1em} \\ensuremath{\\ensuremath{\\mathit{n}} \\gets  \\ensuremath{0}}\\\\\n\\end{flushleft}"
+    }
+  ]
+}

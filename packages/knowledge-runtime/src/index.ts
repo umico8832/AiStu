@@ -150,12 +150,22 @@ export class KnowledgeIndex {
   retrieve(
     rawQuery: string,
     previousConceptIds: string[] = [],
+    courseId: string | null = null,
   ): KnowledgeRetrievalContext {
     const query = rawQuery.trim().slice(0, 4_000);
     const queryTokens = Array.from(
       new Set(tokenizeKnowledgeText(query)),
     ).filter((token) => !QUERY_STOP_TOKENS.has(token));
-    if (!query || queryTokens.length === 0 || this.documents.length === 0) {
+    const searchableDocuments = courseId
+      ? this.documents.filter(
+          (document) => document.chunk.metadata.courseId === courseId,
+        )
+      : this.documents;
+    if (
+      !query ||
+      queryTokens.length === 0 ||
+      searchableDocuments.length === 0
+    ) {
       return knowledgeRetrievalContextSchema.parse({
         status: "not_found",
         query,
@@ -167,7 +177,7 @@ export class KnowledgeIndex {
     const followUp =
       queryTokens.length <= 8 ||
       /^(那|所以|为什么|怎么|然后|它|这个|上面|刚才)/u.test(query);
-    const scored = this.documents
+    const scored = searchableDocuments
       .map((document) => ({
         indexed: document,
         score: this.scoreDocument(
@@ -206,7 +216,7 @@ export class KnowledgeIndex {
 
     const selectedChunks: KnowledgeRagChunk[] = [];
     for (const conceptId of selectedConcepts) {
-      const conceptDocuments = this.documents.filter(
+      const conceptDocuments = searchableDocuments.filter(
         (document) => document.chunk.conceptId === conceptId,
       );
       const core = conceptDocuments.find(

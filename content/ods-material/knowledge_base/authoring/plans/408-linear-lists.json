@@ -1,0 +1,124 @@
+{
+  "chapter": "408-linear-lists",
+  "sections": [
+    {
+      "section_id": "cs408-linear-list-basics",
+      "proposed_concepts": []
+    },
+    {
+      "section_id": "cs408-linear-list-sequential",
+      "proposed_concepts": [
+        {
+          "temporary_id": "408-linear-lists-candidate-002",
+          "proposed_title": "顺序表的存储表示",
+          "core_question": "顺序表如何用连续存储单元表示线性表？",
+          "content_type": "concept",
+          "source_record_ids": [
+            "syllabus-note-cs408-sequential-list-storage"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        },
+        {
+          "temporary_id": "408-linear-lists-candidate-003",
+          "proposed_title": "顺序表的插入与删除",
+          "core_question": "顺序表在指定位置插入或删除时为什么需要搬移元素？",
+          "content_type": "algorithm",
+          "source_record_ids": [
+            "syllabus-note-cs408-sequential-list-insert-delete"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        }
+      ]
+    },
+    {
+      "section_id": "cs408-linear-list-linked",
+      "proposed_concepts": [
+        {
+          "temporary_id": "408-linear-lists-candidate-004",
+          "proposed_title": "单链表的结点与表示",
+          "core_question": "单链表如何用指针连接逻辑相邻元素？",
+          "content_type": "concept",
+          "source_record_ids": [
+            "syllabus-note-cs408-singly-linked-list"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        },
+        {
+          "temporary_id": "408-linear-lists-candidate-006",
+          "proposed_title": "双链表",
+          "core_question": "双链表为什么能从结点向两个方向移动？",
+          "content_type": "concept",
+          "source_record_ids": [
+            "syllabus-note-cs408-doubly-linked-list"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        },
+        {
+          "temporary_id": "408-linear-lists-candidate-007",
+          "proposed_title": "循环链表",
+          "core_question": "循环链表如何把表尾与表头连接起来？",
+          "content_type": "concept",
+          "source_record_ids": [
+            "syllabus-note-cs408-circular-linked-list"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        }
+      ]
+    },
+    {
+      "section_id": "cs408-linear-list-applications",
+      "proposed_concepts": [
+        {
+          "temporary_id": "408-linear-lists-candidate-001",
+          "proposed_title": "线性表的定义与基本操作",
+          "core_question": "线性表的逻辑特征和常用基本操作是什么？",
+          "content_type": "concept",
+          "source_record_ids": [
+            "syllabus-note-cs408-linear-list-definition-operations"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        },
+        {
+          "temporary_id": "408-linear-lists-candidate-005",
+          "proposed_title": "链表结点的插入与删除",
+          "core_question": "怎样安全修改链表指针完成插入和删除？",
+          "content_type": "algorithm",
+          "source_record_ids": [
+            "syllabus-note-cs408-linked-list-insert-delete"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        },
+        {
+          "temporary_id": "408-linear-lists-candidate-008",
+          "proposed_title": "单链表原地逆置",
+          "core_question": "怎样在线性时间和常数辅助空间内逆置单链表？",
+          "content_type": "algorithm",
+          "source_record_ids": [
+            "syllabus-note-cs408-linked-list-reversal"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        },
+        {
+          "temporary_id": "408-linear-lists-candidate-009",
+          "proposed_title": "有序链表合并",
+          "core_question": "怎样把两个有序链表合并为一个有序链表？",
+          "content_type": "algorithm",
+          "source_record_ids": [
+            "syllabus-note-cs408-linked-list-merge"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        },
+        {
+          "temporary_id": "408-linear-lists-candidate-010",
+          "proposed_title": "顺序表与链表的选择",
+          "core_question": "顺序表和链表应如何按访问、更新与空间需求选择？",
+          "content_type": "comparison",
+          "source_record_ids": [
+            "syllabus-note-cs408-sequential-vs-linked"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        }
+      ]
+    }
+  ]
+}

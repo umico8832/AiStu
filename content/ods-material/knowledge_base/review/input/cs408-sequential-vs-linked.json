@@ -1,0 +1,94 @@
+{
+  "concept": {
+    "id": "cs408-sequential-vs-linked",
+    "title": "顺序表与链表的选择",
+    "aliases": [
+      "array vs linked list",
+      "存储结构比较"
+    ],
+    "content_type": "comparison",
+    "location": {
+      "course_id": "cs408-data-structures",
+      "chapter_id": "408-linear-lists",
+      "section_id": "cs408-linear-list-applications",
+      "parent_id": null,
+      "order": 10
+    },
+    "core_question": "顺序表和链表应如何按访问、更新与空间需求选择？",
+    "summary": "顺序表随机访问和局部性好，链表动态插删灵活；选择取决于操作比例、容量变化和内存约束。",
+    "definition": "顺序表按下标访问为 O(1)，但中间插删通常 O(n)，并可能预留容量；链表定位为 O(n)，已知位置附近插删可 O(1)，但每结点需要指针且局部性较差。算法设计应根据主要操作而不是结构名称机械选择。",
+    "prerequisite_ids": [
+      "cs408-sequential-list-storage",
+      "cs408-singly-linked-list"
+    ],
+    "relations": [
+      {
+        "type": "part_of",
+        "target_id": "cs408-syllabus-linear-lists",
+        "description": "顺序表与链表的选择是线性表考纲模块中的原子知识点。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "像固定座位与流动队伍的取舍：前者找位置快，后者调整队形更灵活。",
+      "mapping": {
+        "直观对象": "顺序表与链表的选择",
+        "对应机制": "顺序表随机访问和局部性好，链表动态插删灵活；选择取决于操作比例、容量变化和内存约束。"
+      },
+      "boundary": "类比只用于建立直觉；正式作答仍需使用定义、操作步骤、适用条件和复杂度结论。"
+    },
+    "retrieval": {
+      "keywords": [
+        "顺序表与链表的选择",
+        "array vs linked list",
+        "存储结构比较"
+      ],
+      "query_examples": [
+        "顺序表和链表应如何按访问、更新与空间需求选择？",
+        "顺序表与链表的选择的步骤、性质和复杂度是什么？",
+        "顺序表与链表的选择有哪些适用条件和易错边界？"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "syllabus-note-cs408-sequential-vs-linked"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "cs408-sequential-list-storage",
+      "title": "顺序表的存储表示",
+      "core_question": "顺序表如何用连续存储单元表示线性表？",
+      "summary": "顺序表把逻辑相邻元素放在物理连续位置，通过首地址和元素大小直接计算任意元素地址。",
+      "definition": "若首元素地址为 LOC(a1)、每个元素占 l 个字节，则 LOC(ai)=LOC(a1)+(i-1)l。顺序表通常同时维护当前长度与容量，支持 O(1) 随机访问，但容量固定或扩容时需要重新分配与复制。",
+      "content_type": "concept"
+    },
+    {
+      "id": "cs408-singly-linked-list",
+      "title": "单链表的结点与表示",
+      "core_question": "单链表如何用指针连接逻辑相邻元素？",
+      "summary": "单链表结点保存数据与后继指针，物理位置可以离散，必须从表头沿指针顺序访问。",
+      "definition": "单链表的每个结点由数据域和 next 指针域组成，头指针标识首结点，可选头结点作为不保存业务数据的哨兵。已知前驱时插入和删除为 O(1)，按位定位仍需从头遍历，时间为 O(n)。",
+      "content_type": "concept"
+    },
+    {
+      "id": "cs408-syllabus-linear-lists",
+      "title": "408 考纲：线性表范围",
+      "core_question": "408 线性表模块要求覆盖哪些内容？",
+      "summary": "线性表模块覆盖基本概念、顺序存储、链式存储和线性表应用，重点比较访问、插删与空间特征。",
+      "definition": "408 线性表模块包括线性表的基本概念、顺序存储实现、链式存储实现和线性表应用。复习范围应能解释顺序表与单链表、双链表、循环链表的表示与基本操作，并从访问、插入删除、空间开销和适用场景比较不同实现。",
+      "content_type": "concept"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "syllabus-note-cs408-sequential-vs-linked",
+      "type": "paragraph",
+      "content": "顺序表随机访问和局部性好，链表动态插删灵活；选择取决于操作比例、容量变化和内存约束。\n\n顺序表按下标访问为 O(1)，但中间插删通常 O(n)，并可能预留容量；链表定位为 O(n)，已知位置附近插删可 O(1)，但每结点需要指针且局部性较差。算法设计应根据主要操作而不是结构名称机械选择。\n\n对应 2026 数据结构考纲叶子条目：线性表的应用。"
+    }
+  ]
+}

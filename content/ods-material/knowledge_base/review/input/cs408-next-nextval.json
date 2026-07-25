@@ -1,0 +1,85 @@
+{
+  "concept": {
+    "id": "cs408-next-nextval",
+    "title": "KMP 的 next 与 nextval 数组",
+    "aliases": [
+      "next array",
+      "nextval"
+    ],
+    "content_type": "formula",
+    "location": {
+      "course_id": "cs408-data-structures",
+      "chapter_id": "408-searching",
+      "section_id": "cs408-string-search",
+      "parent_id": null,
+      "order": 29
+    },
+    "core_question": "不同教材中的 next、前缀函数和 nextval 为什么下标值可能不同？",
+    "summary": "它们都编码失配后的模式跳转，但起始下标、长度语义和是否跳过重复字符的约定不同。",
+    "definition": "有的教材用 next[j] 表示模式下标 j 失配后的新下标，并令 next[0]=-1；前缀函数 π 则保存长度并从 0 开始。nextval 在回退位置字符与当前字符相同时继续回退，避免立即重复比较。做题前必须先确认题目定义再计算。",
+    "prerequisite_ids": [
+      "cs408-kmp-prefix-function"
+    ],
+    "relations": [
+      {
+        "type": "part_of",
+        "target_id": "cs408-syllabus-searching",
+        "description": "KMP 的 next 与 nextval 数组是查找考纲模块中的原子知识点。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "像不同导航系统都给出回退地点，但一个用站点编号、一个用已走长度，数字不能直接混用。",
+      "mapping": {
+        "直观对象": "KMP 的 next 与 nextval 数组",
+        "对应机制": "它们都编码失配后的模式跳转，但起始下标、长度语义和是否跳过重复字符的约定不同。"
+      },
+      "boundary": "类比只用于建立直觉；正式作答仍需使用定义、操作步骤、适用条件和复杂度结论。"
+    },
+    "retrieval": {
+      "keywords": [
+        "KMP 的 next 与 nextval 数组",
+        "next array",
+        "nextval"
+      ],
+      "query_examples": [
+        "不同教材中的 next、前缀函数和 nextval 为什么下标值可能不同？",
+        "KMP 的 next 与 nextval 数组的步骤、性质和复杂度是什么？",
+        "KMP 的 next 与 nextval 数组有哪些适用条件和易错边界？"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "syllabus-note-cs408-next-nextval"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "cs408-kmp-prefix-function",
+      "title": "KMP 的最长相等前后缀",
+      "core_question": "KMP 如何用模式串自身的前后缀信息避免文本回退？",
+      "summary": "前缀函数记录每个模式前缀的最长真前缀与真后缀长度，失配时模式跳到可复用边界。",
+      "definition": "对模式 P[0..i]，π[i] 是其最长相等真前缀和真后缀长度。构造时若 P[i] 与当前边界字符失配，就令 j=π[j-1] 继续尝试；相等则 j 增一。所有回退总次数线性，因此构造时间 O(m)。",
+      "content_type": "mechanism"
+    },
+    {
+      "id": "cs408-syllabus-searching",
+      "title": "408 考纲：查找范围",
+      "core_question": "408 查找模块覆盖哪些查找结构和算法？",
+      "summary": "查找模块覆盖顺序、分块、折半查找，BST、AVL、红黑树、B/B+树、散列表、字符串匹配及分析应用。",
+      "definition": "408 查找模块包括查找基本概念，顺序查找、分块查找、折半查找，二叉搜索树、平衡二叉树和红黑树，B 树的基本操作与 B+ 树基本概念，散列表，字符串模式匹配，以及查找算法的分析与应用。不同方法必须结合前提、操作成本和数据场景比较。",
+      "content_type": "concept"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "syllabus-note-cs408-next-nextval",
+      "type": "paragraph",
+      "content": "它们都编码失配后的模式跳转，但起始下标、长度语义和是否跳过重复字符的约定不同。\n\n有的教材用 next[j] 表示模式下标 j 失配后的新下标，并令 next[0]=-1；前缀函数 π 则保存长度并从 0 开始。nextval 在回退位置字符与当前字符相同时继续回退，避免立即重复比较。做题前必须先确认题目定义再计算。\n\n对应 2026 数据结构考纲叶子条目：字符串模式匹配、查找算法的分析及应用。"
+    }
+  ]
+}

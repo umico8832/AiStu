@@ -1,0 +1,205 @@
+{
+  "chapter": "408-graphs",
+  "sections": [
+    {
+      "section_id": "cs408-graph-basics",
+      "proposed_concepts": [
+        {
+          "temporary_id": "408-graphs-candidate-001",
+          "proposed_title": "图、顶点与边",
+          "core_question": "图结构如何表示元素之间的多对多关系？",
+          "content_type": "concept",
+          "source_record_ids": [
+            "syllabus-note-cs408-graph-definition"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        }
+      ]
+    },
+    {
+      "section_id": "cs408-graph-storage",
+      "proposed_concepts": [
+        {
+          "temporary_id": "408-graphs-candidate-003",
+          "proposed_title": "图的邻接矩阵",
+          "core_question": "邻接矩阵如何记录顶点对之间是否有边或边权？",
+          "content_type": "concept",
+          "source_record_ids": [
+            "syllabus-note-cs408-adjacency-matrix"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        },
+        {
+          "temporary_id": "408-graphs-candidate-004",
+          "proposed_title": "图的邻接表",
+          "core_question": "邻接表如何只保存实际存在的边？",
+          "content_type": "concept",
+          "source_record_ids": [
+            "syllabus-note-cs408-adjacency-list"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        },
+        {
+          "temporary_id": "408-graphs-candidate-005",
+          "proposed_title": "有向图的十字链表",
+          "core_question": "十字链表如何同时组织有向图的入边和出边？",
+          "content_type": "concept",
+          "source_record_ids": [
+            "syllabus-note-cs408-orthogonal-list"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        },
+        {
+          "temporary_id": "408-graphs-candidate-006",
+          "proposed_title": "无向图的邻接多重表",
+          "core_question": "邻接多重表如何让一条无向边只保存一次？",
+          "content_type": "concept",
+          "source_record_ids": [
+            "syllabus-note-cs408-adjacency-multilist"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        },
+        {
+          "temporary_id": "408-graphs-candidate-007",
+          "proposed_title": "图存储结构与基本操作比较",
+          "core_question": "怎样根据图的稠密度和操作类型选择存储结构？",
+          "content_type": "comparison",
+          "source_record_ids": [
+            "syllabus-note-cs408-graph-storage-comparison"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        }
+      ]
+    },
+    {
+      "section_id": "cs408-graph-traversal",
+      "proposed_concepts": [
+        {
+          "temporary_id": "408-graphs-candidate-008",
+          "proposed_title": "深度优先搜索",
+          "core_question": "DFS 如何沿一条路径尽可能深入后再回溯？",
+          "content_type": "algorithm",
+          "source_record_ids": [
+            "syllabus-note-cs408-depth-first-search"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        },
+        {
+          "temporary_id": "408-graphs-candidate-009",
+          "proposed_title": "广度优先搜索",
+          "core_question": "BFS 如何按距起点的层次逐层访问图？",
+          "content_type": "algorithm",
+          "source_record_ids": [
+            "syllabus-note-cs408-breadth-first-search"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        },
+        {
+          "temporary_id": "408-graphs-candidate-010",
+          "proposed_title": "图遍历复杂度与生成森林",
+          "core_question": "DFS 与 BFS 的时间、空间和生成结构由什么决定？",
+          "content_type": "theorem",
+          "source_record_ids": [
+            "syllabus-note-cs408-graph-traversal-complexity"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        }
+      ]
+    },
+    {
+      "section_id": "cs408-graph-applications",
+      "proposed_concepts": [
+        {
+          "temporary_id": "408-graphs-candidate-002",
+          "proposed_title": "图的度、路径与连通性",
+          "core_question": "图中的度、路径、回路、连通和强连通怎样定义？",
+          "content_type": "concept",
+          "source_record_ids": [
+            "syllabus-note-cs408-graph-degree-path-connectivity"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        },
+        {
+          "temporary_id": "408-graphs-candidate-011",
+          "proposed_title": "最小生成树问题",
+          "core_question": "最小生成树要求在什么图中优化什么目标？",
+          "content_type": "concept",
+          "source_record_ids": [
+            "syllabus-note-cs408-minimum-spanning-tree"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        },
+        {
+          "temporary_id": "408-graphs-candidate-012",
+          "proposed_title": "Prim 最小生成树算法",
+          "core_question": "Prim 算法如何逐步扩大一个连通顶点集合？",
+          "content_type": "algorithm",
+          "source_record_ids": [
+            "syllabus-note-cs408-prim-algorithm"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        },
+        {
+          "temporary_id": "408-graphs-candidate-013",
+          "proposed_title": "Kruskal 最小生成树算法",
+          "core_question": "Kruskal 算法如何按边权从小到大避免成环？",
+          "content_type": "algorithm",
+          "source_record_ids": [
+            "syllabus-note-cs408-kruskal-algorithm"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        },
+        {
+          "temporary_id": "408-graphs-candidate-014",
+          "proposed_title": "最短路径问题与松弛",
+          "core_question": "最短路径问题如何区分单源和全源，并用松弛改进距离？",
+          "content_type": "concept",
+          "source_record_ids": [
+            "syllabus-note-cs408-shortest-path-problem"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        },
+        {
+          "temporary_id": "408-graphs-candidate-015",
+          "proposed_title": "Dijkstra 单源最短路径",
+          "core_question": "Dijkstra 为什么只适用于非负权图？",
+          "content_type": "algorithm",
+          "source_record_ids": [
+            "syllabus-note-cs408-dijkstra-algorithm"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        },
+        {
+          "temporary_id": "408-graphs-candidate-016",
+          "proposed_title": "Floyd 全源最短路径",
+          "core_question": "Floyd 算法如何逐步允许更多中间顶点？",
+          "content_type": "algorithm",
+          "source_record_ids": [
+            "syllabus-note-cs408-floyd-warshall"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        },
+        {
+          "temporary_id": "408-graphs-candidate-017",
+          "proposed_title": "拓扑排序与有向无环图",
+          "core_question": "怎样生成满足所有先后依赖的拓扑序并检测有向环？",
+          "content_type": "algorithm",
+          "source_record_ids": [
+            "syllabus-note-cs408-topological-sort"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        },
+        {
+          "temporary_id": "408-graphs-candidate-018",
+          "proposed_title": "AOE 网与关键路径",
+          "core_question": "关键路径如何确定工程最短工期和不能延误的活动？",
+          "content_type": "algorithm",
+          "source_record_ids": [
+            "syllabus-note-cs408-critical-path"
+          ],
+          "reason_for_separation": "该知识点具有独立定义、操作过程或分析结论，可在 3～8 分钟内独立讲清并单独检索。"
+        }
+      ]
+    }
+  ]
+}

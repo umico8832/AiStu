@@ -3,6 +3,8 @@ import {
   chatSendInputSchema,
   chatStreamEventSchema,
   ipcChannels,
+  knowledgeCourseRequestSchema,
+  knowledgeCourseSchema,
 } from "@kaleidoscope/contracts";
 import {
   app,
@@ -48,6 +50,17 @@ function emitToSender(
 }
 
 function registerIpcHandlers(): void {
+  ipcMain.handle(
+    ipcChannels.knowledgeCourseLoad,
+    async (event, rawInput) => {
+      assertTrustedSender(event);
+      knowledgeCourseRequestSchema.parse(rawInput);
+      return knowledgeCourseSchema.parse(
+        await knowledgeService.load408DataStructuresCourse(),
+      );
+    },
+  );
+
   ipcMain.handle(ipcChannels.persistenceLoad, async (event) => {
     assertTrustedSender(event);
     return loadPersistedSession();

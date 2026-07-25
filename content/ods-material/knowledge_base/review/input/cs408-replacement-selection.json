@@ -1,0 +1,85 @@
+{
+  "concept": {
+    "id": "cs408-replacement-selection",
+    "title": "置换选择生成初始归并段",
+    "aliases": [
+      "replacement selection",
+      "run generation"
+    ],
+    "content_type": "algorithm",
+    "location": {
+      "course_id": "cs408-data-structures",
+      "chapter_id": "408-sorting",
+      "section_id": "cs408-external-sorting",
+      "parent_id": null,
+      "order": 17
+    },
+    "core_question": "置换选择怎样让初始归并段平均长于内存容量？",
+    "summary": "利用内存中的选择树持续输出不小于当前段末记录的最小值，暂时冻结不满足条件的输入记录。",
+    "definition": "内存先装入一批记录，每次输出仍可接在当前有序段后的最小记录，并用新输入替换它；若新记录小于刚输出值，就冻结到下一段。当前可用记录全部冻结时结束本段并解冻。随机输入下初始段平均长度可接近内存记录数的两倍，但不保证固定倍数。",
+    "prerequisite_ids": [
+      "cs408-loser-tree"
+    ],
+    "relations": [
+      {
+        "type": "part_of",
+        "target_id": "cs408-syllabus-sorting",
+        "description": "置换选择生成初始归并段是排序考纲模块中的原子知识点。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "像边发放按号排好的票边补入新票，号码太小的先放到下一批。",
+      "mapping": {
+        "直观对象": "置换选择生成初始归并段",
+        "对应机制": "利用内存中的选择树持续输出不小于当前段末记录的最小值，暂时冻结不满足条件的输入记录。"
+      },
+      "boundary": "类比只用于建立直觉；正式作答仍需使用定义、操作步骤、适用条件和复杂度结论。"
+    },
+    "retrieval": {
+      "keywords": [
+        "置换选择生成初始归并段",
+        "replacement selection",
+        "run generation"
+      ],
+      "query_examples": [
+        "置换选择怎样让初始归并段平均长于内存容量？",
+        "置换选择生成初始归并段的步骤、性质和复杂度是什么？",
+        "置换选择生成初始归并段有哪些适用条件和易错边界？"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "syllabus-note-cs408-replacement-selection"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "cs408-loser-tree",
+      "title": "败者树",
+      "core_question": "败者树怎样加速多路归并中的最小记录选择？",
+      "summary": "败者树保存比较败者，根外保留胜者；某一路更新后只需沿到根的路径重新比较。",
+      "definition": "败者树是一棵用于 k 路归并的完全二叉比较结构，内部结点记录比较中的败者，最终胜者单独保存。输出胜者后，仅该输入路读入新记录并沿其叶到根重新比赛，选择新胜者需 O(log k) 次比较；哨兵可表示某一路已经耗尽。",
+      "content_type": "mechanism"
+    },
+    {
+      "id": "cs408-syllabus-sorting",
+      "title": "408 考纲：排序范围",
+      "core_question": "408 排序模块覆盖哪些算法与分析维度？",
+      "summary": "排序模块覆盖插入、交换、选择、希尔、快速、堆、归并、基数和外部排序，并要求比较稳定性与复杂度。",
+      "definition": "408 排序模块包括排序基本概念、直接与折半插入排序、冒泡排序、简单选择排序、希尔排序、快速排序、堆排序、二路归并排序、基数排序和外部排序，以及排序算法的分析与应用。复习时需要比较最好、平均和最坏时间、辅助空间、稳定性、原地性与适用场景。",
+      "content_type": "concept"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "syllabus-note-cs408-replacement-selection",
+      "type": "paragraph",
+      "content": "利用内存中的选择树持续输出不小于当前段末记录的最小值，暂时冻结不满足条件的输入记录。\n\n内存先装入一批记录，每次输出仍可接在当前有序段后的最小记录，并用新输入替换它；若新记录小于刚输出值，就冻结到下一段。当前可用记录全部冻结时结束本段并解冻。随机输入下初始段平均长度可接近内存记录数的两倍，但不保证固定倍数。\n\n对应 2026 数据结构考纲叶子条目：外部排序。"
+    }
+  ]
+}

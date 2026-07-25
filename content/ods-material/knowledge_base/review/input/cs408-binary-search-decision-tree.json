@@ -1,0 +1,94 @@
+{
+  "concept": {
+    "id": "cs408-binary-search-decision-tree",
+    "title": "折半查找判定树与 ASL",
+    "aliases": [
+      "binary search tree of decisions",
+      "判定树"
+    ],
+    "content_type": "theorem",
+    "location": {
+      "course_id": "cs408-data-structures",
+      "chapter_id": "408-searching",
+      "section_id": "cs408-linear-search",
+      "parent_id": null,
+      "order": 7
+    },
+    "core_question": "折半查找的比较过程如何对应判定树？",
+    "summary": "每次中点比较对应一层判定，成功结点深度和失败外部结点深度决定比较次数。",
+    "definition": "对固定长度有序表，折半查找的比较过程可画成近似平衡的二叉判定树。成功查找某元素的比较次数等于其结点层数；失败对应叶间空区间。树高为 floor(log2 n)+1，因此最坏比较次数为 O(log n)。",
+    "prerequisite_ids": [
+      "cs408-binary-search",
+      "cs408-average-search-length"
+    ],
+    "relations": [
+      {
+        "type": "part_of",
+        "target_id": "cs408-syllabus-searching",
+        "description": "折半查找判定树与 ASL是查找考纲模块中的原子知识点。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "像一棵问答决策树，每回答一次“大于还是小于”就走向一侧，路径长度就是比较次数。",
+      "mapping": {
+        "直观对象": "折半查找判定树与 ASL",
+        "对应机制": "每次中点比较对应一层判定，成功结点深度和失败外部结点深度决定比较次数。"
+      },
+      "boundary": "类比只用于建立直觉；正式作答仍需使用定义、操作步骤、适用条件和复杂度结论。"
+    },
+    "retrieval": {
+      "keywords": [
+        "折半查找判定树与 ASL",
+        "binary search tree of decisions",
+        "判定树"
+      ],
+      "query_examples": [
+        "折半查找的比较过程如何对应判定树？",
+        "折半查找判定树与 ASL的步骤、性质和复杂度是什么？",
+        "折半查找判定树与 ASL有哪些适用条件和易错边界？"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "syllabus-note-cs408-binary-search-decision-tree"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "cs408-binary-search",
+      "title": "折半查找",
+      "core_question": "折半查找怎样利用有序顺序表不断缩小区间？",
+      "summary": "比较中点后排除不可能的一半，成功和失败时间均为 O(log n)。",
+      "definition": "折半查找要求支持随机访问且关键字有序。维护闭区间 [low,high] 或半开区间，按统一约定计算 mid；目标小于中值缩小右界，大于则提高左界。循环条件和边界更新必须保证区间严格缩小。",
+      "content_type": "algorithm"
+    },
+    {
+      "id": "cs408-average-search-length",
+      "title": "平均查找长度",
+      "core_question": "平均查找长度如何衡量一次查找的期望比较次数？",
+      "summary": "ASL 是各查找情况比较次数按发生概率加权的期望，成功与失败通常分别计算。",
+      "definition": "若第 i 种查找情况发生概率为 pi、需要 ci 次关键字比较，则 ASL=Σpi·ci。概率未知时常假设等概率。不同算法的失败查找可能对应区间、空链或探测终点，必须按具体结构列出失败情况。",
+      "content_type": "formula"
+    },
+    {
+      "id": "cs408-syllabus-searching",
+      "title": "408 考纲：查找范围",
+      "core_question": "408 查找模块覆盖哪些查找结构和算法？",
+      "summary": "查找模块覆盖顺序、分块、折半查找，BST、AVL、红黑树、B/B+树、散列表、字符串匹配及分析应用。",
+      "definition": "408 查找模块包括查找基本概念，顺序查找、分块查找、折半查找，二叉搜索树、平衡二叉树和红黑树，B 树的基本操作与 B+ 树基本概念，散列表，字符串模式匹配，以及查找算法的分析与应用。不同方法必须结合前提、操作成本和数据场景比较。",
+      "content_type": "concept"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "syllabus-note-cs408-binary-search-decision-tree",
+      "type": "paragraph",
+      "content": "每次中点比较对应一层判定，成功结点深度和失败外部结点深度决定比较次数。\n\n对固定长度有序表，折半查找的比较过程可画成近似平衡的二叉判定树。成功查找某元素的比较次数等于其结点层数；失败对应叶间空区间。树高为 floor(log2 n)+1，因此最坏比较次数为 O(log n)。\n\n对应 2026 数据结构考纲叶子条目：折半查找法、查找算法的分析及应用。"
+    }
+  ]
+}

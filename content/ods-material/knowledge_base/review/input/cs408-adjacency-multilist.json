@@ -1,0 +1,85 @@
+{
+  "concept": {
+    "id": "cs408-adjacency-multilist",
+    "title": "无向图的邻接多重表",
+    "aliases": [
+      "adjacency multilist",
+      "无向边结点"
+    ],
+    "content_type": "concept",
+    "location": {
+      "course_id": "cs408-data-structures",
+      "chapter_id": "408-graphs",
+      "section_id": "cs408-graph-storage",
+      "parent_id": null,
+      "order": 6
+    },
+    "core_question": "邻接多重表如何让一条无向边只保存一次？",
+    "summary": "每条边结点记录两个端点，并分别链接到两个端点的关联边链。",
+    "definition": "邻接多重表的边结点含两个端点编号，以及沿两个端点关联边链的下一指针。与普通邻接表把无向边复制两次不同，它让一条边只存在一个边结点，适合需要频繁标记、删除或访问边对象的无向图。",
+    "prerequisite_ids": [
+      "cs408-graph-definition"
+    ],
+    "relations": [
+      {
+        "type": "part_of",
+        "target_id": "cs408-syllabus-graphs",
+        "description": "无向图的邻接多重表是图考纲模块中的原子知识点。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "像一份共同合同只保存一份原件，但同时出现在双方的合同索引中。",
+      "mapping": {
+        "直观对象": "无向图的邻接多重表",
+        "对应机制": "每条边结点记录两个端点，并分别链接到两个端点的关联边链。"
+      },
+      "boundary": "类比只用于建立直觉；正式作答仍需使用定义、操作步骤、适用条件和复杂度结论。"
+    },
+    "retrieval": {
+      "keywords": [
+        "无向图的邻接多重表",
+        "adjacency multilist",
+        "无向边结点"
+      ],
+      "query_examples": [
+        "邻接多重表如何让一条无向边只保存一次？",
+        "无向图的邻接多重表的步骤、性质和复杂度是什么？",
+        "无向图的邻接多重表有哪些适用条件和易错边界？"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "syllabus-note-cs408-adjacency-multilist"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "cs408-graph-definition",
+      "title": "图、顶点与边",
+      "core_question": "图结构如何表示元素之间的多对多关系？",
+      "summary": "图 G=(V,E) 由顶点集合和边集合组成，边表示任意两个顶点之间的关系。",
+      "definition": "图由非空有限顶点集合 V 和边集合 E 构成。无向边是无序顶点对，有向边或弧是有序对；不存在重复边且通常不含自环的图称简单图。图不要求像树那样每个结点只有一个父结点。",
+      "content_type": "concept"
+    },
+    {
+      "id": "cs408-syllabus-graphs",
+      "title": "408 考纲：图范围",
+      "core_question": "408 图模块要求掌握哪些表示、遍历和应用？",
+      "summary": "图模块覆盖基本概念、邻接矩阵与邻接表等存储、BFS/DFS，以及生成树、最短路、拓扑排序和关键路径。",
+      "definition": "408 图模块包括图的基本概念，邻接矩阵、邻接表、邻接多重表和十字链表等存储与基本操作，深度优先搜索和广度优先搜索，以及最小生成树、最短路径、拓扑排序和关键路径等基本应用。复习时需能在给定表示上手推过程并分析复杂度。",
+      "content_type": "concept"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "syllabus-note-cs408-adjacency-multilist",
+      "type": "paragraph",
+      "content": "每条边结点记录两个端点，并分别链接到两个端点的关联边链。\n\n邻接多重表的边结点含两个端点编号，以及沿两个端点关联边链的下一指针。与普通邻接表把无向边复制两次不同，它让一条边只存在一个边结点，适合需要频繁标记、删除或访问边对象的无向图。\n\n对应 2026 数据结构考纲叶子条目：邻接多重表和十字链表。"
+    }
+  ]
+}

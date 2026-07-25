@@ -1,0 +1,85 @@
+{
+  "concept": {
+    "id": "cs408-red-black-properties",
+    "title": "红黑树的五条性质与黑高",
+    "aliases": [
+      "red black tree",
+      "black height"
+    ],
+    "content_type": "theorem",
+    "location": {
+      "course_id": "cs408-data-structures",
+      "chapter_id": "408-searching",
+      "section_id": "cs408-tree-search",
+      "parent_id": null,
+      "order": 13
+    },
+    "core_question": "红黑树通过哪些颜色约束保持近似平衡？",
+    "summary": "根和空叶为黑，红结点孩子为黑，任一路径黑结点数相同，使高度不超过约 2log(n+1)。",
+    "definition": "红黑树是带颜色的 BST：结点红或黑；根黑；所有空叶哨兵黑；红结点不能有红孩子；从任一结点到后代空叶的路径具有相同黑高。颜色约束允许比 AVL 更松的平衡，但保证基本操作 O(log n)。",
+    "prerequisite_ids": [
+      "cs408-bst-property-search"
+    ],
+    "relations": [
+      {
+        "type": "part_of",
+        "target_id": "cs408-syllabus-searching",
+        "description": "红黑树的五条性质与黑高是查找考纲模块中的原子知识点。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "像交通网络允许局部红色快速路，但不能连续出现，且每条到出口的黑色检查站数量一致。",
+      "mapping": {
+        "直观对象": "红黑树的五条性质与黑高",
+        "对应机制": "根和空叶为黑，红结点孩子为黑，任一路径黑结点数相同，使高度不超过约 2log(n+1)。"
+      },
+      "boundary": "类比只用于建立直觉；正式作答仍需使用定义、操作步骤、适用条件和复杂度结论。"
+    },
+    "retrieval": {
+      "keywords": [
+        "红黑树的五条性质与黑高",
+        "red black tree",
+        "black height"
+      ],
+      "query_examples": [
+        "红黑树通过哪些颜色约束保持近似平衡？",
+        "红黑树的五条性质与黑高的步骤、性质和复杂度是什么？",
+        "红黑树的五条性质与黑高有哪些适用条件和易错边界？"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "syllabus-note-cs408-red-black-properties"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "cs408-bst-property-search",
+      "title": "二叉搜索树性质与查找",
+      "core_question": "二叉搜索树怎样利用关键字有序性查找？",
+      "summary": "对每个结点，左子树关键字更小、右子树更大，中序遍历得到有序序列。",
+      "definition": "查找从根开始，目标小于当前关键字进入左子树，大于则进入右子树，相等成功。时间与树高 h 同阶；形态平衡时约 O(log n)，按有序序列插入可能退化为链，最坏 O(n)。",
+      "content_type": "concept"
+    },
+    {
+      "id": "cs408-syllabus-searching",
+      "title": "408 考纲：查找范围",
+      "core_question": "408 查找模块覆盖哪些查找结构和算法？",
+      "summary": "查找模块覆盖顺序、分块、折半查找，BST、AVL、红黑树、B/B+树、散列表、字符串匹配及分析应用。",
+      "definition": "408 查找模块包括查找基本概念，顺序查找、分块查找、折半查找，二叉搜索树、平衡二叉树和红黑树，B 树的基本操作与 B+ 树基本概念，散列表，字符串模式匹配，以及查找算法的分析与应用。不同方法必须结合前提、操作成本和数据场景比较。",
+      "content_type": "concept"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "syllabus-note-cs408-red-black-properties",
+      "type": "paragraph",
+      "content": "根和空叶为黑，红结点孩子为黑，任一路径黑结点数相同，使高度不超过约 2log(n+1)。\n\n红黑树是带颜色的 BST：结点红或黑；根黑；所有空叶哨兵黑；红结点不能有红孩子；从任一结点到后代空叶的路径具有相同黑高。颜色约束允许比 AVL 更松的平衡，但保证基本操作 O(log n)。\n\n对应 2026 数据结构考纲叶子条目：红黑树。"
+    }
+  ]
+}

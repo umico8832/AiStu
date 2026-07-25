@@ -1,0 +1,16 @@
+{"concept_id": "cs408-stack-lifo", "recommended": false, "priority": "low", "suggested_type": "structure_layout", "reason": "该知识点当前以文字、公式或比较表表达更直接。", "possible_scenes": []}
+{"concept_id": "cs408-sequential-stack", "recommended": false, "priority": "low", "suggested_type": "structure_layout", "reason": "该知识点当前以文字、公式或比较表表达更直接。", "possible_scenes": []}
+{"concept_id": "cs408-linked-stack", "recommended": false, "priority": "low", "suggested_type": "structure_layout", "reason": "该知识点当前以文字、公式或比较表表达更直接。", "possible_scenes": []}
+{"concept_id": "cs408-stack-pop-sequences", "recommended": true, "priority": "medium", "suggested_type": "algorithm_execution", "reason": "该知识点包含可逐步演示的结构变化或算法过程，适合进入课件候选评审。", "possible_scenes": ["合法出栈序列初始状态", "合法出栈序列关键步骤与结果"]}
+{"concept_id": "cs408-parentheses-matching", "recommended": true, "priority": "medium", "suggested_type": "algorithm_execution", "reason": "该知识点包含可逐步演示的结构变化或算法过程，适合进入课件候选评审。", "possible_scenes": ["括号匹配初始状态", "括号匹配关键步骤与结果"]}
+{"concept_id": "cs408-expression-evaluation", "recommended": true, "priority": "medium", "suggested_type": "algorithm_execution", "reason": "该知识点包含可逐步演示的结构变化或算法过程，适合进入课件候选评审。", "possible_scenes": ["表达式转换与求值初始状态", "表达式转换与求值关键步骤与结果"]}
+{"concept_id": "cs408-recursion-call-stack", "recommended": true, "priority": "medium", "suggested_type": "algorithm_execution", "reason": "该知识点包含可逐步演示的结构变化或算法过程，适合进入课件候选评审。", "possible_scenes": ["递归与调用栈初始状态", "递归与调用栈关键步骤与结果"]}
+{"concept_id": "cs408-queue-fifo", "recommended": false, "priority": "low", "suggested_type": "structure_layout", "reason": "该知识点当前以文字、公式或比较表表达更直接。", "possible_scenes": []}
+{"concept_id": "cs408-circular-queue-representation", "recommended": false, "priority": "low", "suggested_type": "structure_layout", "reason": "该知识点当前以文字、公式或比较表表达更直接。", "possible_scenes": []}
+{"concept_id": "cs408-circular-queue-state", "recommended": false, "priority": "low", "suggested_type": "structure_layout", "reason": "该知识点当前以文字、公式或比较表表达更直接。", "possible_scenes": []}
+{"concept_id": "cs408-linked-queue", "recommended": false, "priority": "low", "suggested_type": "structure_layout", "reason": "该知识点当前以文字、公式或比较表表达更直接。", "possible_scenes": []}
+{"concept_id": "cs408-multidimensional-array-address", "recommended": false, "priority": "low", "suggested_type": "structure_layout", "reason": "该知识点当前以文字、公式或比较表表达更直接。", "possible_scenes": []}
+{"concept_id": "cs408-symmetric-matrix-compression", "recommended": false, "priority": "low", "suggested_type": "structure_layout", "reason": "该知识点当前以文字、公式或比较表表达更直接。", "possible_scenes": []}
+{"concept_id": "cs408-triangular-diagonal-matrix-compression", "recommended": false, "priority": "low", "suggested_type": "structure_layout", "reason": "该知识点当前以文字、公式或比较表表达更直接。", "possible_scenes": []}
+{"concept_id": "cs408-sparse-matrix-triples", "recommended": false, "priority": "low", "suggested_type": "structure_layout", "reason": "该知识点当前以文字、公式或比较表表达更直接。", "possible_scenes": []}
+{"concept_id": "cs408-queue-applications", "recommended": false, "priority": "low", "suggested_type": "structure_layout", "reason": "该知识点当前以文字、公式或比较表表达更直接。", "possible_scenes": []}

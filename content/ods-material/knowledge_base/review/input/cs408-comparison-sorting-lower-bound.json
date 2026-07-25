@@ -1,0 +1,94 @@
+{
+  "concept": {
+    "id": "cs408-comparison-sorting-lower-bound",
+    "title": "比较排序的下界",
+    "aliases": [
+      "sorting lower bound",
+      "decision tree"
+    ],
+    "content_type": "theorem",
+    "location": {
+      "course_id": "cs408-data-structures",
+      "chapter_id": "408-sorting",
+      "section_id": "cs408-sorting-analysis",
+      "parent_id": null,
+      "order": 12
+    },
+    "core_question": "为什么一般比较排序最坏至少需要 Ω(n log n) 次比较？",
+    "summary": "比较排序的决策树至少要有 n! 个叶子，树高因此不小于 log₂(n!)=Ω(n log n)。",
+    "definition": "把比较排序表示成二叉决策树，每次关键字比较产生至多两个分支。n 个互异元素有 n! 种可能排列，正确算法必须能区分它们，因此叶子数至少 n!，最坏比较次数至少为树高 ⌈log₂(n!)⌉，由 Stirling 估计得到 Ω(n log n)。该结论不约束利用数字位或取值范围的非比较排序。",
+    "prerequisite_ids": [
+      "cs408-asymptotic-notation",
+      "cs408-sorting-concepts"
+    ],
+    "relations": [
+      {
+        "type": "part_of",
+        "target_id": "cs408-syllabus-sorting",
+        "description": "比较排序的下界是排序考纲模块中的原子知识点。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "像用是非问题辨认 n! 种排列，问题数至少足以编码这么多答案。",
+      "mapping": {
+        "直观对象": "比较排序的下界",
+        "对应机制": "比较排序的决策树至少要有 n! 个叶子，树高因此不小于 log₂(n!)=Ω(n log n)。"
+      },
+      "boundary": "类比只用于建立直觉；正式作答仍需使用定义、操作步骤、适用条件和复杂度结论。"
+    },
+    "retrieval": {
+      "keywords": [
+        "比较排序的下界",
+        "sorting lower bound",
+        "decision tree"
+      ],
+      "query_examples": [
+        "为什么一般比较排序最坏至少需要 Ω(n log n) 次比较？",
+        "比较排序的下界的步骤、性质和复杂度是什么？",
+        "比较排序的下界有哪些适用条件和易错边界？"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "syllabus-note-cs408-comparison-sorting-lower-bound"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "cs408-asymptotic-notation",
+      "title": "O、Ω 与 Θ 渐进记号",
+      "core_question": "大 O、大 Ω 和 Θ 分别表达什么渐进界？",
+      "summary": "O 给渐进上界，Ω 给渐进下界，Θ 同时给出同阶上下界。",
+      "definition": "若从某个 n 起有 0≤f(n)≤c·g(n)，则 f(n)=O(g(n))；若 f(n)≥c·g(n)，则 f(n)=Ω(g(n))；若同时存在正数 c1、c2 使 c1g(n)≤f(n)≤c2g(n)，则 f(n)=Θ(g(n))。它们描述函数增长界，不等同于最好、最坏情形本身。",
+      "content_type": "formula"
+    },
+    {
+      "id": "cs408-sorting-concepts",
+      "title": "排序、稳定性与内部外部排序",
+      "core_question": "排序问题有哪些基本术语和评价维度？",
+      "summary": "排序按关键字重排记录；稳定性描述相等关键字的相对次序，内部与外部排序按数据能否全部驻留内存区分。",
+      "definition": "排序把记录序列按一个或多个关键字组织成非递减或非递增次序。若任意相等关键字记录在排序后仍保持原相对次序，算法稳定；否则不稳定。全部数据可在内存中完成的是内部排序，需要在内存与外存间分批交换数据的是外部排序。",
+      "content_type": "concept"
+    },
+    {
+      "id": "cs408-syllabus-sorting",
+      "title": "408 考纲：排序范围",
+      "core_question": "408 排序模块覆盖哪些算法与分析维度？",
+      "summary": "排序模块覆盖插入、交换、选择、希尔、快速、堆、归并、基数和外部排序，并要求比较稳定性与复杂度。",
+      "definition": "408 排序模块包括排序基本概念、直接与折半插入排序、冒泡排序、简单选择排序、希尔排序、快速排序、堆排序、二路归并排序、基数排序和外部排序，以及排序算法的分析与应用。复习时需要比较最好、平均和最坏时间、辅助空间、稳定性、原地性与适用场景。",
+      "content_type": "concept"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "syllabus-note-cs408-comparison-sorting-lower-bound",
+      "type": "paragraph",
+      "content": "比较排序的决策树至少要有 n! 个叶子，树高因此不小于 log₂(n!)=Ω(n log n)。\n\n把比较排序表示成二叉决策树，每次关键字比较产生至多两个分支。n 个互异元素有 n! 种可能排列，正确算法必须能区分它们，因此叶子数至少 n!，最坏比较次数至少为树高 ⌈log₂(n!)⌉，由 Stirling 估计得到 Ω(n log n)。该结论不约束利用数字位或取值范围的非比较排序。\n\n对应 2026 数据结构考纲叶子条目：排序算法的分析及应用。"
+    }
+  ]
+}

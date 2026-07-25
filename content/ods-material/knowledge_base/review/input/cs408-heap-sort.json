@@ -1,0 +1,85 @@
+{
+  "concept": {
+    "id": "cs408-heap-sort",
+    "title": "堆排序",
+    "aliases": [
+      "heap sort",
+      "堆排序下滤"
+    ],
+    "content_type": "algorithm",
+    "location": {
+      "course_id": "cs408-data-structures",
+      "chapter_id": "408-sorting",
+      "section_id": "cs408-internal-sorting",
+      "parent_id": null,
+      "order": 9
+    },
+    "core_question": "堆排序怎样反复选择极值并原地完成排序？",
+    "summary": "先建最大堆，再反复把堆顶与末尾交换并向下调整剩余堆。",
+    "definition": "升序堆排序把数组建成最大堆，堆顶最大值与当前末尾交换后缩小堆边界，再对根做下滤恢复堆序。自底向上建堆为 O(n)，之后 n-1 次调整各 O(log n)，总时间在最好、平均和最坏均为 O(n log n)，辅助空间 O(1)，通常不稳定。",
+    "prerequisite_ids": [
+      "cs408-heap-operations"
+    ],
+    "relations": [
+      {
+        "type": "part_of",
+        "target_id": "cs408-syllabus-sorting",
+        "description": "堆排序是排序考纲模块中的原子知识点。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "像冠军树每轮把当前冠军送到领奖区，再从剩余选手中恢复新的冠军。",
+      "mapping": {
+        "直观对象": "堆排序",
+        "对应机制": "先建最大堆，再反复把堆顶与末尾交换并向下调整剩余堆。"
+      },
+      "boundary": "类比只用于建立直觉；正式作答仍需使用定义、操作步骤、适用条件和复杂度结论。"
+    },
+    "retrieval": {
+      "keywords": [
+        "堆排序",
+        "heap sort",
+        "堆排序下滤"
+      ],
+      "query_examples": [
+        "堆排序怎样反复选择极值并原地完成排序？",
+        "堆排序的步骤、性质和复杂度是什么？",
+        "堆排序有哪些适用条件和易错边界？"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "syllabus-note-cs408-heap-sort"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "cs408-heap-operations",
+      "title": "堆的插入、删除与建堆",
+      "core_question": "上滤、下滤和自底向上建堆如何维护堆序？",
+      "summary": "插入在末尾后上滤，删除根用末元素补位后下滤，自底向上建堆为 O(n)。",
+      "definition": "插入保持完全树形状，在数组末尾加入元素并与父结点比较上滤，时间 O(log n)。删除堆顶后把末元素移到根并与更合适的孩子交换下滤，时间 O(log n)。从最后一个非叶结点起依次下滤可在线性时间建堆。",
+      "content_type": "algorithm"
+    },
+    {
+      "id": "cs408-syllabus-sorting",
+      "title": "408 考纲：排序范围",
+      "core_question": "408 排序模块覆盖哪些算法与分析维度？",
+      "summary": "排序模块覆盖插入、交换、选择、希尔、快速、堆、归并、基数和外部排序，并要求比较稳定性与复杂度。",
+      "definition": "408 排序模块包括排序基本概念、直接与折半插入排序、冒泡排序、简单选择排序、希尔排序、快速排序、堆排序、二路归并排序、基数排序和外部排序，以及排序算法的分析与应用。复习时需要比较最好、平均和最坏时间、辅助空间、稳定性、原地性与适用场景。",
+      "content_type": "concept"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "syllabus-note-cs408-heap-sort",
+      "type": "paragraph",
+      "content": "先建最大堆，再反复把堆顶与末尾交换并向下调整剩余堆。\n\n升序堆排序把数组建成最大堆，堆顶最大值与当前末尾交换后缩小堆边界，再对根做下滤恢复堆序。自底向上建堆为 O(n)，之后 n-1 次调整各 O(log n)，总时间在最好、平均和最坏均为 O(n log n)，辅助空间 O(1)，通常不稳定。\n\n对应 2026 数据结构考纲叶子条目：堆排序、排序算法的分析及应用。"
+    }
+  ]
+}

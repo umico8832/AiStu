@@ -33,3 +33,5 @@ dmg:
 nsis:
   artifactName: ${productName}-${version}-${arch}-setup.${ext}
 afterPack: ../../scripts/after-pack.cjs
+artifactBuildStarted: ../../scripts/artifact-build-started.cjs
+afterAllArtifactBuild: ../../scripts/after-all-artifact-build.cjs

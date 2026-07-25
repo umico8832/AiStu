@@ -1,0 +1,94 @@
+{
+  "concept": {
+    "id": "cs408-separate-chaining",
+    "title": "链地址法处理散列冲突",
+    "aliases": [
+      "separate chaining",
+      "拉链法"
+    ],
+    "content_type": "algorithm",
+    "location": {
+      "course_id": "cs408-data-structures",
+      "chapter_id": "408-searching",
+      "section_id": "cs408-linear-search",
+      "parent_id": null,
+      "order": 23
+    },
+    "core_question": "链地址法如何保存映射到同一散列地址的多个记录？",
+    "summary": "每个表槽保存一个桶或链表，冲突记录进入同一桶，删除不会破坏其他地址的查找路径。",
+    "definition": "查找先计算 H(key)，再遍历对应桶。若桶内使用无序链表，期望成本取决于装填因子 α=n/m；表可容纳超过 m 个记录。链地址法需要指针或桶开销，但删除直接从桶中移除即可。",
+    "prerequisite_ids": [
+      "cs408-hash-functions",
+      "cs408-singly-linked-list"
+    ],
+    "relations": [
+      {
+        "type": "part_of",
+        "target_id": "cs408-syllabus-searching",
+        "description": "链地址法处理散列冲突是查找考纲模块中的原子知识点。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "像同一分拣格口挂一串标签，所有落入该格的包裹沿标签链继续区分。",
+      "mapping": {
+        "直观对象": "链地址法处理散列冲突",
+        "对应机制": "每个表槽保存一个桶或链表，冲突记录进入同一桶，删除不会破坏其他地址的查找路径。"
+      },
+      "boundary": "类比只用于建立直觉；正式作答仍需使用定义、操作步骤、适用条件和复杂度结论。"
+    },
+    "retrieval": {
+      "keywords": [
+        "链地址法处理散列冲突",
+        "separate chaining",
+        "拉链法"
+      ],
+      "query_examples": [
+        "链地址法如何保存映射到同一散列地址的多个记录？",
+        "链地址法处理散列冲突的步骤、性质和复杂度是什么？",
+        "链地址法处理散列冲突有哪些适用条件和易错边界？"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "syllabus-note-cs408-separate-chaining"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "cs408-hash-functions",
+      "title": "散列函数设计",
+      "core_question": "怎样设计能均匀分布关键字的散列函数？",
+      "summary": "函数应计算快速、地址范围合法并尽量利用关键字信息，常用除留余数、直接定址、数字分析等方法。",
+      "definition": "除留余数法 H(key)=key mod p 常选不大于表长的合适质数；直接定址适合关键字范围紧凑；数字分析、平方取中和折叠法按关键字分布选取信息。函数不能消除所有冲突，评价需结合实际关键字分布。",
+      "content_type": "mechanism"
+    },
+    {
+      "id": "cs408-singly-linked-list",
+      "title": "单链表的结点与表示",
+      "core_question": "单链表如何用指针连接逻辑相邻元素？",
+      "summary": "单链表结点保存数据与后继指针，物理位置可以离散，必须从表头沿指针顺序访问。",
+      "definition": "单链表的每个结点由数据域和 next 指针域组成，头指针标识首结点，可选头结点作为不保存业务数据的哨兵。已知前驱时插入和删除为 O(1)，按位定位仍需从头遍历，时间为 O(n)。",
+      "content_type": "concept"
+    },
+    {
+      "id": "cs408-syllabus-searching",
+      "title": "408 考纲：查找范围",
+      "core_question": "408 查找模块覆盖哪些查找结构和算法？",
+      "summary": "查找模块覆盖顺序、分块、折半查找，BST、AVL、红黑树、B/B+树、散列表、字符串匹配及分析应用。",
+      "definition": "408 查找模块包括查找基本概念，顺序查找、分块查找、折半查找，二叉搜索树、平衡二叉树和红黑树，B 树的基本操作与 B+ 树基本概念，散列表，字符串模式匹配，以及查找算法的分析与应用。不同方法必须结合前提、操作成本和数据场景比较。",
+      "content_type": "concept"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "syllabus-note-cs408-separate-chaining",
+      "type": "paragraph",
+      "content": "每个表槽保存一个桶或链表，冲突记录进入同一桶，删除不会破坏其他地址的查找路径。\n\n查找先计算 H(key)，再遍历对应桶。若桶内使用无序链表，期望成本取决于装填因子 α=n/m；表可容纳超过 m 个记录。链地址法需要指针或桶开销，但删除直接从桶中移除即可。\n\n对应 2026 数据结构考纲叶子条目：散列表。"
+    }
+  ]
+}

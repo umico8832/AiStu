@@ -1,0 +1,85 @@
+{
+  "concept": {
+    "id": "cs408-sequential-search-sentinel",
+    "title": "带哨兵的顺序查找",
+    "aliases": [
+      "sentinel search",
+      "哨兵"
+    ],
+    "content_type": "mechanism",
+    "location": {
+      "course_id": "cs408-data-structures",
+      "chapter_id": "408-searching",
+      "section_id": "cs408-linear-search",
+      "parent_id": null,
+      "order": 4
+    },
+    "core_question": "哨兵如何减少顺序查找循环中的边界判断？",
+    "summary": "把目标暂存到数组边界位置，循环只比较关键字，停下后再判断是否命中有效记录。",
+    "definition": "常见从后向前查找把待查关键字写入下标 0 作为哨兵，从 n 开始递减直到相等；返回 0 表示失败。哨兵不改变 O(n) 复杂度，只减少循环内的边界分支，且必须确保额外槽位可写。",
+    "prerequisite_ids": [
+      "cs408-sequential-search"
+    ],
+    "relations": [
+      {
+        "type": "part_of",
+        "target_id": "cs408-syllabus-searching",
+        "description": "带哨兵的顺序查找是查找考纲模块中的原子知识点。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "像在走廊尽头放一块同名终点牌，保证搜索总会停下，再判断停在真实房间还是终点牌。",
+      "mapping": {
+        "直观对象": "带哨兵的顺序查找",
+        "对应机制": "把目标暂存到数组边界位置，循环只比较关键字，停下后再判断是否命中有效记录。"
+      },
+      "boundary": "类比只用于建立直觉；正式作答仍需使用定义、操作步骤、适用条件和复杂度结论。"
+    },
+    "retrieval": {
+      "keywords": [
+        "带哨兵的顺序查找",
+        "sentinel search",
+        "哨兵"
+      ],
+      "query_examples": [
+        "哨兵如何减少顺序查找循环中的边界判断？",
+        "带哨兵的顺序查找的步骤、性质和复杂度是什么？",
+        "带哨兵的顺序查找有哪些适用条件和易错边界？"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "syllabus-note-cs408-sequential-search-sentinel"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "cs408-sequential-search",
+      "title": "顺序查找",
+      "core_question": "顺序查找怎样在线性表中寻找目标关键字？",
+      "summary": "从一端逐个比较直到找到或扫描结束，适用于无序表和链式存储，时间为 O(n)。",
+      "definition": "顺序查找不要求记录有序。成功比较次数取决于目标位置，失败需要检查所有 n 个记录；等概率时成功 ASL 约为 (n+1)/2，失败为 n 或 n+1，取决于计数和哨兵约定。",
+      "content_type": "algorithm"
+    },
+    {
+      "id": "cs408-syllabus-searching",
+      "title": "408 考纲：查找范围",
+      "core_question": "408 查找模块覆盖哪些查找结构和算法？",
+      "summary": "查找模块覆盖顺序、分块、折半查找，BST、AVL、红黑树、B/B+树、散列表、字符串匹配及分析应用。",
+      "definition": "408 查找模块包括查找基本概念，顺序查找、分块查找、折半查找，二叉搜索树、平衡二叉树和红黑树，B 树的基本操作与 B+ 树基本概念，散列表，字符串模式匹配，以及查找算法的分析与应用。不同方法必须结合前提、操作成本和数据场景比较。",
+      "content_type": "concept"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "syllabus-note-cs408-sequential-search-sentinel",
+      "type": "paragraph",
+      "content": "把目标暂存到数组边界位置，循环只比较关键字，停下后再判断是否命中有效记录。\n\n常见从后向前查找把待查关键字写入下标 0 作为哨兵，从 n 开始递减直到相等；返回 0 表示失败。哨兵不改变 O(n) 复杂度，只减少循环内的边界分支，且必须确保额外槽位可写。\n\n对应 2026 数据结构考纲叶子条目：顺序查找法。"
+    }
+  ]
+}

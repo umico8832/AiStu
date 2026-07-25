@@ -1,0 +1,94 @@
+{
+  "concept": {
+    "id": "cs408-bst-property-search",
+    "title": "二叉搜索树性质与查找",
+    "aliases": [
+      "BST",
+      "binary search tree"
+    ],
+    "content_type": "concept",
+    "location": {
+      "course_id": "cs408-data-structures",
+      "chapter_id": "408-searching",
+      "section_id": "cs408-linear-search",
+      "parent_id": null,
+      "order": 8
+    },
+    "core_question": "二叉搜索树怎样利用关键字有序性查找？",
+    "summary": "对每个结点，左子树关键字更小、右子树更大，中序遍历得到有序序列。",
+    "definition": "查找从根开始，目标小于当前关键字进入左子树，大于则进入右子树，相等成功。时间与树高 h 同阶；形态平衡时约 O(log n)，按有序序列插入可能退化为链，最坏 O(n)。",
+    "prerequisite_ids": [
+      "cs408-binary-tree-linked-storage",
+      "cs408-search-concepts"
+    ],
+    "relations": [
+      {
+        "type": "part_of",
+        "target_id": "cs408-syllabus-searching",
+        "description": "二叉搜索树性质与查找是查找考纲模块中的原子知识点。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "像在层级目录中，每次根据目标偏小或偏大只进入一侧分支。",
+      "mapping": {
+        "直观对象": "二叉搜索树性质与查找",
+        "对应机制": "对每个结点，左子树关键字更小、右子树更大，中序遍历得到有序序列。"
+      },
+      "boundary": "类比只用于建立直觉；正式作答仍需使用定义、操作步骤、适用条件和复杂度结论。"
+    },
+    "retrieval": {
+      "keywords": [
+        "二叉搜索树性质与查找",
+        "BST",
+        "binary search tree"
+      ],
+      "query_examples": [
+        "二叉搜索树怎样利用关键字有序性查找？",
+        "二叉搜索树性质与查找的步骤、性质和复杂度是什么？",
+        "二叉搜索树性质与查找有哪些适用条件和易错边界？"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "syllabus-note-cs408-bst-property-search"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "cs408-binary-tree-linked-storage",
+      "title": "二叉链表与三叉链表",
+      "core_question": "链式二叉树如何表示左右孩子和父结点？",
+      "summary": "二叉链表结点保存数据、左孩子指针和右孩子指针，三叉链表再保存父指针。",
+      "definition": "二叉链表适合一般形态的二叉树，空孩子用 null 表示；若二叉树有 n 个结点，2n 个孩子指针中有 n-1 个指向孩子，其余 n+1 个为空。增加 parent 指针形成三叉链表，可常数时间向上移动但增加空间与维护成本。",
+      "content_type": "concept"
+    },
+    {
+      "id": "cs408-search-concepts",
+      "title": "查找表、关键字与查找结果",
+      "core_question": "查找问题中的查找表、关键字、成功与失败分别是什么？",
+      "summary": "查找依据关键字在记录集合中确定匹配记录，成功返回位置或记录，失败确认不存在。",
+      "definition": "查找表是同一类型记录构成的集合，关键字是能标识或区分记录的数据项。静态查找表只查询，动态查找表还允许插入和删除；评价算法时必须同时考虑成功、失败查找以及数据是否有序。",
+      "content_type": "concept"
+    },
+    {
+      "id": "cs408-syllabus-searching",
+      "title": "408 考纲：查找范围",
+      "core_question": "408 查找模块覆盖哪些查找结构和算法？",
+      "summary": "查找模块覆盖顺序、分块、折半查找，BST、AVL、红黑树、B/B+树、散列表、字符串匹配及分析应用。",
+      "definition": "408 查找模块包括查找基本概念，顺序查找、分块查找、折半查找，二叉搜索树、平衡二叉树和红黑树，B 树的基本操作与 B+ 树基本概念，散列表，字符串模式匹配，以及查找算法的分析与应用。不同方法必须结合前提、操作成本和数据场景比较。",
+      "content_type": "concept"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "syllabus-note-cs408-bst-property-search",
+      "type": "paragraph",
+      "content": "对每个结点，左子树关键字更小、右子树更大，中序遍历得到有序序列。\n\n查找从根开始，目标小于当前关键字进入左子树，大于则进入右子树，相等成功。时间与树高 h 同阶；形态平衡时约 O(log n)，按有序序列插入可能退化为链，最坏 O(n)。\n\n对应 2026 数据结构考纲叶子条目：二叉搜索树。"
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{"concept_id": "cs408-data-terms", "recommended": false, "priority": "low", "suggested_type": "structure_layout", "reason": "该知识点当前以文字、公式或比较表表达更直接。", "possible_scenes": []}
+{"concept_id": "cs408-logical-storage-operations", "recommended": false, "priority": "low", "suggested_type": "structure_layout", "reason": "该知识点当前以文字、公式或比较表表达更直接。", "possible_scenes": []}
+{"concept_id": "cs408-abstract-data-type", "recommended": false, "priority": "low", "suggested_type": "structure_layout", "reason": "该知识点当前以文字、公式或比较表表达更直接。", "possible_scenes": []}
+{"concept_id": "cs408-algorithm-characteristics", "recommended": false, "priority": "low", "suggested_type": "structure_layout", "reason": "该知识点当前以文字、公式或比较表表达更直接。", "possible_scenes": []}
+{"concept_id": "cs408-algorithm-correctness", "recommended": false, "priority": "low", "suggested_type": "structure_layout", "reason": "该知识点当前以文字、公式或比较表表达更直接。", "possible_scenes": []}
+{"concept_id": "cs408-time-complexity", "recommended": false, "priority": "low", "suggested_type": "structure_layout", "reason": "该知识点当前以文字、公式或比较表表达更直接。", "possible_scenes": []}
+{"concept_id": "cs408-space-complexity", "recommended": false, "priority": "low", "suggested_type": "structure_layout", "reason": "该知识点当前以文字、公式或比较表表达更直接。", "possible_scenes": []}
+{"concept_id": "cs408-asymptotic-notation", "recommended": false, "priority": "low", "suggested_type": "structure_layout", "reason": "该知识点当前以文字、公式或比较表表达更直接。", "possible_scenes": []}
+{"concept_id": "cs408-complexity-estimation", "recommended": true, "priority": "medium", "suggested_type": "algorithm_execution", "reason": "该知识点包含可逐步演示的结构变化或算法过程，适合进入课件候选评审。", "possible_scenes": ["循环与递归的复杂度估算初始状态", "循环与递归的复杂度估算关键步骤与结果"]}

@@ -1,0 +1,96 @@
+{
+  "concept": {
+    "id": "ods-arrayqueue-performance",
+    "title": "ArrayQueue 的操作复杂度",
+    "aliases": [
+      "ArrayQueue complexity",
+      "循环队列复杂度"
+    ],
+    "content_type": "theorem",
+    "location": {
+      "course_id": "open-data-structures",
+      "chapter_id": "array-based-lists",
+      "section_id": "2-3-1-summary",
+      "parent_id": null,
+      "order": 15
+    },
+    "core_question": "ArrayQueue 的入队、出队和容量调整具有怎样的复杂度保证？",
+    "summary": "忽略 resize 时入队与出队均为 O(1)，从空队列开始的 m 次操作中所有 resize 总成本为 O(m)。",
+    "definition": "ArrayQueue 实现 FIFO Queue 接口时，add(x) 与 remove() 在不触发 resize 的情况下均执行常数次数的下标计算和读写，时间为 $O(1)$。从空队列开始执行任意 m 次更新，所有 resize 的总时间为 $O(m)$，所以更新具有 $O(1)$ 摊还时间。",
+    "prerequisite_ids": [
+      "ods-arrayqueue-enqueue",
+      "ods-arrayqueue-dequeue",
+      "ods-arrayqueue-resize"
+    ],
+    "relations": [],
+    "rookie_explanation": {
+      "analogy": "日常收货和取货只动队尾或队首指针；偶尔更换整条传送带的成本可分摊给更换前积累的许多次操作。",
+      "mapping": {
+        "动指针": "常数时间入队/出队",
+        "更换传送带": "resize",
+        "分摊": "摊还分析"
+      },
+      "boundary": "摊还常数时间不等于每次操作的最坏时间都是常数。"
+    },
+    "retrieval": {
+      "keywords": [
+        "ArrayQueue 的操作复杂度",
+        "ArrayQueue complexity",
+        "循环队列复杂度"
+      ],
+      "query_examples": [
+        "ArrayQueue 的入队、出队和容量调整具有怎样的复杂度保证？",
+        "ArrayQueue 的操作复杂度怎么理解",
+        "ArrayQueue 的操作复杂度的关键条件是什么"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "ods-000280-paragraph-the-following-theorem-summarizes-the",
+      "ods-000281-theorem-an-arrayqueue-implements-the-fifo-qu"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "ods-arrayqueue-enqueue",
+      "title": "ArrayQueue 的入队",
+      "core_question": "ArrayQueue 如何在不搬移已有元素的情况下完成入队？",
+      "summary": "容量足够时，新元素直接写入 (j+n) mod capacity，再把 n 加一，不移动已有队列元素。",
+      "definition": "ArrayQueue 的 add(x) 在 n+1 超过容量时先 resize；随后把 x 写入物理槽位 $(j+n)\\bmod \\mathrm{length}(a)$，再令 n 增加 1。该槽位对应当前逻辑队尾之后的位置，已有元素无需移动。",
+      "content_type": "algorithm"
+    },
+    {
+      "id": "ods-arrayqueue-dequeue",
+      "title": "ArrayQueue 的出队",
+      "core_question": "ArrayQueue 如何通过移动队首下标完成出队？",
+      "summary": "出队保存 a[j]，把 j 更新为 (j+1) mod capacity 并把 n 减一，不搬移其余元素。",
+      "definition": "ArrayQueue 的 remove() 保存队首元素 a[j]，令 $j=(j+1)\\bmod \\mathrm{length}(a)$、n 减少 1，在低占用率时可触发 resize，最后返回保存的元素。改变 j 即可让下一个元素成为新队首。",
+      "content_type": "algorithm"
+    },
+    {
+      "id": "ods-arrayqueue-resize",
+      "title": "ArrayQueue 调整容量时的线性化复制",
+      "core_question": "ArrayQueue 调整容量时如何保持队列的逻辑顺序？",
+      "summary": "resize 按逻辑队列顺序复制到新数组的 0 至 n-1，并把队首 j 重置为 0。",
+      "definition": "ArrayQueue 的 resize 创建长度为 $\\max(1,2n)$ 的新数组 b，并对 $k=0,\\ldots,n-1$ 执行 $b[k]=a[(j+k)\\bmod \\mathrm{length}(a)]$。复制后令 a=b、j=0，使可能跨越旧数组末端的逻辑队列在新数组中连续排列。",
+      "content_type": "mechanism"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "ods-000280-paragraph-the-following-theorem-summarizes-the",
+      "type": "paragraph",
+      "content": "The following theorem summarizes the performance of the ArrayQueue data structure:"
+    },
+    {
+      "id": "ods-000281-theorem-an-arrayqueue-implements-the-fifo-qu",
+      "type": "theorem",
+      "content": "An ArrayQueue implements the (FIFO) Queue interface. Ignoring the cost of calls to \\ensuremath{\\ensuremath{\\mathrm{resize}()}}, an ArrayQueue supports the operations \\ensuremath{\\ensuremath{\\mathrm{add}(\\ensuremath{\\mathit{x}})}} and \\ensuremath{\\ensuremath{\\mathrm{remove}()}} in $O(1)$ time per operation. Furthermore, beginning with an empty ArrayQueue, any sequence of $m$ \\ensuremath{\\ensuremath{\\mathrm{add}(\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{x}})}} and \\ensuremath{\\ensuremath{\\mathrm{remove}(\\ensuremath{\\mathit{i}})}} operations results in a total of $O(m)$ time spent during all calls to \\ensuremath{\\ensuremath{\\mathrm{resize}()}}."
+    }
+  ]
+}

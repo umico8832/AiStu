@@ -1,0 +1,88 @@
+{
+  "concept": {
+    "id": "cs408-exam-structure",
+    "title": "408 试卷结构与数据结构分值",
+    "aliases": [
+      "408 分值结构",
+      "408 考试时长",
+      "数据结构 45 分"
+    ],
+    "content_type": "formula",
+    "location": {
+      "course_id": "cs408-data-structures",
+      "chapter_id": "408-data-structures-exam-guide",
+      "section_id": "cs408-exam-positioning",
+      "parent_id": null,
+      "order": 2
+    },
+    "core_question": "408 试卷的时长、总分、题型和数据结构分值如何组成？",
+    "summary": "2026 公开考纲显示试卷满分 150 分、180 分钟，数据结构 45 分，题型为 40 道单选共 80 分与综合应用题 70 分。",
+    "definition": "按报告采用并经公开 2026 考纲 PDF 复核的结构，408 试卷满分为 150 分，考试时间为 180 分钟。内容分值为数据结构 45 分、计算机组成原理 45 分、操作系统 35 分、计算机网络 25 分；题型结构为 40 道单项选择题共 80 分和综合应用题共 70 分。",
+    "prerequisite_ids": [
+      "cs408-exam-purpose"
+    ],
+    "relations": [
+      {
+        "type": "related",
+        "target_id": "cs408-data-structure-objectives",
+        "description": "分值与题型决定复习投入，但作答要求仍由数据结构考查目标界定。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "可以把整张卷子看成一个 150 格的配额表：四门课分配内容配额，单选与综合题再从题型维度切分同一张试卷。",
+      "mapping": {
+        "150 格": "试卷总分",
+        "课程配额": "四门课内容分值",
+        "题型切分": "80 分单选与 70 分综合题"
+      },
+      "boundary": "课程分值结构不等于每门课固定题数；考试年度变化时必须重新核对当年正式考纲。"
+    },
+    "retrieval": {
+      "keywords": [
+        "408 试卷结构与数据结构分值",
+        "408 分值结构",
+        "408 考试时长",
+        "数据结构 45 分"
+      ],
+      "query_examples": [
+        "408 试卷的时长、总分、题型和数据结构分值如何组成？",
+        "408 试卷结构与数据结构分值具体包括什么？",
+        "复习408 试卷结构与数据结构分值时最容易混淆的边界是什么？"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "report-cs408-exam-structure"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "cs408-exam-purpose",
+      "title": "408 计算机学科专业基础考试定位",
+      "core_question": "408 计算机学科专业基础考试的定位和目的是什么？",
+      "summary": "408 是面向计算机相关硕士研究生选拔的全国统一命题科目，重点评价本科专业基础与分析解决问题能力。",
+      "definition": "计算机学科专业基础考试是全国硕士研究生招生考试中的统一命题科目，覆盖数据结构、计算机组成原理、操作系统和计算机网络。它用于评价考生对本科阶段专业基础知识、基本理论和基本方法的掌握，以及综合分析、判断和解决问题的能力。",
+      "content_type": "concept"
+    },
+    {
+      "id": "cs408-data-structure-objectives",
+      "title": "408 数据结构考查目标",
+      "core_question": "408 数据结构部分要求考生具备哪些层次的能力？",
+      "summary": "考查目标覆盖基本概念与方法、结构和操作实现及复杂度分析，以及用 C 或 C++ 设计实现算法。",
+      "definition": "408 数据结构部分要求考生掌握数据结构的基本概念、基本原理和基本方法，理解逻辑结构、存储结构及基本操作的实现，能够分析算法的时间复杂度与空间复杂度，并能运用这些原理解决问题，使用 C 或 C++ 设计和实现算法。",
+      "content_type": "concept"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "report-cs408-exam-structure",
+      "type": "paragraph",
+      "content": "2026 公开考纲 PDF 列出：满分 150 分，考试时间 180 分钟；数据结构 45 分、计算机组成原理 45 分、操作系统 35 分、计算机网络 25 分；40 道单项选择题共 80 分，综合应用题共 70 分。"
+    }
+  ]
+}

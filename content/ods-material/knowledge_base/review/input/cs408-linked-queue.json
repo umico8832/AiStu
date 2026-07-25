@@ -1,0 +1,94 @@
+{
+  "concept": {
+    "id": "cs408-linked-queue",
+    "title": "链队列",
+    "aliases": [
+      "linked queue",
+      "链式队列"
+    ],
+    "content_type": "concept",
+    "location": {
+      "course_id": "cs408-data-structures",
+      "chapter_id": "408-stacks-queues-arrays",
+      "section_id": "cs408-queue-basics",
+      "parent_id": null,
+      "order": 11
+    },
+    "core_question": "链队列如何用头尾指针实现常数时间入队和出队？",
+    "summary": "front 指向队头哨兵或首结点，rear 指向尾结点，在尾部插入、头部删除。",
+    "definition": "常见带头结点链队列中，front 指向头结点，rear 指向最后一个数据结点。入队把新结点接到 rear.next 并更新 rear；出队删除 front.next，若删除后为空还需令 rear=front，避免尾指针悬空。",
+    "prerequisite_ids": [
+      "cs408-queue-fifo",
+      "cs408-singly-linked-list"
+    ],
+    "relations": [
+      {
+        "type": "part_of",
+        "target_id": "cs408-syllabus-stacks-queues-arrays",
+        "description": "链队列是栈、队列和数组考纲模块中的原子知识点。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "像一条带入口和出口标记的链式队伍，入口标记随新成员移动，出口从前端逐个放行。",
+      "mapping": {
+        "直观对象": "链队列",
+        "对应机制": "front 指向队头哨兵或首结点，rear 指向尾结点，在尾部插入、头部删除。"
+      },
+      "boundary": "类比只用于建立直觉；正式作答仍需使用定义、操作步骤、适用条件和复杂度结论。"
+    },
+    "retrieval": {
+      "keywords": [
+        "链队列",
+        "linked queue",
+        "链式队列"
+      ],
+      "query_examples": [
+        "链队列如何用头尾指针实现常数时间入队和出队？",
+        "链队列的步骤、性质和复杂度是什么？",
+        "链队列有哪些适用条件和易错边界？"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "syllabus-note-cs408-linked-queue"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "cs408-queue-fifo",
+      "title": "队列的 FIFO 语义与基本操作",
+      "core_question": "队列为什么称为先进先出的受限线性表？",
+      "summary": "队列在队尾插入、队头删除，先入队的元素先出队。",
+      "definition": "队列只允许在一端入队 enqueue，在另一端出队 dequeue；插入端称队尾，删除端称队头。front 读取队头，判空和长度操作维护结构状态；空队列出队必须按接口规则处理下溢。",
+      "content_type": "concept"
+    },
+    {
+      "id": "cs408-singly-linked-list",
+      "title": "单链表的结点与表示",
+      "core_question": "单链表如何用指针连接逻辑相邻元素？",
+      "summary": "单链表结点保存数据与后继指针，物理位置可以离散，必须从表头沿指针顺序访问。",
+      "definition": "单链表的每个结点由数据域和 next 指针域组成，头指针标识首结点，可选头结点作为不保存业务数据的哨兵。已知前驱时插入和删除为 O(1)，按位定位仍需从头遍历，时间为 O(n)。",
+      "content_type": "concept"
+    },
+    {
+      "id": "cs408-syllabus-stacks-queues-arrays",
+      "title": "408 考纲：栈、队列和数组范围",
+      "core_question": "408 栈、队列和数组模块覆盖哪些内容？",
+      "summary": "该模块覆盖栈与队列的概念和顺序、链式实现，多维数组存储、特殊矩阵压缩及相关应用。",
+      "definition": "408 的栈、队列和数组模块包括栈与队列的基本概念、顺序存储结构、链式存储结构，多维数组的存储，特殊矩阵的压缩存储，以及栈、队列和数组的应用。常见能力包括判断栈序列、分析循环队列、推导地址映射和使用线性结构解决表达式或遍历问题。",
+      "content_type": "concept"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "syllabus-note-cs408-linked-queue",
+      "type": "paragraph",
+      "content": "front 指向队头哨兵或首结点，rear 指向尾结点，在尾部插入、头部删除。\n\n常见带头结点链队列中，front 指向头结点，rear 指向最后一个数据结点。入队把新结点接到 rear.next 并更新 rear；出队删除 front.next，若删除后为空还需令 rear=front，避免尾指针悬空。\n\n对应 2026 数据结构考纲叶子条目：栈和队列的链式存储结构。"
+    }
+  ]
+}

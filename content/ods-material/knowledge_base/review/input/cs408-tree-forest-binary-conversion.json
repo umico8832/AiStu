@@ -1,0 +1,85 @@
+{
+  "concept": {
+    "id": "cs408-tree-forest-binary-conversion",
+    "title": "树、森林与二叉树转换",
+    "aliases": [
+      "forest conversion",
+      "孩子兄弟法"
+    ],
+    "content_type": "mechanism",
+    "location": {
+      "course_id": "cs408-data-structures",
+      "chapter_id": "408-trees",
+      "section_id": "cs408-binary-tree",
+      "parent_id": null,
+      "order": 13
+    },
+    "core_question": "孩子兄弟表示如何在树、森林和二叉树之间转换？",
+    "summary": "树的第一个孩子成为左孩子，下一个兄弟成为右孩子；森林各树根按兄弟关系连接。",
+    "definition": "把一般树转换为二叉树时，结点的 firstChild 作为左孩子，nextSibling 作为右孩子。森林转换时先分别转换每棵树，再把各树根通过右孩子链相连。逆转换则把左孩子解释为第一个孩子、右链解释为兄弟。",
+    "prerequisite_ids": [
+      "cs408-tree-storage-representations"
+    ],
+    "relations": [
+      {
+        "type": "part_of",
+        "target_id": "cs408-syllabus-trees",
+        "description": "树、森林与二叉树转换是树和二叉树考纲模块中的原子知识点。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "像把每个家庭的长子放在左侧，把同辈兄弟依次排在右侧，就能用二叉指针表达多叉关系。",
+      "mapping": {
+        "直观对象": "树、森林与二叉树转换",
+        "对应机制": "树的第一个孩子成为左孩子，下一个兄弟成为右孩子；森林各树根按兄弟关系连接。"
+      },
+      "boundary": "类比只用于建立直觉；正式作答仍需使用定义、操作步骤、适用条件和复杂度结论。"
+    },
+    "retrieval": {
+      "keywords": [
+        "树、森林与二叉树转换",
+        "forest conversion",
+        "孩子兄弟法"
+      ],
+      "query_examples": [
+        "孩子兄弟表示如何在树、森林和二叉树之间转换？",
+        "树、森林与二叉树转换的步骤、性质和复杂度是什么？",
+        "树、森林与二叉树转换有哪些适用条件和易错边界？"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "syllabus-note-cs408-tree-forest-binary-conversion"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "cs408-tree-storage-representations",
+      "title": "树的双亲、孩子与孩子兄弟表示",
+      "core_question": "一般树有哪些常见存储结构，各自适合什么操作？",
+      "summary": "双亲表示便于向上查找，孩子链表便于枚举子女，孩子兄弟表示把多叉树转成二叉链式结构。",
+      "definition": "双亲表示在结点数组中记录父下标；孩子表示为每个结点维护孩子链表；孩子兄弟表示让 firstChild 指向第一个孩子、nextSibling 指向下一个兄弟。不同表示的空间与查找方向不同，可组合父指针和孩子链表满足双向操作。",
+      "content_type": "comparison"
+    },
+    {
+      "id": "cs408-syllabus-trees",
+      "title": "408 考纲：树和二叉树范围",
+      "core_question": "408 树和二叉树模块覆盖哪些结构与应用？",
+      "summary": "该模块覆盖树与二叉树性质、存储和遍历，线索化、森林转换，以及 Huffman、并查集和堆等应用。",
+      "definition": "408 的树和二叉树模块包括树的基本概念，二叉树的定义、性质、顺序与链式存储、遍历和线索化，树与森林的存储、转换和遍历，以及 Huffman 树与编码、并查集和堆的应用。复习需要同时具备性质计算、结构转换、手工过程和算法实现能力。",
+      "content_type": "concept"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "syllabus-note-cs408-tree-forest-binary-conversion",
+      "type": "paragraph",
+      "content": "树的第一个孩子成为左孩子，下一个兄弟成为右孩子；森林各树根按兄弟关系连接。\n\n把一般树转换为二叉树时，结点的 firstChild 作为左孩子，nextSibling 作为右孩子。森林转换时先分别转换每棵树，再把各树根通过右孩子链相连。逆转换则把左孩子解释为第一个孩子、右链解释为兄弟。\n\n对应 2026 数据结构考纲叶子条目：森林与二叉树的转换。"
+    }
+  ]
+}

@@ -1,0 +1,84 @@
+{
+  "concept": {
+    "id": "cs408-eight-week-review-plan",
+    "title": "408 数据结构八周复习阶段",
+    "aliases": [
+      "八周复习计划",
+      "408 数据结构阶段安排",
+      "基础强化冲刺"
+    ],
+    "content_type": "application",
+    "location": {
+      "course_id": "cs408-data-structures",
+      "chapter_id": "408-data-structures-exam-guide",
+      "section_id": "cs408-study-strategy",
+      "parent_id": null,
+      "order": 17
+    },
+    "core_question": "报告如何把 408 数据结构主线安排为八周复习阶段？",
+    "summary": "八周安排依次完成基础与线性结构、树图、查找排序、综合训练、错题回炉和冲刺模板固化。",
+    "definition": "报告的八周模板把第 1 至 2 周用于基本概念、复杂度和线性结构，第 3 至 4 周主攻树、二叉树与图，第 5 至 6 周强化查找、排序和 KMP，第 7 周进行真题风格套卷与错题归类，第 8 周回炉薄弱点并固化公式、算法模板和高频陷阱。它是可调整的通用计划，不是用户掌握状态。",
+    "prerequisite_ids": [
+      "cs408-review-priority-path",
+      "cs408-study-closed-loop"
+    ],
+    "relations": [],
+    "rookie_explanation": {
+      "analogy": "八周计划像分段施工：先打地基，再搭主体结构，然后安装复杂部件，最后联调、返工和验收。",
+      "mapping": {
+        "打地基": "概念与线性结构",
+        "主体结构": "树与图",
+        "复杂部件": "查找排序与 KMP",
+        "联调验收": "套卷、错题和冲刺"
+      },
+      "boundary": "计划假设已有基本 C/C++ 语法能力；实际进度应按可验证学习结果调整，不能把经过一周直接视为掌握。"
+    },
+    "retrieval": {
+      "keywords": [
+        "408 数据结构八周复习阶段",
+        "八周复习计划",
+        "408 数据结构阶段安排",
+        "基础强化冲刺"
+      ],
+      "query_examples": [
+        "报告如何把 408 数据结构主线安排为八周复习阶段？",
+        "408 数据结构八周复习阶段具体包括什么？",
+        "复习408 数据结构八周复习阶段时最容易混淆的边界是什么？"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "report-cs408-eight-week-review-plan"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "cs408-review-priority-path",
+      "title": "408 数据结构建议复习主线",
+      "core_question": "报告建议按什么主线组织 408 数据结构复习？",
+      "summary": "建议从线性结构进入树、图、查找、排序和字符串匹配，先建立过程与复杂度能力，再处理综合应用。",
+      "definition": "报告建议的复习主线是：线性表基本操作，栈与队列应用，二叉树遍历与线索化，Huffman、并查集与堆，图的存储与 BFS/DFS，最小生成树、最短路径与拓扑排序，查找结构，排序比较与复杂度分析，最后补齐字符串模式匹配。该顺序是复习组织建议，不是官方频率结论。",
+      "content_type": "application"
+    },
+    {
+      "id": "cs408-study-closed-loop",
+      "title": "408 数据结构学习闭环",
+      "core_question": "报告建议怎样把一次数据结构学习做成闭环？",
+      "summary": "每个学习单元应经历看懂、画图、手推、手写、口头解释和错题重做，而不是停在看懂答案。",
+      "definition": "报告建议把数据结构学习组织为连续闭环：阅读教材或讲义建立输入，画出结构，手推操作与复杂度，手写伪代码或核心实现，用自己的语言解释机制，再记录错因并二次重做。只有可复现的推导和实现输出，才能作为比“看过答案”更可靠的理解证据。",
+      "content_type": "application"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "report-cs408-eight-week-review-plan",
+      "type": "paragraph",
+      "content": "报告的八周计划依次安排：第 1—2 周基本概念、复杂度与线性结构；第 3—4 周树与图；第 5—6 周查找、排序与 KMP；第 7 周套卷和错题；第 8 周冲刺与模板固化。"
+    }
+  ]
+}

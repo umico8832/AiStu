@@ -1,0 +1,10 @@
+{"concept_id": "cs408-linear-list-definition-operations", "recommended": false, "priority": "low", "suggested_type": "structure_layout", "reason": "该知识点当前以文字、公式或比较表表达更直接。", "possible_scenes": []}
+{"concept_id": "cs408-sequential-list-storage", "recommended": false, "priority": "low", "suggested_type": "structure_layout", "reason": "该知识点当前以文字、公式或比较表表达更直接。", "possible_scenes": []}
+{"concept_id": "cs408-sequential-list-insert-delete", "recommended": true, "priority": "medium", "suggested_type": "algorithm_execution", "reason": "该知识点包含可逐步演示的结构变化或算法过程，适合进入课件候选评审。", "possible_scenes": ["顺序表的插入与删除初始状态", "顺序表的插入与删除关键步骤与结果"]}
+{"concept_id": "cs408-singly-linked-list", "recommended": false, "priority": "low", "suggested_type": "structure_layout", "reason": "该知识点当前以文字、公式或比较表表达更直接。", "possible_scenes": []}
+{"concept_id": "cs408-linked-list-insert-delete", "recommended": true, "priority": "medium", "suggested_type": "algorithm_execution", "reason": "该知识点包含可逐步演示的结构变化或算法过程，适合进入课件候选评审。", "possible_scenes": ["链表结点的插入与删除初始状态", "链表结点的插入与删除关键步骤与结果"]}
+{"concept_id": "cs408-doubly-linked-list", "recommended": false, "priority": "low", "suggested_type": "structure_layout", "reason": "该知识点当前以文字、公式或比较表表达更直接。", "possible_scenes": []}
+{"concept_id": "cs408-circular-linked-list", "recommended": false, "priority": "low", "suggested_type": "structure_layout", "reason": "该知识点当前以文字、公式或比较表表达更直接。", "possible_scenes": []}
+{"concept_id": "cs408-linked-list-reversal", "recommended": true, "priority": "medium", "suggested_type": "algorithm_execution", "reason": "该知识点包含可逐步演示的结构变化或算法过程，适合进入课件候选评审。", "possible_scenes": ["单链表原地逆置初始状态", "单链表原地逆置关键步骤与结果"]}
+{"concept_id": "cs408-linked-list-merge", "recommended": true, "priority": "medium", "suggested_type": "algorithm_execution", "reason": "该知识点包含可逐步演示的结构变化或算法过程，适合进入课件候选评审。", "possible_scenes": ["有序链表合并初始状态", "有序链表合并关键步骤与结果"]}
+{"concept_id": "cs408-sequential-vs-linked", "recommended": false, "priority": "low", "suggested_type": "structure_layout", "reason": "该知识点当前以文字、公式或比较表表达更直接。", "possible_scenes": []}

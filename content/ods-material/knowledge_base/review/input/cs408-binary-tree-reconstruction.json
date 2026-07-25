@@ -1,0 +1,85 @@
+{
+  "concept": {
+    "id": "cs408-binary-tree-reconstruction",
+    "title": "由遍历序列重建二叉树",
+    "aliases": [
+      "tree reconstruction",
+      "遍历建树"
+    ],
+    "content_type": "algorithm",
+    "location": {
+      "course_id": "cs408-data-structures",
+      "chapter_id": "408-trees",
+      "section_id": "cs408-binary-tree",
+      "parent_id": null,
+      "order": 9
+    },
+    "core_question": "哪些遍历序列组合能够唯一确定二叉树？",
+    "summary": "结点互异时，先序加中序或中序加后序可唯一重建，一般仅有先序和后序不能唯一确定。",
+    "definition": "先序的首元素或后序的末元素确定根，再用中序序列划分左右子树，递归处理各区间。若结点值重复，需要额外标识；层序加中序也可在一定条件下重建。递归切分时必须保持各序列子区间结点集合一致。",
+    "prerequisite_ids": [
+      "cs408-binary-tree-depth-traversals"
+    ],
+    "relations": [
+      {
+        "type": "part_of",
+        "target_id": "cs408-syllabus-trees",
+        "description": "由遍历序列重建二叉树是树和二叉树考纲模块中的原子知识点。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "像一份名单告诉谁先出现，另一份座次告诉左右分界，两份信息共同确定层次结构。",
+      "mapping": {
+        "直观对象": "由遍历序列重建二叉树",
+        "对应机制": "结点互异时，先序加中序或中序加后序可唯一重建，一般仅有先序和后序不能唯一确定。"
+      },
+      "boundary": "类比只用于建立直觉；正式作答仍需使用定义、操作步骤、适用条件和复杂度结论。"
+    },
+    "retrieval": {
+      "keywords": [
+        "由遍历序列重建二叉树",
+        "tree reconstruction",
+        "遍历建树"
+      ],
+      "query_examples": [
+        "哪些遍历序列组合能够唯一确定二叉树？",
+        "由遍历序列重建二叉树的步骤、性质和复杂度是什么？",
+        "由遍历序列重建二叉树有哪些适用条件和易错边界？"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "syllabus-note-cs408-binary-tree-reconstruction"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "cs408-binary-tree-depth-traversals",
+      "title": "二叉树先序、中序与后序遍历",
+      "core_question": "先序、中序和后序遍历如何安排根与左右子树的访问顺序？",
+      "summary": "三种深度遍历分别采用根左右、左根右和左右根顺序，每个结点访问一次。",
+      "definition": "先序遍历先访问根，再递归左、右子树；中序遍历先左子树，再根、右子树；后序遍历先左、右子树，最后访问根。递归实现时间 O(n)，额外栈空间与树高 h 同阶；非递归实现使用显式栈保存待处理状态。",
+      "content_type": "algorithm"
+    },
+    {
+      "id": "cs408-syllabus-trees",
+      "title": "408 考纲：树和二叉树范围",
+      "core_question": "408 树和二叉树模块覆盖哪些结构与应用？",
+      "summary": "该模块覆盖树与二叉树性质、存储和遍历，线索化、森林转换，以及 Huffman、并查集和堆等应用。",
+      "definition": "408 的树和二叉树模块包括树的基本概念，二叉树的定义、性质、顺序与链式存储、遍历和线索化，树与森林的存储、转换和遍历，以及 Huffman 树与编码、并查集和堆的应用。复习需要同时具备性质计算、结构转换、手工过程和算法实现能力。",
+      "content_type": "concept"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "syllabus-note-cs408-binary-tree-reconstruction",
+      "type": "paragraph",
+      "content": "结点互异时，先序加中序或中序加后序可唯一重建，一般仅有先序和后序不能唯一确定。\n\n先序的首元素或后序的末元素确定根，再用中序序列划分左右子树，递归处理各区间。若结点值重复，需要额外标识；层序加中序也可在一定条件下重建。递归切分时必须保持各序列子区间结点集合一致。\n\n对应 2026 数据结构考纲叶子条目：二叉树的遍历。"
+    }
+  ]
+}

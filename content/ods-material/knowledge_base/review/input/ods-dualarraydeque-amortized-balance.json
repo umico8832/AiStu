@@ -1,0 +1,124 @@
+{
+  "concept": {
+    "id": "ods-dualarraydeque-amortized-balance",
+    "title": "DualArrayDeque 再平衡的摊还成本",
+    "aliases": [
+      "potential method",
+      "再平衡摊还分析",
+      "势能法"
+    ],
+    "content_type": "theorem",
+    "location": {
+      "course_id": "open-data-structures",
+      "chapter_id": "array-based-lists",
+      "section_id": "2-5-1-balancing",
+      "parent_id": null,
+      "order": 22
+    },
+    "core_question": "为什么 DualArrayDeque 的线性再平衡成本可以摊还为每次更新 O(1)？",
+    "summary": "再平衡后两栈大小几乎相等，再次失衡前需积累 Ω(n) 次更新，足以分摊 O(n) 搬移。",
+    "definition": "从空 DualArrayDeque 开始执行 m 次 add 与 remove，所有 balance 重建的总时间为 $O(m)$。可用势能 $\\Phi=|front.size()-back.size()|$ 说明：重建后 $\\Phi\\le1$，单次未重建更新最多让势能增加 1，而触发三倍失衡时势能大于 n/2，因此两次重建之间有与 n 同阶的更新。",
+    "prerequisite_ids": [
+      "ods-dualarraydeque-balance"
+    ],
+    "relations": [
+      {
+        "type": "leads_to",
+        "target_id": "ods-dualarraydeque-performance",
+        "description": "理解《DualArrayDeque 再平衡的摊还成本》是继续学习目标知识点的直接基础。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "天平被重新调平后，每次只加减一个砝码，必须经过许多次变化才会再次严重倾斜；调平成本可由这些变化共同承担。",
+      "mapping": {
+        "天平倾斜量": "势能 Φ",
+        "加减砝码": "单次更新",
+        "重新调平": "O(n) balance"
+      },
+      "boundary": "类比不替代势能不等式证明，也不保证触发重建的单次操作为常数时间。"
+    },
+    "retrieval": {
+      "keywords": [
+        "DualArrayDeque 再平衡的摊还成本",
+        "potential method",
+        "再平衡摊还分析",
+        "势能法"
+      ],
+      "query_examples": [
+        "为什么 DualArrayDeque 的线性再平衡成本可以摊还为每次更新 O(1)？",
+        "DualArrayDeque 再平衡的摊还成本怎么理解",
+        "DualArrayDeque 再平衡的摊还成本的关键条件是什么"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "ods-000319-paragraph-here-there-is-little-to-analyze-if-t",
+      "ods-000320-lemma-lemlabel-dualarraydeque-amortized-if",
+      "ods-000321-proof-we-will-show-that-if-ensuremath-ensu",
+      "ods-000322-equation-phi-ensuremath-ensuremath-ensuremath",
+      "ods-000323-equation-phi-0-left-lfloor-ensuremath-ensurem",
+      "ods-000324-equation_group-begin-eqnarray-ensuremath-ensuremath",
+      "ods-000325-equation_group-begin-eqnarray-phi-1-ensuremath-ensu"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "ods-dualarraydeque-balance",
+      "title": "DualArrayDeque 的再平衡",
+      "core_question": "DualArrayDeque 在什么条件下重新分配 front 与 back 的元素？",
+      "summary": "当一侧超过另一侧三倍时，balance 按逻辑顺序重建两栈，使两侧分别约占一半。",
+      "definition": "当元素数至少为 2 且 front 与 back 的大小相差超过 3 倍时，DualArrayDeque 的 balance 按逻辑序列重建两个 ArrayStack，使 front 保存前 $\\lfloor n/2\\rfloor$ 个元素并逆序排列，back 保存其余 $\\lceil n/2\\rceil$ 个元素并正序排列。一次重建移动 $O(n)$ 个元素。",
+      "content_type": "mechanism"
+    },
+    {
+      "id": "ods-dualarraydeque-performance",
+      "title": "DualArrayDeque 的操作复杂度",
+      "core_question": "DualArrayDeque 是否达到与 ArrayDeque 相同的渐近性能？",
+      "summary": "它的 get/set 为 O(1)，按位更新为 O(1+min(i,n-i))，resize 与 balance 总成本均可线性摊还。",
+      "definition": "DualArrayDeque 实现 List 接口时，get 与 set 为 $O(1)$；忽略内部 resize 和 balance，add(i,x) 与 remove(i) 为 $O(1+\\min\\{i,n-i\\})$。从空结构开始的 m 次更新中，所有 resize 与 balance 总时间为 $O(m)$，渐近性能与 ArrayDeque 相同。",
+      "content_type": "theorem"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "ods-000319-paragraph-here-there-is-little-to-analyze-if-t",
+      "type": "paragraph",
+      "content": "Here there is little to analyze. If the \\ensuremath{\\ensuremath{\\mathrm{balance}()}} operation does rebalancing, then it moves $O(\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}})$ elements and this takes $O(\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}})$ time. This is bad, since \\ensuremath{\\ensuremath{\\mathrm{balance}()}} is called with each call to \\ensuremath{\\ensuremath{\\mathrm{add}(\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{x}})}} and \\ensuremath{\\ensuremath{\\mathrm{remove}(\\ensuremath{\\mathit{i}})}}. However, the following lemma shows that, on average, \\ensuremath{\\ensuremath{\\mathrm{balance}()}} only spends a constant amount of time per operation."
+    },
+    {
+      "id": "ods-000320-lemma-lemlabel-dualarraydeque-amortized-if",
+      "type": "lemma",
+      "content": "\\lemlabel{dualarraydeque-amortized} If an empty DualArrayDeque is created and any sequence of $m\\ge 1$ calls to \\ensuremath{\\ensuremath{\\mathrm{add}(\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{x}})}} and \\ensuremath{\\ensuremath{\\mathrm{remove}(\\ensuremath{\\mathit{i}})}} are performed, then the total time spent during all calls to \\ensuremath{\\ensuremath{\\mathrm{balance}()}} is $O(m)$."
+    },
+    {
+      "id": "ods-000321-proof-we-will-show-that-if-ensuremath-ensu",
+      "type": "proof",
+      "content": "We will show that, if \\ensuremath{\\ensuremath{\\mathrm{balance}()}} is forced to shift elements, then the number of \\ensuremath{\\ensuremath{\\mathrm{add}(\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{x}})}} and \\ensuremath{\\ensuremath{\\mathrm{remove}(\\ensuremath{\\mathit{i}})}} operations since the last time any elements were shifted by \\ensuremath{\\ensuremath{\\mathrm{balance}()}} is at least $\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}/2-1$. As in the proof of \\lemref{arraystack-amortized}, this is sufficient to prove that the total time spent by \\ensuremath{\\ensuremath{\\mathrm{balance}()}} is $O(m)$. We will perform our analysis using a technique knows as the \\emph{potential method}. \\index{potential} \\index{potential method} Define the \\emph{potential}, $\\Phi$, of the DualArrayDeque as the difference in size between \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{front}}}} and \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{back}}}}: \\[ \\Phi = |\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{front}}.\\mathrm{size}()}} - \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{back}}.\\mathrm{size}()}}| \\enspace . \\] The interesting thing about this potential is that a call to \\ensuremath{\\ensuremath{\\mathrm{add}(\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{x}})}} or \\ensuremath{\\ensuremath{\\mathrm{remove}(\\ensuremath{\\mathit{i}})}} that does not do any balancing can increase the potential by at most 1. Observe that, immediately after a call to \\ensuremath{\\ensuremath{\\mathrm{balance}()}} that shifts elements, the potential, $\\Phi_0$, is at most 1, since \\[ \\Phi_0 = \\left|\\lfloor\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}/2\\rfloor-\\lceil\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}/2\\rceil\\right|\\le 1 \\enspace .\\] Consider the situation immediately before a call to \\ensuremath{\\ensuremath{\\mathrm{balance}()}} that shifts elements and suppose, without loss of generality, that \\ensuremath{\\ensuremath{\\mathrm{balance}()}} is shifting elements because $3\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{front}}.\\mathrm{size}()}} < \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{back}}.\\mathrm{size}()}}$. Notice that, in this case, \\begin{eqnarray*} \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}} & = & \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{front}}.\\mathrm{size}()}}+\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{back}}.\\mathrm{size}()}} \\\\ & < & \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{back}}.\\mathrm{size}()}}/3+\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{back}}.\\mathrm{size}()}} \\\\ & = & \\frac{4}{3}\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{back}}.\\mathrm{size}()}} \\end{eqnarray*} Furthermore, the potential at this point in time is \\begin{eqnarray*} \\Phi_1 & = & \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{back}}.\\mathrm{size}()}} - \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{front}}.\\mathrm{size}()}} \\\\ &>& \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{back}}.\\mathrm{size}()}} - \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{back}}.\\mathrm{size}()}}/3 \\\\ &=& \\frac{2}{3}\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{back}}.\\mathrm{size}()}} \\\\ &>& \\frac{2}{3}\\times\\frac{3}{4}\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}} \\\\ &=& \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}/2 \\end{eqnarray*} Therefore, the number of calls to \\ensuremath{\\ensuremath{\\mathrm{add}(\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{x}})}} or \\ensuremath{\\ensuremath{\\mathrm{remove}(\\ensuremath{\\mathit{i}})}} since the last time \\ensuremath{\\ensuremath{\\mathrm{balance}()}} shifted elements is at least $\\Phi_1-\\Phi_0 > \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}/2-1$. This completes the proof."
+    },
+    {
+      "id": "ods-000322-equation-phi-ensuremath-ensuremath-ensuremath",
+      "type": "equation",
+      "content": "\\[  \\Phi = |\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{front}}.\\mathrm{size}()}} - \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{back}}.\\mathrm{size}()}}| \\enspace . \\]"
+    },
+    {
+      "id": "ods-000323-equation-phi-0-left-lfloor-ensuremath-ensurem",
+      "type": "equation",
+      "content": "\\[ \\Phi_0 = \\left|\\lfloor\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}/2\\rfloor-\\lceil\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}/2\\rceil\\right|\\le 1  \\enspace .\\]"
+    },
+    {
+      "id": "ods-000324-equation_group-begin-eqnarray-ensuremath-ensuremath",
+      "type": "equation_group",
+      "content": "\\begin{eqnarray*}\n   \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}} & = & \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{front}}.\\mathrm{size}()}}+\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{back}}.\\mathrm{size}()}} \\\\\n       & < & \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{back}}.\\mathrm{size}()}}/3+\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{back}}.\\mathrm{size}()}} \\\\\n       & = & \\frac{4}{3}\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{back}}.\\mathrm{size}()}}\n  \\end{eqnarray*}"
+    },
+    {
+      "id": "ods-000325-equation_group-begin-eqnarray-phi-1-ensuremath-ensu",
+      "type": "equation_group",
+      "content": "\\begin{eqnarray*}\n  \\Phi_1 & = & \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{back}}.\\mathrm{size}()}} - \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{front}}.\\mathrm{size}()}} \\\\\n      &>& \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{back}}.\\mathrm{size}()}} - \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{back}}.\\mathrm{size}()}}/3 \\\\\n      &=& \\frac{2}{3}\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{back}}.\\mathrm{size}()}} \\\\\n      &>& \\frac{2}{3}\\times\\frac{3}{4}\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}} \\\\\n      &=& \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}/2\n  \\end{eqnarray*}"
+    }
+  ]
+}

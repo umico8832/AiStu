@@ -1,0 +1,85 @@
+{
+  "concept": {
+    "id": "cs408-tree-forest-traversal",
+    "title": "树和森林的遍历",
+    "aliases": [
+      "preorder forest",
+      "postorder tree"
+    ],
+    "content_type": "algorithm",
+    "location": {
+      "course_id": "cs408-data-structures",
+      "chapter_id": "408-trees",
+      "section_id": "cs408-tree-forest",
+      "parent_id": null,
+      "order": 14
+    },
+    "core_question": "树和森林的先根、后根遍历如何对应二叉树遍历？",
+    "summary": "树的先根遍历对应孩子兄弟二叉树的先序，后根遍历对应其二叉树中序；森林按树的次序组合。",
+    "definition": "树的先根遍历先访问根，再依次遍历各子树；后根遍历先依次遍历子树，最后访问根。森林的先序或中序遍历可借助孩子兄弟转换定义，必须保持各棵树及兄弟的原有次序。",
+    "prerequisite_ids": [
+      "cs408-tree-forest-binary-conversion"
+    ],
+    "relations": [
+      {
+        "type": "part_of",
+        "target_id": "cs408-syllabus-trees",
+        "description": "树和森林的遍历是树和二叉树考纲模块中的原子知识点。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "像参观多个园区：可先在入口登记再走子园区，也可走完所有子园区后再在入口登记。",
+      "mapping": {
+        "直观对象": "树和森林的遍历",
+        "对应机制": "树的先根遍历对应孩子兄弟二叉树的先序，后根遍历对应其二叉树中序；森林按树的次序组合。"
+      },
+      "boundary": "类比只用于建立直觉；正式作答仍需使用定义、操作步骤、适用条件和复杂度结论。"
+    },
+    "retrieval": {
+      "keywords": [
+        "树和森林的遍历",
+        "preorder forest",
+        "postorder tree"
+      ],
+      "query_examples": [
+        "树和森林的先根、后根遍历如何对应二叉树遍历？",
+        "树和森林的遍历的步骤、性质和复杂度是什么？",
+        "树和森林的遍历有哪些适用条件和易错边界？"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "syllabus-note-cs408-tree-forest-traversal"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "cs408-tree-forest-binary-conversion",
+      "title": "树、森林与二叉树转换",
+      "core_question": "孩子兄弟表示如何在树、森林和二叉树之间转换？",
+      "summary": "树的第一个孩子成为左孩子，下一个兄弟成为右孩子；森林各树根按兄弟关系连接。",
+      "definition": "把一般树转换为二叉树时，结点的 firstChild 作为左孩子，nextSibling 作为右孩子。森林转换时先分别转换每棵树，再把各树根通过右孩子链相连。逆转换则把左孩子解释为第一个孩子、右链解释为兄弟。",
+      "content_type": "mechanism"
+    },
+    {
+      "id": "cs408-syllabus-trees",
+      "title": "408 考纲：树和二叉树范围",
+      "core_question": "408 树和二叉树模块覆盖哪些结构与应用？",
+      "summary": "该模块覆盖树与二叉树性质、存储和遍历，线索化、森林转换，以及 Huffman、并查集和堆等应用。",
+      "definition": "408 的树和二叉树模块包括树的基本概念，二叉树的定义、性质、顺序与链式存储、遍历和线索化，树与森林的存储、转换和遍历，以及 Huffman 树与编码、并查集和堆的应用。复习需要同时具备性质计算、结构转换、手工过程和算法实现能力。",
+      "content_type": "concept"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "syllabus-note-cs408-tree-forest-traversal",
+      "type": "paragraph",
+      "content": "树的先根遍历对应孩子兄弟二叉树的先序，后根遍历对应其二叉树中序；森林按树的次序组合。\n\n树的先根遍历先访问根，再依次遍历各子树；后根遍历先依次遍历子树，最后访问根。森林的先序或中序遍历可借助孩子兄弟转换定义，必须保持各棵树及兄弟的原有次序。\n\n对应 2026 数据结构考纲叶子条目：树和森林的遍历。"
+    }
+  ]
+}

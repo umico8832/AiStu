@@ -1,0 +1,94 @@
+{
+  "concept": {
+    "id": "cs408-graph-storage-comparison",
+    "title": "图存储结构与基本操作比较",
+    "aliases": [
+      "graph representation",
+      "稠密图稀疏图"
+    ],
+    "content_type": "comparison",
+    "location": {
+      "course_id": "cs408-data-structures",
+      "chapter_id": "408-graphs",
+      "section_id": "cs408-graph-storage",
+      "parent_id": null,
+      "order": 7
+    },
+    "core_question": "怎样根据图的稠密度和操作类型选择存储结构？",
+    "summary": "邻接矩阵适合稠密图和 O(1) 查边，邻接表适合稀疏图和枚举邻居，专用链表便于操作边对象。",
+    "definition": "选择存储结构时应比较 O(V²) 与 O(V+E) 空间、查边、枚举邻居、计算度数、插删边和遍历成本。算法复杂度也依赖表示：例如邻接表 DFS/BFS 为 O(V+E)，邻接矩阵实现通常为 O(V²)。",
+    "prerequisite_ids": [
+      "cs408-adjacency-matrix",
+      "cs408-adjacency-list"
+    ],
+    "relations": [
+      {
+        "type": "part_of",
+        "target_id": "cs408-syllabus-graphs",
+        "description": "图存储结构与基本操作比较是图考纲模块中的原子知识点。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "像选择地图：完整距离表查任意两点快，路线清单更节省稀疏路网的空间。",
+      "mapping": {
+        "直观对象": "图存储结构与基本操作比较",
+        "对应机制": "邻接矩阵适合稠密图和 O(1) 查边，邻接表适合稀疏图和枚举邻居，专用链表便于操作边对象。"
+      },
+      "boundary": "类比只用于建立直觉；正式作答仍需使用定义、操作步骤、适用条件和复杂度结论。"
+    },
+    "retrieval": {
+      "keywords": [
+        "图存储结构与基本操作比较",
+        "graph representation",
+        "稠密图稀疏图"
+      ],
+      "query_examples": [
+        "怎样根据图的稠密度和操作类型选择存储结构？",
+        "图存储结构与基本操作比较的步骤、性质和复杂度是什么？",
+        "图存储结构与基本操作比较有哪些适用条件和易错边界？"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "syllabus-note-cs408-graph-storage-comparison"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "cs408-adjacency-matrix",
+      "title": "图的邻接矩阵",
+      "core_question": "邻接矩阵如何记录顶点对之间是否有边或边权？",
+      "summary": "n 个顶点用 n×n 矩阵表示连接，查边 O(1)，空间始终 O(n²)。",
+      "definition": "无权图中 A[i][j] 表示是否存在边，有权图可保存权值并用特殊值表示无边。无向图矩阵对称，顶点 i 的度可由第 i 行求和；邻接矩阵适合稠密图和频繁查边，但枚举邻居需要扫描一整行。",
+      "content_type": "concept"
+    },
+    {
+      "id": "cs408-adjacency-list",
+      "title": "图的邻接表",
+      "core_question": "邻接表如何只保存实际存在的边？",
+      "summary": "每个顶点维护邻接顶点链表或动态表，空间为 O(V+E)，适合稀疏图。",
+      "definition": "邻接表包含顶点表和每个顶点的边表。无向边通常在两个端点的表中各出现一次，有向边可保存出边或入边。枚举顶点邻居与其度数同阶，但判断任意两点是否相邻可能需要搜索边表。",
+      "content_type": "concept"
+    },
+    {
+      "id": "cs408-syllabus-graphs",
+      "title": "408 考纲：图范围",
+      "core_question": "408 图模块要求掌握哪些表示、遍历和应用？",
+      "summary": "图模块覆盖基本概念、邻接矩阵与邻接表等存储、BFS/DFS，以及生成树、最短路、拓扑排序和关键路径。",
+      "definition": "408 图模块包括图的基本概念，邻接矩阵、邻接表、邻接多重表和十字链表等存储与基本操作，深度优先搜索和广度优先搜索，以及最小生成树、最短路径、拓扑排序和关键路径等基本应用。复习时需能在给定表示上手推过程并分析复杂度。",
+      "content_type": "concept"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "syllabus-note-cs408-graph-storage-comparison",
+      "type": "paragraph",
+      "content": "邻接矩阵适合稠密图和 O(1) 查边，邻接表适合稀疏图和枚举邻居，专用链表便于操作边对象。\n\n选择存储结构时应比较 O(V²) 与 O(V+E) 空间、查边、枚举邻居、计算度数、插删边和遍历成本。算法复杂度也依赖表示：例如邻接表 DFS/BFS 为 O(V+E)，邻接矩阵实现通常为 O(V²)。\n\n对应 2026 数据结构考纲叶子条目：邻接矩阵、邻接表、邻接多重表和十字链表。"
+    }
+  ]
+}

@@ -11,6 +11,7 @@ import {
 import {
   AlertTriangle,
   ArrowDownToLine,
+  GripHorizontal,
   LoaderCircle,
   ShieldCheck,
   X,
@@ -20,7 +21,7 @@ import {
   useRef,
   useState,
   type ComponentType,
-  type KeyboardEvent,
+  type MouseEvent as ReactMouseEvent,
 } from "react";
 import {
   getVisualizationRegistration,
@@ -28,6 +29,12 @@ import {
 } from "@kaleidoscope/visualization-runtime";
 import { ErrorBoundary } from "./ErrorBoundary";
 import { LearningLensPanel } from "./LearningLensPanel";
+import {
+  clampWorkspacePosition,
+  getInitialWorkspacePosition,
+  getWorkspaceSize,
+  type WorkspacePosition,
+} from "./visualizationWorkspaceGeometry";
 
 type LessonComponent = ComponentType<{
   sessionId: string;
@@ -55,12 +62,25 @@ interface VisualizationWorkspaceProps {
   onClose: () => void;
 }
 
-function focusableElements(container: HTMLElement): HTMLElement[] {
-  return Array.from(
-    container.querySelectorAll<HTMLElement>(
-      'button:not([disabled]), [href], input:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])',
-    ),
-  );
+interface ViewportSize {
+  width: number;
+  height: number;
+}
+
+interface DragState {
+  pointerX: number;
+  pointerY: number;
+  position: WorkspacePosition;
+}
+
+function readViewportSize(): ViewportSize {
+  if (typeof window === "undefined") {
+    return { width: 1200, height: 800 };
+  }
+  return {
+    width: window.innerWidth,
+    height: window.innerHeight,
+  };
 }
 
 export function VisualizationWorkspace({
@@ -78,9 +98,23 @@ export function VisualizationWorkspace({
   const [loadError, setLoadError] = useState<string | null>(
     registration ? null : "这个可视化没有注册，已阻止加载。",
   );
-  const dialogRef = useRef<HTMLDivElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
   const previousFocusRef = useRef<HTMLElement | null>(null);
+  const dragStateRef = useRef<DragState | null>(null);
+  const [viewportSize, setViewportSize] =
+    useState<ViewportSize>(readViewportSize);
+  const [position, setPosition] = useState<WorkspacePosition>(() => {
+    const viewport = readViewportSize();
+    return getInitialWorkspacePosition(
+      viewport.width,
+      viewport.height,
+    );
+  });
+  const [isDragging, setIsDragging] = useState(false);
+  const workspaceSize = getWorkspaceSize(
+    viewportSize.width,
+    viewportSize.height,
+  );
 
   useEffect(() => {
     let cancelled = false;
@@ -110,31 +144,103 @@ export function VisualizationWorkspace({
         ? document.activeElement
         : null;
     closeRef.current?.focus();
-    return () => previousFocusRef.current?.focus();
+    return () => {
+      if (previousFocusRef.current?.isConnected) {
+        previousFocusRef.current.focus();
+      }
+    };
   }, []);
 
-  const handleDialogKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
-    if (event.key === "Escape") {
-      event.preventDefault();
-      onClose();
+  useEffect(() => {
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        onClose();
+      }
+    };
+    window.addEventListener("keydown", handleEscape);
+    return () => window.removeEventListener("keydown", handleEscape);
+  }, [onClose]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      const nextViewport = readViewportSize();
+      const nextWorkspace = getWorkspaceSize(
+        nextViewport.width,
+        nextViewport.height,
+      );
+      setViewportSize(nextViewport);
+      setPosition((current) =>
+        clampWorkspacePosition(
+          current,
+          nextViewport.width,
+          nextViewport.height,
+          nextWorkspace,
+        ),
+      );
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  useEffect(() => {
+    const handleMouseMove = (event: MouseEvent) => {
+      const dragState = dragStateRef.current;
+      if (!dragState) {
+        return;
+      }
+      setPosition(
+        clampWorkspacePosition(
+          {
+            x:
+              dragState.position.x +
+              event.clientX -
+              dragState.pointerX,
+            y:
+              dragState.position.y +
+              event.clientY -
+              dragState.pointerY,
+          },
+          viewportSize.width,
+          viewportSize.height,
+          getWorkspaceSize(
+            viewportSize.width,
+            viewportSize.height,
+          ),
+        ),
+      );
+    };
+    const handleMouseUp = () => {
+      if (!dragStateRef.current) {
+        return;
+      }
+      dragStateRef.current = null;
+      setIsDragging(false);
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mouseup", handleMouseUp);
+    window.addEventListener("blur", handleMouseUp);
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseup", handleMouseUp);
+      window.removeEventListener("blur", handleMouseUp);
+    };
+  }, [viewportSize.height, viewportSize.width]);
+
+  const handleDragStart = (
+    event: ReactMouseEvent<HTMLDivElement>,
+  ) => {
+    if (event.button !== 0) {
       return;
     }
-    if (event.key !== "Tab" || !dialogRef.current) {
-      return;
-    }
-    const focusable = focusableElements(dialogRef.current);
-    const first = focusable[0];
-    const last = focusable.at(-1);
-    if (!first || !last) {
-      return;
-    }
-    if (event.shiftKey && document.activeElement === first) {
-      event.preventDefault();
-      last.focus();
-    } else if (!event.shiftKey && document.activeElement === last) {
-      event.preventDefault();
-      first.focus();
-    }
+    event.preventDefault();
+    dragStateRef.current = {
+      pointerX: event.clientX,
+      pointerY: event.clientY,
+      position,
+    };
+    setIsDragging(true);
   };
 
   const specScenario =
@@ -146,25 +252,48 @@ export function VisualizationWorkspace({
     typeof specScenario.focus === "string" ? specScenario.focus : "overview";
 
   const activeLens = selectedLens ?? lensForFocus(specFocus);
+  const reviewBadge =
+    registration?.status === "reviewed"
+      ? {
+          label: "教学已审查",
+          className: "bg-emerald-50 text-emerald-700",
+        }
+      : {
+          label: "教学审查中",
+          className: "bg-amber-50 text-amber-700",
+        };
 
   return (
-    <div className="fixed inset-0 z-40">
-      <button
-        type="button"
-        aria-label="关闭互动课件"
-        onClick={onClose}
-        className="absolute inset-0 h-full w-full cursor-default bg-slate-950/25 backdrop-blur-[3px]"
-      />
-      <div
-        ref={dialogRef}
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="visualization-workspace-title"
-        onKeyDown={handleDialogKeyDown}
-        className="absolute bottom-7 left-[92px] right-5 top-[58px] flex min-h-0 flex-col overflow-hidden rounded-[28px] border border-white/80 bg-[#f8fafc] shadow-[0_35px_100px_rgba(15,23,42,0.28)]"
-      >
+    <div
+      role="dialog"
+      aria-labelledby="visualization-workspace-title"
+      aria-describedby="visualization-workspace-description"
+      data-testid="visualization-workspace"
+      style={{
+        width: workspaceSize.width,
+        height: workspaceSize.height,
+        transform: `translate3d(${position.x}px, ${position.y}px, 0)`,
+      }}
+      className={`fixed left-0 top-0 z-40 flex min-h-0 flex-col overflow-hidden rounded-[28px] border border-white/90 bg-[#f8fafc] shadow-[0_28px_80px_rgba(15,23,42,0.22)] ${
+        isDragging
+          ? "ring-2 ring-indigo-300/70"
+          : "ring-1 ring-slate-900/5"
+      }`}
+    >
         <header className="flex h-[58px] shrink-0 items-center justify-between border-b border-slate-200 bg-white/90 px-4">
-          <div className="flex min-w-0 items-center gap-3">
+          <div
+            aria-label="拖动互动课件窗口"
+            data-testid="visualization-drag-handle"
+            title="按住拖动课件窗口"
+            onMouseDown={handleDragStart}
+            className={`flex min-w-0 flex-1 touch-none select-none items-center gap-3 pr-4 ${
+              isDragging ? "cursor-grabbing" : "cursor-grab"
+            }`}
+          >
+            <GripHorizontal
+              aria-hidden="true"
+              className="size-4 shrink-0 text-slate-300"
+            />
             <span className="inline-flex size-8 items-center justify-center rounded-xl bg-emerald-50 text-emerald-700">
               <ArrowDownToLine aria-hidden="true" className="size-4" />
             </span>
@@ -176,17 +305,22 @@ export function VisualizationWorkspace({
                 >
                   互动课件 · {registration?.title ?? "未知课件"}
                 </h2>
-                <span className="rounded-full bg-amber-50 px-2 py-0.5 text-[10px] font-semibold text-amber-700">
-                  教学审查中
+                <span
+                  className={`rounded-full px-2 py-0.5 text-[10px] font-semibold ${reviewBadge.className}`}
+                >
+                  {reviewBadge.label}
                 </span>
               </div>
-              <p className="m-0 mt-0.5 text-[11px] text-slate-400">
+              <p
+                id="visualization-workspace-description"
+                className="m-0 mt-0.5 truncate text-[11px] text-slate-400"
+              >
                 {registration?.description ?? "单一活动页面"} · revision{" "}
-                {session.revision}
+                {session.revision} · 拖动标题栏移动
               </p>
             </div>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex shrink-0 items-center gap-2">
             <span className="hidden items-center gap-1.5 text-[11px] font-medium text-slate-400 sm:inline-flex">
               <ShieldCheck aria-hidden="true" className="size-3.5" />
               场景参数已校验
@@ -225,52 +359,54 @@ export function VisualizationWorkspace({
           ) : null}
           <div className="min-h-[420px] flex-1">
             {Lesson ? (
-            <ErrorBoundary
-              fallback={
-                <div className="flex h-full items-center justify-center rounded-2xl border border-rose-200 bg-rose-50">
-                  <div className="max-w-md text-center">
-                    <AlertTriangle
-                      aria-hidden="true"
-                      className="mx-auto size-7 text-rose-600"
-                    />
-                    <h3 className="mt-3 text-base font-semibold text-rose-900">
-                      课件渲染失败
-                    </h3>
-                    <p className="mt-1 text-sm text-rose-700">
-                      对话仍然保留，你可以安全返回并继续文字讲解。
-                    </p>
-                    <Button variant="danger" onClick={onClose}>
-                      返回对话
-                    </Button>
+              <ErrorBoundary
+                fallback={
+                  <div className="flex h-full items-center justify-center rounded-2xl border border-rose-200 bg-rose-50">
+                    <div className="max-w-md text-center">
+                      <AlertTriangle
+                        aria-hidden="true"
+                        className="mx-auto size-7 text-rose-600"
+                      />
+                      <h3 className="mt-3 text-base font-semibold text-rose-900">
+                        课件渲染失败
+                      </h3>
+                      <p className="mt-1 text-sm text-rose-700">
+                        对话仍然保留，你可以安全返回并继续文字讲解。
+                      </p>
+                      <Button variant="danger" onClick={onClose}>
+                        返回对话
+                      </Button>
+                    </div>
                   </div>
-                </div>
-              }
-            >
-              <Lesson
-                sessionId={session.sessionId}
-                spec={session.validatedSpec}
-                state={{
-                  step: session.currentStep,
-                  codeOpen: specScenario.view === "stack-code",
-                }}
-                onStateChange={onStateChange}
-                onInteraction={onInteraction}
-              />
-            </ErrorBoundary>
-            ) : (
-            <div className="flex h-full items-center justify-center rounded-2xl border border-slate-200 bg-white">
-              <div className="text-center text-slate-500">
-                <LoaderCircle
-                  aria-hidden="true"
-                  className="mx-auto size-6 animate-spin text-indigo-600 motion-reduce:animate-none"
+                }
+              >
+                <Lesson
+                  key={session.sessionId}
+                  sessionId={session.sessionId}
+                  spec={session.validatedSpec}
+                  state={{
+                    step: session.currentStep,
+                    codeOpen: specScenario.view === "stack-code",
+                  }}
+                  onStateChange={onStateChange}
+                  onInteraction={onInteraction}
                 />
-                <p className="mt-3 text-sm font-medium">正在加载已注册课件…</p>
+              </ErrorBoundary>
+            ) : (
+              <div className="flex h-full items-center justify-center rounded-2xl border border-slate-200 bg-white">
+                <div className="text-center text-slate-500">
+                  <LoaderCircle
+                    aria-hidden="true"
+                    className="mx-auto size-6 animate-spin text-indigo-600 motion-reduce:animate-none"
+                  />
+                  <p className="mt-3 text-sm font-medium">
+                    正在加载已注册课件…
+                  </p>
+                </div>
               </div>
-            </div>
             )}
           </div>
         </div>
-      </div>
     </div>
   );
 }

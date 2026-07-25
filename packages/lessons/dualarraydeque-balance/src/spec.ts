@@ -78,6 +78,15 @@ export function buildDualArrayDequeBalanceSteps(
   spec: DualArrayDequeBalanceSessionSpec,
 ): DualArrayDequeBalanceStep[] {
   const state = deriveDualArrayDequeBalanceState(spec);
+  const frontHeavy = state.oldFront.length > 3 * state.oldBack.length;
+  const heavyLabel = frontHeavy ? "front" : "back";
+  const lightLabel = frontHeavy ? "back" : "front";
+  const heavyCount = frontHeavy
+    ? state.oldFront.length
+    : state.oldBack.length;
+  const lightCount = frontHeavy
+    ? state.oldBack.length
+    : state.oldFront.length;
   return [
     {
       id: "inspect-imbalance",
@@ -92,8 +101,8 @@ export function buildDualArrayDequeBalanceSteps(
     {
       id: "check-threshold",
       stage: "检查三倍阈值",
-      title: `${state.oldBack.length} > 3 × ${state.oldFront.length}`,
-      description: "一侧超过另一侧三倍，触发一次整体再平衡。",
+      title: `${heavyLabel}=${heavyCount} > 3 × ${lightLabel}=${lightCount}`,
+      description: `${heavyLabel} 一侧超过 ${lightLabel} 三倍，触发一次整体再平衡。`,
       revealLogical: false,
       revealSplit: false,
       revealNewFront: false,

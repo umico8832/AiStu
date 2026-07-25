@@ -1,0 +1,85 @@
+{
+  "concept": {
+    "id": "cs408-queue-fifo",
+    "title": "队列的 FIFO 语义与基本操作",
+    "aliases": [
+      "queue",
+      "FIFO"
+    ],
+    "content_type": "concept",
+    "location": {
+      "course_id": "cs408-data-structures",
+      "chapter_id": "408-stacks-queues-arrays",
+      "section_id": "cs408-queue-basics",
+      "parent_id": null,
+      "order": 8
+    },
+    "core_question": "队列为什么称为先进先出的受限线性表？",
+    "summary": "队列在队尾插入、队头删除，先入队的元素先出队。",
+    "definition": "队列只允许在一端入队 enqueue，在另一端出队 dequeue；插入端称队尾，删除端称队头。front 读取队头，判空和长度操作维护结构状态；空队列出队必须按接口规则处理下溢。",
+    "prerequisite_ids": [
+      "cs408-linear-list-definition-operations"
+    ],
+    "relations": [
+      {
+        "type": "part_of",
+        "target_id": "cs408-syllabus-stacks-queues-arrays",
+        "description": "队列的 FIFO 语义与基本操作是栈、队列和数组考纲模块中的原子知识点。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "像排队办理业务，新来的人站到队尾，等待最久的人从队头先接受服务。",
+      "mapping": {
+        "直观对象": "队列的 FIFO 语义与基本操作",
+        "对应机制": "队列在队尾插入、队头删除，先入队的元素先出队。"
+      },
+      "boundary": "类比只用于建立直觉；正式作答仍需使用定义、操作步骤、适用条件和复杂度结论。"
+    },
+    "retrieval": {
+      "keywords": [
+        "队列的 FIFO 语义与基本操作",
+        "queue",
+        "FIFO"
+      ],
+      "query_examples": [
+        "队列为什么称为先进先出的受限线性表？",
+        "队列的 FIFO 语义与基本操作的步骤、性质和复杂度是什么？",
+        "队列的 FIFO 语义与基本操作有哪些适用条件和易错边界？"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "syllabus-note-cs408-queue-fifo"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "cs408-linear-list-definition-operations",
+      "title": "线性表的定义与基本操作",
+      "core_question": "线性表的逻辑特征和常用基本操作是什么？",
+      "summary": "线性表是有限元素序列，除首尾外每个元素有唯一前驱和唯一后继。",
+      "definition": "线性表 L=(a1,…,an) 表示具有相同数据类型的有限序列。常用操作包括初始化、判空、按位查找、按值查找、插入、删除、求长度和遍历；操作下标的合法范围必须根据查找、插入或删除语义分别判断。",
+      "content_type": "concept"
+    },
+    {
+      "id": "cs408-syllabus-stacks-queues-arrays",
+      "title": "408 考纲：栈、队列和数组范围",
+      "core_question": "408 栈、队列和数组模块覆盖哪些内容？",
+      "summary": "该模块覆盖栈与队列的概念和顺序、链式实现，多维数组存储、特殊矩阵压缩及相关应用。",
+      "definition": "408 的栈、队列和数组模块包括栈与队列的基本概念、顺序存储结构、链式存储结构，多维数组的存储，特殊矩阵的压缩存储，以及栈、队列和数组的应用。常见能力包括判断栈序列、分析循环队列、推导地址映射和使用线性结构解决表达式或遍历问题。",
+      "content_type": "concept"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "syllabus-note-cs408-queue-fifo",
+      "type": "paragraph",
+      "content": "队列在队尾插入、队头删除，先入队的元素先出队。\n\n队列只允许在一端入队 enqueue，在另一端出队 dequeue；插入端称队尾，删除端称队头。front 读取队头，判空和长度操作维护结构状态；空队列出队必须按接口规则处理下溢。\n\n对应 2026 数据结构考纲叶子条目：栈和队列的基本概念。"
+    }
+  ]
+}

@@ -1,0 +1,94 @@
+{
+  "concept": {
+    "id": "cs408-binary-tree-depth-traversals",
+    "title": "二叉树先序、中序与后序遍历",
+    "aliases": [
+      "preorder inorder postorder",
+      "深度遍历"
+    ],
+    "content_type": "algorithm",
+    "location": {
+      "course_id": "cs408-data-structures",
+      "chapter_id": "408-trees",
+      "section_id": "cs408-binary-tree",
+      "parent_id": null,
+      "order": 7
+    },
+    "core_question": "先序、中序和后序遍历如何安排根与左右子树的访问顺序？",
+    "summary": "三种深度遍历分别采用根左右、左根右和左右根顺序，每个结点访问一次。",
+    "definition": "先序遍历先访问根，再递归左、右子树；中序遍历先左子树，再根、右子树；后序遍历先左、右子树，最后访问根。递归实现时间 O(n)，额外栈空间与树高 h 同阶；非递归实现使用显式栈保存待处理状态。",
+    "prerequisite_ids": [
+      "cs408-binary-tree-linked-storage",
+      "cs408-stack-lifo"
+    ],
+    "relations": [
+      {
+        "type": "part_of",
+        "target_id": "cs408-syllabus-trees",
+        "description": "二叉树先序、中序与后序遍历是树和二叉树考纲模块中的原子知识点。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "像处理文件夹时分别选择进入子目录前、左右目录之间或离开目录后记录当前文件夹。",
+      "mapping": {
+        "直观对象": "二叉树先序、中序与后序遍历",
+        "对应机制": "三种深度遍历分别采用根左右、左根右和左右根顺序，每个结点访问一次。"
+      },
+      "boundary": "类比只用于建立直觉；正式作答仍需使用定义、操作步骤、适用条件和复杂度结论。"
+    },
+    "retrieval": {
+      "keywords": [
+        "二叉树先序、中序与后序遍历",
+        "preorder inorder postorder",
+        "深度遍历"
+      ],
+      "query_examples": [
+        "先序、中序和后序遍历如何安排根与左右子树的访问顺序？",
+        "二叉树先序、中序与后序遍历的步骤、性质和复杂度是什么？",
+        "二叉树先序、中序与后序遍历有哪些适用条件和易错边界？"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "syllabus-note-cs408-binary-tree-depth-traversals"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "cs408-binary-tree-linked-storage",
+      "title": "二叉链表与三叉链表",
+      "core_question": "链式二叉树如何表示左右孩子和父结点？",
+      "summary": "二叉链表结点保存数据、左孩子指针和右孩子指针，三叉链表再保存父指针。",
+      "definition": "二叉链表适合一般形态的二叉树，空孩子用 null 表示；若二叉树有 n 个结点，2n 个孩子指针中有 n-1 个指向孩子，其余 n+1 个为空。增加 parent 指针形成三叉链表，可常数时间向上移动但增加空间与维护成本。",
+      "content_type": "concept"
+    },
+    {
+      "id": "cs408-stack-lifo",
+      "title": "栈的 LIFO 语义与基本操作",
+      "core_question": "栈为什么称为后进先出的受限线性表？",
+      "summary": "栈只允许在栈顶插入和删除，最后压入的元素最先弹出。",
+      "definition": "栈是只在一端进行插入和删除的线性表，这一端称为栈顶，另一端称为栈底。push 压入元素，pop 删除并返回栈顶，top 只读取栈顶；空栈执行 pop 或 top 必须按接口规则处理下溢。",
+      "content_type": "concept"
+    },
+    {
+      "id": "cs408-syllabus-trees",
+      "title": "408 考纲：树和二叉树范围",
+      "core_question": "408 树和二叉树模块覆盖哪些结构与应用？",
+      "summary": "该模块覆盖树与二叉树性质、存储和遍历，线索化、森林转换，以及 Huffman、并查集和堆等应用。",
+      "definition": "408 的树和二叉树模块包括树的基本概念，二叉树的定义、性质、顺序与链式存储、遍历和线索化，树与森林的存储、转换和遍历，以及 Huffman 树与编码、并查集和堆的应用。复习需要同时具备性质计算、结构转换、手工过程和算法实现能力。",
+      "content_type": "concept"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "syllabus-note-cs408-binary-tree-depth-traversals",
+      "type": "paragraph",
+      "content": "三种深度遍历分别采用根左右、左根右和左右根顺序，每个结点访问一次。\n\n先序遍历先访问根，再递归左、右子树；中序遍历先左子树，再根、右子树；后序遍历先左、右子树，最后访问根。递归实现时间 O(n)，额外栈空间与树高 h 同阶；非递归实现使用显式栈保存待处理状态。\n\n对应 2026 数据结构考纲叶子条目：二叉树的遍历。"
+    }
+  ]
+}

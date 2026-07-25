@@ -1,0 +1,85 @@
+{
+  "concept": {
+    "id": "cs408-circular-queue-representation",
+    "title": "循环队列的数组表示",
+    "aliases": [
+      "circular queue",
+      "环形队列"
+    ],
+    "content_type": "concept",
+    "location": {
+      "course_id": "cs408-data-structures",
+      "chapter_id": "408-stacks-queues-arrays",
+      "section_id": "cs408-stack-basics",
+      "parent_id": null,
+      "order": 9
+    },
+    "core_question": "循环队列如何复用数组末端之后的空闲槽位？",
+    "summary": "front 与 rear 通过模运算在数组中回绕，避免顺序队列产生假溢出。",
+    "definition": "容量为 m 的循环队列用 front 指示队头、rear 指示下一入队位置或队尾，具体语义必须统一。逻辑位置通过下标模 m 映射到物理槽位，入队更新 rear=(rear+1) mod m，出队更新 front=(front+1) mod m。",
+    "prerequisite_ids": [
+      "cs408-queue-fifo"
+    ],
+    "relations": [
+      {
+        "type": "part_of",
+        "target_id": "cs408-syllabus-stacks-queues-arrays",
+        "description": "循环队列的数组表示是栈、队列和数组考纲模块中的原子知识点。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "像环形跑道，指针越过最后一个编号后回到零号位置继续使用空槽。",
+      "mapping": {
+        "直观对象": "循环队列的数组表示",
+        "对应机制": "front 与 rear 通过模运算在数组中回绕，避免顺序队列产生假溢出。"
+      },
+      "boundary": "类比只用于建立直觉；正式作答仍需使用定义、操作步骤、适用条件和复杂度结论。"
+    },
+    "retrieval": {
+      "keywords": [
+        "循环队列的数组表示",
+        "circular queue",
+        "环形队列"
+      ],
+      "query_examples": [
+        "循环队列如何复用数组末端之后的空闲槽位？",
+        "循环队列的数组表示的步骤、性质和复杂度是什么？",
+        "循环队列的数组表示有哪些适用条件和易错边界？"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "syllabus-note-cs408-circular-queue-representation"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "cs408-queue-fifo",
+      "title": "队列的 FIFO 语义与基本操作",
+      "core_question": "队列为什么称为先进先出的受限线性表？",
+      "summary": "队列在队尾插入、队头删除，先入队的元素先出队。",
+      "definition": "队列只允许在一端入队 enqueue，在另一端出队 dequeue；插入端称队尾，删除端称队头。front 读取队头，判空和长度操作维护结构状态；空队列出队必须按接口规则处理下溢。",
+      "content_type": "concept"
+    },
+    {
+      "id": "cs408-syllabus-stacks-queues-arrays",
+      "title": "408 考纲：栈、队列和数组范围",
+      "core_question": "408 栈、队列和数组模块覆盖哪些内容？",
+      "summary": "该模块覆盖栈与队列的概念和顺序、链式实现，多维数组存储、特殊矩阵压缩及相关应用。",
+      "definition": "408 的栈、队列和数组模块包括栈与队列的基本概念、顺序存储结构、链式存储结构，多维数组的存储，特殊矩阵的压缩存储，以及栈、队列和数组的应用。常见能力包括判断栈序列、分析循环队列、推导地址映射和使用线性结构解决表达式或遍历问题。",
+      "content_type": "concept"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "syllabus-note-cs408-circular-queue-representation",
+      "type": "paragraph",
+      "content": "front 与 rear 通过模运算在数组中回绕，避免顺序队列产生假溢出。\n\n容量为 m 的循环队列用 front 指示队头、rear 指示下一入队位置或队尾，具体语义必须统一。逻辑位置通过下标模 m 映射到物理槽位，入队更新 rear=(rear+1) mod m，出队更新 front=(front+1) mod m。\n\n对应 2026 数据结构考纲叶子条目：栈和队列的顺序存储结构。"
+    }
+  ]
+}

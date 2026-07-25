@@ -1,0 +1,85 @@
+{
+  "concept": {
+    "id": "cs408-avl-balance",
+    "title": "AVL 树的平衡条件与高度",
+    "aliases": [
+      "AVL tree",
+      "balance factor"
+    ],
+    "content_type": "theorem",
+    "location": {
+      "course_id": "cs408-data-structures",
+      "chapter_id": "408-searching",
+      "section_id": "cs408-tree-search",
+      "parent_id": null,
+      "order": 10
+    },
+    "core_question": "AVL 树如何用平衡因子限制树高？",
+    "summary": "每个结点左右子树高度差绝对值不超过 1，因此查找、插入和删除保持 O(log n)。",
+    "definition": "AVL 树是二叉搜索树，结点平衡因子通常定义为左子树高度减右子树高度，合法值为 -1、0、1。插入或删除可能使祖先失衡，需要旋转恢复；最少结点数满足类似 Fibonacci 的递推，因此高度为 O(log n)。",
+    "prerequisite_ids": [
+      "cs408-bst-property-search"
+    ],
+    "relations": [
+      {
+        "type": "part_of",
+        "target_id": "cs408-syllabus-searching",
+        "description": "AVL 树的平衡条件与高度是查找考纲模块中的原子知识点。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "像一架层层保持近似水平的天平，任何位置两侧高度都不能相差超过一层。",
+      "mapping": {
+        "直观对象": "AVL 树的平衡条件与高度",
+        "对应机制": "每个结点左右子树高度差绝对值不超过 1，因此查找、插入和删除保持 O(log n)。"
+      },
+      "boundary": "类比只用于建立直觉；正式作答仍需使用定义、操作步骤、适用条件和复杂度结论。"
+    },
+    "retrieval": {
+      "keywords": [
+        "AVL 树的平衡条件与高度",
+        "AVL tree",
+        "balance factor"
+      ],
+      "query_examples": [
+        "AVL 树如何用平衡因子限制树高？",
+        "AVL 树的平衡条件与高度的步骤、性质和复杂度是什么？",
+        "AVL 树的平衡条件与高度有哪些适用条件和易错边界？"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "syllabus-note-cs408-avl-balance"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "cs408-bst-property-search",
+      "title": "二叉搜索树性质与查找",
+      "core_question": "二叉搜索树怎样利用关键字有序性查找？",
+      "summary": "对每个结点，左子树关键字更小、右子树更大，中序遍历得到有序序列。",
+      "definition": "查找从根开始，目标小于当前关键字进入左子树，大于则进入右子树，相等成功。时间与树高 h 同阶；形态平衡时约 O(log n)，按有序序列插入可能退化为链，最坏 O(n)。",
+      "content_type": "concept"
+    },
+    {
+      "id": "cs408-syllabus-searching",
+      "title": "408 考纲：查找范围",
+      "core_question": "408 查找模块覆盖哪些查找结构和算法？",
+      "summary": "查找模块覆盖顺序、分块、折半查找，BST、AVL、红黑树、B/B+树、散列表、字符串匹配及分析应用。",
+      "definition": "408 查找模块包括查找基本概念，顺序查找、分块查找、折半查找，二叉搜索树、平衡二叉树和红黑树，B 树的基本操作与 B+ 树基本概念，散列表，字符串模式匹配，以及查找算法的分析与应用。不同方法必须结合前提、操作成本和数据场景比较。",
+      "content_type": "concept"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "syllabus-note-cs408-avl-balance",
+      "type": "paragraph",
+      "content": "每个结点左右子树高度差绝对值不超过 1，因此查找、插入和删除保持 O(log n)。\n\nAVL 树是二叉搜索树，结点平衡因子通常定义为左子树高度减右子树高度，合法值为 -1、0、1。插入或删除可能使祖先失衡，需要旋转恢复；最少结点数满足类似 Fibonacci 的递推，因此高度为 O(log n)。\n\n对应 2026 数据结构考纲叶子条目：平衡二叉树。"
+    }
+  ]
+}

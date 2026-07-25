@@ -1,12 +1,22 @@
 import type {
   ActiveVisualizationContext,
   ChatStreamEvent,
+  CourseStudyAssessment,
+  ConversationStudyScope,
+  KnowledgeCourse,
+  KnowledgeCourseConcept,
   PersistedConversationV2,
   TutorCommand,
   VisualizationInteractionEvent,
 } from "@kaleidoscope/contracts";
-import { getVisualizationRegistration } from "@kaleidoscope/visualization-runtime";
-import { AnimatePresence, motion } from "motion/react";
+import {
+  KNOWLEDGE_COURSE_ID_408_DATA_STRUCTURES,
+  KNOWLEDGE_COURSE_TITLE_408_DATA_STRUCTURES,
+} from "@kaleidoscope/contracts";
+import {
+  getVisualizationRegistration,
+  getVisualizationRegistrationForConcept,
+} from "@kaleidoscope/visualization-runtime";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   ConversationPage,
@@ -14,14 +24,30 @@ import {
 } from "./components/ConversationPage";
 import { NavigationRail } from "./components/NavigationRail";
 import { CommunityPage } from "./components/CommunityPage";
-import { KnowledgeKaleidoscope } from "./components/KnowledgeKaleidoscope";
+import { CoursePage } from "./components/CoursePage";
+import { StorePage } from "./components/StorePage";
 import { VisualizationWorkspace } from "./components/VisualizationWorkspace";
 import { useAppStore } from "./stores/appStore";
 import { useConversationStore } from "./stores/conversationStore";
-import { useLearningStore } from "./stores/learningStore";
+import {
+  getDataStructuresStudyProfile,
+  useCourseProfileStore,
+} from "./stores/courseProfileStore";
+import {
+  getDataStructuresLearningRecord,
+  useCourseLearningStore,
+} from "./stores/courseLearningStore";
 import { useVisualizationStore } from "./stores/visualizationStore";
 
-type AppPage = "conversation" | "knowledge" | "community";
+type AppPage = "conversation" | "community" | "store" | "course";
+
+const DATA_STRUCTURES_CONCEPT_COUNT = 122;
+const DATA_STRUCTURES_MODULE_COUNT = 7;
+
+const dataStructuresStudyScope: ConversationStudyScope = {
+  type: "course",
+  courseId: KNOWLEDGE_COURSE_ID_408_DATA_STRUCTURES,
+};
 
 function summarizeConversation(
   conversation: PersistedConversationV2,
@@ -33,9 +59,11 @@ function summarizeConversation(
   const normalizedTitle = firstUserMessage?.content
     .replace(/\s+/gu, " ")
     .trim();
-  const title = normalizedTitle
-    ? `${normalizedTitle.slice(0, 22)}${normalizedTitle.length > 22 ? "…" : ""}`
-    : "新对话";
+  const title = conversation.studyScope
+    ? `${KNOWLEDGE_COURSE_TITLE_408_DATA_STRUCTURES}专项`
+    : normalizedTitle
+      ? `${normalizedTitle.slice(0, 22)}${normalizedTitle.length > 22 ? "…" : ""}`
+      : "新对话";
   const userTurnCount = conversation.messages.filter(
     (message) => message.role === "user",
   ).length;
@@ -46,42 +74,16 @@ function summarizeConversation(
     title,
     meta:
       userTurnCount > 0
-        ? `${userTurnCount} 轮学习${active ? " · 当前会话" : ""}`
+        ? `${userTurnCount} 轮学习${conversation.studyScope ? " · 专项" : ""}${active ? " · 当前会话" : ""}`
         : active
-          ? "尚未开始学习"
-          : "空白会话",
+          ? conversation.studyScope
+            ? "专项学习待开始"
+            : "尚未开始学习"
+          : conversation.studyScope
+            ? "专项学习"
+            : "空白会话",
   };
 }
-
-const learningDefinitions = [
-  {
-    conceptId: "ods-arraystack-insertion",
-    title: "ArrayStack 按位插入",
-    prerequisiteIds: ["ods-array-size-capacity"],
-  },
-  {
-    conceptId: "ods-array-size-capacity",
-    title: "size 与 capacity",
-  },
-  {
-    conceptId: "ods-arrayqueue-representation",
-    title: "ArrayQueue 循环表示",
-    prerequisiteIds: ["ods-modular-array-indexing"],
-  },
-  {
-    conceptId: "ods-modular-array-indexing",
-    title: "模运算下标映射",
-  },
-  {
-    conceptId: "ods-dualarraydeque-balance",
-    title: "DualArrayDeque 再平衡",
-    prerequisiteIds: ["ods-dualarraydeque-representation"],
-  },
-  {
-    conceptId: "ods-dualarraydeque-representation",
-    title: "双数组逻辑顺序",
-  },
-] as const;
 
 function activeVisualizationContext(): ActiveVisualizationContext | null {
   const active = useVisualizationStore.getState().activeSession;
@@ -105,16 +107,39 @@ type OpenVisualizationCommand = Extract<
 export function App() {
   const conversation = useConversationStore();
   const visualization = useVisualizationStore();
-  const learningRevision = useLearningStore(
-    (state) => `${state.events.length}:${Object.keys(state.records).length}`,
-  );
   const reducedMotion = useAppStore((state) => state.reducedMotion);
   const setReducedMotion = useAppStore((state) => state.setReducedMotion);
+  const courseStudyProfiles = useCourseProfileStore(
+    (state) => state.profiles,
+  );
+  const courseLearningRecords = useCourseLearningStore(
+    (state) => state.records,
+  );
   const saveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [pendingVisualization, setPendingVisualization] =
     useState<OpenVisualizationCommand | null>(null);
   const [page, setPage] = useState<AppPage>("conversation");
+  const [pendingStudyPrompt, setPendingStudyPrompt] =
+    useState<string | null>(null);
   const activeConversation = conversation.getActiveConversation();
+  const courseStudyProfile = useMemo(
+    () =>
+      courseStudyProfiles.find(
+        (profile) =>
+          profile.courseId ===
+          KNOWLEDGE_COURSE_ID_408_DATA_STRUCTURES,
+      ) ?? null,
+    [courseStudyProfiles],
+  );
+  const courseLearningRecord = useMemo(
+    () =>
+      courseLearningRecords.find(
+        (record) =>
+          record.courseId ===
+          KNOWLEDGE_COURSE_ID_408_DATA_STRUCTURES,
+      ) ?? null,
+    [courseLearningRecords],
+  );
   const conversationItems = useMemo(
     () =>
       [...conversation.conversations]
@@ -124,14 +149,6 @@ export function App() {
         ),
     [conversation.activeConversationId, conversation.conversations],
   );
-  const knowledgeNodes = useMemo(
-    () => {
-      void learningRevision;
-      return useLearningStore.getState().getNodes(learningDefinitions);
-    },
-    [learningRevision],
-  );
-
   const sendMessage = useCallback(async (rawContent: string) => {
     const content = rawContent.trim();
     const state = useConversationStore.getState();
@@ -144,6 +161,12 @@ export function App() {
     const current = useConversationStore
       .getState()
       .getActiveConversation();
+    if (current.studyScope) {
+      useCourseLearningStore.getState().recordEngagement(
+        current.studyScope.courseId,
+        current.conversationId,
+      );
+    }
     const messages = current.messages.filter(
       (message) => message.id !== assistantMessageId,
     );
@@ -154,6 +177,10 @@ export function App() {
         conversationId: current.conversationId,
         messages,
         activeVisualization: activeVisualizationContext(),
+        studyScope: current.studyScope,
+        studyProfile: current.studyScope
+          ? getDataStructuresStudyProfile()
+          : null,
       });
     } catch (error) {
       useConversationStore
@@ -167,13 +194,14 @@ export function App() {
 
   useEffect(() => {
     let alive = true;
-    useLearningStore.getState().hydrateFromStorage();
     void window.kaleidoscope.persistence.loadSession().then((session) => {
       if (!alive) {
         return;
       }
       const conversationState = useConversationStore.getState();
       conversationState.hydrate(session);
+      useCourseProfileStore.getState().hydrate(session);
+      useCourseLearningStore.getState().hydrate(session);
       useVisualizationStore
         .getState()
         .restore(conversationState.getActiveConversation().activeVisualization);
@@ -210,7 +238,22 @@ export function App() {
           }
           break;
         case "completed":
-          state.complete(event.requestId, event.grounding);
+          state.complete(
+            event.requestId,
+            event.grounding,
+            event.suggestedReplies,
+          );
+          {
+            const current = state.getActiveConversation();
+            if (current.studyScope) {
+              useCourseLearningStore.getState().recordKnowledgeExposure(
+                current.studyScope.courseId,
+                current.conversationId,
+                event.grounding.citations,
+                event.occurredAt,
+              );
+            }
+          }
           break;
         case "cancelled":
           state.cancel(event.requestId);
@@ -235,13 +278,18 @@ export function App() {
         const currentConversation = useConversationStore.getState();
         const currentVisualization =
           useVisualizationStore.getState().activeSession;
+        const snapshot = currentConversation.createSnapshot(
+          currentVisualization,
+          useAppStore.getState().reducedMotion,
+        );
         void window.kaleidoscope.persistence
-          .saveSession(
-            currentConversation.createSnapshot(
-              currentVisualization,
-              useAppStore.getState().reducedMotion,
-            ),
-          )
+          .saveSession({
+            ...snapshot,
+            courseStudyProfiles:
+              useCourseProfileStore.getState().profiles,
+            courseLearningRecords:
+              useCourseLearningStore.getState().records,
+          })
           .catch((error: unknown) => {
             if (import.meta.env.DEV) {
               console.error("Unable to persist session", error);
@@ -253,15 +301,88 @@ export function App() {
     const unsubVisualization =
       useVisualizationStore.subscribe(scheduleSave);
     const unsubApp = useAppStore.subscribe(scheduleSave);
+    const unsubCourseProfile =
+      useCourseProfileStore.subscribe(scheduleSave);
+    const unsubCourseLearning =
+      useCourseLearningStore.subscribe(scheduleSave);
     return () => {
       unsubConversation();
       unsubVisualization();
       unsubApp();
+      unsubCourseProfile();
+      unsubCourseLearning();
       if (saveTimerRef.current) {
         clearTimeout(saveTimerRef.current);
       }
     };
   }, []);
+
+  const hasStudyEngagement = activeConversation.messages.some(
+    (message) => message.role === "user",
+  );
+
+  useEffect(() => {
+    const scope = activeConversation.studyScope;
+    if (
+      page !== "conversation" ||
+      !scope ||
+      !hasStudyEngagement
+    ) {
+      return;
+    }
+
+    let lastTickAt = Date.now();
+    let lastActivityAt = Date.now();
+    const markActivity = () => {
+      lastActivityAt = Date.now();
+    };
+    const resetTick = () => {
+      lastTickAt = Date.now();
+    };
+    const tick = () => {
+      const now = Date.now();
+      const elapsedSeconds = Math.min(
+        30,
+        Math.floor((now - lastTickAt) / 1_000),
+      );
+      lastTickAt = now;
+      const recentlyActive = now - lastActivityAt <= 5 * 60 * 1_000;
+      if (
+        elapsedSeconds > 0 &&
+        recentlyActive &&
+        document.visibilityState === "visible" &&
+        document.hasFocus()
+      ) {
+        useCourseLearningStore.getState().recordActiveTime(
+          scope.courseId,
+          activeConversation.conversationId,
+          elapsedSeconds,
+          now,
+        );
+      }
+    };
+
+    window.addEventListener("pointerdown", markActivity);
+    window.addEventListener("keydown", markActivity);
+    window.addEventListener("wheel", markActivity, { passive: true });
+    window.addEventListener("focus", resetTick);
+    document.addEventListener("visibilitychange", resetTick);
+    const timer = window.setInterval(tick, 10_000);
+
+    return () => {
+      window.clearInterval(timer);
+      window.removeEventListener("pointerdown", markActivity);
+      window.removeEventListener("keydown", markActivity);
+      window.removeEventListener("wheel", markActivity);
+      window.removeEventListener("focus", resetTick);
+      document.removeEventListener("visibilitychange", resetTick);
+    };
+  }, [
+    activeConversation.conversationId,
+    activeConversation.studyScope,
+    hasStudyEngagement,
+    page,
+  ]);
 
   const stop = async () => {
     const streaming = useConversationStore.getState().streaming;
@@ -284,13 +405,17 @@ export function App() {
 
   const handleInteraction = (event: VisualizationInteractionEvent) => {
     useVisualizationStore.getState().recordInteraction(event);
-    const active = useVisualizationStore.getState().activeSession;
-    const registration = active
-      ? getVisualizationRegistration(active.visualizationId)
-      : null;
-    const conceptId = registration?.conceptIds[0];
-    if (conceptId) {
-      useLearningStore.getState().recordVisualizationEvent(conceptId, event);
+    const current = useConversationStore
+      .getState()
+      .getActiveConversation();
+    if (current.studyScope) {
+      useCourseLearningStore
+        .getState()
+        .recordVisualizationInteraction(
+          current.studyScope.courseId,
+          current.conversationId,
+          event,
+        );
     }
   };
 
@@ -324,9 +449,53 @@ export function App() {
       return;
     }
     setPendingVisualization(null);
+    setPendingStudyPrompt(null);
     useConversationStore
       .getState()
       .createConversation(useVisualizationStore.getState().activeSession);
+    useVisualizationStore.getState().close();
+    setPage("conversation");
+  };
+
+  const startCourseConcept = (concept: KnowledgeCourseConcept) => {
+    if (conversation.streaming) {
+      return;
+    }
+    setPendingVisualization(null);
+    const registration = getVisualizationRegistrationForConcept(
+      concept.id,
+    );
+    const studyPrompt = registration
+      ? `我想学「${concept.title}」。请结合「${registration.title}」互动课件讲解。`
+      : `我想学「${concept.title}」`;
+    useConversationStore
+      .getState()
+      .createConversation(
+        useVisualizationStore.getState().activeSession,
+        dataStructuresStudyScope,
+      );
+    useVisualizationStore.getState().close();
+    setPage("conversation");
+    if (getDataStructuresStudyProfile()) {
+      setPendingStudyPrompt(null);
+      void sendMessage(studyPrompt);
+    } else {
+      setPendingStudyPrompt(studyPrompt);
+    }
+  };
+
+  const startCourseStudy = (_course: KnowledgeCourse) => {
+    if (conversation.streaming) {
+      return;
+    }
+    setPendingVisualization(null);
+    setPendingStudyPrompt(null);
+    useConversationStore
+      .getState()
+      .createConversation(
+        useVisualizationStore.getState().activeSession,
+        dataStructuresStudyScope,
+      );
     useVisualizationStore.getState().close();
     setPage("conversation");
   };
@@ -345,8 +514,38 @@ export function App() {
       return;
     }
     setPendingVisualization(null);
+    setPendingStudyPrompt(null);
     useVisualizationStore.getState().restore(target.activeVisualization);
     setPage("conversation");
+  };
+
+  const completeCourseStudySetup = (
+    assessment: CourseStudyAssessment,
+  ) => {
+    useCourseProfileStore.getState().completeSetup(
+      KNOWLEDGE_COURSE_ID_408_DATA_STRUCTURES,
+      assessment,
+    );
+    const prompt = pendingStudyPrompt;
+    setPendingStudyPrompt(null);
+    if (prompt) {
+      void sendMessage(prompt);
+    }
+  };
+
+  const startStudyModule = (moduleId: string, prompt: string) => {
+    const current = useConversationStore
+      .getState()
+      .getActiveConversation();
+    if (!current.studyScope || conversation.streaming) {
+      return;
+    }
+    useCourseLearningStore.getState().recordModuleSelection(
+      current.studyScope.courseId,
+      current.conversationId,
+      moduleId,
+    );
+    void sendMessage(prompt);
   };
 
   const pendingRegistration = pendingVisualization
@@ -370,7 +569,7 @@ export function App() {
 
       <NavigationRail
         onNewConversation={createConversation}
-        activePage={page}
+        activePage={page === "course" ? "store" : page}
         onPageChange={setPage}
         conversations={conversationItems}
         activeConversationId={conversation.activeConversationId}
@@ -380,15 +579,22 @@ export function App() {
       {page === "conversation" ? (
         <>
           <ConversationPage
+            key={activeConversation.conversationId}
             messages={activeConversation.messages}
             draft={activeConversation.draft}
+            studyScope={activeConversation.studyScope}
+            courseStudyProfile={courseStudyProfile}
+            courseLearningRecord={courseLearningRecord}
+            courseConceptCount={DATA_STRUCTURES_CONCEPT_COUNT}
+            courseModuleCount={DATA_STRUCTURES_MODULE_COUNT}
             streaming={Boolean(conversation.streaming)}
-            provider={conversation.provider}
             lastError={conversation.lastError}
             onDraftChange={conversation.setDraft}
             onSend={(content) => void sendMessage(content)}
+            onStartStudyModule={startStudyModule}
             onStop={() => void stop()}
             onRetry={retry}
+            onCompleteStudySetup={completeCourseStudySetup}
             visualizationSuggestion={
               pendingVisualization && pendingRegistration
                 ? {
@@ -418,36 +624,30 @@ export function App() {
         </>
       ) : page === "community" ? (
         <CommunityPage />
+      ) : page === "course" ? (
+        <CoursePage
+          onBack={() => setPage("store")}
+          onStartCourse={startCourseStudy}
+          onStartConcept={startCourseConcept}
+          learningRecord={getDataStructuresLearningRecord()}
+          learningDisabled={Boolean(conversation.streaming)}
+        />
       ) : (
-        <main className="relative z-10 min-h-0 flex-1 overflow-hidden">
-          <KnowledgeKaleidoscope
-            nodes={knowledgeNodes}
-            title="我的知识万花筒"
-            description="同一套标准知识，根据你的预测、重试和完成证据重新排列。"
-            variant="workspace"
-          />
-        </main>
+        <StorePage
+          onOpenCourse={() => setPage("course")}
+        />
       )}
 
-      <AnimatePresence>
-        {visualization.activeSession ? (
-          <motion.div
-            key={visualization.activeSession.sessionId}
-            initial={{ opacity: 0, y: 14, scale: 0.99 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 10, scale: 0.995 }}
-            transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
-          >
-            <VisualizationWorkspace
-              session={visualization.activeSession}
-              error={visualization.lastError}
-              onStateChange={visualization.setLessonState}
-              onInteraction={handleInteraction}
-              onClose={closeVisualization}
-            />
-          </motion.div>
-        ) : null}
-      </AnimatePresence>
+      {visualization.activeSession ? (
+        <VisualizationWorkspace
+          key={visualization.activeSession.sessionId}
+          session={visualization.activeSession}
+          error={visualization.lastError}
+          onStateChange={visualization.setLessonState}
+          onInteraction={handleInteraction}
+          onClose={closeVisualization}
+        />
+      ) : null}
     </div>
   );
 }

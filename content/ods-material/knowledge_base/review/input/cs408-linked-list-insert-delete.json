@@ -1,0 +1,85 @@
+{
+  "concept": {
+    "id": "cs408-linked-list-insert-delete",
+    "title": "链表结点的插入与删除",
+    "aliases": [
+      "linked insertion",
+      "linked deletion"
+    ],
+    "content_type": "algorithm",
+    "location": {
+      "course_id": "cs408-data-structures",
+      "chapter_id": "408-linear-lists",
+      "section_id": "cs408-linear-list-applications",
+      "parent_id": null,
+      "order": 5
+    },
+    "core_question": "怎样安全修改链表指针完成插入和删除？",
+    "summary": "插入先让新结点接上后继再改前驱，删除先保存目标后继再绕过目标，避免断链。",
+    "definition": "在结点 p 之后插入 s 时执行 s.next=p.next，再令 p.next=s；删除 p 的后继 q 时先令 p.next=q.next，再释放或回收 q。若删除给定结点本身，需要先定位前驱，双链表则可直接利用 prev 指针。",
+    "prerequisite_ids": [
+      "cs408-singly-linked-list"
+    ],
+    "relations": [
+      {
+        "type": "part_of",
+        "target_id": "cs408-syllabus-linear-lists",
+        "description": "链表结点的插入与删除是线性表考纲模块中的原子知识点。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "像改接铁路：先把新轨道接到原后续线路，再切换入口；拆轨时先确认绕行线路再断开旧轨。",
+      "mapping": {
+        "直观对象": "链表结点的插入与删除",
+        "对应机制": "插入先让新结点接上后继再改前驱，删除先保存目标后继再绕过目标，避免断链。"
+      },
+      "boundary": "类比只用于建立直觉；正式作答仍需使用定义、操作步骤、适用条件和复杂度结论。"
+    },
+    "retrieval": {
+      "keywords": [
+        "链表结点的插入与删除",
+        "linked insertion",
+        "linked deletion"
+      ],
+      "query_examples": [
+        "怎样安全修改链表指针完成插入和删除？",
+        "链表结点的插入与删除的步骤、性质和复杂度是什么？",
+        "链表结点的插入与删除有哪些适用条件和易错边界？"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "syllabus-note-cs408-linked-list-insert-delete"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "cs408-singly-linked-list",
+      "title": "单链表的结点与表示",
+      "core_question": "单链表如何用指针连接逻辑相邻元素？",
+      "summary": "单链表结点保存数据与后继指针，物理位置可以离散，必须从表头沿指针顺序访问。",
+      "definition": "单链表的每个结点由数据域和 next 指针域组成，头指针标识首结点，可选头结点作为不保存业务数据的哨兵。已知前驱时插入和删除为 O(1)，按位定位仍需从头遍历，时间为 O(n)。",
+      "content_type": "concept"
+    },
+    {
+      "id": "cs408-syllabus-linear-lists",
+      "title": "408 考纲：线性表范围",
+      "core_question": "408 线性表模块要求覆盖哪些内容？",
+      "summary": "线性表模块覆盖基本概念、顺序存储、链式存储和线性表应用，重点比较访问、插删与空间特征。",
+      "definition": "408 线性表模块包括线性表的基本概念、顺序存储实现、链式存储实现和线性表应用。复习范围应能解释顺序表与单链表、双链表、循环链表的表示与基本操作，并从访问、插入删除、空间开销和适用场景比较不同实现。",
+      "content_type": "concept"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "syllabus-note-cs408-linked-list-insert-delete",
+      "type": "paragraph",
+      "content": "插入先让新结点接上后继再改前驱，删除先保存目标后继再绕过目标，避免断链。\n\n在结点 p 之后插入 s 时执行 s.next=p.next，再令 p.next=s；删除 p 的后继 q 时先令 p.next=q.next，再释放或回收 q。若删除给定结点本身，需要先定位前驱，双链表则可直接利用 prev 指针。\n\n对应 2026 数据结构考纲叶子条目：线性表的链式存储。"
+    }
+  ]
+}

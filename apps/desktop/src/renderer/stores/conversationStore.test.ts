@@ -21,6 +21,7 @@ function persistedState(): PersistedAppStateV2 {
         ],
         draft: "",
         activeVisualization: null,
+        studyScope: null,
         createdAt: 10,
         updatedAt: 10,
       },
@@ -76,5 +77,49 @@ describe("conversation history store", () => {
 
     expect(nextId).toBe(emptyId);
     expect(useConversationStore.getState().conversations).toHaveLength(2);
+  });
+
+  it("persists a course scope on a dedicated conversation", () => {
+    useConversationStore.getState().createConversation(null, {
+      type: "course",
+      courseId: "cs408-data-structures",
+    });
+
+    expect(
+      useConversationStore.getState().getActiveConversation().studyScope,
+    ).toEqual({
+      type: "course",
+      courseId: "cs408-data-structures",
+    });
+    expect(
+      useConversationStore.getState().createSnapshot(null, null)
+        .conversations[0]?.studyScope,
+    ).toEqual({
+      type: "course",
+      courseId: "cs408-data-structures",
+    });
+  });
+
+  it("stores quick replies on the completed tutor message", () => {
+    const requestId = crypto.randomUUID();
+    useConversationStore.getState().beginTurn("我学到线性表了", requestId);
+
+    useConversationStore.getState().complete(
+      requestId,
+      {
+        status: "not_required",
+        citations: [],
+      },
+      ["p.next = p.next.next", "p = p.next"],
+    );
+
+    const assistantMessage = useConversationStore
+      .getState()
+      .getActiveConversation()
+      .messages.find((message) => message.role === "assistant");
+    expect(assistantMessage?.suggestedReplies).toEqual([
+      "p.next = p.next.next",
+      "p = p.next",
+    ]);
   });
 });

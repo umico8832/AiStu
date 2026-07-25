@@ -1,0 +1,113 @@
+{
+  "concept": {
+    "id": "ods-arrayqueue-resize",
+    "title": "ArrayQueue 调整容量时的线性化复制",
+    "aliases": [
+      "ArrayQueue resize",
+      "循环数组扩容",
+      "队列线性化"
+    ],
+    "content_type": "mechanism",
+    "location": {
+      "course_id": "open-data-structures",
+      "chapter_id": "array-based-lists",
+      "section_id": "2-3-arrayqueue",
+      "parent_id": null,
+      "order": 14
+    },
+    "core_question": "ArrayQueue 调整容量时如何保持队列的逻辑顺序？",
+    "summary": "resize 按逻辑队列顺序复制到新数组的 0 至 n-1，并把队首 j 重置为 0。",
+    "definition": "ArrayQueue 的 resize 创建长度为 $\\max(1,2n)$ 的新数组 b，并对 $k=0,\\ldots,n-1$ 执行 $b[k]=a[(j+k)\\bmod \\mathrm{length}(a)]$。复制后令 a=b、j=0，使可能跨越旧数组末端的逻辑队列在新数组中连续排列。",
+    "prerequisite_ids": [
+      "ods-arrayqueue-representation",
+      "ods-arraystack-resize"
+    ],
+    "relations": [],
+    "rookie_explanation": {
+      "analogy": "把环形跑道上的选手按当前领先顺序排到一条新的直道上，第一名放在直道起点，后续顺序不变。",
+      "mapping": {
+        "环形跑道": "旧循环数组",
+        "当前领先顺序": "从 j 开始的逻辑顺序",
+        "直道起点": "新数组下标 0"
+      },
+      "boundary": "类比只解释顺序保持与 j 归零；新容量比例仍是本实现的具体策略。"
+    },
+    "retrieval": {
+      "keywords": [
+        "ArrayQueue 调整容量时的线性化复制",
+        "ArrayQueue resize",
+        "循环数组扩容",
+        "队列线性化"
+      ],
+      "query_examples": [
+        "ArrayQueue 调整容量时如何保持队列的逻辑顺序？",
+        "ArrayQueue 调整容量时的线性化复制怎么理解",
+        "ArrayQueue 调整容量时的线性化复制的关键条件是什么"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "ods-000273-paragraph-finally-the-ensuremath-ensuremath-ma",
+      "ods-000274-equation-ensuremath-ensuremath-ensuremath-mat",
+      "ods-000275-paragraph-onto",
+      "ods-000276-equation-ensuremath-ensuremath-ensuremath-mat",
+      "ods-000277-paragraph-and-sets-ensuremath-ensuremath-ensur",
+      "ods-000278-algorithm-begin-flushleft-hspace-1em-ensuremat"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "ods-arrayqueue-representation",
+      "title": "ArrayQueue 的循环数组表示",
+      "core_question": "ArrayQueue 如何用有限数组表示 FIFO 队列？",
+      "summary": "ArrayQueue 用 j 标记队首、n 记录元素数，并把第 k 个队列元素存到 (j+k) mod capacity。",
+      "definition": "ArrayQueue 用后备数组 a、队首物理下标 j 和元素数 n 表示 FIFO 序列。逻辑位置 k 的元素位于 $a[(j+k)\\bmod \\mathrm{length}(a)]$，其中 $0\\le k<n$。这一不变量让队首可以随删除向前移动而无需整体搬移。",
+      "content_type": "concept"
+    },
+    {
+      "id": "ods-arraystack-resize",
+      "title": "ArrayStack 的容量调整",
+      "core_question": "ArrayStack 如何在容量不足或空闲过多时调整后备数组？",
+      "summary": "resize 分配大小 max(1,2n) 的新数组并复制 n 个有效元素，使容量重新与元素数量保持同阶。",
+      "definition": "ArrayStack 的 resize 创建长度为 $\\max(1,2n)$ 的新数组 b，把旧数组中 n 个有效元素按原顺序复制到 b[0..n-1]，再令 a 指向 b。一次调用复制 n 个元素，因而耗时 $O(n)$；相同机制既可扩容也可在删除后的低占用率下缩容。",
+      "content_type": "mechanism"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "ods-000273-paragraph-finally-the-ensuremath-ensuremath-ma",
+      "type": "paragraph",
+      "content": "Finally, the \\ensuremath{\\ensuremath{\\mathrm{resize}()}} operation is very similar to the \\ensuremath{\\ensuremath{\\mathrm{resize}()}} operation of ArrayStack. It allocates a new array, \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{b}}}}, of size $2\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}$ and copies"
+    },
+    {
+      "id": "ods-000274-equation-ensuremath-ensuremath-ensuremath-mat",
+      "type": "equation",
+      "content": "\\[\n   \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{a}}[\\ensuremath{\\mathit{j}}]}},\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{a}}[(\\ensuremath{\\mathit{j}}+1)\\bmod \\mathrm{length}(\\ensuremath{\\mathit{a}})]}},\\ldots,\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{a}}[(\\ensuremath{\\mathit{j}}+\\ensuremath{\\mathit{n}}-1)\\bmod \\mathrm{length}(\\ensuremath{\\mathit{a}})]}}\n\\]"
+    },
+    {
+      "id": "ods-000275-paragraph-onto",
+      "type": "paragraph",
+      "content": "onto"
+    },
+    {
+      "id": "ods-000276-equation-ensuremath-ensuremath-ensuremath-mat",
+      "type": "equation",
+      "content": "\\[\n   \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{b}}[0]}},\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{b}}[1]}},\\ldots,\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{b}}[\\ensuremath{\\mathit{n}}-1]}}\n\\]"
+    },
+    {
+      "id": "ods-000277-paragraph-and-sets-ensuremath-ensuremath-ensur",
+      "type": "paragraph",
+      "content": "and sets $\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{j}}}}=0$."
+    },
+    {
+      "id": "ods-000278-algorithm-begin-flushleft-hspace-1em-ensuremat",
+      "type": "algorithm",
+      "content": "\\begin{flushleft}\n\\hspace*{1em} \\ensuremath{\\mathrm{resize}()}\\\\\n\\hspace*{1em} \\hspace*{1em} \\ensuremath{\\ensuremath{\\mathit{b}} \\gets  \\ensuremath{\\mathrm{new\\_array}(\\mathrm{max}(1, 2\\cdot \\ensuremath{\\mathit{n}})})}\\\\\n\\hspace*{1em} \\hspace*{1em} {\\color{black} \\textbf{for}} \\ensuremath{k} {\\color{black} \\textbf{in}} \\ensuremath{0,1,2,\\ldots,\\ensuremath{\\mathit{n}}-1} {\\color{black} \\textbf{do}} \\\\\n\\hspace*{1em} \\hspace*{1em} \\hspace*{1em} \\ensuremath{\\ensuremath{\\mathit{b}}[\\ensuremath{k}] \\gets  \\ensuremath{\\ensuremath{\\mathit{a}}[(\\ensuremath{\\mathit{j}}+\\ensuremath{\\mathit{k}}) \\bmod  \\mathrm{length}(\\ensuremath{\\mathit{a}})]}}\\\\\n\\hspace*{1em} \\hspace*{1em} \\ensuremath{\\ensuremath{\\mathit{a}} \\gets  \\ensuremath{b}}\\\\\n\\hspace*{1em} \\hspace*{1em} \\ensuremath{\\ensuremath{\\mathit{j}} \\gets  \\ensuremath{0}}\\\\\n\\end{flushleft}"
+    }
+  ]
+}

@@ -1,0 +1,85 @@
+{
+  "concept": {
+    "id": "cs408-huffman-coding",
+    "title": "Huffman 编码与前缀码",
+    "aliases": [
+      "Huffman code",
+      "prefix code"
+    ],
+    "content_type": "application",
+    "location": {
+      "course_id": "cs408-data-structures",
+      "chapter_id": "408-trees",
+      "section_id": "cs408-tree-applications",
+      "parent_id": null,
+      "order": 16
+    },
+    "core_question": "Huffman 树为什么能够生成无歧义的变长前缀编码？",
+    "summary": "把字符放在叶结点并以左右边标 0/1，任一字符编码都不会成为另一编码的前缀。",
+    "definition": "从根到字符叶结点的 0/1 路径形成编码。由于字符只对应叶结点，不存在某字符路径停在另一字符路径内部，因此编码具有前缀性质，可从左到右唯一解码。Huffman 编码在给定频率下最小化加权编码长度。",
+    "prerequisite_ids": [
+      "cs408-huffman-tree"
+    ],
+    "relations": [
+      {
+        "type": "part_of",
+        "target_id": "cs408-syllabus-trees",
+        "description": "Huffman 编码与前缀码是树和二叉树考纲模块中的原子知识点。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "像每个词都只写在决策树终点，读到终点才能完成一个词，所以不会在半路误判为另一个完整词。",
+      "mapping": {
+        "直观对象": "Huffman 编码与前缀码",
+        "对应机制": "把字符放在叶结点并以左右边标 0/1，任一字符编码都不会成为另一编码的前缀。"
+      },
+      "boundary": "类比只用于建立直觉；正式作答仍需使用定义、操作步骤、适用条件和复杂度结论。"
+    },
+    "retrieval": {
+      "keywords": [
+        "Huffman 编码与前缀码",
+        "Huffman code",
+        "prefix code"
+      ],
+      "query_examples": [
+        "Huffman 树为什么能够生成无歧义的变长前缀编码？",
+        "Huffman 编码与前缀码的步骤、性质和复杂度是什么？",
+        "Huffman 编码与前缀码有哪些适用条件和易错边界？"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "syllabus-note-cs408-huffman-coding"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "cs408-huffman-tree",
+      "title": "Huffman 树与带权路径长度",
+      "core_question": "Huffman 算法如何构造带权路径长度最小的二叉树？",
+      "summary": "反复选取权值最小的两棵树合并，最终得到叶权给定时 WPL 最小的二叉树。",
+      "definition": "带权路径长度 WPL 是各叶结点权值与其根到叶路径长度乘积之和。Huffman 构造每次从森林中取两棵根权最小的树作为新根的左右子树，新根权为两者之和，重复直到只剩一棵树。",
+      "content_type": "algorithm"
+    },
+    {
+      "id": "cs408-syllabus-trees",
+      "title": "408 考纲：树和二叉树范围",
+      "core_question": "408 树和二叉树模块覆盖哪些结构与应用？",
+      "summary": "该模块覆盖树与二叉树性质、存储和遍历，线索化、森林转换，以及 Huffman、并查集和堆等应用。",
+      "definition": "408 的树和二叉树模块包括树的基本概念，二叉树的定义、性质、顺序与链式存储、遍历和线索化，树与森林的存储、转换和遍历，以及 Huffman 树与编码、并查集和堆的应用。复习需要同时具备性质计算、结构转换、手工过程和算法实现能力。",
+      "content_type": "concept"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "syllabus-note-cs408-huffman-coding",
+      "type": "paragraph",
+      "content": "把字符放在叶结点并以左右边标 0/1，任一字符编码都不会成为另一编码的前缀。\n\n从根到字符叶结点的 0/1 路径形成编码。由于字符只对应叶结点，不存在某字符路径停在另一字符路径内部，因此编码具有前缀性质，可从左到右唯一解码。Huffman 编码在给定频率下最小化加权编码长度。\n\n对应 2026 数据结构考纲叶子条目：Huffman 树和 Huffman 编码。"
+    }
+  ]
+}

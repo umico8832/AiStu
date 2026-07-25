@@ -1,0 +1,94 @@
+{
+  "concept": {
+    "id": "cs408-floyd-warshall",
+    "title": "Floyd 全源最短路径",
+    "aliases": [
+      "Floyd Warshall",
+      "all pairs shortest path"
+    ],
+    "content_type": "algorithm",
+    "location": {
+      "course_id": "cs408-data-structures",
+      "chapter_id": "408-graphs",
+      "section_id": "cs408-graph-applications",
+      "parent_id": null,
+      "order": 16
+    },
+    "core_question": "Floyd 算法如何逐步允许更多中间顶点？",
+    "summary": "动态规划按中间顶点 k 更新 dist[i][j]=min(dist[i][j],dist[i][k]+dist[k][j])。",
+    "definition": "初始距离矩阵保存直接边权、对角线为 0。第 k 轮后，dist[i][j] 表示中间顶点只允许来自前 k 个顶点的最短距离。三重循环时间 O(V³)、空间 O(V²)，可处理负边但不能存在可达负环。",
+    "prerequisite_ids": [
+      "cs408-shortest-path-problem",
+      "cs408-adjacency-matrix"
+    ],
+    "relations": [
+      {
+        "type": "part_of",
+        "target_id": "cs408-syllabus-graphs",
+        "description": "Floyd 全源最短路径是图考纲模块中的原子知识点。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "像逐个开放中转城市，每开放一个城市就检查所有起终点是否能经它得到更短路线。",
+      "mapping": {
+        "直观对象": "Floyd 全源最短路径",
+        "对应机制": "动态规划按中间顶点 k 更新 dist[i][j]=min(dist[i][j],dist[i][k]+dist[k][j])。"
+      },
+      "boundary": "类比只用于建立直觉；正式作答仍需使用定义、操作步骤、适用条件和复杂度结论。"
+    },
+    "retrieval": {
+      "keywords": [
+        "Floyd 全源最短路径",
+        "Floyd Warshall",
+        "all pairs shortest path"
+      ],
+      "query_examples": [
+        "Floyd 算法如何逐步允许更多中间顶点？",
+        "Floyd 全源最短路径的步骤、性质和复杂度是什么？",
+        "Floyd 全源最短路径有哪些适用条件和易错边界？"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "syllabus-note-cs408-floyd-warshall"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "cs408-shortest-path-problem",
+      "title": "最短路径问题与松弛",
+      "core_question": "最短路径问题如何区分单源和全源，并用松弛改进距离？",
+      "summary": "最短路径最小化路径边权之和，松弛用经过中间顶点的新路径尝试降低当前估计。",
+      "definition": "单源最短路径求一个源点到其余顶点的距离，全源最短路径求所有有序顶点对。对边 (u,v,w) 的松弛检查 dist[v]>dist[u]+w，成立则更新距离和前驱；算法是否正确取决于边权条件和处理顺序。",
+      "content_type": "concept"
+    },
+    {
+      "id": "cs408-adjacency-matrix",
+      "title": "图的邻接矩阵",
+      "core_question": "邻接矩阵如何记录顶点对之间是否有边或边权？",
+      "summary": "n 个顶点用 n×n 矩阵表示连接，查边 O(1)，空间始终 O(n²)。",
+      "definition": "无权图中 A[i][j] 表示是否存在边，有权图可保存权值并用特殊值表示无边。无向图矩阵对称，顶点 i 的度可由第 i 行求和；邻接矩阵适合稠密图和频繁查边，但枚举邻居需要扫描一整行。",
+      "content_type": "concept"
+    },
+    {
+      "id": "cs408-syllabus-graphs",
+      "title": "408 考纲：图范围",
+      "core_question": "408 图模块要求掌握哪些表示、遍历和应用？",
+      "summary": "图模块覆盖基本概念、邻接矩阵与邻接表等存储、BFS/DFS，以及生成树、最短路、拓扑排序和关键路径。",
+      "definition": "408 图模块包括图的基本概念，邻接矩阵、邻接表、邻接多重表和十字链表等存储与基本操作，深度优先搜索和广度优先搜索，以及最小生成树、最短路径、拓扑排序和关键路径等基本应用。复习时需能在给定表示上手推过程并分析复杂度。",
+      "content_type": "concept"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "syllabus-note-cs408-floyd-warshall",
+      "type": "paragraph",
+      "content": "动态规划按中间顶点 k 更新 dist[i][j]=min(dist[i][j],dist[i][k]+dist[k][j])。\n\n初始距离矩阵保存直接边权、对角线为 0。第 k 轮后，dist[i][j] 表示中间顶点只允许来自前 k 个顶点的最短距离。三重循环时间 O(V³)、空间 O(V²)，可处理负边但不能存在可达负环。\n\n对应 2026 数据结构考纲叶子条目：最短路径。"
+    }
+  ]
+}

@@ -1,0 +1,94 @@
+{
+  "concept": {
+    "id": "cs408-quick-sort-analysis",
+    "title": "快速排序与复杂度分析",
+    "aliases": [
+      "quicksort",
+      "quick sort complexity"
+    ],
+    "content_type": "algorithm",
+    "location": {
+      "course_id": "cs408-data-structures",
+      "chapter_id": "408-sorting",
+      "section_id": "cs408-internal-sorting",
+      "parent_id": null,
+      "order": 8
+    },
+    "core_question": "快速排序的划分平衡程度怎样决定复杂度？",
+    "summary": "递归划分子区间；划分接近平衡时为 O(n log n)，持续极端失衡时退化为 O(n²)。",
+    "definition": "快速排序完成一次 O(n) 划分后递归处理左右子区间。平均和最好时间为 O(n log n)，最坏 O(n²)；递归栈平均 O(log n)、最坏 O(n)。随机或三数取中选枢轴可降低持续失衡风险。跨区交换使其通常不稳定，但缓存局部性好，常用于内部排序。",
+    "prerequisite_ids": [
+      "cs408-quick-partition",
+      "cs408-complexity-estimation"
+    ],
+    "relations": [
+      {
+        "type": "part_of",
+        "target_id": "cs408-syllabus-sorting",
+        "description": "快速排序与复杂度分析是排序考纲模块中的原子知识点。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "像不断把一堆任务分成两组：每次接近对半时层数少，若总分成一个和其余全部则会形成长链。",
+      "mapping": {
+        "直观对象": "快速排序与复杂度分析",
+        "对应机制": "递归划分子区间；划分接近平衡时为 O(n log n)，持续极端失衡时退化为 O(n²)。"
+      },
+      "boundary": "类比只用于建立直觉；正式作答仍需使用定义、操作步骤、适用条件和复杂度结论。"
+    },
+    "retrieval": {
+      "keywords": [
+        "快速排序与复杂度分析",
+        "quicksort",
+        "quick sort complexity"
+      ],
+      "query_examples": [
+        "快速排序的划分平衡程度怎样决定复杂度？",
+        "快速排序与复杂度分析的步骤、性质和复杂度是什么？",
+        "快速排序与复杂度分析有哪些适用条件和易错边界？"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "syllabus-note-cs408-quick-sort-analysis"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "cs408-quick-partition",
+      "title": "快速排序的划分",
+      "core_question": "一次快速排序划分怎样把枢轴放到最终位置？",
+      "summary": "选择枢轴并双向或单向扫描，把较小和较大记录分到两侧，再返回子区间边界。",
+      "definition": "经典双向划分先保存枢轴，左右指针向中间移动：从右找小于枢轴者填左侧空位，再从左找大于枢轴者填右侧空位，指针相遇时放回枢轴。不同划分方案对相等元素和返回边界的约定不同，递归区间必须与所用方案严格匹配。",
+      "content_type": "mechanism"
+    },
+    {
+      "id": "cs408-complexity-estimation",
+      "title": "循环与递归的复杂度估算",
+      "core_question": "怎样从循环或递归结构估算算法复杂度？",
+      "summary": "顺序语句取最大量级，嵌套循环常相乘，相关循环需精确求和，递归则建立并求解递推式。",
+      "definition": "分析循环时先确定每层迭代次数和基本操作成本：独立嵌套循环通常相乘，1+2+…+n 这类相关边界需要求和，对数循环来自规模按固定比例缩小。递归算法应写出 T(n) 的递推关系，并同时考虑每层非递归工作和递归树深度。",
+      "content_type": "mechanism"
+    },
+    {
+      "id": "cs408-syllabus-sorting",
+      "title": "408 考纲：排序范围",
+      "core_question": "408 排序模块覆盖哪些算法与分析维度？",
+      "summary": "排序模块覆盖插入、交换、选择、希尔、快速、堆、归并、基数和外部排序，并要求比较稳定性与复杂度。",
+      "definition": "408 排序模块包括排序基本概念、直接与折半插入排序、冒泡排序、简单选择排序、希尔排序、快速排序、堆排序、二路归并排序、基数排序和外部排序，以及排序算法的分析与应用。复习时需要比较最好、平均和最坏时间、辅助空间、稳定性、原地性与适用场景。",
+      "content_type": "concept"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "syllabus-note-cs408-quick-sort-analysis",
+      "type": "paragraph",
+      "content": "递归划分子区间；划分接近平衡时为 O(n log n)，持续极端失衡时退化为 O(n²)。\n\n快速排序完成一次 O(n) 划分后递归处理左右子区间。平均和最好时间为 O(n log n)，最坏 O(n²)；递归栈平均 O(log n)、最坏 O(n)。随机或三数取中选枢轴可降低持续失衡风险。跨区交换使其通常不稳定，但缓存局部性好，常用于内部排序。\n\n对应 2026 数据结构考纲叶子条目：快速排序、排序算法的分析及应用。"
+    }
+  ]
+}

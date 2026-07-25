@@ -1,0 +1,88 @@
+{
+  "concept": {
+    "id": "cs408-three-layer-mastery",
+    "title": "408 数据结构三层掌握标准",
+    "aliases": [
+      "概念过程代码",
+      "三层复习法",
+      "结构操作复杂度场景"
+    ],
+    "content_type": "application",
+    "location": {
+      "course_id": "cs408-data-structures",
+      "chapter_id": "408-data-structures-exam-guide",
+      "section_id": "cs408-study-strategy",
+      "parent_id": null,
+      "order": 15
+    },
+    "core_question": "如何把 408 数据结构考查目标转成可执行的掌握标准？",
+    "summary": "一个知识点至少要达到会说概念与公式、会手推结构和复杂度、会手写核心算法框架三个层次。",
+    "definition": "报告把数据结构掌握标准归纳为三层：第一层能准确说明概念、性质和公式；第二层能画结构、手推操作过程并分析时间与空间复杂度；第三层能用伪代码或 C/C++ 写出核心算法框架，并说明适用条件和易错边界。三层共同对应考纲的概念、实现、分析与设计要求。",
+    "prerequisite_ids": [
+      "cs408-data-structure-objectives"
+    ],
+    "relations": [
+      {
+        "type": "leads_to",
+        "target_id": "cs408-study-closed-loop",
+        "description": "三层标准需要通过反复输入、推导、实现和复盘形成学习闭环。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "学习一种机械装置时，先能说出零件名称，再能解释运转过程，最后能自己装配和排查故障，才算形成完整能力。",
+      "mapping": {
+        "零件名称": "概念与公式",
+        "运转过程": "手推与复杂度",
+        "自己装配": "算法设计与实现"
+      },
+      "boundary": "类比不表示所有知识点都需要同样长的代码；理论性质也可能以证明或推导作为第三层证据。"
+    },
+    "retrieval": {
+      "keywords": [
+        "408 数据结构三层掌握标准",
+        "概念过程代码",
+        "三层复习法",
+        "结构操作复杂度场景"
+      ],
+      "query_examples": [
+        "如何把 408 数据结构考查目标转成可执行的掌握标准？",
+        "408 数据结构三层掌握标准具体包括什么？",
+        "复习408 数据结构三层掌握标准时最容易混淆的边界是什么？"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "report-cs408-three-layer-mastery"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "cs408-data-structure-objectives",
+      "title": "408 数据结构考查目标",
+      "core_question": "408 数据结构部分要求考生具备哪些层次的能力？",
+      "summary": "考查目标覆盖基本概念与方法、结构和操作实现及复杂度分析，以及用 C 或 C++ 设计实现算法。",
+      "definition": "408 数据结构部分要求考生掌握数据结构的基本概念、基本原理和基本方法，理解逻辑结构、存储结构及基本操作的实现，能够分析算法的时间复杂度与空间复杂度，并能运用这些原理解决问题，使用 C 或 C++ 设计和实现算法。",
+      "content_type": "concept"
+    },
+    {
+      "id": "cs408-study-closed-loop",
+      "title": "408 数据结构学习闭环",
+      "core_question": "报告建议怎样把一次数据结构学习做成闭环？",
+      "summary": "每个学习单元应经历看懂、画图、手推、手写、口头解释和错题重做，而不是停在看懂答案。",
+      "definition": "报告建议把数据结构学习组织为连续闭环：阅读教材或讲义建立输入，画出结构，手推操作与复杂度，手写伪代码或核心实现，用自己的语言解释机制，再记录错因并二次重做。只有可复现的推导和实现输出，才能作为比“看过答案”更可靠的理解证据。",
+      "content_type": "application"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "report-cs408-three-layer-mastery",
+      "type": "paragraph",
+      "content": "报告总结：第一层会背概念和公式，第二层会手推过程和复杂度，第三层会手写核心代码框架；还要求把结构、操作、复杂度和场景完整说清。"
+    }
+  ]
+}

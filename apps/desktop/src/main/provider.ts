@@ -8,6 +8,7 @@ import {
 } from "@kaleidoscope/contracts";
 import {
   createDemoTutorPlan,
+  ensureGuidedReplies,
 } from "@kaleidoscope/tutor-runtime";
 import { runCodexTutor } from "./codex-provider";
 
@@ -29,6 +30,7 @@ function eventFor(
     | {
         type: "completed";
         grounding: AssistantGrounding;
+        suggestedReplies: string[];
       }
     | { type: "cancelled" },
 ): ChatStreamEvent {
@@ -61,9 +63,13 @@ async function delay(milliseconds: number, signal: AbortSignal) {
   });
 }
 
-function textChunks(text: string): string[] {
-  const chunks = text.match(/.{1,14}(?:[，。！？；：、\s]|$)/gu);
-  return chunks?.filter(Boolean) ?? [text];
+export function chunkTutorText(text: string): string[] {
+  const characters = Array.from(text);
+  const chunks: string[] = [];
+  for (let index = 0; index < characters.length; index += 14) {
+    chunks.push(characters.slice(index, index + 14).join(""));
+  }
+  return chunks.length > 0 ? chunks : [text];
 }
 
 export class DemoTutorProvider implements TutorProvider {
@@ -75,11 +81,16 @@ export class DemoTutorProvider implements TutorProvider {
     signal: AbortSignal,
     emit: (event: ChatStreamEvent) => void,
   ): Promise<void> {
-    const plan = createDemoTutorPlan(
+    const plan = ensureGuidedReplies(
+      createDemoTutorPlan(
+        input.messages,
+        input.activeVisualization,
+        input.studyScope,
+        input.studyProfile,
+      ),
       input.messages,
-      input.activeVisualization,
     );
-    for (const chunk of textChunks(plan.text)) {
+    for (const chunk of chunkTutorText(plan.text)) {
       await delay(24, signal);
       emit(eventFor(input.requestId, { type: "delta", delta: chunk }));
     }
@@ -95,6 +106,7 @@ export class DemoTutorProvider implements TutorProvider {
       eventFor(input.requestId, {
         type: "completed",
         grounding: plan.grounding,
+        suggestedReplies: plan.suggestedReplies,
       }),
     );
   }
@@ -109,13 +121,18 @@ export class CodexTutorProvider implements TutorProvider {
     signal: AbortSignal,
     emit: (event: ChatStreamEvent) => void,
   ): Promise<void> {
-    const plan = await runCodexTutor(
+    const plan = ensureGuidedReplies(
+      await runCodexTutor(
+        input.messages,
+        input.activeVisualization,
+        input.studyScope,
+        input.studyProfile,
+        knowledge,
+        signal,
+      ),
       input.messages,
-      input.activeVisualization,
-      knowledge,
-      signal,
     );
-    for (const chunk of textChunks(plan.text)) {
+    for (const chunk of chunkTutorText(plan.text)) {
       if (signal.aborted) {
         throw abortError();
       }
@@ -133,6 +150,7 @@ export class CodexTutorProvider implements TutorProvider {
       eventFor(input.requestId, {
         type: "completed",
         grounding: plan.grounding,
+        suggestedReplies: plan.suggestedReplies,
       }),
     );
   }

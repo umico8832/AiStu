@@ -1,0 +1,106 @@
+{
+  "concept": {
+    "id": "ods-arrayqueue-representation",
+    "title": "ArrayQueue 的循环数组表示",
+    "aliases": [
+      "ArrayQueue",
+      "circular array queue",
+      "循环数组队列"
+    ],
+    "content_type": "concept",
+    "location": {
+      "course_id": "open-data-structures",
+      "chapter_id": "array-based-lists",
+      "section_id": "2-3-arrayqueue",
+      "parent_id": null,
+      "order": 11
+    },
+    "core_question": "ArrayQueue 如何用有限数组表示 FIFO 队列？",
+    "summary": "ArrayQueue 用 j 标记队首、n 记录元素数，并把第 k 个队列元素存到 (j+k) mod capacity。",
+    "definition": "ArrayQueue 用后备数组 a、队首物理下标 j 和元素数 n 表示 FIFO 序列。逻辑位置 k 的元素位于 $a[(j+k)\\bmod \\mathrm{length}(a)]$，其中 $0\\le k<n$。这一不变量让队首可以随删除向前移动而无需整体搬移。",
+    "prerequisite_ids": [
+      "ods-modular-array-indexing"
+    ],
+    "relations": [
+      {
+        "type": "leads_to",
+        "target_id": "ods-arrayqueue-enqueue",
+        "description": "理解《ArrayQueue 的循环数组表示》是继续学习目标知识点的直接基础。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "像环形传送带：j 指向当前最先取货的位置，n 表示带上有多少件货，走到末端后位置编号从开头继续。",
+      "mapping": {
+        "环形传送带": "循环数组",
+        "取货指针": "j",
+        "货物数量": "n"
+      },
+      "boundary": "类比不包含数组满时的扩容，也不表示数据会在内存中物理旋转。"
+    },
+    "retrieval": {
+      "keywords": [
+        "ArrayQueue 的循环数组表示",
+        "ArrayQueue",
+        "circular array queue",
+        "循环数组队列"
+      ],
+      "query_examples": [
+        "ArrayQueue 如何用有限数组表示 FIFO 队列？",
+        "ArrayQueue 的循环数组表示怎么理解",
+        "ArrayQueue 的循环数组表示的关键条件是什么"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "ods-000255-paragraph-seclabel-arrayqueue-index-arrayqueue",
+      "ods-000256-equation-ensuremath-ensuremath-ensuremath-mat",
+      "ods-000266-paragraph-the-only-remaining-thing-to-worry-ab",
+      "ods-000267-algorithm-begin-flushleft-hspace-1em-ensuremat"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "ods-modular-array-indexing",
+      "title": "模运算实现循环下标",
+      "core_question": "模运算如何把不断增长的逻辑下标映射到有限数组？",
+      "summary": "对容量 m 取模会把任意整数下标映射到 0 至 m-1，使越过数组末端的位置回绕到开头。",
+      "definition": "对整数 a 和正整数 m，$a\\bmod m$ 是满足 $a=r+km$ 且 $0\\le r<m$ 的唯一余数 r。将逻辑位置 p 映射为 $p\\bmod m$，可保证所得物理下标始终落在长度为 m 的数组合法范围内，从而形成循环下标。",
+      "content_type": "formula"
+    },
+    {
+      "id": "ods-arrayqueue-enqueue",
+      "title": "ArrayQueue 的入队",
+      "core_question": "ArrayQueue 如何在不搬移已有元素的情况下完成入队？",
+      "summary": "容量足够时，新元素直接写入 (j+n) mod capacity，再把 n 加一，不移动已有队列元素。",
+      "definition": "ArrayQueue 的 add(x) 在 n+1 超过容量时先 resize；随后把 x 写入物理槽位 $(j+n)\\bmod \\mathrm{length}(a)$，再令 n 增加 1。该槽位对应当前逻辑队尾之后的位置，已有元素无需移动。",
+      "content_type": "algorithm"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "ods-000255-paragraph-seclabel-arrayqueue-index-arrayqueue",
+      "type": "paragraph",
+      "content": "\\seclabel{arrayqueue} \\index{ArrayQueue@ArrayQueue} In this section, we present the ArrayQueue data structure, which implements a FIFO (first-in-first-out) queue; elements are removed (using the \\ensuremath{\\ensuremath{\\mathrm{remove}()}} operation) from the queue in the same order they are added (using the \\ensuremath{\\ensuremath{\\mathrm{add}(\\ensuremath{\\mathit{x}})}} operation). Notice that an ArrayStack is a poor choice for an implementation of a FIFO queue. It is not a good choice because we must choose one end of the list upon which to add elements and then remove elements from the other end. One of the two operations must work on the head of the list, which involves calling \\ensuremath{\\ensuremath{\\mathrm{add}(\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{x}})}} or \\ensuremath{\\ensuremath{\\mathrm{remove}(\\ensuremath{\\mathit{i}})}} with a value of $\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{i}}}}=0$. This gives a running time proportional to \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}}. To obtain an efficient array-based implementation of a queue, we first notice that the problem would be easy if we had an infinite array \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{a}}}}. We could maintain one index \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{j}}}} that keeps track of the next element to remove and an integer \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{n}}}} that counts the number of elements in the queue. The queue elements would always be stored in"
+    },
+    {
+      "id": "ods-000256-equation-ensuremath-ensuremath-ensuremath-mat",
+      "type": "equation",
+      "content": "\\[ \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{a}}[\\ensuremath{\\mathit{j}}]}},\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{a}}[\\ensuremath{\\mathit{j}}+1]}},\\ldots,\\ensuremath{\\ensuremath{\\ensuremath{\\mathit{a}}[\\ensuremath{\\mathit{j}}+\\ensuremath{\\mathit{n}}-1]}} \\enspace . \\]"
+    },
+    {
+      "id": "ods-000266-paragraph-the-only-remaining-thing-to-worry-ab",
+      "type": "paragraph",
+      "content": "The only remaining thing to worry about is taking care that the number of elements in the ArrayQueue does not exceed the size of \\ensuremath{\\ensuremath{\\ensuremath{\\mathit{a}}}}."
+    },
+    {
+      "id": "ods-000267-algorithm-begin-flushleft-hspace-1em-ensuremat",
+      "type": "algorithm",
+      "content": "\\begin{flushleft}\n\\hspace*{1em} \\ensuremath{\\mathrm{initialize}()}\\\\\n\\hspace*{1em} \\hspace*{1em} \\ensuremath{\\ensuremath{\\mathit{a}} \\gets  \\ensuremath{\\mathrm{new\\_array}(1)}}\\\\\n\\hspace*{1em} \\hspace*{1em} \\ensuremath{\\ensuremath{\\mathit{j}} \\gets  \\ensuremath{0}}\\\\\n\\hspace*{1em} \\hspace*{1em} \\ensuremath{\\ensuremath{\\mathit{n}} \\gets  \\ensuremath{0}}\\\\\n\\end{flushleft}"
+    }
+  ]
+}

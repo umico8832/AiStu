@@ -1,0 +1,518 @@
+{
+  "chapter": "02-array-based-lists",
+  "sections": [
+    {
+      "section_id": "2-1-arraystack",
+      "proposed_concepts": [
+        {
+          "temporary_id": "candidate-001",
+          "proposed_title": "数组后备存储的共同特征",
+          "core_question": "用数组作为后备存储会带来哪些共同的性能与空间特征？",
+          "content_type": "concept",
+          "source_record_ids": [
+            "ods-000207-paragraph-chaplabel-arrays-in-this-chapter-we-",
+            "ods-000209-table-begin-tabular-l-l-l-hline-ensuremath",
+            "ods-000211-paragraph-data-structures-that-work-by-storing",
+            "ods-000212-list-item-arrays-offer-constant-time-acce",
+            "ods-000213-list_item-arrays-offer-constant-time-access-to",
+            "ods-000214-list_item-arrays-are-not-very-dynamic-adding-o",
+            "ods-000215-list_item-arrays-cannot-expand-or-shrink-when-",
+            "ods-000216-paragraph-the-third-point-is-important-the-run"
+          ],
+          "reason_for_separation": "该问题可独立检索和教学，并具有独立的定义、机制或复杂度结论。"
+        },
+        {
+          "temporary_id": "candidate-002",
+          "proposed_title": "元素数量与数组容量",
+          "core_question": "数组式线性表中的元素数量与后备数组容量有什么区别？",
+          "content_type": "concept",
+          "source_record_ids": [
+            "ods-000218-paragraph-seclabel-arraystack-index-arraystack",
+            "ods-000219-algorithm-begin-flushleft-hspace-1em-ensuremat"
+          ],
+          "reason_for_separation": "该问题可独立检索和教学，并具有独立的定义、机制或复杂度结论。"
+        }
+      ]
+    },
+    {
+      "section_id": "2-1-1-the-basics",
+      "proposed_concepts": [
+        {
+          "temporary_id": "candidate-003",
+          "proposed_title": "ArrayStack 的随机访问",
+          "core_question": "ArrayStack 为什么能在常数时间读取或修改任意位置？",
+          "content_type": "algorithm",
+          "source_record_ids": [
+            "ods-000221-paragraph-accessing-and-modifying-the-elements",
+            "ods-000222-algorithm-begin-flushleft-hspace-1em-ensuremat"
+          ],
+          "reason_for_separation": "该问题可独立检索和教学，并具有独立的定义、机制或复杂度结论。"
+        },
+        {
+          "temporary_id": "candidate-004",
+          "proposed_title": "ArrayStack 的按位插入",
+          "core_question": "ArrayStack 在位置 i 插入元素时为什么要向右搬移元素？",
+          "content_type": "algorithm",
+          "source_record_ids": [
+            "ods-000223-paragraph-the-operations-of-adding-and-removin",
+            "ods-000224-figure_caption-a-sequence-of-ensuremath-ensuremath-",
+            "ods-000225-algorithm-begin-flushleft-hspace-1em-ensuremat",
+            "ods-000226-paragraph-if-we-ignore-the-cost-of-the-potenti"
+          ],
+          "reason_for_separation": "该问题可独立检索和教学，并具有独立的定义、机制或复杂度结论。"
+        },
+        {
+          "temporary_id": "candidate-005",
+          "proposed_title": "ArrayStack 的按位删除",
+          "core_question": "ArrayStack 删除位置 i 的元素时为什么要向左搬移元素？",
+          "content_type": "algorithm",
+          "source_record_ids": [
+            "ods-000226-paragraph-if-we-ignore-the-cost-of-the-potenti",
+            "ods-000227-algorithm-begin-flushleft-hspace-1em-ensuremat",
+            "ods-000228-paragraph-if-we-ignore-the-cost-of-the-ensurem"
+          ],
+          "reason_for_separation": "该问题可独立检索和教学，并具有独立的定义、机制或复杂度结论。"
+        }
+      ]
+    },
+    {
+      "section_id": "2-1-2-growing-and-shrinking",
+      "proposed_concepts": [
+        {
+          "temporary_id": "candidate-006",
+          "proposed_title": "ArrayStack 的容量调整",
+          "core_question": "ArrayStack 如何在容量不足或空闲过多时调整后备数组？",
+          "content_type": "mechanism",
+          "source_record_ids": [
+            "ods-000230-paragraph-the-ensuremath-ensuremath-mathrm-res",
+            "ods-000231-algorithm-begin-flushleft-hspace-1em-ensuremat",
+            "ods-000232-paragraph-analyzing-the-actual-cost-of-the-ens"
+          ],
+          "reason_for_separation": "该问题可独立检索和教学，并具有独立的定义、机制或复杂度结论。"
+        },
+        {
+          "temporary_id": "candidate-007",
+          "proposed_title": "ArrayStack 调整容量的摊还成本",
+          "core_question": "为什么 ArrayStack 的单次 resize 虽为 O(n)，平均到更新操作仍是 O(1)？",
+          "content_type": "theorem",
+          "source_record_ids": [
+            "ods-000232-paragraph-analyzing-the-actual-cost-of-the-ens",
+            "ods-000233-lemma-lemlabel-arraystack-amortized-if-an-",
+            "ods-000234-proof-we-will-show-that-any-time-ensuremat",
+            "ods-000235-footnote-the-1-in-this-formula-accounts-for-t",
+            "ods-000236-equation-sum-i-1-r-ensuremath-ensuremath-ensu",
+            "ods-000237-equation-sum-i-1-r-ensuremath-ensuremath-ensu",
+            "ods-000238-equation-sum-i-1-r-o-ensuremath-ensuremath-en",
+            "ods-000239-equation_group-begin-align-r-ge-ensuremath-ensurema"
+          ],
+          "reason_for_separation": "该问题可独立检索和教学，并具有独立的定义、机制或复杂度结论。"
+        }
+      ]
+    },
+    {
+      "section_id": "2-1-3-summary",
+      "proposed_concepts": [
+        {
+          "temporary_id": "candidate-008",
+          "proposed_title": "ArrayStack 的操作复杂度",
+          "core_question": "ArrayStack 各项操作的时间复杂度是什么？",
+          "content_type": "theorem",
+          "source_record_ids": [
+            "ods-000241-paragraph-the-following-theorem-summarizes-the",
+            "ods-000242-theorem-thmlabel-arraystack-an-arraystack-im",
+            "ods-000243-list-item-ensuremath-ensuremath-mathrm-ge",
+            "ods-000244-list_item-ensuremath-ensuremath-mathrm-get-ens",
+            "ods-000245-list_item-ensuremath-ensuremath-mathrm-add-ens",
+            "ods-000246-paragraph-the-arraystack-is-an-efficient-way-t"
+          ],
+          "reason_for_separation": "该问题可独立检索和教学，并具有独立的定义、机制或复杂度结论。"
+        }
+      ]
+    },
+    {
+      "section_id": "2-2-fastarraystack",
+      "proposed_concepts": [
+        {
+          "temporary_id": "candidate-009",
+          "proposed_title": "FastArrayStack 的批量复制优化",
+          "core_question": "FastArrayStack 如何在不改变渐近复杂度的情况下加速元素搬移？",
+          "content_type": "mechanism",
+          "source_record_ids": [
+            "ods-000248-paragraph-seclabel-fastarraystack-index-fastar",
+            "ods-000249-paragraph-in-a-naive-implementation-this-would",
+            "ods-000250-paragraph-it-turns-out-that-many-programming-e",
+            "ods-000251-paragraph-these-functions-are-usually-highly-o",
+            "ods-000252-paragraph-in-our-c-and-java-implementations-th",
+            "ods-000253-paragraph-resulted-in-speedups-of-a-factor-bet"
+          ],
+          "reason_for_separation": "该问题可独立检索和教学，并具有独立的定义、机制或复杂度结论。"
+        }
+      ]
+    },
+    {
+      "section_id": "2-3-arrayqueue",
+      "proposed_concepts": [
+        {
+          "temporary_id": "candidate-010",
+          "proposed_title": "模运算实现循环下标",
+          "core_question": "模运算如何把不断增长的逻辑下标映射到有限数组？",
+          "content_type": "formula",
+          "source_record_ids": [
+            "ods-000257-paragraph-initially-both-ensuremath-ensuremath",
+            "ods-000258-equation-10-5-15-equiv-3-pmod-12-enspace",
+            "ods-000259-paragraph-we-read-the-latter-part-of-this-equa",
+            "ods-000260-equation-15-bmod-12-3-enspace",
+            "ods-000261-paragraph-more-generally-for-an-integer-a-and-",
+            "ods-000262-paragraph-in-many-programming-languages-includ",
+            "ods-000263-paragraph-modular-arithmetic-is-useful-for-sim",
+            "ods-000264-equation-ensuremath-ensuremath-ensuremath-mat",
+            "ods-000265-paragraph-this-treats-the-array-ensuremath-ens"
+          ],
+          "reason_for_separation": "该问题可独立检索和教学，并具有独立的定义、机制或复杂度结论。"
+        },
+        {
+          "temporary_id": "candidate-011",
+          "proposed_title": "ArrayQueue 的循环数组表示",
+          "core_question": "ArrayQueue 如何用有限数组表示 FIFO 队列？",
+          "content_type": "concept",
+          "source_record_ids": [
+            "ods-000255-paragraph-seclabel-arrayqueue-index-arrayqueue",
+            "ods-000256-equation-ensuremath-ensuremath-ensuremath-mat",
+            "ods-000266-paragraph-the-only-remaining-thing-to-worry-ab",
+            "ods-000267-algorithm-begin-flushleft-hspace-1em-ensuremat"
+          ],
+          "reason_for_separation": "该问题可独立检索和教学，并具有独立的定义、机制或复杂度结论。"
+        },
+        {
+          "temporary_id": "candidate-012",
+          "proposed_title": "ArrayQueue 的入队",
+          "core_question": "ArrayQueue 如何在不搬移已有元素的情况下完成入队？",
+          "content_type": "algorithm",
+          "source_record_ids": [
+            "ods-000268-paragraph-a-sequence-of-ensuremath-ensuremath-",
+            "ods-000269-figure_caption-a-sequence-of-ensuremath-ensuremath-",
+            "ods-000270-algorithm-begin-flushleft-hspace-1em-ensuremat"
+          ],
+          "reason_for_separation": "该问题可独立检索和教学，并具有独立的定义、机制或复杂度结论。"
+        },
+        {
+          "temporary_id": "candidate-013",
+          "proposed_title": "ArrayQueue 的出队",
+          "core_question": "ArrayQueue 如何通过移动队首下标完成出队？",
+          "content_type": "algorithm",
+          "source_record_ids": [
+            "ods-000271-paragraph-to-implement-ensuremath-ensuremath-m",
+            "ods-000272-algorithm-begin-flushleft-hspace-1em-ensuremat"
+          ],
+          "reason_for_separation": "该问题可独立检索和教学，并具有独立的定义、机制或复杂度结论。"
+        },
+        {
+          "temporary_id": "candidate-014",
+          "proposed_title": "ArrayQueue 调整容量时的线性化复制",
+          "core_question": "ArrayQueue 调整容量时如何保持队列的逻辑顺序？",
+          "content_type": "mechanism",
+          "source_record_ids": [
+            "ods-000273-paragraph-finally-the-ensuremath-ensuremath-ma",
+            "ods-000274-equation-ensuremath-ensuremath-ensuremath-mat",
+            "ods-000275-paragraph-onto",
+            "ods-000276-equation-ensuremath-ensuremath-ensuremath-mat",
+            "ods-000277-paragraph-and-sets-ensuremath-ensuremath-ensur",
+            "ods-000278-algorithm-begin-flushleft-hspace-1em-ensuremat"
+          ],
+          "reason_for_separation": "该问题可独立检索和教学，并具有独立的定义、机制或复杂度结论。"
+        }
+      ]
+    },
+    {
+      "section_id": "2-3-1-summary",
+      "proposed_concepts": [
+        {
+          "temporary_id": "candidate-015",
+          "proposed_title": "ArrayQueue 的操作复杂度",
+          "core_question": "ArrayQueue 的入队、出队和容量调整具有怎样的复杂度保证？",
+          "content_type": "theorem",
+          "source_record_ids": [
+            "ods-000280-paragraph-the-following-theorem-summarizes-the",
+            "ods-000281-theorem-an-arrayqueue-implements-the-fifo-qu"
+          ],
+          "reason_for_separation": "该问题可独立检索和教学，并具有独立的定义、机制或复杂度结论。"
+        }
+      ]
+    },
+    {
+      "section_id": "2-4-arraydeque",
+      "proposed_concepts": [
+        {
+          "temporary_id": "candidate-016",
+          "proposed_title": "ArrayDeque 的循环数组表示与访问",
+          "core_question": "ArrayDeque 如何在循环数组中定位任意逻辑下标？",
+          "content_type": "concept",
+          "source_record_ids": [
+            "ods-000283-paragraph-seclabel-arraydeque-index-arraydeque",
+            "ods-000284-algorithm-begin-flushleft-hspace-1em-ensuremat",
+            "ods-000285-paragraph-the-ensuremath-ensuremath-mathrm-get",
+            "ods-000286-algorithm-begin-flushleft-hspace-1em-ensuremat"
+          ],
+          "reason_for_separation": "该问题可独立检索和教学，并具有独立的定义、机制或复杂度结论。"
+        },
+        {
+          "temporary_id": "candidate-017",
+          "proposed_title": "ArrayDeque 向较近端搬移",
+          "core_question": "ArrayDeque 为什么根据 i 与 n/2 的关系选择搬移方向？",
+          "content_type": "mechanism",
+          "source_record_ids": [
+            "ods-000287-paragraph-the-implementation-of-ensuremath-ens",
+            "ods-000288-figure_caption-a-sequence-of-ensuremath-ensuremath-",
+            "ods-000289-algorithm-begin-flushleft-hspace-1em-ensuremat",
+            "ods-000290-paragraph-by-doing-the-shifting-in-this-way-we",
+            "ods-000291-algorithm-begin-flushleft-hspace-1em-ensuremat"
+          ],
+          "reason_for_separation": "该问题可独立检索和教学，并具有独立的定义、机制或复杂度结论。"
+        }
+      ]
+    },
+    {
+      "section_id": "2-4-1-summary",
+      "proposed_concepts": [
+        {
+          "temporary_id": "candidate-018",
+          "proposed_title": "ArrayDeque 的操作复杂度",
+          "core_question": "ArrayDeque 为什么能在两端附近高效插入和删除？",
+          "content_type": "theorem",
+          "source_record_ids": [
+            "ods-000293-paragraph-the-following-theorem-summarizes-the",
+            "ods-000294-theorem-thmlabel-arraydeque-an-arraydeque-im",
+            "ods-000295-list-item-ensuremath-ensuremath-mathrm-ge",
+            "ods-000296-list_item-ensuremath-ensuremath-mathrm-get-ens",
+            "ods-000297-list_item-ensuremath-ensuremath-mathrm-add-ens"
+          ],
+          "reason_for_separation": "该问题可独立检索和教学，并具有独立的定义、机制或复杂度结论。"
+        }
+      ]
+    },
+    {
+      "section_id": "2-5-dualarraydeque",
+      "proposed_concepts": [
+        {
+          "temporary_id": "candidate-019",
+          "proposed_title": "DualArrayDeque 的双栈表示",
+          "core_question": "DualArrayDeque 如何用两个 ArrayStack 表示一个逻辑序列？",
+          "content_type": "concept",
+          "source_record_ids": [
+            "ods-000299-paragraph-seclabel-dualarraydeque-index-dualar",
+            "ods-000300-algorithm-begin-flushleft-hspace-1em-ensuremat",
+            "ods-000301-paragraph-a-dualarraydeque-does-not-explicitly",
+            "ods-000302-algorithm-begin-flushleft-hspace-1em-ensuremat",
+            "ods-000303-paragraph-the-ensuremath-ensuremath-ensuremath",
+            "ods-000304-algorithm-begin-flushleft-hspace-1em-ensuremat",
+            "ods-000305-paragraph-note-that-if-an-index-ensuremath-ens"
+          ],
+          "reason_for_separation": "该问题可独立检索和教学，并具有独立的定义、机制或复杂度结论。"
+        },
+        {
+          "temporary_id": "candidate-020",
+          "proposed_title": "DualArrayDeque 的按位更新",
+          "core_question": "DualArrayDeque 如何把按位插入删除转交给正确的内部栈？",
+          "content_type": "algorithm",
+          "source_record_ids": [
+            "ods-000305-paragraph-note-that-if-an-index-ensuremath-ens",
+            "ods-000306-figure_caption-a-sequence-of-ensuremath-ensuremath-",
+            "ods-000307-algorithm-begin-flushleft-hspace-1em-ensuremat",
+            "ods-000308-paragraph-the-ensuremath-ensuremath-mathrm-add",
+            "ods-000309-equation-begin-equation-o-ensuremath-ensurema",
+            "ods-000310-paragraph-on-the-other-hand-if-ensuremath-ensu",
+            "ods-000311-equation-begin-equation-o-ensuremath-ensurema",
+            "ods-000312-paragraph-notice-that-the-first-case-myeqref-d",
+            "ods-000313-equation-mbox-running-time-of-ensuremath-ensu",
+            "ods-000314-paragraph-thus-the-running-time-of-ensuremath-",
+            "ods-000315-algorithm-begin-flushleft-hspace-1em-ensuremat"
+          ],
+          "reason_for_separation": "该问题可独立检索和教学，并具有独立的定义、机制或复杂度结论。"
+        }
+      ]
+    },
+    {
+      "section_id": "2-5-1-balancing",
+      "proposed_concepts": [
+        {
+          "temporary_id": "candidate-021",
+          "proposed_title": "DualArrayDeque 的再平衡",
+          "core_question": "DualArrayDeque 在什么条件下重新分配 front 与 back 的元素？",
+          "content_type": "mechanism",
+          "source_record_ids": [
+            "ods-000317-paragraph-finally-we-turn-to-the-ensuremath-en",
+            "ods-000318-algorithm-begin-flushleft-hspace-1em-ensuremat"
+          ],
+          "reason_for_separation": "该问题可独立检索和教学，并具有独立的定义、机制或复杂度结论。"
+        },
+        {
+          "temporary_id": "candidate-022",
+          "proposed_title": "DualArrayDeque 再平衡的摊还成本",
+          "core_question": "为什么 DualArrayDeque 的线性再平衡成本可以摊还为每次更新 O(1)？",
+          "content_type": "theorem",
+          "source_record_ids": [
+            "ods-000319-paragraph-here-there-is-little-to-analyze-if-t",
+            "ods-000320-lemma-lemlabel-dualarraydeque-amortized-if",
+            "ods-000321-proof-we-will-show-that-if-ensuremath-ensu",
+            "ods-000322-equation-phi-ensuremath-ensuremath-ensuremath",
+            "ods-000323-equation-phi-0-left-lfloor-ensuremath-ensurem",
+            "ods-000324-equation_group-begin-eqnarray-ensuremath-ensuremath",
+            "ods-000325-equation_group-begin-eqnarray-phi-1-ensuremath-ensu"
+          ],
+          "reason_for_separation": "该问题可独立检索和教学，并具有独立的定义、机制或复杂度结论。"
+        }
+      ]
+    },
+    {
+      "section_id": "2-5-2-summary",
+      "proposed_concepts": [
+        {
+          "temporary_id": "candidate-023",
+          "proposed_title": "DualArrayDeque 的操作复杂度",
+          "core_question": "DualArrayDeque 是否达到与 ArrayDeque 相同的渐近性能？",
+          "content_type": "theorem",
+          "source_record_ids": [
+            "ods-000327-paragraph-the-following-theorem-summarizes-the",
+            "ods-000328-theorem-thmlabel-dualarraydeque-a-dualarrayd",
+            "ods-000329-list-item-ensuremath-ensuremath-mathrm-ge",
+            "ods-000330-list_item-ensuremath-ensuremath-mathrm-get-ens",
+            "ods-000331-list_item-ensuremath-ensuremath-mathrm-add-ens"
+          ],
+          "reason_for_separation": "该问题可独立检索和教学，并具有独立的定义、机制或复杂度结论。"
+        }
+      ]
+    },
+    {
+      "section_id": "2-6-rootisharraystack",
+      "proposed_concepts": [
+        {
+          "temporary_id": "candidate-024",
+          "proposed_title": "RootishArrayStack 的递增块布局",
+          "core_question": "RootishArrayStack 如何用递增大小的数组块保存线性序列？",
+          "content_type": "concept",
+          "source_record_ids": [
+            "ods-000333-paragraph-seclabel-rootisharraystack-index-roo",
+            "ods-000334-equation-1-2-3-cdots-ensuremath-ensuremath-en",
+            "ods-000335-paragraph-elements-the-above-formula-can-be-ob",
+            "ods-000336-figure_caption-a-sequence-of-ensuremath-ensuremath-",
+            "ods-000337-algorithm-begin-flushleft-hspace-1em-ensuremat",
+            "ods-000338-figure_caption-the-number-of-white-squares-is-1-2-3"
+          ],
+          "reason_for_separation": "该问题可独立检索和教学，并具有独立的定义、机制或复杂度结论。"
+        },
+        {
+          "temporary_id": "candidate-025",
+          "proposed_title": "RootishArrayStack 的下标到块映射",
+          "core_question": "RootishArrayStack 如何由逻辑下标 i 计算块号和块内下标？",
+          "content_type": "formula",
+          "source_record_ids": [
+            "ods-000339-paragraph-as-we-might-expect-the-elements-of-t",
+            "ods-000340-equation-ensuremath-ensuremath-ensuremath-mat",
+            "ods-000341-paragraph-within-block-ensuremath-ensuremath-e",
+            "ods-000342-equation-ensuremath-ensuremath-ensuremath-mat",
+            "ods-000343-paragraph-we-can-rewrite-this-equation-as",
+            "ods-000344-equation-ensuremath-ensuremath-ensuremath-mat",
+            "ods-000345-paragraph-the-corresponding-quadratic-equation",
+            "ods-000346-equation-ensuremath-ensuremath-ensuremath-mat",
+            "ods-000347-algorithm-begin-flushleft-hspace-1em-ensuremat",
+            "ods-000348-paragraph-with-this-out-of-the-way-the-ensurem",
+            "ods-000349-algorithm-begin-flushleft-hspace-1em-ensuremat"
+          ],
+          "reason_for_separation": "该问题可独立检索和教学，并具有独立的定义、机制或复杂度结论。"
+        },
+        {
+          "temporary_id": "candidate-026",
+          "proposed_title": "RootishArrayStack 的按位插入与删除",
+          "core_question": "RootishArrayStack 如何跨数组块完成按位插入和删除？",
+          "content_type": "algorithm",
+          "source_record_ids": [
+            "ods-000350-paragraph-if-we-use-any-of-the-data-structures",
+            "ods-000351-algorithm-begin-flushleft-hspace-1em-ensuremat",
+            "ods-000354-paragraph-ignoring-the-cost-of-the-ensuremath-",
+            "ods-000355-algorithm-begin-flushleft-hspace-1em-ensuremat",
+            "ods-000357-paragraph-once-again-ignoring-the-cost-of-the-"
+          ],
+          "reason_for_separation": "该问题可独立检索和教学，并具有独立的定义、机制或复杂度结论。"
+        }
+      ]
+    },
+    {
+      "section_id": "2-6-1-analysis-of-growing-and-shrinking",
+      "proposed_concepts": [
+        {
+          "temporary_id": "candidate-027",
+          "proposed_title": "RootishArrayStack 的块增长与收缩",
+          "core_question": "RootishArrayStack 何时增加或删除数组块？",
+          "content_type": "mechanism",
+          "source_record_ids": [
+            "ods-000352-paragraph-the-ensuremath-ensuremath-mathrm-gro",
+            "ods-000353-algorithm-begin-flushleft-hspace-1em-ensuremat",
+            "ods-000356-algorithm-begin-flushleft-hspace-1em-ensuremat",
+            "ods-000359-paragraph-the-above-analysis-of-ensuremath-ens"
+          ],
+          "reason_for_separation": "该问题可独立检索和教学，并具有独立的定义、机制或复杂度结论。"
+        }
+      ]
+    },
+    {
+      "section_id": "2-6-2-space-usage",
+      "proposed_concepts": [
+        {
+          "temporary_id": "candidate-028",
+          "proposed_title": "RootishArrayStack 的浪费空间界",
+          "core_question": "为什么 RootishArrayStack 只浪费 O(sqrt(n)) 个数组槽位？",
+          "content_type": "theorem",
+          "source_record_ids": [
+            "ods-000361-paragraph-seclabel-rootishspaceusage-next-we-a",
+            "ods-000362-equation-ensuremath-ensuremath-ensuremath-mat",
+            "ods-000363-paragraph-again-using-the-quadratic-equation-o",
+            "ods-000364-equation-ensuremath-ensuremath-ensuremath-mat",
+            "ods-000365-paragraph-the-last-two-blocks-have-sizes-ensur"
+          ],
+          "reason_for_separation": "该问题可独立检索和教学，并具有独立的定义、机制或复杂度结论。"
+        }
+      ]
+    },
+    {
+      "section_id": "2-6-3-summary",
+      "proposed_concepts": [
+        {
+          "temporary_id": "candidate-029",
+          "proposed_title": "RootishArrayStack 的时间与空间复杂度",
+          "core_question": "RootishArrayStack 在随机访问、更新和额外空间之间做了怎样的权衡？",
+          "content_type": "theorem",
+          "source_record_ids": [
+            "ods-000367-paragraph-the-following-theorem-summarizes-our",
+            "ods-000368-theorem-thmlabel-rootisharraystack-a-rootish",
+            "ods-000369-footnote-recall-secref-model-for-a-discussion",
+            "ods-000370-list-item-ensuremath-ensuremath-mathrm-ge",
+            "ods-000371-list_item-ensuremath-ensuremath-mathrm-get-ens",
+            "ods-000372-list_item-ensuremath-ensuremath-mathrm-add-ens"
+          ],
+          "reason_for_separation": "该问题可独立检索和教学，并具有独立的定义、机制或复杂度结论。"
+        }
+      ]
+    },
+    {
+      "section_id": "2-7-discussion-and-exercises",
+      "proposed_concepts": [
+        {
+          "temporary_id": "candidate-030",
+          "proposed_title": "数组式线性表的布局权衡",
+          "core_question": "不同数组式线性表主要在更新位置、空间浪费和实现机制上如何取舍？",
+          "content_type": "comparison",
+          "source_record_ids": [
+            "ods-000209-table-begin-tabular-l-l-l-hline-ensuremath",
+            "ods-000242-theorem-thmlabel-arraystack-an-arraystack-im",
+            "ods-000294-theorem-thmlabel-arraydeque-an-arraydeque-im",
+            "ods-000328-theorem-thmlabel-dualarraydeque-a-dualarrayd",
+            "ods-000368-theorem-thmlabel-rootisharraystack-a-rootish",
+            "ods-000374-paragraph-most-of-the-data-structures-describe",
+            "ods-000375-paragraph-a-structure-related-to-the-rootishar"
+          ],
+          "reason_for_separation": "该问题可独立检索和教学，并具有独立的定义、机制或复杂度结论。"
+        }
+      ]
+    }
+  ]
+}

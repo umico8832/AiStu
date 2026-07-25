@@ -1,0 +1,18 @@
+{"concept_id": "cs408-graph-definition", "recommended": false, "priority": "low", "suggested_type": "structure_layout", "reason": "该知识点当前以文字、公式或比较表表达更直接。", "possible_scenes": []}
+{"concept_id": "cs408-graph-degree-path-connectivity", "recommended": false, "priority": "low", "suggested_type": "structure_layout", "reason": "该知识点当前以文字、公式或比较表表达更直接。", "possible_scenes": []}
+{"concept_id": "cs408-adjacency-matrix", "recommended": false, "priority": "low", "suggested_type": "structure_layout", "reason": "该知识点当前以文字、公式或比较表表达更直接。", "possible_scenes": []}
+{"concept_id": "cs408-adjacency-list", "recommended": false, "priority": "low", "suggested_type": "structure_layout", "reason": "该知识点当前以文字、公式或比较表表达更直接。", "possible_scenes": []}
+{"concept_id": "cs408-orthogonal-list", "recommended": false, "priority": "low", "suggested_type": "structure_layout", "reason": "该知识点当前以文字、公式或比较表表达更直接。", "possible_scenes": []}
+{"concept_id": "cs408-adjacency-multilist", "recommended": false, "priority": "low", "suggested_type": "structure_layout", "reason": "该知识点当前以文字、公式或比较表表达更直接。", "possible_scenes": []}
+{"concept_id": "cs408-graph-storage-comparison", "recommended": false, "priority": "low", "suggested_type": "structure_layout", "reason": "该知识点当前以文字、公式或比较表表达更直接。", "possible_scenes": []}
+{"concept_id": "cs408-depth-first-search", "recommended": true, "priority": "medium", "suggested_type": "algorithm_execution", "reason": "该知识点包含可逐步演示的结构变化或算法过程，适合进入课件候选评审。", "possible_scenes": ["深度优先搜索初始状态", "深度优先搜索关键步骤与结果"]}
+{"concept_id": "cs408-breadth-first-search", "recommended": true, "priority": "medium", "suggested_type": "algorithm_execution", "reason": "该知识点包含可逐步演示的结构变化或算法过程，适合进入课件候选评审。", "possible_scenes": ["广度优先搜索初始状态", "广度优先搜索关键步骤与结果"]}
+{"concept_id": "cs408-graph-traversal-complexity", "recommended": false, "priority": "low", "suggested_type": "structure_layout", "reason": "该知识点当前以文字、公式或比较表表达更直接。", "possible_scenes": []}
+{"concept_id": "cs408-minimum-spanning-tree", "recommended": false, "priority": "low", "suggested_type": "structure_layout", "reason": "该知识点当前以文字、公式或比较表表达更直接。", "possible_scenes": []}
+{"concept_id": "cs408-prim-algorithm", "recommended": true, "priority": "medium", "suggested_type": "algorithm_execution", "reason": "该知识点包含可逐步演示的结构变化或算法过程，适合进入课件候选评审。", "possible_scenes": ["Prim 最小生成树算法初始状态", "Prim 最小生成树算法关键步骤与结果"]}
+{"concept_id": "cs408-kruskal-algorithm", "recommended": true, "priority": "medium", "suggested_type": "algorithm_execution", "reason": "该知识点包含可逐步演示的结构变化或算法过程，适合进入课件候选评审。", "possible_scenes": ["Kruskal 最小生成树算法初始状态", "Kruskal 最小生成树算法关键步骤与结果"]}
+{"concept_id": "cs408-shortest-path-problem", "recommended": false, "priority": "low", "suggested_type": "structure_layout", "reason": "该知识点当前以文字、公式或比较表表达更直接。", "possible_scenes": []}
+{"concept_id": "cs408-dijkstra-algorithm", "recommended": true, "priority": "medium", "suggested_type": "algorithm_execution", "reason": "该知识点包含可逐步演示的结构变化或算法过程，适合进入课件候选评审。", "possible_scenes": ["Dijkstra 单源最短路径初始状态", "Dijkstra 单源最短路径关键步骤与结果"]}
+{"concept_id": "cs408-floyd-warshall", "recommended": true, "priority": "medium", "suggested_type": "algorithm_execution", "reason": "该知识点包含可逐步演示的结构变化或算法过程，适合进入课件候选评审。", "possible_scenes": ["Floyd 全源最短路径初始状态", "Floyd 全源最短路径关键步骤与结果"]}
+{"concept_id": "cs408-topological-sort", "recommended": true, "priority": "medium", "suggested_type": "algorithm_execution", "reason": "该知识点包含可逐步演示的结构变化或算法过程，适合进入课件候选评审。", "possible_scenes": ["拓扑排序与有向无环图初始状态", "拓扑排序与有向无环图关键步骤与结果"]}
+{"concept_id": "cs408-critical-path", "recommended": true, "priority": "medium", "suggested_type": "algorithm_execution", "reason": "该知识点包含可逐步演示的结构变化或算法过程，适合进入课件候选评审。", "possible_scenes": ["AOE 网与关键路径初始状态", "AOE 网与关键路径关键步骤与结果"]}

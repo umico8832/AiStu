@@ -22,6 +22,7 @@ const factorialFrame = (
     subState?: "pending" | "updated";
     waitingFor?: string;
     returnValue?: string;
+    hideSub?: boolean;
   },
 ): StackFrameState => ({
   id: `frame-factorial-${n}`,
@@ -30,11 +31,15 @@ const factorialFrame = (
   status,
   variables: [
     { name: "n", value: String(n) },
-    {
-      name: "sub",
-      value: sub,
-      state: options?.subState ?? "pending",
-    },
+    ...(options?.hideSub
+      ? []
+      : [
+          {
+            name: "sub",
+            value: sub,
+            state: options?.subState ?? "pending",
+          },
+        ]),
   ],
   waitingFor: options?.waitingFor,
   returnValue: options?.returnValue,
@@ -197,6 +202,7 @@ export const lessonSteps: LessonStep[] = [
       }),
       factorialFrame(1, "returning", "无需赋值", {
         returnValue: "1",
+        hideSub: true,
       }),
     ],
     tutorNotes: [

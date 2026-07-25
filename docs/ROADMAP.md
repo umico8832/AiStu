@@ -1,212 +1,168 @@
-# Kaleidoscope 桌面 MVP 路线图
+# Kaleidoscope 路线图
 
-## 1. 当前真实状态
+> 状态：当前项目快照
+> 快照日期：2026-07-25
+> 本文只记录完成度、优先级、风险与证据。目标范围见
+> [`MVP_SCOPE.md`](MVP_SCOPE.md)。
 
-核心桌面 MVP 已于 2026-07-24 完成实现和本机基线验收，项目仍处于黑客松持续开发
-阶段，不代表最终功能冻结。当前共有 4 个已注册课件：
-调用栈、ArrayStack 按位插入、ArrayQueue 循环数组和 DualArrayDeque 再平衡。
-四项均为 `review_pending`；调用栈没有编造 ODS `concept_id`，三项 ODS 课件已在
-桌面注册表绑定真实知识点。专门的多 Agent 知识与课件审查机制列为后续待办，审查
-通过后再标记 `reviewed` 并回写知识库 authoring 绑定。
+## 1. 发布目标
 
-2026-07-25 已完成黑客松第 0 段复验，审计对象为提交
-`08ec7afe2b496899adc42e80f531396e32438461`。本轮重新通过 typecheck、lint、
-37 个 Vitest、2 个 Electron Playwright、build、知识快照检查、macOS arm64
-`package:dir`、包完整性检查和启动 smoke。详细证据见
-[`HACKATHON_STAGE_0_BASELINE.md`](HACKATHON_STAGE_0_BASELINE.md)。
+当前目标是完成黑客松 `0.1.0` 交付：
 
-2026-07-25 黑客松第 1—3 段已实现并接入桌面端：调用栈受约束多视角面板、独立的
-用户学习事件与个人知识万花筒、本地社区投稿审核和学校分区页面。它们仍需在第 4—6
-段完成真实场景验收、视觉包装、课件独立审查和最终发布，不应视为最终交付完成。
+- GitHub Release 提供 macOS arm64 `.dmg` 与 `.zip`；
+- 发布产物对应明确 Git commit；
+- 演示机器走通对话、知识引用、课件确认、交互和返回对话；
+- 发布 3–5 分钟演示视频。
 
-第 4 段场景包、第 5 段 CSS 棱镜视觉增量及第 6 段演示文档也已加入工作树；当前仍需
-人工走查教学质量、录制最终视频、完成课件独立审查和 GitHub Release，路线图中的第
-4—6 段因此继续保持未完成状态。
+核心桌面 MVP 已实现并通过本机基线验证；项目目前处于“发布候选完善”阶段，不等于
+最终交付已经完成。
 
-2026-07-25 对话持久化已从单会话 v1 升级为最多 30 个最近会话的 v2：新建对话不再
-覆盖旧记录，侧边栏可切换历史会话，重启应用后仍恢复会话列表；已有 v1 数据由 Main
-自动迁移。
+## 2. 当前概览
 
-已通过的质量门：
+| 工作流 | 状态 | 当前结果 | 下一检查点 |
+| --- | --- | --- | --- |
+| Electron 与安全边界 | 完成 | 单窗口、安全隔离、应用协议、权限与导航拦截、Fuses | 最终发布包复验 |
+| 对话与 Provider | 完成 | 多会话、流式状态、Codex CLI、Demo Provider、结构化命令 | 真实演示环境 smoke |
+| 知识检索与引用 | 完成 | 仓库内长期知识资产、Main-only BM25、引用 allowlist、676-chunk 快照 | 发布前验证并同步快照 |
+| 408 课程与专项学习 | 完成 | 7 模块、122 知识点、专项范围、起步引导、思维导图 | 人工教学走查 |
+| 课程学习足迹 | 完成 | 有效时长、学习日期、知识接触、课件互动与轻量成就 | 边界与持久化人工复验 |
+| 可视化运行时 | 完成 | 建议确认、单一 session、spec/patch/revision 校验 | 异常流人工复验 |
+| 首批课件 | 完成 | 10 项注册课件均完成独立教学审查 | 发布包逐项抽查 |
+| 多视角表达 | 完成 | 调用栈 7 个受约束学习视角 | 演示节奏确认 |
+| 社区最小闭环 | 完成 | 全国考试目录、本地投稿、审核与来源边界 | 演示数据清理 |
+| 视觉与演示素材 | 进行中 | 品牌和 CSS 增量已进入工作树 | 最终截图、旁白、转场 |
+| macOS Release | 待完成 | 本地 `.app`、`.dmg`、`.zip` 已生成并启动验证 | GitHub Release |
+| 演示视频 | 待完成 | 脚本已存在 | 录制、剪辑和发布 |
 
-- [x] `pnpm typecheck`
-- [x] `pnpm lint`
-- [x] `pnpm test`：10 个测试文件、37 个测试
-- [x] `pnpm test:e2e:sidebar`：不发送对话的侧边栏 smoke
-- [x] `pnpm test:e2e`：侧边栏 smoke 与 Electron 黄金流程
-- [x] `pnpm build`
-- [x] `pnpm package:dir`
-- [x] `pnpm package`：macOS arm64 `.app`、`.dmg`、`.zip`
-- [x] 打包应用本机启动
-- [x] Electron Fuses 状态检查
-- [x] 本地临时签名完整性检查
-- [ ] 最终 GitHub Release
-- [ ] 最终演示视频
+## 3. 已稳定的工程底座
 
-黑客松最终只要求在 GitHub 发布可运行的 macOS arm64 程序并提供演示视频；
-Developer ID 签名、公证、Windows 发布和商业级监控不作为阻塞项。
-开发期 Provider 已调整为本机 Codex CLI；它复用本机登录，以 ephemeral、只读
-sandbox 和严格输出 Schema 运行。DeepSeek API 留到现有功能稳定后再评估。本地
-演示 Provider 继续覆盖可复现的完整交互流程。
+### 桌面与安全
 
-## 2. 已完成范围
+- pnpm workspace、固定 Node/pnpm 与工具链版本；
+- Main / Preload / Renderer 分层；
+- BrowserWindow 三项安全基线已落实；
+- 最小 `chat`、`knowledge`、`persistence` Preload API；
+- CSP、权限默认拒绝、导航与新窗口拦截；
+- sender 与 Zod 双重 IPC 校验；
+- 应用自有 `kaleidoscope://app` 协议、asar 和 Electron Fuses。
 
-### 项目基线
+### 对话与教学运行时
 
-- [x] pnpm workspace、锁文件、Node.js 22.21.0 约束和固定工具链版本
-- [x] `apps/desktop`
-- [x] `packages/contracts`
-- [x] `packages/knowledge-runtime`
-- [x] `packages/tutor-runtime`
-- [x] `packages/visualization-runtime`
-- [x] `packages/lessons/call-stack`
-- [x] `packages/lessons/arraystack-insertion`
-- [x] `packages/lessons/arrayqueue-representation`
-- [x] `packages/lessons/dualarraydeque-balance`
-- [x] `packages/ui`
-- [x] TypeScript strict、ESLint、Vitest、Playwright
+- 空状态、消息、草稿、停止、重试与错误处理；
+- 最多 30 个最近会话、v1 → v2 迁移和侧边栏恢复；
+- Codex CLI 与确定性 Demo Provider；
+- AI 文字、引用与 TutorCommand 分离；
+- 受限 Markdown、短段落与结构化快捷回答；
+- “不会”场景默认使用类比入门，并通过 2–4 个低压力引导按钮连续推进；
+- 专项学习范围与主观起步档案独立持久化。
+- 课程学习足迹按真实参与和结构化事件跨会话聚合，不自动推断掌握。
 
-### Electron 安全边界
+### 知识与课程
 
-- [x] 单 BrowserWindow
-- [x] `nodeIntegration: false`
-- [x] `contextIsolation: true`
-- [x] `sandbox: true`
-- [x] 最小 `contextBridge` API
-- [x] Renderer 无 Node 权限的 Playwright 断言
-- [x] CSP、导航和新窗口拦截
-- [x] 权限默认拒绝
-- [x] IPC sender 与 Zod 输入校验
-- [x] 应用自有 `kaleidoscope://app` 协议
-- [x] asar 与 Electron Fuses 发布加固
-- [x] 自定义 macOS ICNS、Windows ICO 与双平台开发图标
-- [x] Electron Fuses `afterPack` 支持 macOS 与 Windows 可执行文件命名
+- 标准知识库、固定来源、结构化 corpus、authoring、审查与维护流水线已纳入
+  `content/ods-material/`，应用运行和知识重建不再依赖仓库外目录；
+- 本地 JSONL 校验、中文 n-gram、英文 token 与轻量 BM25；
+- `grounded` / `not_found` / `not_required` / `unavailable`；
+- 伪造 chunk ID 拒绝与引用持久化；
+- 多课程 taxonomy 与打包运行时快照；
+- 408 数据结构 56/56 个考纲叶子映射到 122 个原子内容知识点；
+- 内容商店、课程页、搜索、思维导图和专项入口；
+- 当前新增 408 知识仍保留独立内容审查状态，完整覆盖不等于人工学科审查完成。
 
-### 对话和 Provider
+### 课件与单一 workspace
 
-- [x] 对话首页、空状态、消息列表和输入草稿
-- [x] 空状态单屏化：两个快捷问题、无滚动，产生消息后再启用滚动
-- [x] 正式软件图标触发的可折叠导航侧边栏、键盘焦点和 Escape 收起
-- [x] 流式回答、发送、停止、重试与错误状态
-- [x] 独立 conversation / visualization / application UI store
-- [x] 版本化多会话持久化、v1 自动迁移和侧边栏历史切换
-- [x] 本地确定性演示 Provider
-- [x] 受控的本机 Codex CLI Provider
-- [x] Codex 输出 Schema 校验和 TutorCommand 归一化
-- [x] ChatGPT 网页人工转接边界说明
-- [ ] 正式 DeepSeek API Provider
-- [x] 凭据只存在于 Main
-- [x] 文字流和结构化 TutorCommand 分离
+- 调用栈、3 项 ODS 和 6 项 408 过程课件；
+- 静态注册、真实 `concept_id`、严格 Schema、默认场景与 lazy import；
+- 前进、后退、重置、预测、reduced-motion 和只读教学材料；
+- 用户确认前不创建 session；
+- 相同课件受限更新、不同课件原子替换；
+- 非模态可拖动 workspace、焦点管理与视口约束；
+- 交互事件回到 Tutor，但不自动生成用户消息；
+- 10 项课件于 2026-07-25 完成独立教学审查并标记为 `reviewed`。
 
-### 本地知识库检索与引用
+### 社区与课程目录
 
-- [x] Main-only `KnowledgeService` 受控读取标准知识库
-- [x] `rag/chunks.jsonl` 逐行解析与 Zod 校验
-- [x] macOS 发布包携带 `rag/chunks.jsonl` 运行时快照
-- [x] 中文 n-gram、英文 token 和轻量 BM25 检索
-- [x] 每轮最多注入 3 个 concept、6 个 chunks
-- [x] Codex Prompt 知识边界和 JSON Schema 引用约束
-- [x] 引用 chunk ID allowlist 校验，拒绝伪造来源
-- [x] `grounded` / `not_found` / `not_required` / `unavailable` 降级状态
-- [x] 回答下方显示知识点标题与章节
-- [x] 引用随对话消息持久化
-- [x] 使用真实 Codex 对“size 与 capacity”完成有来源回答 smoke test
-- [x] 标准知识库升级为 version 2 多课程 taxonomy
-- [x] 从研究报告导入 17 个 408 数据结构考纲与复习指南知识点
-- [x] 记录报告 SHA-256、复核 URL、17 份审查包与 `review_pending` 状态
-- [x] RAG 运行时快照由 120 个 chunks 刷新为 188 个 chunks
+- 408、普通高考、考研公共课、四六级、计算机等级、教师资格、成人高考和自学考试
+  共 8 类入口；
+- 内容商店与社区复用稳定考试/科目 ID；
+- 商店一级目录使用独立“进入”按钮，不再点击整张卡片跳转；
+- 商店一级目录的卡片表面、图标容器和“进入”按钮使用统一视觉样式，内容状态只由
+  就近状态标签表达；
+- 商店首页可按考试、简称、类别和旗下科目实时搜索，包含结果计数、清空和无结果
+  反馈；
+- 只有 408 数据结构标为第一方课程可学习；
+- 社区首页已改为知识讨论与题库共建动态，考试目录降为内容筛选；
+- 知识点话题可保存观点、作者、考试和课程绑定；
+- 题库投稿支持 12 种常用文件格式，保存附件元数据、`exam_id`、`course_id`、来源
+  和审核状态；
+- 普通学习者界面不暴露审核操作；
+- 错误模块绑定被拒绝，旧快照可迁移；
+- 审核通过的社区内容仍不自动成为权威知识。
 
-### 调用栈课件和可视化运行时
+## 4. 下一步
 
-- [x] 等价迁移原型组件、动画、静态步骤和教学逻辑
-- [x] 统一为 `motion/react`
-- [x] reduced-motion
-- [x] 只读代码面板
-- [x] 前进、后退、重置和受控/非受控状态
-- [x] 课件专属 session spec 和 patch operation Schema
-- [x] 静态注册表、lazy import、未知 ID 拒绝
-- [x] 文本、数值、步骤和版本上限
-- [x] session ID、revision 和过期补丁拒绝
-- [x] 非法 spec 安全回退
-- [x] 错误边界
+### P0：完成黑客松发布
 
-### 首批 ODS 可视化课件
+1. 用全新用户数据目录人工走查真实学生场景、异常流和窗口尺寸；
+2. 确认最终品牌、截图、旁白、转场与产品内状态一致；
+3. 从候选 commit 重新执行完整质量门与 macOS 发布验收；
+4. 验证 `.app`、`.dmg`、`.zip` 内的知识快照和活动课件；
+5. 录制并发布 3–5 分钟演示视频；
+6. 创建 GitHub Release，记录 commit、产物校验和已知限制。
 
-- [x] ArrayStack 按位插入：容量检查、右到左搬移、写入与 size 更新
-- [x] ArrayQueue 循环数组：队首 j、模映射、跨界回绕与 FIFO 顺序
-- [x] DualArrayDeque 再平衡：三倍阈值、中点划分、front 逆序与 back 正序
-- [x] 三项资源的严格场景 Schema、默认场景和受限 focus patch
-- [x] 每项课件的前进、后退、重置、预测交互和 reduced-motion
-- [x] 注册表稳定 ID、真实 conceptIds、懒加载和唯一性测试
-- [x] Codex/演示 Provider 的课件选择与同页面更新工具
+### P1：发布后评估
 
-### 对话上的单一可视化
+- 接入正式 DeepSeek API Provider，保持现有 Provider/TutorCommand 协议；
+- 为 408 新增知识完成独立学科审查；
+- 根据真实学习问题决定下一批课件，不按知识点数量机械扩展；
+- 评估社区数据迁入 Main 或独立 runtime 的时机；
+- 设计有证据支撑的跨会话复习与用户学习域。
 
-- [x] 对话保持 mounted 的 overlay/workspace
-- [x] AI 课件建议卡与用户确认/拒绝门槛
-- [x] 用户确认前不创建或替换活动 session
-- [x] 任意时刻只保存一个 `activeSession`
-- [x] 同课件更新和不同课件原子替换
-- [x] 焦点管理、焦点陷阱和 Escape 关闭
-- [x] 关闭后保留对话、草稿和原位置
-- [x] step、预测、完成和关闭事件回流 Tutor
-- [x] 课件事件只结构化记录，不自动伪装成用户消息发送
-- [x] AI 根据安全字段打开或调整当前课件
+### 暂不排期
 
-## 3. MVP 验收证据
+- Developer ID 签名与公证；
+- Windows 正式发布；
+- embedding、向量数据库和云端完整 RAG；
+- 云端多人社区；
+- 商业级掌握度系统；
+- 插件系统、IDE、终端或 AI 动态页面源码。
 
-轻量侧边栏 smoke 独立覆盖，并且不会创建或发送任何对话消息：
+## 5. 当前风险与限制
 
-```text
-折叠导航 → 软件图标展开侧边栏 → Escape 收起
-```
+| 风险或限制 | 影响 | 当前处理 |
+| --- | --- | --- |
+| 开发默认依赖已登录 Codex CLI | 新机器可能无法直接回答 | 提供路径配置与 Demo Provider |
+| 新增 408 知识多为 `review_pending` | 覆盖完整不等于学科审核完成 | UI 和文档不宣称全部权威审核 |
+| 社区是本地单用户实现 | 不能代表真实多人内容治理 | 明确演示边界，不进入权威回答 |
+| 没有 Developer ID | 产物可能触发 macOS 安全提示 | 黑客松不阻塞，Release 记录限制 |
+| Playwright Electron 为实验能力 | 不能单独证明安全 | 结合 Vitest、静态检查和包 smoke |
+| 最终 Release 与视频未完成 | 黑客松交付尚未闭环 | 作为唯一 P0 工作流推进 |
 
-Playwright 黄金流程只在最终集成或发布验收时运行：
+## 6. 最近质量记录
 
-```text
-空对话首页
-→ 选择递归困惑示例
-→ 本地 Provider 流式回答
-→ 显示课件建议卡并验证“暂不”
-→ 用户确认后打开已注册调用栈课件
-→ 校验 Renderer 无 process/require
-→ 推进并完成教学步骤，验证没有自动用户消息
-→ 关闭课件
-→ 原用户消息和 AI 回答仍在同一会话
-→ 依次打开并验证三项 ODS 课件
-→ 重启应用并恢复原对话和活动课件
-```
+2026-07-25 当前工程记录显示以下门禁通过：
 
-发布产物：
+- `pnpm typecheck`
+- `pnpm lint`
+- `pnpm test`
+- `pnpm test:e2e:sidebar`
+- `pnpm test:e2e`
+- `pnpm build`
+- `pnpm package:dir`
+- `pnpm package`
+- 打包应用启动、知识快照、Fuses 与本地临时签名完整性检查
 
-```text
-release/mac-arm64/Kaleidoscope.app
-release/Kaleidoscope-0.1.0-arm64.dmg
-release/Kaleidoscope-0.1.0-arm64-mac.zip
-```
+这份记录不是对未来 commit 的永久证明。发布候选必须按
+[`guides/RELEASE.md`](guides/RELEASE.md) 重新执行并生成新的带日期报告。
 
-界面验收图：
+## 7. 里程碑与证据
 
-```text
-artifacts/kaleidoscope-mvp-actual.png
-artifacts/kaleidoscope-mvp-showcase.png
-artifacts/navigation-sidebar-expanded.png
-```
+| 日期 | 里程碑 | 证据 |
+| --- | --- | --- |
+| 2026-07-24 | 核心桌面 MVP 与本机基线完成 | [第 0 段基线报告](reports/2026-07-25-stage-0-baseline.md) |
+| 2026-07-25 | 多视角、社区和学校分区进入桌面端 | [演示脚本](delivery/HACKATHON_DEMO_SCRIPT.md) |
+| 2026-07-25 | 10 项课件完成独立教学审查 | [课件审查报告](reports/2026-07-25-lesson-review.md) |
+| 2026-07-25 | 多会话、课程专项、起步引导、思维导图和全国考试目录完成 | 当前代码与测试 |
+| 待完成 | 最终 GitHub Release 与演示视频 | 发布后新增报告 |
 
-## 4. 下一阶段
-
-黑客松按下列分段顺序推进，每一段单独验收：
-
-1. [x] 第 0 段：锁定现有工程基线、重新运行质量门并同步范围文档；
-2. [x] 第 1 段：实现受约束的多视角知识万花筒；
-3. [x] 第 2 段：实现独立用户学习事件和个人知识万花筒；
-4. [x] 第 3 段：实现本地社区投稿、审核和学校社区最小闭环；
-5. [ ] 第 4 段：制作真实学生问题场景，并完成教学质量和异常流人工验收；
-6. [ ] 第 5 段：统一万花筒品牌、视觉、动效和演示素材；
-7. [ ] 第 6 段：全链路回归、课件独立审查、macOS 发布、GitHub Release 和演示视频。
-
-正式 DeepSeek API 在上述核心展示流程稳定后再评估，保持同一
-Provider/TutorCommand 边界。签名公证、embedding/向量检索、商业级掌握度系统和
-云端实时多人社区不阻塞黑客松交付。
-
-继续禁止 Monaco、Tree-sitter、node-pty、终端、用户代码编辑和 AI 动态执行页面源码。
+第 2 段“独立个人知识万花筒”已从当前交付范围移除，不应作为未完成缺陷继续实现。

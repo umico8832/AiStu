@@ -1,0 +1,112 @@
+{
+  "concept": {
+    "id": "cs408-sorting-method-selection",
+    "title": "内部排序算法的比较与选择",
+    "aliases": [
+      "sorting selection",
+      "排序算法比较"
+    ],
+    "content_type": "comparison",
+    "location": {
+      "course_id": "cs408-data-structures",
+      "chapter_id": "408-sorting",
+      "section_id": "cs408-sorting-analysis",
+      "parent_id": null,
+      "order": 13
+    },
+    "core_question": "怎样结合规模、初始有序性、稳定性和空间选择排序算法？",
+    "summary": "选择排序算法要同时考虑时间界、辅助空间、稳定性、数据分布、记录移动成本和实现约束。",
+    "definition": "小规模或基本有序数据适合插入排序；要求平均高效且可接受最坏退化时可用快速排序；要求稳定并能提供 O(n log n) 时间时可用归并排序；空间紧且需要最坏 O(n log n) 可选堆排序；有限位整数可考虑基数排序。实际选择不能只背复杂度表，还应考虑外存、缓存和记录体积。",
+    "prerequisite_ids": [
+      "cs408-direct-insertion-sort",
+      "cs408-quick-sort-analysis",
+      "cs408-heap-sort",
+      "cs408-merge-sort"
+    ],
+    "relations": [
+      {
+        "type": "part_of",
+        "target_id": "cs408-syllabus-sorting",
+        "description": "内部排序算法的比较与选择是排序考纲模块中的原子知识点。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "像选择运输方式，需要同时看距离、时限、容量、成本和道路条件。",
+      "mapping": {
+        "直观对象": "内部排序算法的比较与选择",
+        "对应机制": "选择排序算法要同时考虑时间界、辅助空间、稳定性、数据分布、记录移动成本和实现约束。"
+      },
+      "boundary": "类比只用于建立直觉；正式作答仍需使用定义、操作步骤、适用条件和复杂度结论。"
+    },
+    "retrieval": {
+      "keywords": [
+        "内部排序算法的比较与选择",
+        "sorting selection",
+        "排序算法比较"
+      ],
+      "query_examples": [
+        "怎样结合规模、初始有序性、稳定性和空间选择排序算法？",
+        "内部排序算法的比较与选择的步骤、性质和复杂度是什么？",
+        "内部排序算法的比较与选择有哪些适用条件和易错边界？"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "syllabus-note-cs408-sorting-method-selection"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "cs408-direct-insertion-sort",
+      "title": "直接插入排序",
+      "core_question": "直接插入排序怎样维护逐步扩大的有序区？",
+      "summary": "每轮取出一个待排记录，在前方已排序区中从后向前寻找位置并移动记录后插入。",
+      "definition": "第 i 轮把 A[i] 暂存为哨兵，从有序区 A[0..i-1] 末端向前比较；大于待插入关键字的记录依次后移，最终把暂存记录放入空位。最好时间 O(n)，平均和最坏 O(n²)，辅助空间 O(1)，通常稳定且适合基本有序或规模较小的数据。",
+      "content_type": "algorithm"
+    },
+    {
+      "id": "cs408-quick-sort-analysis",
+      "title": "快速排序与复杂度分析",
+      "core_question": "快速排序的划分平衡程度怎样决定复杂度？",
+      "summary": "递归划分子区间；划分接近平衡时为 O(n log n)，持续极端失衡时退化为 O(n²)。",
+      "definition": "快速排序完成一次 O(n) 划分后递归处理左右子区间。平均和最好时间为 O(n log n)，最坏 O(n²)；递归栈平均 O(log n)、最坏 O(n)。随机或三数取中选枢轴可降低持续失衡风险。跨区交换使其通常不稳定，但缓存局部性好，常用于内部排序。",
+      "content_type": "algorithm"
+    },
+    {
+      "id": "cs408-heap-sort",
+      "title": "堆排序",
+      "core_question": "堆排序怎样反复选择极值并原地完成排序？",
+      "summary": "先建最大堆，再反复把堆顶与末尾交换并向下调整剩余堆。",
+      "definition": "升序堆排序把数组建成最大堆，堆顶最大值与当前末尾交换后缩小堆边界，再对根做下滤恢复堆序。自底向上建堆为 O(n)，之后 n-1 次调整各 O(log n)，总时间在最好、平均和最坏均为 O(n log n)，辅助空间 O(1)，通常不稳定。",
+      "content_type": "algorithm"
+    },
+    {
+      "id": "cs408-merge-sort",
+      "title": "二路归并排序",
+      "core_question": "二路归并排序怎样合并两个有序序列？",
+      "summary": "递归或迭代地把相邻有序段两两归并，比较段首并依次写入辅助数组。",
+      "definition": "合并两个有序段时用两个指针选择较小记录写入临时区，再复制剩余部分。自顶向下递归分半或自底向上按段长倍增，都需 O(n log n) 时间；数组实现通常需要 O(n) 辅助空间。相等时先取左段可保持稳定。",
+      "content_type": "algorithm"
+    },
+    {
+      "id": "cs408-syllabus-sorting",
+      "title": "408 考纲：排序范围",
+      "core_question": "408 排序模块覆盖哪些算法与分析维度？",
+      "summary": "排序模块覆盖插入、交换、选择、希尔、快速、堆、归并、基数和外部排序，并要求比较稳定性与复杂度。",
+      "definition": "408 排序模块包括排序基本概念、直接与折半插入排序、冒泡排序、简单选择排序、希尔排序、快速排序、堆排序、二路归并排序、基数排序和外部排序，以及排序算法的分析与应用。复习时需要比较最好、平均和最坏时间、辅助空间、稳定性、原地性与适用场景。",
+      "content_type": "concept"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "syllabus-note-cs408-sorting-method-selection",
+      "type": "paragraph",
+      "content": "选择排序算法要同时考虑时间界、辅助空间、稳定性、数据分布、记录移动成本和实现约束。\n\n小规模或基本有序数据适合插入排序；要求平均高效且可接受最坏退化时可用快速排序；要求稳定并能提供 O(n log n) 时间时可用归并排序；空间紧且需要最坏 O(n log n) 可选堆排序；有限位整数可考虑基数排序。实际选择不能只背复杂度表，还应考虑外存、缓存和记录体积。\n\n对应 2026 数据结构考纲叶子条目：排序算法的分析及应用。"
+    }
+  ]
+}

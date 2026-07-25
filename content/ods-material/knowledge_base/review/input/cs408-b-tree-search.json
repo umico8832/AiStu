@@ -1,0 +1,85 @@
+{
+  "concept": {
+    "id": "cs408-b-tree-search",
+    "title": "B 树查找",
+    "aliases": [
+      "B-tree search",
+      "多路查找"
+    ],
+    "content_type": "algorithm",
+    "location": {
+      "course_id": "cs408-data-structures",
+      "chapter_id": "408-searching",
+      "section_id": "cs408-tree-search",
+      "parent_id": null,
+      "order": 16
+    },
+    "core_question": "B 树查找怎样在结点内比较并选择下一孩子？",
+    "summary": "先在结点有序关键字中定位区间，命中则成功，否则沿对应孩子继续，直到叶层。",
+    "definition": "每访问一个 B 树结点，先在其关键字数组中顺序或折半查找。若目标等于某关键字返回；否则根据落入的关键字区间选择一个孩子。树高决定外存块访问次数，结点内部比较通常在内存完成。",
+    "prerequisite_ids": [
+      "cs408-b-tree-properties"
+    ],
+    "relations": [
+      {
+        "type": "part_of",
+        "target_id": "cs408-syllabus-searching",
+        "description": "B 树查找是查找考纲模块中的原子知识点。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "像先翻目录页找到目标词所在区间，再跳到对应子目录页。",
+      "mapping": {
+        "直观对象": "B 树查找",
+        "对应机制": "先在结点有序关键字中定位区间，命中则成功，否则沿对应孩子继续，直到叶层。"
+      },
+      "boundary": "类比只用于建立直觉；正式作答仍需使用定义、操作步骤、适用条件和复杂度结论。"
+    },
+    "retrieval": {
+      "keywords": [
+        "B 树查找",
+        "B-tree search",
+        "多路查找"
+      ],
+      "query_examples": [
+        "B 树查找怎样在结点内比较并选择下一孩子？",
+        "B 树查找的步骤、性质和复杂度是什么？",
+        "B 树查找有哪些适用条件和易错边界？"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "syllabus-note-cs408-b-tree-search"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "cs408-b-tree-properties",
+      "title": "B 树的阶、关键字数与平衡",
+      "core_question": "m 阶 B 树如何限制结点分支和关键字数量？",
+      "summary": "B 树是所有叶结点同层的多路平衡搜索树，每结点保存有序关键字和多个孩子。",
+      "definition": "m 阶 B 树中每个结点至多 m 个孩子和 m-1 个关键字；除根外非叶结点至少有 ceil(m/2) 个孩子，根若非叶至少两个孩子。含 k 个关键字的内部结点有 k+1 个孩子，关键字把孩子子树的取值范围分隔开。",
+      "content_type": "concept"
+    },
+    {
+      "id": "cs408-syllabus-searching",
+      "title": "408 考纲：查找范围",
+      "core_question": "408 查找模块覆盖哪些查找结构和算法？",
+      "summary": "查找模块覆盖顺序、分块、折半查找，BST、AVL、红黑树、B/B+树、散列表、字符串匹配及分析应用。",
+      "definition": "408 查找模块包括查找基本概念，顺序查找、分块查找、折半查找，二叉搜索树、平衡二叉树和红黑树，B 树的基本操作与 B+ 树基本概念，散列表，字符串模式匹配，以及查找算法的分析与应用。不同方法必须结合前提、操作成本和数据场景比较。",
+      "content_type": "concept"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "syllabus-note-cs408-b-tree-search",
+      "type": "paragraph",
+      "content": "先在结点有序关键字中定位区间，命中则成功，否则沿对应孩子继续，直到叶层。\n\n每访问一个 B 树结点，先在其关键字数组中顺序或折半查找。若目标等于某关键字返回；否则根据落入的关键字区间选择一个孩子。树高决定外存块访问次数，结点内部比较通常在内存完成。\n\n对应 2026 数据结构考纲叶子条目：B 树及其基本操作、B+ 树的基本概念。"
+    }
+  ]
+}

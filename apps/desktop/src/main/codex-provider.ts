@@ -1,6 +1,8 @@
 import type {
   ActiveVisualizationContext,
+  ConversationStudyScope,
   ConversationMessage,
+  CourseStudyProfile,
   KnowledgeRetrievalContext,
 } from "@kaleidoscope/contracts";
 import {
@@ -80,6 +82,8 @@ async function readOutput(
 export async function runCodexTutor(
   messages: ConversationMessage[],
   activeVisualization: ActiveVisualizationContext | null,
+  studyScope: ConversationStudyScope | null,
+  studyProfile: CourseStudyProfile | null,
   knowledge: KnowledgeRetrievalContext,
   signal: AbortSignal,
 ): Promise<TutorPlan> {
@@ -96,6 +100,7 @@ export async function runCodexTutor(
         buildCodexTutorOutputJsonSchema(
           activeVisualization,
           knowledge,
+          studyScope,
         ),
       ),
       { encoding: "utf8", mode: 0o600 },
@@ -175,7 +180,13 @@ export async function runCodexTutor(
       // A fast CLI failure can close stdin before the prompt is fully sent.
     });
     child.stdin.end(
-      buildCodexTutorPrompt(messages, activeVisualization, knowledge),
+      buildCodexTutorPrompt(
+        messages,
+        activeVisualization,
+        knowledge,
+        studyScope,
+        studyProfile,
+      ),
     );
 
     let exitCode: number | null;
@@ -225,6 +236,7 @@ export async function runCodexTutor(
       rawOutput,
       activeVisualization,
       knowledge,
+      studyScope,
     );
   } catch (error) {
     if (error instanceof SyntaxError) {

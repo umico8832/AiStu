@@ -1,0 +1,85 @@
+{
+  "concept": {
+    "id": "cs408-external-sorting-runs",
+    "title": "外部排序与初始归并段",
+    "aliases": [
+      "external sorting",
+      "initial run"
+    ],
+    "content_type": "concept",
+    "location": {
+      "course_id": "cs408-data-structures",
+      "chapter_id": "408-sorting",
+      "section_id": "cs408-external-sorting",
+      "parent_id": null,
+      "order": 14
+    },
+    "core_question": "当待排序数据无法全部装入内存时，外部排序怎样组织处理？",
+    "summary": "先分批读入内存形成有序初始归并段，再通过多趟外存归并得到最终有序文件。",
+    "definition": "外部排序的主要成本是块读写而非内存比较。基本流程先把每批能装入内存的记录内部排序并写成有序归并段，再反复把若干段合并。减少初始段数量、增加有效归并路数和缩短归并趟数可显著降低 I/O。",
+    "prerequisite_ids": [
+      "cs408-merge-sort"
+    ],
+    "relations": [
+      {
+        "type": "part_of",
+        "target_id": "cs408-syllabus-sorting",
+        "description": "外部排序与初始归并段是排序考纲模块中的原子知识点。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "像仓库无法一次摊开全部货单，先分桌整理成小册，再把多本有序小册逐轮合成总册。",
+      "mapping": {
+        "直观对象": "外部排序与初始归并段",
+        "对应机制": "先分批读入内存形成有序初始归并段，再通过多趟外存归并得到最终有序文件。"
+      },
+      "boundary": "类比只用于建立直觉；正式作答仍需使用定义、操作步骤、适用条件和复杂度结论。"
+    },
+    "retrieval": {
+      "keywords": [
+        "外部排序与初始归并段",
+        "external sorting",
+        "initial run"
+      ],
+      "query_examples": [
+        "当待排序数据无法全部装入内存时，外部排序怎样组织处理？",
+        "外部排序与初始归并段的步骤、性质和复杂度是什么？",
+        "外部排序与初始归并段有哪些适用条件和易错边界？"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "syllabus-note-cs408-external-sorting-runs"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "cs408-merge-sort",
+      "title": "二路归并排序",
+      "core_question": "二路归并排序怎样合并两个有序序列？",
+      "summary": "递归或迭代地把相邻有序段两两归并，比较段首并依次写入辅助数组。",
+      "definition": "合并两个有序段时用两个指针选择较小记录写入临时区，再复制剩余部分。自顶向下递归分半或自底向上按段长倍增，都需 O(n log n) 时间；数组实现通常需要 O(n) 辅助空间。相等时先取左段可保持稳定。",
+      "content_type": "algorithm"
+    },
+    {
+      "id": "cs408-syllabus-sorting",
+      "title": "408 考纲：排序范围",
+      "core_question": "408 排序模块覆盖哪些算法与分析维度？",
+      "summary": "排序模块覆盖插入、交换、选择、希尔、快速、堆、归并、基数和外部排序，并要求比较稳定性与复杂度。",
+      "definition": "408 排序模块包括排序基本概念、直接与折半插入排序、冒泡排序、简单选择排序、希尔排序、快速排序、堆排序、二路归并排序、基数排序和外部排序，以及排序算法的分析与应用。复习时需要比较最好、平均和最坏时间、辅助空间、稳定性、原地性与适用场景。",
+      "content_type": "concept"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "syllabus-note-cs408-external-sorting-runs",
+      "type": "paragraph",
+      "content": "先分批读入内存形成有序初始归并段，再通过多趟外存归并得到最终有序文件。\n\n外部排序的主要成本是块读写而非内存比较。基本流程先把每批能装入内存的记录内部排序并写成有序归并段，再反复把若干段合并。减少初始段数量、增加有效归并路数和缩短归并趟数可显著降低 I/O。\n\n对应 2026 数据结构考纲叶子条目：外部排序。"
+    }
+  ]
+}

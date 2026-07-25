@@ -1,0 +1,85 @@
+{
+  "concept": {
+    "id": "cs408-triangular-diagonal-matrix-compression",
+    "title": "三角矩阵与带状矩阵压缩",
+    "aliases": [
+      "triangular matrix",
+      "band matrix"
+    ],
+    "content_type": "formula",
+    "location": {
+      "course_id": "cs408-data-structures",
+      "chapter_id": "408-stacks-queues-arrays",
+      "section_id": "cs408-array-storage",
+      "parent_id": null,
+      "order": 14
+    },
+    "core_question": "三角矩阵和带状矩阵如何利用结构性零元素节省空间？",
+    "summary": "三角矩阵保存一侧与公共常量，带状矩阵只保存主对角线附近固定宽度的非零带。",
+    "definition": "上、下三角矩阵的一侧元素为同一常量，可将有效三角区域映射到连续数组并额外保存常量。三对角等带状矩阵只存满足 |i-j|≤d 的元素，按有效元素在各行中的累计个数推导一维下标；越界位置返回结构性零或常量。",
+    "prerequisite_ids": [
+      "cs408-multidimensional-array-address"
+    ],
+    "relations": [
+      {
+        "type": "part_of",
+        "target_id": "cs408-syllabus-stacks-queues-arrays",
+        "description": "三角矩阵与带状矩阵压缩是栈、队列和数组考纲模块中的原子知识点。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "像只记录舞台聚光灯覆盖的斜带区域，其余固定黑暗位置无需逐个保存。",
+      "mapping": {
+        "直观对象": "三角矩阵与带状矩阵压缩",
+        "对应机制": "三角矩阵保存一侧与公共常量，带状矩阵只保存主对角线附近固定宽度的非零带。"
+      },
+      "boundary": "类比只用于建立直觉；正式作答仍需使用定义、操作步骤、适用条件和复杂度结论。"
+    },
+    "retrieval": {
+      "keywords": [
+        "三角矩阵与带状矩阵压缩",
+        "triangular matrix",
+        "band matrix"
+      ],
+      "query_examples": [
+        "三角矩阵和带状矩阵如何利用结构性零元素节省空间？",
+        "三角矩阵与带状矩阵压缩的步骤、性质和复杂度是什么？",
+        "三角矩阵与带状矩阵压缩有哪些适用条件和易错边界？"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "syllabus-note-cs408-triangular-diagonal-matrix-compression"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "cs408-multidimensional-array-address",
+      "title": "多维数组的行优先与列优先地址",
+      "core_question": "怎样把多维数组下标映射为连续存储地址？",
+      "summary": "行优先让最右下标变化最快，列优先让最左下标变化最快，地址由各维跨度加权求和。",
+      "definition": "二维数组 A[m][n] 每元素占 L 字节、下标从 0 开始时，行优先地址为 base+(i·n+j)L，列优先为 base+(j·m+i)L。更高维数组按每一维之后或之前各维长度的乘积计算跨度，并先统一下标基准。",
+      "content_type": "formula"
+    },
+    {
+      "id": "cs408-syllabus-stacks-queues-arrays",
+      "title": "408 考纲：栈、队列和数组范围",
+      "core_question": "408 栈、队列和数组模块覆盖哪些内容？",
+      "summary": "该模块覆盖栈与队列的概念和顺序、链式实现，多维数组存储、特殊矩阵压缩及相关应用。",
+      "definition": "408 的栈、队列和数组模块包括栈与队列的基本概念、顺序存储结构、链式存储结构，多维数组的存储，特殊矩阵的压缩存储，以及栈、队列和数组的应用。常见能力包括判断栈序列、分析循环队列、推导地址映射和使用线性结构解决表达式或遍历问题。",
+      "content_type": "concept"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "syllabus-note-cs408-triangular-diagonal-matrix-compression",
+      "type": "paragraph",
+      "content": "三角矩阵保存一侧与公共常量，带状矩阵只保存主对角线附近固定宽度的非零带。\n\n上、下三角矩阵的一侧元素为同一常量，可将有效三角区域映射到连续数组并额外保存常量。三对角等带状矩阵只存满足 |i-j|≤d 的元素，按有效元素在各行中的累计个数推导一维下标；越界位置返回结构性零或常量。\n\n对应 2026 数据结构考纲叶子条目：特殊矩阵的压缩存储。"
+    }
+  ]
+}

@@ -1,0 +1,106 @@
+{
+  "concept": {
+    "id": "ods-arraydeque-representation",
+    "title": "ArrayDeque 的循环数组表示与访问",
+    "aliases": [
+      "ArrayDeque",
+      "array deque",
+      "数组双端队列"
+    ],
+    "content_type": "concept",
+    "location": {
+      "course_id": "open-data-structures",
+      "chapter_id": "array-based-lists",
+      "section_id": "2-4-arraydeque",
+      "parent_id": null,
+      "order": 16
+    },
+    "core_question": "ArrayDeque 如何在循环数组中定位任意逻辑下标？",
+    "summary": "ArrayDeque 复用队首 j 与元素数 n，把逻辑下标 i 映射为 (j+i) mod capacity。",
+    "definition": "ArrayDeque 用数组 a、逻辑起点 j 和元素数 n 表示 List。逻辑元素 i 存放于 $a[(j+i)\\bmod \\mathrm{length}(a)]$；get 与 set 直接使用该映射，因此为常数时间。循环布局允许逻辑序列在数组末端回绕。",
+    "prerequisite_ids": [
+      "ods-modular-array-indexing"
+    ],
+    "relations": [
+      {
+        "type": "leads_to",
+        "target_id": "ods-arraydeque-nearest-end-shifting",
+        "description": "理解《ArrayDeque 的循环数组表示与访问》是继续学习目标知识点的直接基础。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "像环形编号的抽屉组：从标记为起点的抽屉 j 数 i 格，就能找到逻辑上的第 i 件物品。",
+      "mapping": {
+        "起点抽屉": "j",
+        "数 i 格": "j+i",
+        "环形编号": "对容量取模"
+      },
+      "boundary": "类比只解释逻辑到物理位置的映射，不包含插入删除时的元素搬移。"
+    },
+    "retrieval": {
+      "keywords": [
+        "ArrayDeque 的循环数组表示与访问",
+        "ArrayDeque",
+        "array deque",
+        "数组双端队列"
+      ],
+      "query_examples": [
+        "ArrayDeque 如何在循环数组中定位任意逻辑下标？",
+        "ArrayDeque 的循环数组表示与访问怎么理解",
+        "ArrayDeque 的循环数组表示与访问的关键条件是什么"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "ods-000283-paragraph-seclabel-arraydeque-index-arraydeque",
+      "ods-000284-algorithm-begin-flushleft-hspace-1em-ensuremat",
+      "ods-000285-paragraph-the-ensuremath-ensuremath-mathrm-get",
+      "ods-000286-algorithm-begin-flushleft-hspace-1em-ensuremat"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "ods-modular-array-indexing",
+      "title": "模运算实现循环下标",
+      "core_question": "模运算如何把不断增长的逻辑下标映射到有限数组？",
+      "summary": "对容量 m 取模会把任意整数下标映射到 0 至 m-1，使越过数组末端的位置回绕到开头。",
+      "definition": "对整数 a 和正整数 m，$a\\bmod m$ 是满足 $a=r+km$ 且 $0\\le r<m$ 的唯一余数 r。将逻辑位置 p 映射为 $p\\bmod m$，可保证所得物理下标始终落在长度为 m 的数组合法范围内，从而形成循环下标。",
+      "content_type": "formula"
+    },
+    {
+      "id": "ods-arraydeque-nearest-end-shifting",
+      "title": "ArrayDeque 向较近端搬移",
+      "core_question": "ArrayDeque 为什么根据 i 与 n/2 的关系选择搬移方向？",
+      "summary": "它只搬移插入或删除位置到较近端之间的元素，把搬移数量限制为 min(i,n-i)。",
+      "definition": "ArrayDeque 在位置 i 更新时比较 i 与 n/2。若 i 靠近逻辑前端，就调整 j 并搬移前缀；否则搬移后缀。插入与删除采用相反但对称的搬移方向，使被移动元素数不超过 $\\min\\{i,n-i\\}$，忽略 resize 的时间为 $O(1+\\min\\{i,n-i\\})$。",
+      "content_type": "mechanism"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "ods-000283-paragraph-seclabel-arraydeque-index-arraydeque",
+      "type": "paragraph",
+      "content": "\\seclabel{arraydeque} \\index{ArrayDeque@ArrayDeque} The ArrayQueue from the previous section is a data structure for representing a sequence that allows us to efficiently add to one end of the sequence and remove from the other end. The ArrayDeque data structure allows for efficient addition and removal at both ends. This structure implements the List interface by using the same circular array technique used to represent an ArrayQueue."
+    },
+    {
+      "id": "ods-000284-algorithm-begin-flushleft-hspace-1em-ensuremat",
+      "type": "algorithm",
+      "content": "\\begin{flushleft}\n\\hspace*{1em} \\ensuremath{\\mathrm{initialize}()}\\\\\n\\hspace*{1em} \\hspace*{1em} \\ensuremath{\\ensuremath{\\mathit{a}} \\gets  \\ensuremath{\\mathrm{new\\_array}(1)}}\\\\\n\\hspace*{1em} \\hspace*{1em} \\ensuremath{\\ensuremath{\\mathit{j}} \\gets  \\ensuremath{0}}\\\\\n\\hspace*{1em} \\hspace*{1em} \\ensuremath{\\ensuremath{\\mathit{n}} \\gets  \\ensuremath{0}}\\\\\n\\end{flushleft}"
+    },
+    {
+      "id": "ods-000285-paragraph-the-ensuremath-ensuremath-mathrm-get",
+      "type": "paragraph",
+      "content": "The \\ensuremath{\\ensuremath{\\mathrm{get}(\\ensuremath{\\mathit{i}})}} and \\ensuremath{\\ensuremath{\\mathrm{set}(\\ensuremath{\\mathit{i}},\\ensuremath{\\mathit{x}})}} operations on an ArrayDeque are straightforward. They get or set the array element $\\ensuremath{\\ensuremath{a}[}{\\ensuremath{\\ensuremath{(\\ensuremath{\\mathit{j}}+\\ensuremath{\\mathit{i}})}}\\bmod \\ensuremath{\\ensuremath{\\mathrm{length}(\\ensuremath{\\mathit{a}})}}}\\ensuremath{]}$."
+    },
+    {
+      "id": "ods-000286-algorithm-begin-flushleft-hspace-1em-ensuremat",
+      "type": "algorithm",
+      "content": "\\begin{flushleft}\n\\hspace*{1em} \\ensuremath{\\mathrm{get}(\\ensuremath{\\mathit{i}})}\\\\\n\n\\hspace*{1em} \\hspace*{1em} {\\color{black} \\textbf{return}} \\ensuremath{\\ensuremath{\\mathit{a}}[(\\ensuremath{\\mathit{i}}+\\ensuremath{\\mathit{j}})\\bmod \\mathrm{length}(\\ensuremath{\\mathit{a}})]}\\\\\n\\ \\\\\n\\hspace*{1em} \\ensuremath{\\mathrm{set}(\\ensuremath{\\mathit{i}}, \\ensuremath{\\mathit{x}})}\\\\\n\n\\hspace*{1em} \\hspace*{1em} \\ensuremath{\\ensuremath{\\mathit{y}} \\gets  \\ensuremath{\\ensuremath{\\mathit{a}}[(\\ensuremath{\\mathit{i}}+\\ensuremath{\\mathit{j}})\\bmod \\mathrm{length}(\\ensuremath{\\mathit{a}})]}}\\\\\n\\hspace*{1em} \\hspace*{1em} \\ensuremath{\\ensuremath{\\mathit{a}}[\\ensuremath{(\\ensuremath{\\mathit{i}}+\\ensuremath{\\mathit{j}})\\bmod \\mathrm{length}(\\ensuremath{\\mathit{a}})}] \\gets  \\ensuremath{x}}\\\\\n\\hspace*{1em} \\hspace*{1em} {\\color{black} \\textbf{return}} \\ensuremath{\\ensuremath{\\mathit{y}}}\\\\\n\\end{flushleft}"
+    }
+  ]
+}

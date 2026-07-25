@@ -1,0 +1,85 @@
+{
+  "concept": {
+    "id": "cs408-queue-applications",
+    "title": "队列在层次处理与缓冲中的应用",
+    "aliases": [
+      "queue application",
+      "buffer"
+    ],
+    "content_type": "application",
+    "location": {
+      "course_id": "cs408-data-structures",
+      "chapter_id": "408-stacks-queues-arrays",
+      "section_id": "cs408-stack-queue-applications",
+      "parent_id": null,
+      "order": 16
+    },
+    "core_question": "队列为什么适合层次遍历、广度搜索和请求缓冲？",
+    "summary": "FIFO 能保持发现顺序或到达顺序，使同一层任务先处理完再进入下一层。",
+    "definition": "树的层次遍历和图的 BFS 将新发现结点入队，按发现先后出队；操作系统和网络缓冲也可按到达顺序排队。队列保证的是处理顺序，不自动保证公平、实时性或带权优先级。",
+    "prerequisite_ids": [
+      "cs408-queue-fifo"
+    ],
+    "relations": [
+      {
+        "type": "part_of",
+        "target_id": "cs408-syllabus-stacks-queues-arrays",
+        "description": "队列在层次处理与缓冲中的应用是栈、队列和数组考纲模块中的原子知识点。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "像候诊队列按到达顺序推进，也像逐层扩散的波纹先处理离起点近的层。",
+      "mapping": {
+        "直观对象": "队列在层次处理与缓冲中的应用",
+        "对应机制": "FIFO 能保持发现顺序或到达顺序，使同一层任务先处理完再进入下一层。"
+      },
+      "boundary": "类比只用于建立直觉；正式作答仍需使用定义、操作步骤、适用条件和复杂度结论。"
+    },
+    "retrieval": {
+      "keywords": [
+        "队列在层次处理与缓冲中的应用",
+        "queue application",
+        "buffer"
+      ],
+      "query_examples": [
+        "队列为什么适合层次遍历、广度搜索和请求缓冲？",
+        "队列在层次处理与缓冲中的应用的步骤、性质和复杂度是什么？",
+        "队列在层次处理与缓冲中的应用有哪些适用条件和易错边界？"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "syllabus-note-cs408-queue-applications"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "cs408-queue-fifo",
+      "title": "队列的 FIFO 语义与基本操作",
+      "core_question": "队列为什么称为先进先出的受限线性表？",
+      "summary": "队列在队尾插入、队头删除，先入队的元素先出队。",
+      "definition": "队列只允许在一端入队 enqueue，在另一端出队 dequeue；插入端称队尾，删除端称队头。front 读取队头，判空和长度操作维护结构状态；空队列出队必须按接口规则处理下溢。",
+      "content_type": "concept"
+    },
+    {
+      "id": "cs408-syllabus-stacks-queues-arrays",
+      "title": "408 考纲：栈、队列和数组范围",
+      "core_question": "408 栈、队列和数组模块覆盖哪些内容？",
+      "summary": "该模块覆盖栈与队列的概念和顺序、链式实现，多维数组存储、特殊矩阵压缩及相关应用。",
+      "definition": "408 的栈、队列和数组模块包括栈与队列的基本概念、顺序存储结构、链式存储结构，多维数组的存储，特殊矩阵的压缩存储，以及栈、队列和数组的应用。常见能力包括判断栈序列、分析循环队列、推导地址映射和使用线性结构解决表达式或遍历问题。",
+      "content_type": "concept"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "syllabus-note-cs408-queue-applications",
+      "type": "paragraph",
+      "content": "FIFO 能保持发现顺序或到达顺序，使同一层任务先处理完再进入下一层。\n\n树的层次遍历和图的 BFS 将新发现结点入队，按发现先后出队；操作系统和网络缓冲也可按到达顺序排队。队列保证的是处理顺序，不自动保证公平、实时性或带权优先级。\n\n对应 2026 数据结构考纲叶子条目：栈、队列和数组的应用。"
+    }
+  ]
+}

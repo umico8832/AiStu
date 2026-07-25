@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "kaleidoscope-kb/rag-chunk-2.0.0",
+  "title": "Kaleidoscope standard knowledge-base RAG retrieval chunk",
+  "type": "object",
+  "required": ["chunk_id", "concept_id", "chunk_type", "title", "text", "metadata"],
+  "properties": {
+    "chunk_id": {"type": "string", "minLength": 5, "pattern": "^rag-[a-z]"},
+    "concept_id": {"type": "string", "minLength": 5},
+    "chunk_type": {"enum": ["core", "relations", "rookie", "recall"]},
+    "title": {"type": "string", "minLength": 1},
+    "text": {"type": "string", "minLength": 10},
+    "metadata": {
+      "type": "object",
+      "required": [
+        "course_id",
+        "chapter_id",
+        "section_id",
+        "content_type",
+        "knowledge_version"
+      ],
+      "properties": {
+        "course_id": {"type": "string", "minLength": 1},
+        "chapter_id": {"type": "string", "minLength": 1},
+        "section_id": {"type": ["string", "null"]},
+        "content_type": {"type": "string", "minLength": 1},
+        "knowledge_version": {"type": "integer", "minimum": 1}
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

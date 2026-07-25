@@ -3,6 +3,12 @@ import {
   VISUALIZATION_ID_ARRAYQUEUE_REPRESENTATION,
   VISUALIZATION_ID_ARRAYSTACK_INSERTION,
   VISUALIZATION_ID_CALL_STACK,
+  VISUALIZATION_ID_CS408_AVL_ROTATION,
+  VISUALIZATION_ID_CS408_BINARY_SEARCH,
+  VISUALIZATION_ID_CS408_BINARY_TREE_TRAVERSAL,
+  VISUALIZATION_ID_CS408_GRAPH_TRAVERSAL,
+  VISUALIZATION_ID_CS408_KMP_MATCHING,
+  VISUALIZATION_ID_CS408_QUICK_SORT_PARTITION,
   VISUALIZATION_ID_DUALARRAYDEQUE_BALANCE,
   type PersistedVisualizationSession,
 } from "@kaleidoscope/contracts";
@@ -26,6 +32,14 @@ import {
   type CallStackPatchOperation,
   type CallStackSessionSpec,
 } from "@kaleidoscope/lesson-call-stack";
+import {
+  applyCs408CorePatchOperations,
+  cs408CorePatchOperationsSchema,
+  cs408CoreSessionSpecSchema,
+  defaultCs408CoreSessionSpecs,
+  getCs408CoreSessionSpecSchema,
+  type Cs408CoreVisualizationId,
+} from "@kaleidoscope/lesson-cs408-core-visualizations";
 import {
   applyDualArrayDequeBalancePatchOperations,
   defaultDualArrayDequeBalanceSessionSpec,
@@ -70,9 +84,9 @@ const callStackRegistration: VisualizationRegistration = {
   id: VISUALIZATION_ID_CALL_STACK,
   title: "栈与函数调用",
   description: "递归阶乘的入栈、等待与逐层返回",
-  conceptIds: [],
+  conceptIds: ["cs408-recursion-call-stack"],
   version: 1,
-  status: "review_pending",
+  status: "reviewed",
   specSchema: callStackSessionSpecSchema,
   defaultSpec: toRecord(defaultCallStackSessionSpec),
   patchOperationsSchema: callStackPatchOperationsSchema,
@@ -93,9 +107,10 @@ const arrayStackInsertionRegistration: VisualizationRegistration = {
   conceptIds: [
     "ods-arraystack-insertion",
     "ods-array-size-capacity",
+    "cs408-sequential-list-insert-delete",
   ],
   version: 1,
-  status: "review_pending",
+  status: "reviewed",
   specSchema: arrayStackInsertionSessionSpecSchema,
   defaultSpec: toRecord(defaultArrayStackInsertionSessionSpec),
   patchOperationsSchema: arrayStackInsertionPatchOperationsSchema,
@@ -117,9 +132,11 @@ const arrayQueueRepresentationRegistration: VisualizationRegistration = {
   conceptIds: [
     "ods-arrayqueue-representation",
     "ods-modular-array-indexing",
+    "cs408-circular-queue-representation",
+    "cs408-circular-queue-state",
   ],
   version: 1,
-  status: "review_pending",
+  status: "reviewed",
   specSchema: arrayQueueRepresentationSessionSpecSchema,
   defaultSpec: toRecord(defaultArrayQueueRepresentationSessionSpec),
   patchOperationsSchema: arrayQueueRepresentationPatchOperationsSchema,
@@ -144,7 +161,7 @@ const dualArrayDequeBalanceRegistration: VisualizationRegistration = {
     "ods-dualarraydeque-representation",
   ],
   version: 1,
-  status: "review_pending",
+  status: "reviewed",
   specSchema: dualArrayDequeBalanceSessionSpecSchema,
   defaultSpec: toRecord(defaultDualArrayDequeBalanceSessionSpec),
   patchOperationsSchema: dualArrayDequeBalancePatchOperationsSchema,
@@ -159,11 +176,96 @@ const dualArrayDequeBalanceRegistration: VisualizationRegistration = {
   load: () => import("@kaleidoscope/lesson-dualarraydeque-balance"),
 };
 
+function createCs408CoreRegistration(
+  id: Cs408CoreVisualizationId,
+  title: string,
+  description: string,
+  conceptIds: string[],
+): VisualizationRegistration {
+  return {
+    id,
+    title,
+    description,
+    conceptIds,
+    version: 1,
+    status: "reviewed",
+    specSchema: getCs408CoreSessionSpecSchema(id),
+    defaultSpec: toRecord(defaultCs408CoreSessionSpecs[id]),
+    patchOperationsSchema: cs408CorePatchOperationsSchema,
+    applyPatch(spec, operations) {
+      const current = cs408CoreSessionSpecSchema.parse(spec);
+      const parsed = cs408CorePatchOperationsSchema.parse(operations);
+      return toRecord(applyCs408CorePatchOperations(current, parsed));
+    },
+    load: () =>
+      import("@kaleidoscope/lesson-cs408-core-visualizations"),
+  };
+}
+
+const binaryTreeTraversalRegistration = createCs408CoreRegistration(
+  VISUALIZATION_ID_CS408_BINARY_TREE_TRAVERSAL,
+  "二叉树遍历实验室",
+  "用访问时机比较先序、中序、后序与层序遍历",
+  [
+    "cs408-binary-tree-depth-traversals",
+    "cs408-binary-tree-level-order",
+  ],
+);
+
+const graphTraversalRegistration = createCs408CoreRegistration(
+  VISUALIZATION_ID_CS408_GRAPH_TRAVERSAL,
+  "图遍历前沿",
+  "跟踪 visited 与队列/栈，比较 BFS 和 DFS",
+  [
+    "cs408-depth-first-search",
+    "cs408-breadth-first-search",
+    "cs408-graph-traversal-complexity",
+  ],
+);
+
+const binarySearchRegistration = createCs408CoreRegistration(
+  VISUALIZATION_ID_CS408_BINARY_SEARCH,
+  "折半查找区间",
+  "跟踪 low、mid、high 与候选区间不变量",
+  ["cs408-binary-search", "cs408-binary-search-decision-tree"],
+);
+
+const avlRotationRegistration = createCs408CoreRegistration(
+  VISUALIZATION_ID_CS408_AVL_ROTATION,
+  "AVL 旋转工作台",
+  "识别 LL、RR、LR、RL 失衡并恢复局部平衡",
+  ["cs408-avl-rotations", "cs408-avl-updates"],
+);
+
+const kmpMatchingRegistration = createCs408CoreRegistration(
+  VISUALIZATION_ID_CS408_KMP_MATCHING,
+  "KMP 指针对齐",
+  "利用最长相等前后缀完成失配回退",
+  [
+    "cs408-kmp-prefix-function",
+    "cs408-kmp-matching",
+    "cs408-next-nextval",
+  ],
+);
+
+const quickSortPartitionRegistration = createCs408CoreRegistration(
+  VISUALIZATION_ID_CS408_QUICK_SORT_PARTITION,
+  "快速排序划分",
+  "跟踪左右指针、枢轴空位与划分不变量",
+  ["cs408-quick-partition", "cs408-quick-sort-analysis"],
+);
+
 export const visualizationRegistry = [
   callStackRegistration,
   arrayStackInsertionRegistration,
   arrayQueueRepresentationRegistration,
   dualArrayDequeBalanceRegistration,
+  binaryTreeTraversalRegistration,
+  graphTraversalRegistration,
+  binarySearchRegistration,
+  avlRotationRegistration,
+  kmpMatchingRegistration,
+  quickSortPartitionRegistration,
 ] as const satisfies readonly VisualizationRegistration[];
 
 export const visualizationPatchSchema = z
@@ -204,6 +306,16 @@ export function getVisualizationRegistration(
   return (
     visualizationRegistry.find(
       (registration) => registration.id === visualizationId,
+    ) ?? null
+  );
+}
+
+export function getVisualizationRegistrationForConcept(
+  conceptId: string,
+): VisualizationRegistration | null {
+  return (
+    visualizationRegistry.find((registration) =>
+      registration.conceptIds.includes(conceptId),
     ) ?? null
   );
 }

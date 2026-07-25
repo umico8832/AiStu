@@ -1,0 +1,85 @@
+{
+  "concept": {
+    "id": "cs408-stack-pop-sequences",
+    "title": "合法出栈序列",
+    "aliases": [
+      "pop sequence",
+      "栈序列"
+    ],
+    "content_type": "algorithm",
+    "location": {
+      "course_id": "cs408-data-structures",
+      "chapter_id": "408-stacks-queues-arrays",
+      "section_id": "cs408-stack-basics",
+      "parent_id": null,
+      "order": 4
+    },
+    "core_question": "怎样判断给定序列能否由指定入栈顺序产生？",
+    "summary": "按入栈顺序模拟，无法匹配目标栈顶时继续压栈，若输入耗尽仍不匹配则序列非法。",
+    "definition": "给定固定入栈序列时，用辅助栈依次压入元素，并在栈顶等于目标出栈序列当前元素时反复弹出。最终目标序列全部匹配才合法。对于 1…n 的入栈顺序，已经被某元素压住且输入位置越过的元素不能越过上层元素先弹出。",
+    "prerequisite_ids": [
+      "cs408-stack-lifo"
+    ],
+    "relations": [
+      {
+        "type": "part_of",
+        "target_id": "cs408-syllabus-stacks-queues-arrays",
+        "description": "合法出栈序列是栈、队列和数组考纲模块中的原子知识点。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "像把书依次放进只能从上方取出的箱子，目标取书顺序必须服从上层先离开的限制。",
+      "mapping": {
+        "直观对象": "合法出栈序列",
+        "对应机制": "按入栈顺序模拟，无法匹配目标栈顶时继续压栈，若输入耗尽仍不匹配则序列非法。"
+      },
+      "boundary": "类比只用于建立直觉；正式作答仍需使用定义、操作步骤、适用条件和复杂度结论。"
+    },
+    "retrieval": {
+      "keywords": [
+        "合法出栈序列",
+        "pop sequence",
+        "栈序列"
+      ],
+      "query_examples": [
+        "怎样判断给定序列能否由指定入栈顺序产生？",
+        "合法出栈序列的步骤、性质和复杂度是什么？",
+        "合法出栈序列有哪些适用条件和易错边界？"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "syllabus-note-cs408-stack-pop-sequences"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "cs408-stack-lifo",
+      "title": "栈的 LIFO 语义与基本操作",
+      "core_question": "栈为什么称为后进先出的受限线性表？",
+      "summary": "栈只允许在栈顶插入和删除，最后压入的元素最先弹出。",
+      "definition": "栈是只在一端进行插入和删除的线性表，这一端称为栈顶，另一端称为栈底。push 压入元素，pop 删除并返回栈顶，top 只读取栈顶；空栈执行 pop 或 top 必须按接口规则处理下溢。",
+      "content_type": "concept"
+    },
+    {
+      "id": "cs408-syllabus-stacks-queues-arrays",
+      "title": "408 考纲：栈、队列和数组范围",
+      "core_question": "408 栈、队列和数组模块覆盖哪些内容？",
+      "summary": "该模块覆盖栈与队列的概念和顺序、链式实现，多维数组存储、特殊矩阵压缩及相关应用。",
+      "definition": "408 的栈、队列和数组模块包括栈与队列的基本概念、顺序存储结构、链式存储结构，多维数组的存储，特殊矩阵的压缩存储，以及栈、队列和数组的应用。常见能力包括判断栈序列、分析循环队列、推导地址映射和使用线性结构解决表达式或遍历问题。",
+      "content_type": "concept"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "syllabus-note-cs408-stack-pop-sequences",
+      "type": "paragraph",
+      "content": "按入栈顺序模拟，无法匹配目标栈顶时继续压栈，若输入耗尽仍不匹配则序列非法。\n\n给定固定入栈序列时，用辅助栈依次压入元素，并在栈顶等于目标出栈序列当前元素时反复弹出。最终目标序列全部匹配才合法。对于 1…n 的入栈顺序，已经被某元素压住且输入位置越过的元素不能越过上层元素先弹出。\n\n对应 2026 数据结构考纲叶子条目：栈、队列和数组的应用。"
+    }
+  ]
+}

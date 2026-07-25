@@ -1,0 +1,85 @@
+{
+  "concept": {
+    "id": "cs408-minimum-spanning-tree",
+    "title": "最小生成树问题",
+    "aliases": [
+      "MST",
+      "minimum spanning tree"
+    ],
+    "content_type": "concept",
+    "location": {
+      "course_id": "cs408-data-structures",
+      "chapter_id": "408-graphs",
+      "section_id": "cs408-graph-applications",
+      "parent_id": null,
+      "order": 11
+    },
+    "core_question": "最小生成树要求在什么图中优化什么目标？",
+    "summary": "连通无向带权图的最小生成树连接全部顶点、无环且总边权最小。",
+    "definition": "含 V 个顶点的生成树恰有 V-1 条边。最小生成树优化整棵连接结构的总权值，不保证任意两点在树上的路径都是原图最短路径；权值相同可能导致多个不同但同权的最小生成树。",
+    "prerequisite_ids": [
+      "cs408-graph-degree-path-connectivity"
+    ],
+    "relations": [
+      {
+        "type": "part_of",
+        "target_id": "cs408-syllabus-graphs",
+        "description": "最小生成树问题是图考纲模块中的原子知识点。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "像用总成本最低的 V-1 条线路把所有站点连成无环网络，而不是分别优化每对站点距离。",
+      "mapping": {
+        "直观对象": "最小生成树问题",
+        "对应机制": "连通无向带权图的最小生成树连接全部顶点、无环且总边权最小。"
+      },
+      "boundary": "类比只用于建立直觉；正式作答仍需使用定义、操作步骤、适用条件和复杂度结论。"
+    },
+    "retrieval": {
+      "keywords": [
+        "最小生成树问题",
+        "MST",
+        "minimum spanning tree"
+      ],
+      "query_examples": [
+        "最小生成树要求在什么图中优化什么目标？",
+        "最小生成树问题的步骤、性质和复杂度是什么？",
+        "最小生成树问题有哪些适用条件和易错边界？"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "syllabus-note-cs408-minimum-spanning-tree"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "cs408-graph-degree-path-connectivity",
+      "title": "图的度、路径与连通性",
+      "core_question": "图中的度、路径、回路、连通和强连通怎样定义？",
+      "summary": "无向图的度是关联边数，有向图区分入度与出度；路径连接顶点，连通性描述能否互相到达。",
+      "definition": "无向图所有顶点度数之和等于 2|E|；有向图入度总和与出度总和都等于 |E|。路径是相邻边组成的顶点序列，首尾相同可形成回路；无向图任意顶点互通称连通，有向图任意有序顶点对互达称强连通。",
+      "content_type": "concept"
+    },
+    {
+      "id": "cs408-syllabus-graphs",
+      "title": "408 考纲：图范围",
+      "core_question": "408 图模块要求掌握哪些表示、遍历和应用？",
+      "summary": "图模块覆盖基本概念、邻接矩阵与邻接表等存储、BFS/DFS，以及生成树、最短路、拓扑排序和关键路径。",
+      "definition": "408 图模块包括图的基本概念，邻接矩阵、邻接表、邻接多重表和十字链表等存储与基本操作，深度优先搜索和广度优先搜索，以及最小生成树、最短路径、拓扑排序和关键路径等基本应用。复习时需能在给定表示上手推过程并分析复杂度。",
+      "content_type": "concept"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "syllabus-note-cs408-minimum-spanning-tree",
+      "type": "paragraph",
+      "content": "连通无向带权图的最小生成树连接全部顶点、无环且总边权最小。\n\n含 V 个顶点的生成树恰有 V-1 条边。最小生成树优化整棵连接结构的总权值，不保证任意两点在树上的路径都是原图最短路径；权值相同可能导致多个不同但同权的最小生成树。\n\n对应 2026 数据结构考纲叶子条目：最小生成树。"
+    }
+  ]
+}

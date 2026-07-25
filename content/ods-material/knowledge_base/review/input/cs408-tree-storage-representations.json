@@ -1,0 +1,85 @@
+{
+  "concept": {
+    "id": "cs408-tree-storage-representations",
+    "title": "树的双亲、孩子与孩子兄弟表示",
+    "aliases": [
+      "parent representation",
+      "child sibling"
+    ],
+    "content_type": "comparison",
+    "location": {
+      "course_id": "cs408-data-structures",
+      "chapter_id": "408-trees",
+      "section_id": "cs408-binary-tree",
+      "parent_id": null,
+      "order": 12
+    },
+    "core_question": "一般树有哪些常见存储结构，各自适合什么操作？",
+    "summary": "双亲表示便于向上查找，孩子链表便于枚举子女，孩子兄弟表示把多叉树转成二叉链式结构。",
+    "definition": "双亲表示在结点数组中记录父下标；孩子表示为每个结点维护孩子链表；孩子兄弟表示让 firstChild 指向第一个孩子、nextSibling 指向下一个兄弟。不同表示的空间与查找方向不同，可组合父指针和孩子链表满足双向操作。",
+    "prerequisite_ids": [
+      "cs408-tree-terms"
+    ],
+    "relations": [
+      {
+        "type": "part_of",
+        "target_id": "cs408-syllabus-trees",
+        "description": "树的双亲、孩子与孩子兄弟表示是树和二叉树考纲模块中的原子知识点。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "像族谱可按“每人写父亲”“每人列孩子”或“只写长子和下一兄弟”三种方式登记。",
+      "mapping": {
+        "直观对象": "树的双亲、孩子与孩子兄弟表示",
+        "对应机制": "双亲表示便于向上查找，孩子链表便于枚举子女，孩子兄弟表示把多叉树转成二叉链式结构。"
+      },
+      "boundary": "类比只用于建立直觉；正式作答仍需使用定义、操作步骤、适用条件和复杂度结论。"
+    },
+    "retrieval": {
+      "keywords": [
+        "树的双亲、孩子与孩子兄弟表示",
+        "parent representation",
+        "child sibling"
+      ],
+      "query_examples": [
+        "一般树有哪些常见存储结构，各自适合什么操作？",
+        "树的双亲、孩子与孩子兄弟表示的步骤、性质和复杂度是什么？",
+        "树的双亲、孩子与孩子兄弟表示有哪些适用条件和易错边界？"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "syllabus-note-cs408-tree-storage-representations"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "cs408-tree-terms",
+      "title": "树的结点、度、层次与路径",
+      "core_question": "树结构中的根、父子、度、层次、高度和路径分别是什么？",
+      "summary": "树是由一个根和若干互不相交子树构成的层次结构，术语描述结点关系与整体形态。",
+      "definition": "非空树有唯一根结点；除根外每个结点有唯一父结点。结点的子树数称为度，树的度是各结点度的最大值；叶结点度为 0。层次从根开始计数，高度是最大层次或最长向下路径长度，具体采用结点数还是边数必须说明。",
+      "content_type": "concept"
+    },
+    {
+      "id": "cs408-syllabus-trees",
+      "title": "408 考纲：树和二叉树范围",
+      "core_question": "408 树和二叉树模块覆盖哪些结构与应用？",
+      "summary": "该模块覆盖树与二叉树性质、存储和遍历，线索化、森林转换，以及 Huffman、并查集和堆等应用。",
+      "definition": "408 的树和二叉树模块包括树的基本概念，二叉树的定义、性质、顺序与链式存储、遍历和线索化，树与森林的存储、转换和遍历，以及 Huffman 树与编码、并查集和堆的应用。复习需要同时具备性质计算、结构转换、手工过程和算法实现能力。",
+      "content_type": "concept"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "syllabus-note-cs408-tree-storage-representations",
+      "type": "paragraph",
+      "content": "双亲表示便于向上查找，孩子链表便于枚举子女，孩子兄弟表示把多叉树转成二叉链式结构。\n\n双亲表示在结点数组中记录父下标；孩子表示为每个结点维护孩子链表；孩子兄弟表示让 firstChild 指向第一个孩子、nextSibling 指向下一个兄弟。不同表示的空间与查找方向不同，可组合父指针和孩子链表满足双向操作。\n\n对应 2026 数据结构考纲叶子条目：树的存储结构。"
+    }
+  ]
+}

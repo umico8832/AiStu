@@ -1,0 +1,85 @@
+{
+  "concept": {
+    "id": "cs408-binary-tree-linked-storage",
+    "title": "二叉链表与三叉链表",
+    "aliases": [
+      "binary linked tree",
+      "三叉链表"
+    ],
+    "content_type": "concept",
+    "location": {
+      "course_id": "cs408-data-structures",
+      "chapter_id": "408-trees",
+      "section_id": "cs408-binary-tree",
+      "parent_id": null,
+      "order": 6
+    },
+    "core_question": "链式二叉树如何表示左右孩子和父结点？",
+    "summary": "二叉链表结点保存数据、左孩子指针和右孩子指针，三叉链表再保存父指针。",
+    "definition": "二叉链表适合一般形态的二叉树，空孩子用 null 表示；若二叉树有 n 个结点，2n 个孩子指针中有 n-1 个指向孩子，其余 n+1 个为空。增加 parent 指针形成三叉链表，可常数时间向上移动但增加空间与维护成本。",
+    "prerequisite_ids": [
+      "cs408-binary-tree-properties"
+    ],
+    "relations": [
+      {
+        "type": "part_of",
+        "target_id": "cs408-syllabus-trees",
+        "description": "二叉链表与三叉链表是树和二叉树考纲模块中的原子知识点。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "像每个家谱卡片分别记录左、右后代，若再写上父代位置，就能同时向下和向上查找。",
+      "mapping": {
+        "直观对象": "二叉链表与三叉链表",
+        "对应机制": "二叉链表结点保存数据、左孩子指针和右孩子指针，三叉链表再保存父指针。"
+      },
+      "boundary": "类比只用于建立直觉；正式作答仍需使用定义、操作步骤、适用条件和复杂度结论。"
+    },
+    "retrieval": {
+      "keywords": [
+        "二叉链表与三叉链表",
+        "binary linked tree",
+        "三叉链表"
+      ],
+      "query_examples": [
+        "链式二叉树如何表示左右孩子和父结点？",
+        "二叉链表与三叉链表的步骤、性质和复杂度是什么？",
+        "二叉链表与三叉链表有哪些适用条件和易错边界？"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "syllabus-note-cs408-binary-tree-linked-storage"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "cs408-binary-tree-properties",
+      "title": "二叉树定义与结点数性质",
+      "core_question": "二叉树有哪些基本定义和计数性质？",
+      "summary": "二叉树每个结点至多有左、右两个有序子树，第 i 层最多 2^(i-1) 个结点。",
+      "definition": "二叉树的左右子树有顺序，不能随意交换。若根为第 1 层，第 i 层最多有 2^(i-1) 个结点，高度 h 的二叉树最多有 2^h-1 个结点；设度为 0、1、2 的结点数为 n0、n1、n2，则非空二叉树满足 n0=n2+1。",
+      "content_type": "theorem"
+    },
+    {
+      "id": "cs408-syllabus-trees",
+      "title": "408 考纲：树和二叉树范围",
+      "core_question": "408 树和二叉树模块覆盖哪些结构与应用？",
+      "summary": "该模块覆盖树与二叉树性质、存储和遍历，线索化、森林转换，以及 Huffman、并查集和堆等应用。",
+      "definition": "408 的树和二叉树模块包括树的基本概念，二叉树的定义、性质、顺序与链式存储、遍历和线索化，树与森林的存储、转换和遍历，以及 Huffman 树与编码、并查集和堆的应用。复习需要同时具备性质计算、结构转换、手工过程和算法实现能力。",
+      "content_type": "concept"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "syllabus-note-cs408-binary-tree-linked-storage",
+      "type": "paragraph",
+      "content": "二叉链表结点保存数据、左孩子指针和右孩子指针，三叉链表再保存父指针。\n\n二叉链表适合一般形态的二叉树，空孩子用 null 表示；若二叉树有 n 个结点，2n 个孩子指针中有 n-1 个指向孩子，其余 n+1 个为空。增加 parent 指针形成三叉链表，可常数时间向上移动但增加空间与维护成本。\n\n对应 2026 数据结构考纲叶子条目：二叉树的顺序存储和链式存储。"
+    }
+  ]
+}

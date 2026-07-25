@@ -1,0 +1,85 @@
+{
+  "concept": {
+    "id": "cs408-kmp-prefix-function",
+    "title": "KMP 的最长相等前后缀",
+    "aliases": [
+      "prefix function",
+      "failure function"
+    ],
+    "content_type": "mechanism",
+    "location": {
+      "course_id": "cs408-data-structures",
+      "chapter_id": "408-searching",
+      "section_id": "cs408-string-search",
+      "parent_id": null,
+      "order": 27
+    },
+    "core_question": "KMP 如何用模式串自身的前后缀信息避免文本回退？",
+    "summary": "前缀函数记录每个模式前缀的最长真前缀与真后缀长度，失配时模式跳到可复用边界。",
+    "definition": "对模式 P[0..i]，π[i] 是其最长相等真前缀和真后缀长度。构造时若 P[i] 与当前边界字符失配，就令 j=π[j-1] 继续尝试；相等则 j 增一。所有回退总次数线性，因此构造时间 O(m)。",
+    "prerequisite_ids": [
+      "cs408-brute-force-string-matching"
+    ],
+    "relations": [
+      {
+        "type": "part_of",
+        "target_id": "cs408-syllabus-searching",
+        "description": "KMP 的最长相等前后缀是查找考纲模块中的原子知识点。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "像对齐失败时保留已经匹配尾部中同时也是开头的那一段，不必把文本指针退回。",
+      "mapping": {
+        "直观对象": "KMP 的最长相等前后缀",
+        "对应机制": "前缀函数记录每个模式前缀的最长真前缀与真后缀长度，失配时模式跳到可复用边界。"
+      },
+      "boundary": "类比只用于建立直觉；正式作答仍需使用定义、操作步骤、适用条件和复杂度结论。"
+    },
+    "retrieval": {
+      "keywords": [
+        "KMP 的最长相等前后缀",
+        "prefix function",
+        "failure function"
+      ],
+      "query_examples": [
+        "KMP 如何用模式串自身的前后缀信息避免文本回退？",
+        "KMP 的最长相等前后缀的步骤、性质和复杂度是什么？",
+        "KMP 的最长相等前后缀有哪些适用条件和易错边界？"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "syllabus-note-cs408-kmp-prefix-function"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "cs408-brute-force-string-matching",
+      "title": "朴素字符串模式匹配",
+      "core_question": "BF 模式匹配怎样逐个尝试文本起点？",
+      "summary": "在每个可能起点从模式首字符开始比较，失配后文本起点右移一位重新开始。",
+      "definition": "文本长度 n、模式长度 m 时，BF 最坏可能在许多起点重复比较相同字符，时间 O(nm)，额外空间 O(1)。若匹配成功返回起始位置；实现必须处理空模式和 n<m 等边界约定。",
+      "content_type": "algorithm"
+    },
+    {
+      "id": "cs408-syllabus-searching",
+      "title": "408 考纲：查找范围",
+      "core_question": "408 查找模块覆盖哪些查找结构和算法？",
+      "summary": "查找模块覆盖顺序、分块、折半查找，BST、AVL、红黑树、B/B+树、散列表、字符串匹配及分析应用。",
+      "definition": "408 查找模块包括查找基本概念，顺序查找、分块查找、折半查找，二叉搜索树、平衡二叉树和红黑树，B 树的基本操作与 B+ 树基本概念，散列表，字符串模式匹配，以及查找算法的分析与应用。不同方法必须结合前提、操作成本和数据场景比较。",
+      "content_type": "concept"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "syllabus-note-cs408-kmp-prefix-function",
+      "type": "paragraph",
+      "content": "前缀函数记录每个模式前缀的最长真前缀与真后缀长度，失配时模式跳到可复用边界。\n\n对模式 P[0..i]，π[i] 是其最长相等真前缀和真后缀长度。构造时若 P[i] 与当前边界字符失配，就令 j=π[j-1] 继续尝试；相等则 j 增一。所有回退总次数线性，因此构造时间 O(m)。\n\n对应 2026 数据结构考纲叶子条目：字符串模式匹配。"
+    }
+  ]
+}

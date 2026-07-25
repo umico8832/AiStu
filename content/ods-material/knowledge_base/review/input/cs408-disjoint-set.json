@@ -1,0 +1,85 @@
+{
+  "concept": {
+    "id": "cs408-disjoint-set",
+    "title": "并查集的集合表示与操作",
+    "aliases": [
+      "disjoint set union",
+      "DSU"
+    ],
+    "content_type": "concept",
+    "location": {
+      "course_id": "cs408-data-structures",
+      "chapter_id": "408-trees",
+      "section_id": "cs408-tree-applications",
+      "parent_id": null,
+      "order": 17
+    },
+    "core_question": "并查集如何维护互不相交集合的合并与代表元查询？",
+    "summary": "每个集合用一棵父指针树表示，find 返回根代表元，union 连接两个不同根。",
+    "definition": "并查集维护若干不相交集合。初始化时每个元素自成集合且 parent[x]=x；find(x) 沿父指针到根，union(x,y) 先找两根，若不同则把一棵根连接到另一棵。它适合动态连通性、Kruskal 判环和等价类合并。",
+    "prerequisite_ids": [
+      "cs408-tree-terms"
+    ],
+    "relations": [
+      {
+        "type": "part_of",
+        "target_id": "cs408-syllabus-trees",
+        "description": "并查集的集合表示与操作是树和二叉树考纲模块中的原子知识点。"
+      }
+    ],
+    "rookie_explanation": {
+      "analogy": "像每个小组成员沿负责人链找到组长，合并小组时只需让一个组长归到另一个组长名下。",
+      "mapping": {
+        "直观对象": "并查集的集合表示与操作",
+        "对应机制": "每个集合用一棵父指针树表示，find 返回根代表元，union 连接两个不同根。"
+      },
+      "boundary": "类比只用于建立直觉；正式作答仍需使用定义、操作步骤、适用条件和复杂度结论。"
+    },
+    "retrieval": {
+      "keywords": [
+        "并查集的集合表示与操作",
+        "disjoint set union",
+        "DSU"
+      ],
+      "query_examples": [
+        "并查集如何维护互不相交集合的合并与代表元查询？",
+        "并查集的集合表示与操作的步骤、性质和复杂度是什么？",
+        "并查集的集合表示与操作有哪些适用条件和易错边界？"
+      ]
+    },
+    "visualization_ids": [],
+    "source_record_ids": [
+      "syllabus-note-cs408-disjoint-set"
+    ],
+    "quality": {
+      "status": "review_pending",
+      "issues": []
+    },
+    "version": 1
+  },
+  "related_concepts": [
+    {
+      "id": "cs408-tree-terms",
+      "title": "树的结点、度、层次与路径",
+      "core_question": "树结构中的根、父子、度、层次、高度和路径分别是什么？",
+      "summary": "树是由一个根和若干互不相交子树构成的层次结构，术语描述结点关系与整体形态。",
+      "definition": "非空树有唯一根结点；除根外每个结点有唯一父结点。结点的子树数称为度，树的度是各结点度的最大值；叶结点度为 0。层次从根开始计数，高度是最大层次或最长向下路径长度，具体采用结点数还是边数必须说明。",
+      "content_type": "concept"
+    },
+    {
+      "id": "cs408-syllabus-trees",
+      "title": "408 考纲：树和二叉树范围",
+      "core_question": "408 树和二叉树模块覆盖哪些结构与应用？",
+      "summary": "该模块覆盖树与二叉树性质、存储和遍历，线索化、森林转换，以及 Huffman、并查集和堆等应用。",
+      "definition": "408 的树和二叉树模块包括树的基本概念，二叉树的定义、性质、顺序与链式存储、遍历和线索化，树与森林的存储、转换和遍历，以及 Huffman 树与编码、并查集和堆的应用。复习需要同时具备性质计算、结构转换、手工过程和算法实现能力。",
+      "content_type": "concept"
+    }
+  ],
+  "source_records": [
+    {
+      "id": "syllabus-note-cs408-disjoint-set",
+      "type": "paragraph",
+      "content": "每个集合用一棵父指针树表示，find 返回根代表元，union 连接两个不同根。\n\n并查集维护若干不相交集合。初始化时每个元素自成集合且 parent[x]=x；find(x) 沿父指针到根，union(x,y) 先找两根，若不同则把一棵根连接到另一棵。它适合动态连通性、Kruskal 判环和等价类合并。\n\n对应 2026 数据结构考纲叶子条目：并查集及其应用。"
+    }
+  ]
+}
