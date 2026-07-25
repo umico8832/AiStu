@@ -199,22 +199,43 @@ function MessageBubble({
         }`}
       >
         {assistant ? (
-          <TutorMessageContent content={message.content} />
+          message.content ? (
+            <>
+              <TutorMessageContent
+                content={message.content}
+                streaming={message.status === "streaming"}
+              />
+              {message.status === "streaming" ? (
+                <span
+                  aria-label="正在生成"
+                  className="mt-1 inline-block animate-pulse text-[13px] leading-4 text-indigo-500 motion-reduce:animate-none"
+                >
+                  ▍
+                </span>
+              ) : null}
+            </>
+          ) : message.status === "streaming" ? (
+            <span
+              aria-label="正在生成"
+              className="inline-flex items-center gap-2 text-[13px] font-medium text-slate-500"
+            >
+              <span className="inline-flex items-center gap-0.5" aria-hidden="true">
+                <span className="size-1 animate-pulse rounded-full bg-indigo-500" />
+                <span className="size-1 animate-pulse rounded-full bg-indigo-500 [animation-delay:120ms]" />
+                <span className="size-1 animate-pulse rounded-full bg-indigo-500 [animation-delay:240ms]" />
+              </span>
+              正在思考…
+            </span>
+          ) : (
+            <p className="m-0 whitespace-pre-wrap text-[15px] leading-7">
+              {message.content}
+            </p>
+          )
         ) : (
           <p className="m-0 whitespace-pre-wrap text-[15px] leading-7">
             {message.content}
           </p>
         )}
-        {message.status === "streaming" ? (
-          <span
-            aria-label="正在生成"
-            className="mt-2 inline-flex items-center gap-0.5 align-middle"
-          >
-            <span className="size-1 animate-pulse rounded-full bg-indigo-500" />
-            <span className="size-1 animate-pulse rounded-full bg-indigo-500 [animation-delay:120ms]" />
-            <span className="size-1 animate-pulse rounded-full bg-indigo-500 [animation-delay:240ms]" />
-          </span>
-        ) : null}
         {message.status === "error" ? (
           <span className="mt-2 inline-flex rounded-full bg-rose-50 px-2 py-1 text-[11px] font-semibold text-rose-700">
             回答未完成
@@ -263,10 +284,7 @@ function MessageBubble({
             aria-label="快捷回答"
             className="mt-3 border-t border-slate-100 pt-3"
           >
-            <p className="m-0 text-[11px] font-semibold text-slate-400">
-              接下来，点一个就好
-            </p>
-            <div className="mt-2 flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-2">
               {message.suggestedReplies.map((reply) => (
                 <button
                   key={reply}
@@ -388,15 +406,9 @@ function FocusedStudyOnboarding({
       >
         <AssistantAvatar />
         <div className="min-w-0 flex-1 rounded-[22px] rounded-tl-md border border-slate-200/80 bg-white/78 px-5 py-4 shadow-[0_10px_32px_rgba(15,23,42,0.045)] backdrop-blur-xl">
-          <p className="m-0 text-xs font-semibold text-indigo-600">
-            408 数据结构 · 开始前
-          </p>
-          <h1 className="m-0 mt-2 text-[24px] font-semibold leading-tight tracking-[-0.025em] text-slate-950">
+          <h1 className="m-0 text-[24px] font-semibold leading-tight tracking-[-0.025em] text-slate-950">
             今天想用什么节奏？
           </h1>
-          <p className="m-0 mt-2 max-w-[580px] text-[15px] leading-6 text-slate-600">
-            随手选一句最像现在的感觉就好。之后觉得太快或太慢，随时告诉我。
-          </p>
         </div>
       </div>
 
@@ -449,7 +461,6 @@ function FocusedStudyOnboarding({
                 maxLength={160}
                 value={studyNote}
                 onChange={(event) => setStudyNote(event.target.value)}
-                aria-describedby="course-study-note-hint"
                 placeholder="比如：链表学过，树有点忘了"
                 className="min-h-11 min-w-0 flex-1 border-0 bg-transparent px-2 text-sm text-slate-900 outline-none placeholder:text-slate-400"
               />
@@ -462,12 +473,6 @@ function FocusedStudyOnboarding({
                 <ArrowUp aria-hidden="true" className="size-[18px]" />
               </IconButton>
             </div>
-            <p
-              id="course-study-note-hint"
-              className="m-0 mt-2 px-1 text-xs leading-5 text-slate-400"
-            >
-              不用说完整，之后也可以随时改节奏。
-            </p>
           </div>
         </form>
 
@@ -645,7 +650,7 @@ function Composer({
           onKeyDown={keyDown}
           rows={2}
           maxLength={4_000}
-          placeholder="也可以自己输入…"
+          placeholder="想学什么？问我就好…"
           className="max-h-36 min-h-[60px] w-full resize-none border-0 bg-transparent px-3 py-2 text-[15px] leading-6 text-slate-900 outline-none placeholder:text-slate-400"
         />
         <div className="flex items-center justify-between gap-3 px-2 pb-1">

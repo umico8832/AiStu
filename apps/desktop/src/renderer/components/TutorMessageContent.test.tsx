@@ -1,7 +1,10 @@
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
 import { TutorMessageContent } from "./TutorMessageContent";
-import { parseTutorMessageBlocks } from "./tutorMessageFormat";
+import {
+  parseTutorMessageBlocks,
+  stripDanglingInlineMarkers,
+} from "./tutorMessageFormat";
 
 describe("TutorMessageContent", () => {
   it("turns tutor headings and lists into readable blocks", () => {
@@ -54,5 +57,69 @@ describe("TutorMessageContent", () => {
     expect(blocks.every((block) => block.type === "paragraph")).toBe(
       true,
     );
+  });
+
+  it("parses consecutive quote lines into one quote block", () => {
+    const blocks = parseTutorMessageBlocks(
+      [
+        "**先说结论**",
+        "栈是后进先出。",
+        "",
+        "> 记住：只能从栈顶取元素。",
+        "> 每次操作都是 O(1)。",
+        "",
+        "- push 入栈",
+        "- pop 出栈",
+      ].join("\n"),
+    );
+
+    expect(blocks).toEqual([
+      { type: "heading", text: "先说结论" },
+      { type: "paragraph", text: "栈是后进先出。" },
+      {
+        type: "quote",
+        text: "记住：只能从栈顶取元素。\n每次操作都是 O(1)。",
+      },
+      { type: "unordered-list", items: ["push 入栈", "pop 出栈"] },
+    ]);
+  });
+
+  it("renders quote blocks as emphasized callouts", () => {
+    const markup = renderToStaticMarkup(
+      <TutorMessageContent content={"> 记住：只能从栈顶取元素。"} />,
+    );
+
+    expect(markup).toContain("<blockquote");
+    expect(markup).toContain("记住：只能从栈顶取元素。");
+  });
+
+  it("hides dangling inline markers while streaming", () => {
+    const markup = renderToStaticMarkup(
+      <TutorMessageContent streaming content={"**先说结"} />,
+    );
+
+    expect(markup).toContain("先说结");
+    expect(markup).not.toContain("**");
+  });
+
+  it("keeps complete inline markup untouched while streaming", () => {
+    const markup = renderToStaticMarkup(
+      <TutorMessageContent streaming content={"**结论** 用 `O(1)` 表示"} />,
+    );
+
+    expect(markup).toContain("<strong");
+    expect(markup).toContain("<code");
+  });
+});
+
+describe("stripDanglingInlineMarkers", () => {
+  it("removes only the unpaired trailing markers", () => {
+    expect(stripDanglingInlineMarkers("**先说结")).toBe("先说结");
+    expect(stripDanglingInlineMarkers("用 `O(1 表示")).toBe("用 O(1 表示");
+    expect(stripDanglingInlineMarkers("用 `O(1` 表示")).toBe("用 `O(1` 表示");
+    expect(stripDanglingInlineMarkers("**完整** 和 `代码`")).toBe(
+      "**完整** 和 `代码`",
+    );
+    expect(stripDanglingInlineMarkers("没有标记")).toBe("没有标记");
   });
 });
