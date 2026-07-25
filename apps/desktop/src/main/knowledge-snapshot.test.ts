@@ -40,6 +40,11 @@ describe("packaged knowledge snapshot", () => {
       index.retrieve("快速排序在什么情况下退化到 O(n²)？")
         .chunks[0]?.conceptId,
     ).toBe("cs408-quick-sort-analysis");
+    expect(
+      index.retrieve("先看讲解", [
+        "cs408-full-complete-binary-tree",
+      ]).chunks[0]?.conceptId,
+    ).toBe("cs408-full-complete-binary-tree");
 
     const course = build408DataStructuresCourse(snapshot);
     expect(course).toMatchObject({

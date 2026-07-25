@@ -235,9 +235,6 @@ export function CourseMindMap({
         </div>
       </div>
 
-      <footer className="border-t border-indigo-100/80 bg-white/45 px-5 py-3 text-[11px] leading-5 text-slate-500">
-        连线仅表达“模块—内容类型—知识点”的课程目录分组，不表示额外的前置或因果关系。
-      </footer>
     </section>
   );
 }

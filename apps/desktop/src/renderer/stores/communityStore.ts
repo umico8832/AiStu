@@ -57,7 +57,7 @@ export const SCHOOL_COMMUNITIES: SchoolCommunity[] = [
   {
     id: "demo-university",
     name: "示例大学计算机社区",
-    description: "用于演示学校课程考纲和期末复习重点的本地社区。",
+    description: "学校课程考纲与期末复习",
     courseIds: ["data-structures", "computer-organization"],
   },
 ].map((community) => schoolCommunitySchema.parse(community));

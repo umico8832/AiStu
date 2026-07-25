@@ -228,12 +228,9 @@ export function CallStackScene({
                 )}
               </div>
 
-              <figcaption className="mt-2 flex items-center justify-between px-1">
+              <figcaption className="mt-2 px-1">
                 <span className="text-[11px] font-semibold text-slate-500">
                   栈底
-                </span>
-                <span className="text-[10px] text-slate-400">
-                  栈帧为教学模型，具体布局由编译器、平台和 ABI 决定
                 </span>
               </figcaption>
             </figure>

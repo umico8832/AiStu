@@ -22,16 +22,17 @@ mac:
     - target: zip
       arch:
         - arm64
-win:
-  icon: resources/icon.ico
-  target:
-    - target: nsis
-      arch:
-        - x64
+# Windows 暂不排期（见 ROADMAP），保留配置以便未来启用
+# win:
+#   icon: resources/icon.ico
+#   target:
+#     - target: nsis
+#       arch:
+#         - x64
 dmg:
   artifactName: ${productName}-${version}-${arch}.${ext}
-nsis:
-  artifactName: ${productName}-${version}-${arch}-setup.${ext}
+# nsis:
+#   artifactName: ${productName}-${version}-${arch}-setup.${ext}
 afterPack: ../../scripts/after-pack.cjs
 artifactBuildStarted: ../../scripts/artifact-build-started.cjs
 afterAllArtifactBuild: ../../scripts/after-all-artifact-build.cjs

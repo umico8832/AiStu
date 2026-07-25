@@ -33,7 +33,7 @@ interface ConversationState {
     requestId: string,
     grounding: AssistantGrounding,
     suggestedReplies: string[],
-  ) => void;
+  ) => boolean;
   cancel: (requestId: string) => void;
   fail: (requestId: string, message: string) => void;
   clearError: () => void;
@@ -93,6 +93,10 @@ export const useConversationStore = create<ConversationState>((set, get) => ({
   hydrated: false,
 
   hydrate(snapshot) {
+    // 幂等：水合完成后再次调用（如 StrictMode 双跑）不得覆盖启动后产生的本地状态
+    if (get().hydrated) {
+      return;
+    }
     if (!snapshot) {
       set({ hydrated: true });
       return;
@@ -200,7 +204,7 @@ export const useConversationStore = create<ConversationState>((set, get) => ({
   complete(requestId, grounding, suggestedReplies) {
     const streaming = get().streaming;
     if (!streaming || streaming.requestId !== requestId) {
-      return;
+      return false;
     }
     set((state) => ({
       conversations: replaceActiveConversation(state, (conversation) => ({
@@ -222,6 +226,7 @@ export const useConversationStore = create<ConversationState>((set, get) => ({
       })),
       streaming: null,
     }));
+    return true;
   },
 
   cancel(requestId) {

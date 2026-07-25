@@ -31,8 +31,29 @@ function persistedState(): PersistedAppStateV2 {
   };
 }
 
+function resetStore() {
+  const fresh = {
+    conversationId: crypto.randomUUID(),
+    messages: [],
+    draft: "",
+    activeVisualization: null,
+    studyScope: null,
+    createdAt: 0,
+    updatedAt: 0,
+  };
+  useConversationStore.setState({
+    activeConversationId: fresh.conversationId,
+    conversations: [fresh],
+    streaming: null,
+    provider: null,
+    lastError: null,
+    hydrated: false,
+  });
+}
+
 describe("conversation history store", () => {
   beforeEach(() => {
+    resetStore();
     useConversationStore.getState().hydrate(persistedState());
   });
 
@@ -98,6 +119,50 @@ describe("conversation history store", () => {
       type: "course",
       courseId: "cs408-data-structures",
     });
+  });
+
+  it("ignores repeated hydrate calls after local changes", () => {
+    const activeId = useConversationStore.getState().activeConversationId;
+    useConversationStore.getState().setDraft("启动后输入的草稿");
+
+    useConversationStore.getState().hydrate(persistedState());
+
+    const state = useConversationStore.getState();
+    expect(state.hydrated).toBe(true);
+    expect(state.activeConversationId).toBe(activeId);
+    expect(state.getActiveConversation().draft).toBe("启动后输入的草稿");
+  });
+
+  it("marks the store hydrated even without a snapshot", () => {
+    resetStore();
+    useConversationStore.getState().hydrate(null);
+
+    expect(useConversationStore.getState().hydrated).toBe(true);
+    expect(
+      useConversationStore.getState().getActiveConversation().messages,
+    ).toEqual([]);
+  });
+
+  it("reports whether complete matched the active request", () => {
+    const requestId = crypto.randomUUID();
+    useConversationStore.getState().beginTurn("递归返回顺序", requestId);
+
+    expect(
+      useConversationStore.getState().complete(crypto.randomUUID(), {
+        status: "not_required",
+        citations: [],
+      }, []),
+    ).toBe(false);
+    expect(useConversationStore.getState().streaming).not.toBeNull();
+
+    expect(
+      useConversationStore.getState().complete(
+        requestId,
+        { status: "not_required", citations: [] },
+        [],
+      ),
+    ).toBe(true);
+    expect(useConversationStore.getState().streaming).toBeNull();
   });
 
   it("stores quick replies on the completed tutor message", () => {

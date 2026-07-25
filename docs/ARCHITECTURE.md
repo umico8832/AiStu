@@ -12,7 +12,7 @@
 
 不可违反的不变量：
 
-- 首页是对话，课件是对话之上的临时 workspace；
+- 首页是对话，课件在独立窗口中提供临时 workspace；
 - 新课件必须经过用户确认；
 - 任意时刻只有一个活动可视化 session；
 - AI 输出只作为数据，不作为代码；
@@ -77,6 +77,7 @@ flowchart TD
     Contracts["contracts"]
     Knowledge["knowledge-runtime"] --> Contracts
     Tutor["tutor-runtime"] --> Contracts
+    Tutor --> Lessons
     Lessons["lessons/*"] --> Contracts
     Lessons --> UI["ui"]
     Visual["visualization-runtime"] --> Contracts
@@ -124,7 +125,8 @@ Main 不渲染 React，不维护课件动画，也不接受 Renderer 提供的�
 window.kaleidoscope
 ├── chat
 ├── knowledge
-└── persistence
+├── persistence
+└── visualizationWindow
 ```
 
 禁止通用 `send`、`invoke`、任意文件、任意 shell 和任意代码执行 API。
@@ -137,7 +139,7 @@ window.kaleidoscope
 - 对话消息、输入、流式和错误状态；
 - 安全 Markdown 语义渲染；
 - 课件建议卡与用户确认；
-- 单一可视化 workspace；
+- 独立课件窗口中的单一可视化 workspace；
 - React 课件与结构化互动；
 - 可序列化的 Zustand UI 状态。
 
@@ -212,6 +214,7 @@ Tutor 的 `suggestedReplies` 是受限的学习导航数据，不是可执行命
 sequenceDiagram
     participant U as 学习者
     participant C as Conversation
+    participant M as Electron Main
     participant T as Tutor
     participant V as Visualization Runtime
     participant L as Lesson
@@ -222,9 +225,11 @@ sequenceDiagram
     C-->>U: 显示建议卡
     U->>C: 明确确认
     C->>V: 校验注册 ID 与 spec
-    V->>L: lazy load + validated props
+    V->>M: 打开或更新唯一课件窗口
+    M->>L: 转发已校验 session
     U->>L: 推进、预测或操作
-    L-->>C: InteractionEvent
+    L-->>M: 经过校验的 InteractionEvent
+    M-->>C: 回传当前 session 事件
     U->>C: 明确发送下一条消息
     C->>T: 消息 + 受控课件上下文
 ```
@@ -234,6 +239,11 @@ sequenceDiagram
 - 相同 visualization ID 可以建立新 session 或按协议更新当前 session；
 - 不同 ID 原子替换当前 session；
 - 不保留后台标签页、并排课件或可视化页面栈。
+
+课件窗口与主窗口使用相同的 Electron 隔离和导航策略。课件窗口不能直接访问主窗口
+store，只能通过 `visualizationWindow` 领域 API 获取当前 session、上报步骤与互动、
+请求关闭或切换系统全屏。Main 只接受来自预期窗口的调用，并在转发前再次用共享
+Schema 校验。
 
 `patch_visualization` 必须同时匹配 `sessionId`、`visualizationId` 和
 `baseRevision`。成功后 revision 加一；过期、越界和未知操作保持页面不变。
@@ -370,7 +380,7 @@ communityStore
 └── question-bank submissions, attachment metadata and review state
 ```
 
-可持久化多个会话不改变运行时只有一个活动课件的不变量。
+可持久化多个会话和使用两个桌面窗口，不改变运行时只有一个活动课件的不变量。
 `courseLearningStore` 可以跨会话聚合有效时长、学习日期、有来源知识接触、课件
 完成和预测结果，并据此展示轻量成就。同一 store 还收录错题记录：预测答错（带题干
 与答案快照）与对话误解（AI 经 `record_misconception` 上报），按预测点或主题去重，
@@ -472,7 +482,7 @@ sandbox: true
 ## 13. 测试边界
 
 - 纯数据转换、Schema、注册表、检索、session 和 store 使用 Vitest；
-- React 消息、课件和 workspace 行为使用组件测试；
+- React 消息、课件和独立窗口内容使用组件测试；
 - 跨进程黄金流程使用 Playwright Electron；
 - 安全设置同时由静态检查、测试和打包产物 smoke 验证；
 - Playwright Electron 不作为唯一安全证明。

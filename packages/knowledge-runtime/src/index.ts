@@ -125,6 +125,13 @@ const QUERY_STOP_TOKENS = new Set([
   "按",
 ]);
 
+const CONTINUATION_ONLY_PATTERN =
+  /^(?:(?:先|再|继续|接着|直接|请)?(?:看|听)?(?:讲解|讲|说|解释)(?:一下|一遍)?|再给我?(?:一点|一些|些)?提示|跳过(?:这题|这个)?[，,]?(?:继续(?:学|讲)?)?|我有点明白了[，,]?继续|这个比喻我能跟上[，,]?继续|再换个(?:更简单的)?比喻|换个(?:更简单的)?(?:说法|比喻)|用(?:一道)?选择题试试|用一个更小的例子(?:带我走)?)[。！!？?～~]*$/u;
+
+function isContinuationOnlyQuery(query: string): boolean {
+  return CONTINUATION_ONLY_PATTERN.test(query.trim());
+}
+
 export function tokenizeKnowledgeText(input: string): string[] {
   const normalized = input.normalize("NFKC").toLowerCase();
   const tokens: string[] = normalized.match(WORD_PATTERN) ?? [];
@@ -249,16 +256,32 @@ export class KnowledgeIndex {
     }
 
     const previous = new Set(previousConceptIds.slice(-5));
+    const continuationOnly = isContinuationOnlyQuery(query);
     const followUp =
+      continuationOnly ||
       queryTokens.length <= 8 ||
       /^(那|所以|为什么|怎么|然后|它|这个|上面|刚才)/u.test(query);
-    const scored = searchableDocuments
+    // “先看讲解”等界面生成的导航回复不包含主题词，即使“讲解”偶然存在于语料中，
+    // 也应承接上轮概念；显式新主题仍必须靠自身词项命中，不能被短句规则带偏。
+    const corpusMatched = queryTokens.some((token) =>
+      this.documentFrequency.has(token),
+    );
+    const previousFallback =
+      followUp && (continuationOnly || !corpusMatched);
+    const candidateDocuments =
+      continuationOnly && previous.size > 0
+        ? searchableDocuments.filter((document) =>
+            previous.has(document.chunk.conceptId),
+          )
+        : searchableDocuments;
+    const scored = candidateDocuments
       .map((document) => ({
         indexed: document,
         score: this.scoreDocument(
           document,
           queryTokens,
           followUp && previous.has(document.chunk.conceptId),
+          previousFallback,
         ),
       }))
       .filter((item) => item.score >= 1.25)
@@ -321,10 +344,11 @@ export class KnowledgeIndex {
     document: IndexedChunk,
     queryTokens: string[],
     previousConcept: boolean,
+    previousFallback: boolean,
   ): number {
     const k1 = 1.25;
     const b = 0.72;
-    let score = previousConcept ? 2.2 : 0;
+    let termScore = 0;
 
     for (const token of queryTokens) {
       const frequency = document.tokenCounts.get(token) ?? 0;
@@ -343,18 +367,27 @@ export class KnowledgeIndex {
           (1 -
             b +
             b * (document.length / this.averageDocumentLength));
-      score +=
+      termScore +=
         idf *
         ((frequency * (k1 + 1)) / lengthNormalization) *
         (document.titleTokens.has(token) ? 1.8 : 1);
     }
 
+    if (termScore === 0 && !(previousConcept && previousFallback)) {
+      return 0;
+    }
+    const boosted =
+      previousConcept && previousFallback
+        ? termScore + 2.2
+        : previousConcept
+          ? termScore * 1.5
+          : termScore;
     const typeMultiplier = {
       core: 1.12,
       relations: 0.92,
       rookie: 1,
       recall: 1.18,
     }[document.chunk.chunkType];
-    return score * typeMultiplier;
+    return boosted * typeMultiplier;
   }
 }

@@ -139,6 +139,7 @@ interface ConversationPageProps {
   courseConceptCount: number;
   courseModuleCount: number;
   streaming: boolean;
+  hydrated: boolean;
   lastError: string | null;
   onDraftChange: (value: string) => void;
   onSend: (content: string) => void;
@@ -559,9 +560,6 @@ function VisualizationSuggestion({
           <p className="m-0 mt-1 text-sm leading-6 text-slate-600">
             {suggestion.teachingGoal ?? suggestion.description}
           </p>
-          <p className="m-0 mt-2 text-xs leading-5 text-slate-500">
-            只有你点击确认后才会显示，课件不会自动打开。
-          </p>
           <div className="mt-4 flex flex-wrap items-center gap-2">
             <Button
               onClick={onConfirm}
@@ -587,6 +585,7 @@ function Composer({
   draft,
   studyScope,
   streaming,
+  hydrated,
   lastError,
   onDraftChange,
   onSend,
@@ -597,6 +596,7 @@ function Composer({
   | "draft"
   | "studyScope"
   | "streaming"
+  | "hydrated"
   | "lastError"
   | "onDraftChange"
   | "onSend"
@@ -605,14 +605,14 @@ function Composer({
 >) {
   const submit = (event: FormEvent) => {
     event.preventDefault();
-    if (!streaming && draft.trim()) {
+    if (hydrated && !streaming && draft.trim()) {
       onSend(draft);
     }
   };
   const keyDown = (event: KeyboardEvent<HTMLTextAreaElement>) => {
     if (event.key === "Enter" && !event.shiftKey) {
       event.preventDefault();
-      if (!streaming && draft.trim()) {
+      if (hydrated && !streaming && draft.trim()) {
         onSend(draft);
       }
     }
@@ -650,6 +650,7 @@ function Composer({
           onKeyDown={keyDown}
           rows={2}
           maxLength={4_000}
+          disabled={!hydrated}
           placeholder="想学什么？问我就好…"
           className="max-h-36 min-h-[60px] w-full resize-none border-0 bg-transparent px-3 py-2 text-[15px] leading-6 text-slate-900 outline-none placeholder:text-slate-400"
         />
@@ -677,7 +678,7 @@ function Composer({
             <IconButton
               type="submit"
               label="发送消息"
-              disabled={!draft.trim()}
+              disabled={!hydrated || !draft.trim()}
               className="bg-indigo-600 text-white hover:bg-indigo-700 hover:text-white disabled:bg-slate-200"
             >
               <ArrowUp aria-hidden="true" className="size-[18px]" />
@@ -685,9 +686,6 @@ function Composer({
           )}
         </div>
       </form>
-      <p className="m-0 mt-2 text-center text-[11px] text-slate-400">
-        Kaleidoscope 是 AI，也可能会犯错。
-      </p>
     </div>
   );
 }

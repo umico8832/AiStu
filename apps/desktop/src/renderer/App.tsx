@@ -28,7 +28,6 @@ import { NavigationRail } from "./components/NavigationRail";
 import { CommunityPage } from "./components/CommunityPage";
 import { CoursePage } from "./components/CoursePage";
 import { StorePage } from "./components/StorePage";
-import { VisualizationWorkspace } from "./components/VisualizationWorkspace";
 import { useAppStore } from "./stores/appStore";
 import { useConversationStore } from "./stores/conversationStore";
 import {
@@ -160,7 +159,7 @@ export function App() {
     ) => {
       const content = rawContent.trim();
       const state = useConversationStore.getState();
-      if (!content || state.streaming) {
+      if (!content || state.streaming || !state.hydrated) {
         return;
       }
       setPendingVisualization(null);
@@ -210,6 +209,10 @@ export function App() {
         return;
       }
       const conversationState = useConversationStore.getState();
+      // 已完成水合后不再重复应用快照，避免覆盖启动后产生的本地状态
+      if (conversationState.hydrated) {
+        return;
+      }
       conversationState.hydrate(session);
       useCourseProfileStore.getState().hydrate(session);
       useCourseLearningStore.getState().hydrate(session);
@@ -245,32 +248,36 @@ export function App() {
                 .handleCommand(event.command);
             }
           } else if (event.command.type === "record_misconception") {
-            const current = useConversationStore
-              .getState()
-              .getActiveConversation();
-            if (current.studyScope) {
-              useCourseLearningStore.getState().recordMisconception(
-                current.studyScope.courseId,
-                current.conversationId,
-                {
-                  topic: event.command.topic,
-                  learnerStatement: event.command.learnerStatement,
-                  correction: event.command.correction,
-                  conceptId: event.command.conceptId,
-                },
-              );
+            // 只接受属于当前流式请求的误解上报，过期事件不写入学习域
+            if (state.streaming?.requestId === event.requestId) {
+              const current = useConversationStore
+                .getState()
+                .getActiveConversation();
+              if (current.studyScope) {
+                useCourseLearningStore.getState().recordMisconception(
+                  current.studyScope.courseId,
+                  current.conversationId,
+                  {
+                    topic: event.command.topic,
+                    learnerStatement: event.command.learnerStatement,
+                    correction: event.command.correction,
+                    conceptId: event.command.conceptId,
+                  },
+                );
+              }
             }
           } else {
             useVisualizationStore.getState().handleCommand(event.command);
           }
           break;
-        case "completed":
-          state.complete(
+        case "completed": {
+          // complete 返回是否匹配当前流式请求；仅匹配时才记录知识接触
+          const matched = state.complete(
             event.requestId,
             event.grounding,
             event.suggestedReplies,
           );
-          {
+          if (matched) {
             const current = state.getActiveConversation();
             if (current.studyScope) {
               useCourseLearningStore.getState().recordKnowledgeExposure(
@@ -282,6 +289,7 @@ export function App() {
             }
           }
           break;
+        }
         case "cancelled":
           state.cancel(event.requestId);
           break;
@@ -430,7 +438,8 @@ export function App() {
     }
   };
 
-  const handleInteraction = (event: VisualizationInteractionEvent) => {
+  const handleInteraction = useCallback(
+    (event: VisualizationInteractionEvent) => {
     useVisualizationStore.getState().recordInteraction(event);
     const current = useConversationStore
       .getState()
@@ -444,7 +453,9 @@ export function App() {
           event,
         );
     }
-  };
+    },
+    [],
+  );
 
   const confirmVisualization = () => {
     if (!pendingVisualization) {
@@ -454,7 +465,7 @@ export function App() {
     setPendingVisualization(null);
   };
 
-  const closeVisualization = () => {
+  const closeVisualization = useCallback(() => {
     const active = useVisualizationStore.getState().activeSession;
     if (active) {
       useVisualizationStore.getState().recordInteraction({
@@ -469,7 +480,32 @@ export function App() {
       });
     }
     useVisualizationStore.getState().close();
-  };
+  }, []);
+
+  useEffect(
+    () =>
+      window.kaleidoscope.visualizationWindow.onEvent((event) => {
+      if (event.type === "closed") {
+        closeVisualization();
+      } else if (event.type === "lesson_state_changed") {
+        useVisualizationStore.getState().setLessonState(event.state);
+      } else if (event.type === "interaction") {
+        handleInteraction(event.event);
+      }
+      }),
+    [closeVisualization, handleInteraction],
+  );
+
+  useEffect(() => {
+    if (visualization.activeSession) {
+      void window.kaleidoscope.visualizationWindow.open({
+        session: visualization.activeSession,
+        error: visualization.lastError,
+      });
+    } else {
+      void window.kaleidoscope.visualizationWindow.close();
+    }
+  }, [visualization.activeSession, visualization.lastError]);
 
   const createConversation = () => {
     if (conversation.streaming) {
@@ -667,6 +703,7 @@ export function App() {
             courseConceptCount={DATA_STRUCTURES_CONCEPT_COUNT}
             courseModuleCount={DATA_STRUCTURES_MODULE_COUNT}
             streaming={Boolean(conversation.streaming)}
+            hydrated={conversation.hydrated}
             lastError={conversation.lastError}
             onDraftChange={conversation.setDraft}
             onSend={(content) => void sendMessage(content)}
@@ -719,16 +756,6 @@ export function App() {
         />
       )}
 
-      {visualization.activeSession ? (
-        <VisualizationWorkspace
-          key={visualization.activeSession.sessionId}
-          session={visualization.activeSession}
-          error={visualization.lastError}
-          onStateChange={visualization.setLessonState}
-          onInteraction={handleInteraction}
-          onClose={closeVisualization}
-        />
-      ) : null}
     </div>
   );
 }

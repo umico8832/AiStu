@@ -4,20 +4,27 @@ import {
   _electron as electron,
   type Page,
 } from "@playwright/test";
-import { mkdtemp, rm } from "node:fs/promises";
+import { mkdtemp, access, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 
-async function confirmSuggestedLesson(page: Page) {
+async function confirmSuggestedLesson(
+  page: Page,
+  electronApp: Awaited<ReturnType<typeof launchDesktop>>,
+) {
   const suggestion = page.locator(
     '[aria-label^="可选互动课件："]',
   );
   await expect(suggestion).toBeVisible();
   await expect(
     suggestion.getByText("只有你点击确认后才会显示"),
-  ).toBeVisible();
+  ).toHaveCount(0);
+  const lessonWindowPromise = electronApp.waitForEvent("window");
   await suggestion.getByRole("button", { name: "打开课件" }).click();
   await expect(suggestion).toBeHidden();
+  const lessonWindow = await lessonWindowPromise;
+  await lessonWindow.waitForLoadState("domcontentloaded");
+  return lessonWindow;
 }
 
 async function launchDesktop(userData: string) {
@@ -70,7 +77,7 @@ test("golden conversation and visualization flow", async () => {
       await emptyViewport.evaluate((element) => element.scrollTop),
     ).toBe(0);
     await page.screenshot({
-      path: "artifacts/conversation-empty-state.png",
+      path: "output/screenshots/conversation-empty-state.png"
     });
 
     await page
@@ -84,14 +91,11 @@ test("golden conversation and visualization flow", async () => {
       ),
     ).toBe("auto");
 
-    const callStackDialog = page.getByRole("dialog", {
-      name: /互动课件 · 栈与函数调用/,
-    });
-    await expect(callStackDialog).toBeHidden();
+    await expect(page.getByTestId("visualization-workspace")).toHaveCount(0);
     await page
       .locator('[aria-label^="可选互动课件："]')
       .screenshot({
-        path: "artifacts/visualization-confirmation-card.png",
+        path: "output/screenshots/visualization-confirmation-card.png"
       });
     await page
       .locator('[aria-label^="可选互动课件："]')
@@ -100,42 +104,34 @@ test("golden conversation and visualization flow", async () => {
     await expect(
       page.locator('[aria-label^="可选互动课件："]'),
     ).toBeHidden();
-    await expect(callStackDialog).toBeHidden();
+    await expect(electronApp.windows()).toHaveLength(1);
 
     const input = page.getByLabel("输入你的学习问题");
     await input.fill("递归调用栈的返回顺序还是不明白。");
     await input.press("Enter");
-    await confirmSuggestedLesson(page);
-    await expect(callStackDialog).toBeVisible();
-    await expect(page.getByText("教学已审查")).toBeVisible();
-    await expect(page.getByText("场景参数已校验")).toBeVisible();
-    await expect(callStackDialog).not.toHaveAttribute("aria-modal", "true");
-
-    const dragHandle = page.getByTestId("visualization-drag-handle");
-    const dialogBeforeDrag = await callStackDialog.boundingBox();
-    const dragHandleBox = await dragHandle.boundingBox();
-    expect(dialogBeforeDrag).not.toBeNull();
-    expect(dragHandleBox).not.toBeNull();
-    if (dialogBeforeDrag && dragHandleBox) {
-      await dragHandle.hover({
-        position: { x: 20, y: dragHandleBox.height / 2 },
-      });
-      await page.mouse.down();
-      await expect(callStackDialog).toHaveClass(/ring-2/u);
-      await page.mouse.move(
-        dragHandleBox.x + 100,
-        dragHandleBox.y + dragHandleBox.height / 2 + 36,
-        { steps: 5 },
-      );
-      await page.mouse.up();
-      const dialogAfterDrag = await callStackDialog.boundingBox();
-      expect(dialogAfterDrag?.x).toBeGreaterThan(
-        dialogBeforeDrag.x + 60,
-      );
-      expect(dialogAfterDrag?.y).toBeGreaterThan(
-        dialogBeforeDrag.y + 20,
-      );
-    }
+    const callStackWindow = await confirmSuggestedLesson(
+      page,
+      electronApp,
+    );
+    const callStackWorkspace = callStackWindow.getByTestId(
+      "visualization-workspace",
+    );
+    await expect(callStackWorkspace).toBeVisible();
+    await expect(
+      callStackWindow.getByText("教学已审查"),
+    ).toHaveCount(0);
+    await expect(
+      callStackWindow.getByText("场景参数已校验"),
+    ).toHaveCount(0);
+    await callStackWindow
+      .getByRole("button", { name: "进入全屏" })
+      .click();
+    await expect(
+      callStackWindow.getByRole("button", { name: "退出全屏" }),
+    ).toBeVisible();
+    await callStackWindow
+      .getByRole("button", { name: "退出全屏" })
+      .click();
 
     await input.fill("课件打开时仍可继续整理问题");
     await expect(input).toHaveValue("课件打开时仍可继续整理问题");
@@ -149,6 +145,9 @@ test("golden conversation and visualization flow", async () => {
       apiKeys: Object.keys(window.kaleidoscope).sort(),
       chatKeys: Object.keys(window.kaleidoscope.chat).sort(),
       knowledgeKeys: Object.keys(window.kaleidoscope.knowledge).sort(),
+      visualizationWindowKeys: Object.keys(
+        window.kaleidoscope.visualizationWindow,
+      ).sort(),
     }));
     expect(security.processType).toBe("undefined");
     expect(security.requireType).toBe("undefined");
@@ -156,22 +155,37 @@ test("golden conversation and visualization flow", async () => {
       "chat",
       "knowledge",
       "persistence",
+      "visualizationWindow",
     ]);
     expect(security.chatKeys).toEqual(["cancel", "onEvent", "send"]);
     expect(security.knowledgeKeys).toEqual(["loadCourse"]);
+    expect(security.visualizationWindowKeys).toEqual([
+      "close",
+      "getState",
+      "onEvent",
+      "open",
+      "recordInteraction",
+      "setLessonState",
+      "toggleFullScreen",
+    ]);
 
     const authoredUserMessageCount = await page
       .getByLabel("你的消息")
       .count();
+    const progress = callStackWindow.getByText(/^\d+ \/ \d+$/);
     for (let step = 0; step < 12; step += 1) {
-      const next = page.getByRole("button", { name: "查看下一步" });
-      if ((await next.count()) === 0) {
+      const progressText = await progress.textContent();
+      const match = progressText?.match(/^(\d+) \/ (\d+)$/);
+      if (!match || match[1] === match[2]) {
         break;
       }
-      await next.click();
+      await callStackWindow
+        .getByRole("button", { name: "查看下一步" })
+        .click();
+      await expect(progress).not.toHaveText(progressText!);
     }
     await expect(
-      page.getByRole("button", { name: "课程已完成" }),
+      callStackWindow.getByRole("button", { name: "课程已完成" }),
     ).toBeDisabled();
     await expect(page.getByLabel("你的消息")).toHaveCount(
       authoredUserMessageCount,
@@ -180,8 +194,10 @@ test("golden conversation and visualization flow", async () => {
       page.getByText(/我已经完成调用栈课件/),
     ).toHaveCount(0);
 
-    await page.getByRole("button", { name: "关闭并返回对话" }).click();
-    await expect(page.getByRole("dialog")).toBeHidden();
+    await callStackWindow
+      .getByRole("button", { name: "关闭并返回对话" })
+      .click();
+    await expect.poll(() => electronApp.windows().length).toBe(1);
     await expect(
       page
         .getByLabel("你的消息")
@@ -198,62 +214,74 @@ test("golden conversation and visualization flow", async () => {
       "ArrayStack 在中间插入为什么必须从右向左搬移？",
     );
     await input.press("Enter");
-    const stackDialog = page.getByRole("dialog", {
-      name: /互动课件 · ArrayStack 按位插入/,
+    const stackWindow = await confirmSuggestedLesson(page, electronApp);
+    await expect(stackWindow.getByText("a[4] ← a[3]")).toBeVisible();
+    await stackWindow.screenshot({
+      path: "output/screenshots/arraystack-insertion-lesson.png"
     });
-    await expect(stackDialog).toBeHidden();
-    await confirmSuggestedLesson(page);
-    await expect(stackDialog).toBeVisible();
-    await expect(page.getByText("a[4] ← a[3]")).toBeVisible();
-    await page.screenshot({
-      path: "artifacts/arraystack-insertion-lesson.png",
-    });
-    await page.getByRole("button", { name: "关闭并返回对话" }).click();
-    await expect(page.getByRole("dialog")).toBeHidden();
+    await stackWindow
+      .getByRole("button", { name: "关闭并返回对话" })
+      .click();
+    await expect.poll(() => electronApp.windows().length).toBe(1);
 
     await input.fill("ArrayQueue 的循环数组回绕怎么理解？");
     await input.press("Enter");
-    const queueDialog = page.getByRole("dialog", {
-      name: /互动课件 · ArrayQueue 循环数组/,
+    const queueWindow = await confirmSuggestedLesson(page, electronApp);
+    await expect(
+      queueWindow.getByText("a[(j + k) mod 8]"),
+    ).toBeVisible();
+    await queueWindow.screenshot({
+      path: "output/screenshots/arrayqueue-representation-lesson.png"
     });
-    await expect(queueDialog).toBeHidden();
-    await confirmSuggestedLesson(page);
-    await expect(queueDialog).toBeVisible();
-    await expect(page.getByText("a[(j + k) mod 8]")).toBeVisible();
-    await queueDialog.screenshot({
-      path: "artifacts/arrayqueue-representation-lesson.png",
-    });
-    await page.getByRole("button", { name: "关闭并返回对话" }).click();
-    await expect(page.getByRole("dialog")).toBeHidden();
+    await queueWindow
+      .getByRole("button", { name: "关闭并返回对话" })
+      .click();
+    await expect.poll(() => electronApp.windows().length).toBe(1);
 
     await input.fill("DualArrayDeque 三倍失衡后怎么重建？");
     await input.press("Enter");
-    const balanceDialog = page.getByRole("dialog", {
-      name: /互动课件 · DualArrayDeque 再平衡/,
-    });
-    await expect(balanceDialog).toBeHidden();
-    await confirmSuggestedLesson(page);
-    await expect(balanceDialog).toBeVisible();
-    await expect(page.getByText("3f < b 或 3b < f")).toBeVisible();
-    await balanceDialog.screenshot({
-      path: "artifacts/dualarraydeque-balance-lesson.png",
+    const balanceWindow = await confirmSuggestedLesson(
+      page,
+      electronApp,
+    );
+    await expect(
+      balanceWindow.getByText("3f < b 或 3b < f"),
+    ).toBeVisible();
+    await balanceWindow.screenshot({
+      path: "output/screenshots/dualarraydeque-balance-lesson.png"
     });
 
-    await page.waitForTimeout(450);
+    await expect
+      .poll(
+        async () => {
+          try {
+            await access(join(userData, "session-v2.json"));
+            return true;
+          } catch {
+            return false;
+          }
+        },
+        { timeout: 5_000 },
+      )
+      .toBe(true);
     await electronApp.close();
     electronApp = null;
     electronApp = await launchDesktop(userData);
 
     const restoredPage = await electronApp.firstWindow();
     await restoredPage.waitForLoadState("domcontentloaded");
-    const restoredDialog = restoredPage.getByRole("dialog", {
-      name: /互动课件 · DualArrayDeque 再平衡/,
-    });
-    await expect(restoredDialog).toBeVisible();
-    await restoredPage
+    await expect.poll(() => electronApp?.windows().length ?? 0).toBe(2);
+    const restoredLessonWindow = electronApp
+      .windows()
+      .find((window) => window.url().includes("view=visualization"));
+    expect(restoredLessonWindow).toBeDefined();
+    await expect(
+      restoredLessonWindow!.getByText("3f < b 或 3b < f"),
+    ).toBeVisible();
+    await restoredLessonWindow!
       .getByRole("button", { name: "关闭并返回对话" })
       .click();
-    await expect(restoredPage.getByRole("dialog")).toBeHidden();
+    await expect.poll(() => electronApp?.windows().length ?? 0).toBe(1);
     await expect(
       restoredPage
         .getByLabel("你的消息")

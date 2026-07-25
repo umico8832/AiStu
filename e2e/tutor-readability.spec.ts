@@ -75,7 +75,7 @@ test("tutor resets a difficult explanation into readable blocks", async () => {
     ).toBeVisible();
 
     await page.screenshot({
-      path: "artifacts/tutor-guided-learning.png",
+      path: "output/screenshots/tutor-guided-learning.png"
     });
   } finally {
     await electronApp.close();

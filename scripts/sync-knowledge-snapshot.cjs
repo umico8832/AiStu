@@ -3,6 +3,7 @@ const {
   copyFileSync,
   mkdirSync,
   readFileSync,
+  renameSync,
 } = require("node:fs");
 const path = require("node:path");
 
@@ -76,7 +77,9 @@ if (process.argv.includes("--check")) {
 } else {
   const source = validatedLines(sourcePath);
   mkdirSync(path.dirname(snapshotPath), { recursive: true });
-  copyFileSync(sourcePath, snapshotPath);
+  const tmpPath = `${snapshotPath}.tmp`;
+  copyFileSync(sourcePath, tmpPath);
+  renameSync(tmpPath, snapshotPath);
   validatedLines(snapshotPath);
   console.log(
     `Synced ${source.length} knowledge chunks to ${snapshotPath}.`,

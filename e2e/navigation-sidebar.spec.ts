@@ -96,7 +96,7 @@ test("navigation sidebar expands labels to the right without moving icons", asyn
       ),
     );
     await sidebarShell.screenshot({
-      path: "artifacts/navigation-sidebar-collapsed.png",
+      path: "output/screenshots/navigation-sidebar-collapsed.png"
     });
 
     await historyButton.click();
@@ -175,7 +175,7 @@ test("navigation sidebar expands labels to the right without moving icons", asyn
     });
     await page.mouse.move(640, 420);
     await sidebar.screenshot({
-      path: "artifacts/navigation-sidebar-expanded.png",
+      path: "output/screenshots/navigation-sidebar-expanded.png"
     });
 
     await sidebar.getByRole("button", { name: "商店" }).click();
@@ -192,7 +192,7 @@ test("navigation sidebar expands labels to the right without moving icons", asyn
     await expect(
       store.getByRole("heading", { name: "408 数据结构" }),
     ).toHaveCount(0);
-    await store.screenshot({ path: "artifacts/store-page.png" });
+    await store.screenshot({ path: "output/screenshots/store-page.png" });
 
     await store
       .getByRole("heading", { name: "408 计算机学科专业基础" })
@@ -213,7 +213,7 @@ test("navigation sidebar expands labels to the right without moving icons", asyn
     ).toHaveCount(0);
     await expect(store.getByText("1 个匹配模块")).toBeVisible();
     await store.screenshot({
-      path: "artifacts/store-search-results.png",
+      path: "output/screenshots/store-search-results.png"
     });
     await store
       .getByRole("button", { name: "清空商店搜索" })
@@ -259,7 +259,7 @@ test("navigation sidebar expands labels to the right without moving icons", asyn
       }),
     ).toBeVisible();
     await selectedStoreModule.screenshot({
-      path: "artifacts/store-408-module.png",
+      path: "output/screenshots/store-408-module.png"
     });
 
     await selectedStoreModule
@@ -288,7 +288,7 @@ test("navigation sidebar expands labels to the right without moving icons", asyn
       }),
     ).toHaveCount(9);
     await selectedStoreModule.screenshot({
-      path: "artifacts/store-national-exams.png",
+      path: "output/screenshots/store-national-exams.png"
     });
 
     await expect(
@@ -324,7 +324,7 @@ test("navigation sidebar expands labels to the right without moving icons", asyn
       community.getByText("快排的枢轴到底选第一个还是随机选？"),
     ).toBeVisible();
     await community.screenshot({
-      path: "artifacts/community-408-module.png",
+      path: "output/screenshots/community-408-module.png"
     });
 
     await examFilter.selectOption("national-gaokao");
@@ -333,7 +333,7 @@ test("navigation sidebar expands labels to the right without moving icons", asyn
       community.getByText("含参数函数先确认定义域"),
     ).toBeVisible();
     await community.screenshot({
-      path: "artifacts/community-exam-hub.png",
+      path: "output/screenshots/community-exam-hub.png"
     });
 
     await sidebarToggle.click();

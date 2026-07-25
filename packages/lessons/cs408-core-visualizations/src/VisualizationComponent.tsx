@@ -17,7 +17,7 @@ import {
   Shuffle,
 } from "lucide-react";
 import { motion, MotionConfig } from "motion/react";
-import { useState, type ReactNode } from "react";
+import { useRef, useState, type ReactNode } from "react";
 import {
   binarySearchValues,
   getAvlLayout,
@@ -1088,6 +1088,11 @@ export function VisualizationComponent({
   const prediction = predictionForSpec(spec);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [predictionRetryCount, setPredictionRetryCount] = useState(0);
+  // 同一 (sessionId, finalStep) 只上报一次完成事件；回退再走到末步不重复计数
+  const completionSentRef = useRef<{
+    sessionId: string;
+    finalStep: number;
+  } | null>(null);
   const predictionComplete =
     selectedAnswer === prediction.correct;
 
@@ -1103,7 +1108,12 @@ export function VisualizationComponent({
       stepId: `${spec.visualizationId}:step-${clamped}`,
       occurredAt,
     });
-    if (clamped === steps.length - 1) {
+    if (
+      clamped === steps.length - 1 &&
+      (completionSentRef.current?.sessionId !== sessionId ||
+        completionSentRef.current?.finalStep !== clamped)
+    ) {
+      completionSentRef.current = { sessionId, finalStep: clamped };
       onInteraction({
         type: "lesson_completed",
         sessionId,

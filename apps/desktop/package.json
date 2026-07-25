@@ -6,7 +6,7 @@
   "main": "out/main/index.js",
   "scripts": {
     "dev": "electron-vite dev",
-    "typecheck": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json && tsc -p tsconfig.renderer.json",
     "build": "electron-vite build",
     "preview": "electron-vite preview",
     "package": "pnpm -w check:knowledge-snapshot && pnpm build && electron-builder",

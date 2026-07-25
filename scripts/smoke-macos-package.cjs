@@ -59,7 +59,13 @@ async function main() {
     if (child && child.exitCode === null) {
       child.kill("SIGTERM");
     }
+    const killTimeout = setTimeout(() => {
+      if (child && child.exitCode === null) {
+        child.kill("SIGKILL");
+      }
+    }, 5_000);
     await exitPromise;
+    clearTimeout(killTimeout);
     await rm(userData, { recursive: true, force: true });
   }
 }

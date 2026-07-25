@@ -292,7 +292,8 @@ export class VisualizationRuntimeError extends Error {
       | "VERSION_MISMATCH"
       | "SESSION_MISMATCH"
       | "STALE_REVISION"
-      | "INVALID_PATCH",
+      | "INVALID_PATCH"
+      | "REVISION_OVERFLOW",
     message: string,
   ) {
     super(message);
@@ -389,6 +390,31 @@ export function createDefaultVisualizationSession(
   );
 }
 
+export function openVisualizationSessionSafe(
+  visualizationId: string,
+  rawSpec: unknown,
+  sessionId = crypto.randomUUID(),
+): { session: VisualizationSession; fallbackUsed: boolean } {
+  try {
+    return {
+      session: createVisualizationSession(visualizationId, rawSpec, sessionId),
+      fallbackUsed: false,
+    };
+  } catch (error) {
+    // 非法 spec 或版本不兼容时回退到审核过的默认场景；未知可视化仍然失败
+    if (
+      error instanceof VisualizationRuntimeError &&
+      (error.code === "INVALID_SPEC" || error.code === "VERSION_MISMATCH")
+    ) {
+      return {
+        session: createDefaultVisualizationSession(visualizationId, sessionId),
+        fallbackUsed: true,
+      };
+    }
+    throw error;
+  }
+}
+
 export function applyVisualizationPatch(
   current: VisualizationSession,
   rawPatch: unknown,
@@ -431,6 +457,14 @@ export function applyVisualizationPatch(
     throw new VisualizationRuntimeError(
       "INVALID_PATCH",
       "页面补丁包含课件未声明的操作。",
+    );
+  }
+
+  // revision 到达持久化上限时给出受控错误，而不是让 schema 抛出原生 ZodError
+  if (current.revision >= 10_000) {
+    throw new VisualizationRuntimeError(
+      "REVISION_OVERFLOW",
+      "页面补丁次数达到上限，需要重建可视化会话。",
     );
   }
 

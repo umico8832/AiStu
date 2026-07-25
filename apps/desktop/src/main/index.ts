@@ -5,6 +5,12 @@ import {
   ipcChannels,
   knowledgeCourseRequestSchema,
   knowledgeCourseSchema,
+  visualizationInteractionEventSchema,
+  visualizationLessonStateSchema,
+  visualizationWindowEventSchema,
+  visualizationWindowPayloadSchema,
+  type VisualizationWindowEvent,
+  type VisualizationWindowPayload,
 } from "@kaleidoscope/contracts";
 import {
   app,
@@ -33,6 +39,10 @@ registerAppScheme();
 
 const activeRequests = new Map<string, AbortController>();
 const knowledgeService = new KnowledgeService();
+let mainWindow: BrowserWindow | null = null;
+let visualizationWindow: BrowserWindow | null = null;
+let visualizationWindowCreation: Promise<BrowserWindow> | null = null;
+let visualizationWindowPayload: VisualizationWindowPayload | null = null;
 
 if (process.env.KALEIDOSCOPE_E2E_USER_DATA) {
   app.setPath("userData", process.env.KALEIDOSCOPE_E2E_USER_DATA);
@@ -47,6 +57,89 @@ function emitToSender(
   }
   const parsed = chatStreamEventSchema.parse(value);
   event.sender.send(ipcChannels.chatEvent, parsed);
+}
+
+function assertSenderWindow(
+  event: IpcMainInvokeEvent,
+  expectedWindow: BrowserWindow | null,
+): void {
+  assertTrustedSender(event);
+  if (
+    !expectedWindow ||
+    expectedWindow.isDestroyed() ||
+    event.sender !== expectedWindow.webContents
+  ) {
+    throw new Error("Rejected IPC request from an unexpected window.");
+  }
+}
+
+function sendVisualizationWindowEvent(
+  target: BrowserWindow | null,
+  event: VisualizationWindowEvent,
+): void {
+  if (!target || target.isDestroyed()) {
+    return;
+  }
+  target.webContents.send(
+    ipcChannels.visualizationWindowEvent,
+    visualizationWindowEventSchema.parse(event),
+  );
+}
+
+function rendererUrlFor(view: "main" | "visualization"): string {
+  const developmentUrl = developmentRendererUrl();
+  if (developmentUrl) {
+    const url = new URL(developmentUrl);
+    if (view === "visualization") {
+      url.searchParams.set("view", "visualization");
+    }
+    return url.toString();
+  }
+  const suffix = view === "visualization" ? "?view=visualization" : "";
+  return `${APP_SCHEME}://${APP_HOST}/index.html${suffix}`;
+}
+
+async function createVisualizationWindow(): Promise<BrowserWindow> {
+  const window = new BrowserWindow({
+    width: 1280,
+    height: 840,
+    minWidth: 760,
+    minHeight: 560,
+    title: "Kaleidoscope 互动课件",
+    backgroundColor: "#f8fafc",
+    show: false,
+    webPreferences: {
+      preload: join(__dirname, "../preload/index.js"),
+      nodeIntegration: false,
+      contextIsolation: true,
+      sandbox: true,
+      devTools: !app.isPackaged,
+    },
+  });
+
+  hardenSession(window);
+  window.once("ready-to-show", () => window.show());
+  window.on("enter-full-screen", () => {
+    sendVisualizationWindowEvent(window, {
+      type: "full_screen_changed",
+      isFullScreen: true,
+    });
+  });
+  window.on("leave-full-screen", () => {
+    sendVisualizationWindowEvent(window, {
+      type: "full_screen_changed",
+      isFullScreen: false,
+    });
+  });
+  window.on("closed", () => {
+    if (visualizationWindow === window) {
+      visualizationWindow = null;
+      visualizationWindowPayload = null;
+      sendVisualizationWindowEvent(mainWindow, { type: "closed" });
+    }
+  });
+  await window.loadURL(rendererUrlFor("visualization"));
+  return window;
 }
 
 function registerIpcHandlers(): void {
@@ -135,10 +228,96 @@ function registerIpcHandlers(): void {
       accepted: true as const,
     };
   });
+
+  ipcMain.handle(
+    ipcChannels.visualizationWindowOpen,
+    async (event, rawInput) => {
+      assertSenderWindow(event, mainWindow);
+      const payload = visualizationWindowPayloadSchema.parse(rawInput);
+      const shouldFocus =
+        visualizationWindowPayload?.session.sessionId !==
+        payload.session.sessionId;
+      visualizationWindowPayload = payload;
+
+      if (!visualizationWindow || visualizationWindow.isDestroyed()) {
+        visualizationWindowCreation ??= createVisualizationWindow();
+        try {
+          visualizationWindow = await visualizationWindowCreation;
+        } finally {
+          visualizationWindowCreation = null;
+        }
+      }
+
+      sendVisualizationWindowEvent(visualizationWindow, {
+        type: "payload",
+        payload,
+      });
+      if (shouldFocus) {
+        visualizationWindow.show();
+        visualizationWindow.focus();
+      }
+    },
+  );
+
+  ipcMain.handle(ipcChannels.visualizationWindowState, async (event) => {
+    assertSenderWindow(event, visualizationWindow);
+    return visualizationWindowPayload
+      ? visualizationWindowPayloadSchema.parse(visualizationWindowPayload)
+      : null;
+  });
+
+  ipcMain.handle(ipcChannels.visualizationWindowClose, async (event) => {
+    assertTrustedSender(event);
+    const fromMain = mainWindow?.webContents === event.sender;
+    const fromVisualization =
+      visualizationWindow?.webContents === event.sender;
+    if (!fromMain && !fromVisualization) {
+      throw new Error("Rejected close request from an unexpected window.");
+    }
+    visualizationWindow?.close();
+  });
+
+  ipcMain.handle(
+    ipcChannels.visualizationWindowToggleFullScreen,
+    async (event) => {
+      assertSenderWindow(event, visualizationWindow);
+      if (!visualizationWindow) {
+        return false;
+      }
+      const next = !visualizationWindow.isFullScreen();
+      visualizationWindow.setFullScreen(next);
+      return next;
+    },
+  );
+
+  ipcMain.handle(
+    ipcChannels.visualizationWindowLessonState,
+    async (event, rawInput) => {
+      assertSenderWindow(event, visualizationWindow);
+      const state = visualizationLessonStateSchema.parse(rawInput);
+      sendVisualizationWindowEvent(mainWindow, {
+        type: "lesson_state_changed",
+        state,
+      });
+    },
+  );
+
+  ipcMain.handle(
+    ipcChannels.visualizationWindowInteraction,
+    async (event, rawInput) => {
+      assertSenderWindow(event, visualizationWindow);
+      const interaction =
+        visualizationInteractionEventSchema.parse(rawInput);
+      sendVisualizationWindowEvent(mainWindow, {
+        type: "interaction",
+        event: interaction,
+      });
+    },
+  );
 }
 
 async function createMainWindow(): Promise<BrowserWindow> {
-  const mainWindow = new BrowserWindow({
+  const window = new BrowserWindow({
     width: 1440,
     height: 940,
     minWidth: 1040,
@@ -166,16 +345,12 @@ async function createMainWindow(): Promise<BrowserWindow> {
     },
   });
 
-  hardenSession(mainWindow);
-  mainWindow.once("ready-to-show", () => mainWindow.show());
+  mainWindow = window;
+  hardenSession(window);
+  window.once("ready-to-show", () => window.show());
 
-  const rendererUrl = developmentRendererUrl();
-  if (rendererUrl) {
-    await mainWindow.loadURL(rendererUrl);
-  } else {
-    await mainWindow.loadURL(`${APP_SCHEME}://${APP_HOST}/index.html`);
-  }
-  return mainWindow;
+  await window.loadURL(rendererUrlFor("main"));
+  return window;
 }
 
 app.setName("Kaleidoscope");
@@ -188,11 +363,20 @@ app.whenReady().then(async () => {
   if (!developmentRendererUrl()) {
     await installAppProtocol(join(__dirname, "../renderer"));
   }
-  await createMainWindow();
+  mainWindow = await createMainWindow();
+  mainWindow.on("closed", () => {
+    mainWindow = null;
+    visualizationWindow?.destroy();
+    visualizationWindow = null;
+    visualizationWindowCreation = null;
+    visualizationWindowPayload = null;
+  });
 
   app.on("activate", () => {
-    if (BrowserWindow.getAllWindows().length === 0) {
-      void createMainWindow();
+    if (!mainWindow || mainWindow.isDestroyed()) {
+      void createMainWindow().then((window) => {
+        mainWindow = window;
+      });
     }
   });
 });

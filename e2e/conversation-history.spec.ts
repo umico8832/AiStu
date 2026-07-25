@@ -1,5 +1,5 @@
 import { expect, test, _electron as electron } from "@playwright/test";
-import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
+import { access, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 
@@ -80,7 +80,19 @@ test("new conversations preserve and restore local chat history", async () => {
       }),
     ).toBeVisible();
 
-    await page.waitForTimeout(500);
+    await expect
+      .poll(
+        async () => {
+          try {
+            await access(join(userData, "session-v2.json"));
+            return true;
+          } catch {
+            return false;
+          }
+        },
+        { timeout: 5_000 },
+      )
+      .toBe(true);
     await electronApp.close();
     electronApp = null;
 

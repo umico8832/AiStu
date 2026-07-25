@@ -59,6 +59,16 @@ export const ipcChannels = {
   knowledgeCourseLoad: "kaleidoscope:knowledge:course-load",
   persistenceLoad: "kaleidoscope:persistence:load",
   persistenceSave: "kaleidoscope:persistence:save",
+  visualizationWindowOpen: "kaleidoscope:visualization-window:open",
+  visualizationWindowState: "kaleidoscope:visualization-window:state",
+  visualizationWindowClose: "kaleidoscope:visualization-window:close",
+  visualizationWindowToggleFullScreen:
+    "kaleidoscope:visualization-window:toggle-full-screen",
+  visualizationWindowLessonState:
+    "kaleidoscope:visualization-window:lesson-state",
+  visualizationWindowInteraction:
+    "kaleidoscope:visualization-window:interaction",
+  visualizationWindowEvent: "kaleidoscope:visualization-window:event",
 } as const;
 
 export const messageRoleSchema = z.enum(["user", "assistant"]);
@@ -638,18 +648,67 @@ export const chatCancelInputSchema = z
 
 export type ChatCancelInput = z.infer<typeof chatCancelInputSchema>;
 
+const STRUCTURED_PAYLOAD_BYTE_LIMIT = 65_536;
+const STRUCTURED_PAYLOAD_DEPTH_LIMIT = 8;
+
+function measureJsonDepth(value: unknown, depth: number): number {
+  if (
+    depth > STRUCTURED_PAYLOAD_DEPTH_LIMIT ||
+    value === null ||
+    typeof value !== "object"
+  ) {
+    return depth;
+  }
+  let max = depth;
+  for (const entry of Object.values(value)) {
+    max = Math.max(max, measureJsonDepth(entry, depth + 1));
+    if (max > STRUCTURED_PAYLOAD_DEPTH_LIMIT) {
+      break;
+    }
+  }
+  return max;
+}
+
+// spec/patch 是跨进程数据边界：必须可 JSON 序列化，并限制字节数与嵌套深度
+const boundedPayloadSchema = z
+  .record(z.string(), z.unknown())
+  .superRefine((value, context) => {
+    let serialized: string;
+    try {
+      serialized = JSON.stringify(value);
+    } catch {
+      context.addIssue({
+        code: "custom",
+        message: "payload 必须可 JSON 序列化",
+      });
+      return;
+    }
+    if (serialized.length > STRUCTURED_PAYLOAD_BYTE_LIMIT) {
+      context.addIssue({
+        code: "custom",
+        message: "payload 超过 64KB 上限",
+      });
+    }
+    if (measureJsonDepth(value, 1) > STRUCTURED_PAYLOAD_DEPTH_LIMIT) {
+      context.addIssue({
+        code: "custom",
+        message: "payload 嵌套深度超过 8 层",
+      });
+    }
+  });
+
 export const tutorCommandSchema = z.discriminatedUnion("type", [
   z
     .object({
       type: z.literal("open_visualization"),
       visualizationId: z.string().min(1).max(80),
-      spec: z.record(z.string(), z.unknown()),
+      spec: boundedPayloadSchema,
     })
     .strict(),
   z
     .object({
       type: z.literal("patch_visualization"),
-      patch: z.record(z.string(), z.unknown()),
+      patch: boundedPayloadSchema,
     })
     .strict(),
   z
@@ -745,6 +804,64 @@ export const persistedVisualizationSessionSchema = z
 
 export type PersistedVisualizationSession = z.infer<
   typeof persistedVisualizationSessionSchema
+>;
+
+export const visualizationLessonStateSchema = z
+  .object({
+    step: z.number().int().min(0).max(30),
+    codeOpen: z.boolean(),
+  })
+  .strict();
+
+export type VisualizationLessonState = z.infer<
+  typeof visualizationLessonStateSchema
+>;
+
+export const visualizationWindowPayloadSchema = z
+  .object({
+    session: persistedVisualizationSessionSchema,
+    error: z.string().min(1).max(500).nullable(),
+  })
+  .strict();
+
+export type VisualizationWindowPayload = z.infer<
+  typeof visualizationWindowPayloadSchema
+>;
+
+export const visualizationWindowEventSchema = z.discriminatedUnion("type", [
+  z
+    .object({
+      type: z.literal("payload"),
+      payload: visualizationWindowPayloadSchema,
+    })
+    .strict(),
+  z
+    .object({
+      type: z.literal("closed"),
+    })
+    .strict(),
+  z
+    .object({
+      type: z.literal("full_screen_changed"),
+      isFullScreen: z.boolean(),
+    })
+    .strict(),
+  z
+    .object({
+      type: z.literal("lesson_state_changed"),
+      state: visualizationLessonStateSchema,
+    })
+    .strict(),
+  z
+    .object({
+      type: z.literal("interaction"),
+      event: visualizationInteractionEventSchema,
+    })
+    .strict(),
+]);
+
+export type VisualizationWindowEvent = z.infer<
+  typeof visualizationWindowEventSchema
 >;
 
 export const persistedSessionV1Schema = z
@@ -872,8 +989,21 @@ export interface KnowledgeApi {
   loadCourse(input: KnowledgeCourseRequest): Promise<KnowledgeCourse>;
 }
 
+export interface VisualizationWindowApi {
+  open(payload: VisualizationWindowPayload): Promise<void>;
+  getState(): Promise<VisualizationWindowPayload | null>;
+  close(): Promise<void>;
+  toggleFullScreen(): Promise<boolean>;
+  setLessonState(state: VisualizationLessonState): Promise<void>;
+  recordInteraction(event: VisualizationInteractionEvent): Promise<void>;
+  onEvent(
+    listener: (event: VisualizationWindowEvent) => void,
+  ): () => void;
+}
+
 export interface KaleidoscopeApi {
   chat: ChatApi;
   knowledge: KnowledgeApi;
   persistence: PersistenceApi;
+  visualizationWindow: VisualizationWindowApi;
 }

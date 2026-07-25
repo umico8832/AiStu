@@ -1,11 +1,9 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "types": ["node"]
+    "types": ["vite/client"]
   },
   "include": [
-    "src/main",
-    "src/preload",
-    "electron.vite.config.ts"
+    "src/renderer"
   ]
 }

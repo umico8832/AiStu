@@ -86,7 +86,7 @@ test("408 course exposes the complete syllabus and starts a concept lesson", asy
       }),
     ).toBeVisible();
     await course.screenshot({
-      path: "artifacts/course-mind-map.png",
+      path: "output/screenshots/course-mind-map.png"
     });
     await course
       .getByRole("button", { name: "知识列表", exact: true })
@@ -106,7 +106,7 @@ test("408 course exposes the complete syllabus and starts a concept lesson", asy
       }),
     ).toBeVisible();
     await page.screenshot({
-      path: "artifacts/course-study-onboarding.png",
+      path: "output/screenshots/course-study-onboarding.png"
     });
     await page
       .getByRole("button", { name: /我有印象，帮我串起来/u })
@@ -116,7 +116,7 @@ test("408 course exposes the complete syllabus and starts a concept lesson", asy
     ).toBeVisible();
     await expect(page.getByLabel("你的消息")).toHaveCount(0);
     await page.screenshot({
-      path: "artifacts/course-focused-study.png",
+      path: "output/screenshots/course-focused-study.png"
     });
 
     await page
@@ -143,7 +143,7 @@ test("408 course exposes the complete syllabus and starts a concept lesson", asy
     ).toBeVisible();
     await expect(learningProgress.getByText("已获得")).toBeVisible();
     await learningProgress.screenshot({
-      path: "artifacts/course-learning-progress.png",
+      path: "output/screenshots/course-learning-progress.png"
     });
     await learningProgress
       .getByRole("button", { name: "关闭学习足迹" })
@@ -155,7 +155,7 @@ test("408 course exposes the complete syllabus and starts a concept lesson", asy
       }),
     ).toBeVisible();
     await page.screenshot({
-      path: "artifacts/course-focused-lesson.png",
+      path: "output/screenshots/course-focused-lesson.png"
     });
     await quickReplies
       .getByRole("button", { name: "p.next = p.next.next" })
@@ -232,7 +232,7 @@ test("408 course exposes the complete syllabus and starts a concept lesson", asy
     ).toBeVisible();
     await expect(course.getByText("含互动课件")).toBeVisible();
     await course.screenshot({
-      path: "artifacts/408-course-page.png",
+      path: "output/screenshots/408-course-page.png"
     });
 
     await course
@@ -248,14 +248,16 @@ test("408 course exposes the complete syllabus and starts a concept lesson", asy
       '[aria-label="可选互动课件：KMP 指针对齐"]',
     );
     await expect(suggestion).toBeVisible();
+    const lessonWindowPromise = electronApp.waitForEvent("window");
     await suggestion.getByRole("button", { name: "打开课件" }).click();
-    const lesson = page.getByRole("dialog", {
-      name: /互动课件 · KMP 指针对齐/u,
-    });
-    await expect(lesson).toBeVisible();
+    const lesson = await lessonWindowPromise;
+    await lesson.waitForLoadState("domcontentloaded");
+    await expect(
+      lesson.getByTestId("visualization-workspace"),
+    ).toBeVisible();
     await expect(lesson.getByText("prefix function")).toBeVisible();
     await lesson.screenshot({
-      path: "artifacts/cs408-kmp-lesson.png",
+      path: "output/screenshots/cs408-kmp-lesson.png"
     });
   } finally {
     await electronApp.close();

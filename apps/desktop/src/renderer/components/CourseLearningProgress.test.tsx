@@ -73,7 +73,7 @@ describe("course learning progress", () => {
 
     expect(markup).toContain("错题与复盘");
     expect(markup).toContain("会自动收录");
-    expect(markup).toContain("不代表掌握判定");
+    expect(markup).not.toContain("不代表掌握判定");
   });
 
   it("renders pending and reviewed mistakes with review actions", () => {

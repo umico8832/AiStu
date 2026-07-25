@@ -2,7 +2,7 @@ import type { VisualizationInteractionEvent } from "@kaleidoscope/contracts";
 import { LessonFrame } from "@kaleidoscope/ui";
 import { ArrowRight, BetweenHorizontalEnd, MoveRight } from "lucide-react";
 import { motion, MotionConfig } from "motion/react";
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import {
   arrayStackInsertionSessionSpecSchema,
   buildArrayStackInsertionSteps,
@@ -35,6 +35,11 @@ export function VisualizationComponent({
   const current = steps[stepIndex] ?? steps[0]!;
   const [prediction, setPrediction] = useState<string | null>(null);
   const [predictionRetryCount, setPredictionRetryCount] = useState(0);
+  // 同一 (sessionId, finalStep) 只上报一次完成事件；回退再走到末步不重复计数
+  const completionSentRef = useRef<{
+    sessionId: string;
+    finalStep: number;
+  } | null>(null);
   const requiresShift =
     spec.scenario.insertIndex < spec.scenario.elements.length;
   const correctPrediction = requiresShift
@@ -67,7 +72,12 @@ export function VisualizationComponent({
       stepId: nextStep.id,
       occurredAt: Date.now(),
     });
-    if (clamped === steps.length - 1) {
+    if (
+      clamped === steps.length - 1 &&
+      (completionSentRef.current?.sessionId !== sessionId ||
+        completionSentRef.current?.finalStep !== clamped)
+    ) {
+      completionSentRef.current = { sessionId, finalStep: clamped };
       onInteraction({
         type: "lesson_completed",
         sessionId,

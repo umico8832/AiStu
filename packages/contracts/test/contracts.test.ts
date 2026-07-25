@@ -9,6 +9,7 @@ import {
   persistedAppStateV2Schema,
   persistedSessionV1Schema,
   tutorCommandSchema,
+  visualizationWindowPayloadSchema,
 } from "../src";
 
 describe("shared contracts", () => {
@@ -42,6 +43,51 @@ describe("shared contracts", () => {
     });
 
     expect(parsed.success).toBe(false);
+  });
+
+  it("keeps visualization window payloads limited to persisted sessions", () => {
+    const parsed = visualizationWindowPayloadSchema.safeParse({
+      session: {
+        sessionId: crypto.randomUUID(),
+        visualizationId: "call-stack-recursion",
+        visualizationVersion: 1,
+        revision: 0,
+        validatedSpec: {},
+        currentStep: 0,
+        status: "ready",
+        interactionHistory: [],
+      },
+      error: null,
+      componentPath: "/tmp/unsafe.tsx",
+    });
+
+    expect(parsed.success).toBe(false);
+  });
+
+  it("rejects oversized or overdeep structured payloads", () => {
+    const oversized = tutorCommandSchema.safeParse({
+      type: "open_visualization",
+      visualizationId: "call-stack-recursion",
+      spec: { blob: "x".repeat(70_000) },
+    });
+    expect(oversized.success).toBe(false);
+
+    let deep: Record<string, unknown> = { leaf: true };
+    for (let index = 0; index < 9; index += 1) {
+      deep = { next: deep };
+    }
+    const overdeep = tutorCommandSchema.safeParse({
+      type: "patch_visualization",
+      patch: { operations: deep },
+    });
+    expect(overdeep.success).toBe(false);
+
+    const reasonable = tutorCommandSchema.safeParse({
+      type: "open_visualization",
+      visualizationId: "call-stack-recursion",
+      spec: { teachingGoal: "理解返回顺序", scenario: { depth: 3 } },
+    });
+    expect(reasonable.success).toBe(true);
   });
 
   it("rejects unsupported persistence versions", () => {

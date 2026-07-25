@@ -27,7 +27,6 @@ import {
   Plus,
   Search,
   Send,
-  ShieldCheck,
   Sparkles,
   UploadCloud,
   X,
@@ -289,12 +288,6 @@ function SubmissionCard({
             {submission.conceptId ? (
               <span className="rounded-full bg-slate-100 px-2 py-1">
                 {submission.conceptId}
-              </span>
-            ) : null}
-            {submission.sourceNote ? (
-              <span className="inline-flex items-center gap-1">
-                <ShieldCheck aria-hidden="true" className="size-3.5" />
-                已填写来源说明
               </span>
             ) : null}
           </div>
@@ -739,10 +732,7 @@ function ComposerDialog({
               </label>
             </div>
             {error ? <FormError message={error} /> : null}
-            <div className="mt-5 flex items-center justify-between gap-4">
-              <p className="m-0 max-w-[390px] text-[11px] leading-5 text-slate-500">
-                平台会检查文件可读性、分类、来源与内容质量；提交不会自动进入权威知识库。
-              </p>
+            <div className="mt-5 flex justify-end">
               <PrimarySubmitButton icon={<UploadCloud className="size-4" />}>
                 提交审核
               </PrimarySubmitButton>

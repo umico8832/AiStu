@@ -15,6 +15,7 @@ import {
   applyVisualizationPatch,
   createDefaultVisualizationSession,
   createVisualizationSession,
+  openVisualizationSessionSafe,
   VisualizationRuntimeError,
   visualizationRegistry,
 } from "../src";
@@ -52,6 +53,68 @@ describe("visualization runtime", () => {
     expect(() => createVisualizationSession("unknown", {})).toThrowError(
       VisualizationRuntimeError,
     );
+  });
+
+  it("falls back to the reviewed default scenario when the AI spec is unusable", () => {
+    const registration = visualizationRegistry.find(
+      (entry) => entry.id === VISUALIZATION_ID_CALL_STACK,
+    );
+    expect(registration).toBeDefined();
+
+    const valid = openVisualizationSessionSafe(
+      VISUALIZATION_ID_CALL_STACK,
+      registration!.defaultSpec,
+    );
+    expect(valid.fallbackUsed).toBe(false);
+    expect(valid.session.validatedSpec).toEqual(registration!.defaultSpec);
+
+    const invalidSpec = openVisualizationSessionSafe(
+      VISUALIZATION_ID_CALL_STACK,
+      { bogus: true },
+    );
+    expect(invalidSpec.fallbackUsed).toBe(true);
+    expect(invalidSpec.session.validatedSpec).toEqual(
+      registration!.defaultSpec,
+    );
+    expect(invalidSpec.session.status).toBe("ready");
+
+    const versionMismatch = openVisualizationSessionSafe(
+      VISUALIZATION_ID_CALL_STACK,
+      { ...registration!.defaultSpec, visualizationVersion: 999 },
+    );
+    expect(versionMismatch.fallbackUsed).toBe(true);
+    expect(versionMismatch.session.validatedSpec).toEqual(
+      registration!.defaultSpec,
+    );
+  });
+
+  it("still rejects unknown visualizations in the safe entry", () => {
+    expect(() => openVisualizationSessionSafe("unknown", {})).toThrowError(
+      /未知可视化/,
+    );
+  });
+
+  it("throws a controlled REVISION_OVERFLOW error at the revision limit", () => {
+    const current = {
+      ...createDefaultVisualizationSession(VISUALIZATION_ID_CALL_STACK),
+      revision: 10_000,
+    };
+    let caught: unknown;
+    try {
+      applyVisualizationPatch(current, {
+        sessionId: current.sessionId,
+        visualizationId: current.visualizationId,
+        baseRevision: 10_000,
+        operations: [{ op: "set_focus", focus: "returns" }],
+      });
+    } catch (error) {
+      caught = error;
+    }
+    expect(caught).toBeInstanceOf(VisualizationRuntimeError);
+    expect((caught as VisualizationRuntimeError).code).toBe(
+      "REVISION_OVERFLOW",
+    );
+    expect((caught as VisualizationRuntimeError).message).toMatch(/上限/);
   });
 
   it("applies a matching patch and increments revision", () => {

@@ -146,6 +146,39 @@ describe("knowledge runtime", () => {
     );
   });
 
+  it("keeps generated navigation replies on the previous concept", () => {
+    const result = new KnowledgeIndex(chunks).retrieve("先看讲解", [
+      "ods-array-size-capacity",
+    ]);
+
+    expect(result.status).toBe("found");
+    expect(result.chunks[0]?.conceptId).toBe(
+      "ods-array-size-capacity",
+    );
+  });
+
+  it("does not surface the previous concept for an unrelated short query", () => {
+    const mixed = [
+      ...chunks,
+      chunk(
+        "cs408-graph-traversal",
+        "core",
+        "图遍历",
+        "图的广度优先遍历使用队列逐层访问顶点。",
+        "cs408-data-structures",
+      ),
+    ];
+    const result = new KnowledgeIndex(mixed).retrieve("图论怎么复习", [
+      "ods-array-size-capacity",
+    ]);
+
+    expect(
+      result.chunks.every(
+        (item) => item.conceptId !== "ods-array-size-capacity",
+      ),
+    ).toBe(true);
+  });
+
   it("limits retrieval to the active course scope", () => {
     const scopedChunks = [
       chunk(

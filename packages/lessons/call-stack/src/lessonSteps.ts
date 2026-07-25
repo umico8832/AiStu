@@ -129,7 +129,6 @@ export const lessonSteps: LessonStep[] = [
     id: "factorial-3-calls-factorial-2",
     stageLabel: "递归",
     title: "factorial(3) 调用 factorial(2)",
-    description: "调用者暂停，但它的现场仍完整保留。",
     activeCodeLines: [6],
     frames: [
       mainFrame("waiting", "未赋值"),

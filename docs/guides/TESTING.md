@@ -11,7 +11,7 @@
 | --- | --- | --- |
 | 类型与 lint | 跨包类型、未使用代码、React Hooks 与静态约束 | 全仓库 |
 | Vitest 纯逻辑 | Schema、检索、Tutor、session、patch、store、迁移 | `packages/**/test`、`apps/**/*.test.*` |
-| 组件测试 | 消息渲染、课件状态、workspace 几何与用户交互 | 邻近组件测试 |
+| 组件测试 | 消息渲染、课件状态、独立窗口内容与用户交互 | 邻近组件测试 |
 | Playwright Electron | 跨进程用户流程、窗口状态和 Renderer 安全 smoke | `e2e/` |
 | 构建 | Vite/Electron 生产构建与包依赖 | workspace scripts |
 | 打包 smoke | 知识快照、Fuses、asar、可执行文件与应用启动 | `scripts/` |
@@ -55,7 +55,7 @@ pnpm acceptance:mac
 | 对话、会话或持久化 | 全部 Vitest、相关 E2E、`build` |
 | IPC、Preload、Main 安全 | 全部基础质量门、相关 E2E、打包 smoke |
 | 课件 Schema 或步骤 | 课件模型/组件测试、注册表测试、`build`、人工教学检查 |
-| workspace、路由或焦点 | 相关 E2E、缩放与键盘人工检查 |
+| 课件窗口、路由或焦点 | 相关 E2E、全屏、缩放与键盘人工检查 |
 | 知识内容、快照或课程装配 | `test:knowledge`、`validate:knowledge`、`check:knowledge-snapshot`、课程 E2E、包验证 |
 | Electron 或打包配置 | `acceptance:mac` 与人工启动 |
 | 发布候选 | 完整质量门、全 E2E、知识同步、打包、smoke、人工黄金流程 |
@@ -104,6 +104,14 @@ pnpm acceptance:mac
 - 打包应用保持协议、Fuses 和知识快照完整。
 
 静态源码断言、Vitest、Playwright 和打包 smoke 应相互补充。
+
+### 安全边界分层说明
+
+- **Renderer 无 Node / 最小 Preload**：由 Playwright E2E 断言（`golden-flow.spec.ts`
+  中 `typeof require === "undefined"` 与 `window.kaleidoscope` 键集合检查）。
+- **Patch 生命周期（合法 patch、越界/过期 patch 拒绝）**：由 Vitest
+  单元测试完整覆盖（`visualization-runtime/test/runtime.test.ts`），不重复
+  在 Playwright 中构造。
 
 ## 6. 课件验证
 

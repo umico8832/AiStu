@@ -220,19 +220,14 @@ export function CourseMistakeReviewSection({
       className="kaleidoscope-prism-surface overflow-hidden rounded-[24px] border border-white/80 bg-white/72 p-5 shadow-[0_14px_38px_rgba(15,23,42,0.055)] backdrop-blur-xl"
     >
       <div className="flex flex-wrap items-start justify-between gap-3">
-        <div>
-          <div className="flex items-center gap-2 text-xs font-bold text-indigo-700">
-            <RotateCcw aria-hidden="true" className="size-4" />
-            <h3
-              id="course-mistake-review-title"
-              className="m-0 text-xs font-bold text-indigo-700"
-            >
-              错题与复盘
-            </h3>
-          </div>
-          <p className="m-0 mt-1 text-xs leading-5 text-slate-500">
-            自动收录做错的预测题与对话中的误解，随时可以复盘。
-          </p>
+        <div className="flex items-center gap-2 text-xs font-bold text-indigo-700">
+          <RotateCcw aria-hidden="true" className="size-4" />
+          <h3
+            id="course-mistake-review-title"
+            className="m-0 text-xs font-bold text-indigo-700"
+          >
+            错题与复盘
+          </h3>
         </div>
         {pendingCount > 0 ? (
           <span className="rounded-full border border-amber-200 bg-amber-50 px-2.5 py-1 text-xs font-bold text-amber-800">
@@ -345,10 +340,6 @@ export function CourseMistakeReviewSection({
           ))}
         </ul>
       )}
-
-      <p className="m-0 mt-4 text-[11px] leading-5 text-slate-400">
-        已复盘只表示回顾过，不代表掌握判定。
-      </p>
     </section>
   );
 }

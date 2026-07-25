@@ -72,12 +72,11 @@ test("wrong predictions are collected and auto-reviewed after a guided retry", a
       '[aria-label="可选互动课件：ArrayQueue 循环数组"]',
     );
     await expect(suggestion).toBeVisible();
+    const lessonWindowPromise = electronApp.waitForEvent("window");
     await suggestion.getByRole("button", { name: "打开课件" }).click();
 
-    const lesson = page.getByRole("dialog", {
-      name: /互动课件 · ArrayQueue 循环数组/u,
-    });
-    await expect(lesson).toBeVisible();
+    const lesson = await lessonWindowPromise;
+    await lesson.waitForLoadState("domcontentloaded");
     await lesson.getByRole("button", { name: "查看下一步" }).click();
     await expect(
       lesson.getByText("预测：逻辑位置 k=3 在哪个物理槽？"),
@@ -91,7 +90,7 @@ test("wrong predictions are collected and auto-reviewed after a guided retry", a
     await lesson
       .getByRole("button", { name: "关闭并返回对话" })
       .click();
-    await expect(lesson).toBeHidden();
+    await expect.poll(() => electronApp.windows().length).toBe(1);
     await expect(page.getByText("待复盘 1 题")).toBeVisible();
 
     await page.getByRole("button", { name: "商店" }).click();
@@ -118,7 +117,7 @@ test("wrong predictions are collected and auto-reviewed after a guided retry", a
       mistakeSection.getByText("a[1]", { exact: true }),
     ).toBeVisible();
     await course.screenshot({
-      path: "artifacts/mistake-review-course-page.png",
+      path: "output/screenshots/mistake-review-course-page.png"
     });
 
     await mistakeSection
@@ -147,27 +146,32 @@ test("wrong predictions are collected and auto-reviewed after a guided retry", a
       ),
     ).toBeVisible();
     await page.screenshot({
-      path: "artifacts/mistake-review-conversation.png",
+      path: "output/screenshots/mistake-review-conversation.png"
     });
+    const reviewLessonWindowPromise =
+      electronApp.waitForEvent("window");
     await reviewSuggestion
       .getByRole("button", { name: "打开课件" })
       .click();
 
-    await expect(lesson).toBeVisible();
-    await lesson.getByRole("button", { name: "查看下一步" }).click();
-    await lesson
+    const reviewLesson = await reviewLessonWindowPromise;
+    await reviewLesson.waitForLoadState("domcontentloaded");
+    await reviewLesson
+      .getByRole("button", { name: "查看下一步" })
+      .click();
+    await reviewLesson
       .getByRole("button", { name: "a[1]", exact: true })
       .click();
     await expect(
-      lesson.getByText("正确。(6+3) mod 8 = 1。"),
+      reviewLesson.getByText("正确。(6+3) mod 8 = 1。"),
     ).toBeVisible();
-    await lesson.screenshot({
-      path: "artifacts/mistake-review-retry-correct.png",
+    await reviewLesson.screenshot({
+      path: "output/screenshots/mistake-review-retry-correct.png"
     });
-    await lesson
+    await reviewLesson
       .getByRole("button", { name: "关闭并返回对话" })
       .click();
-    await expect(lesson).toBeHidden();
+    await expect.poll(() => electronApp.windows().length).toBe(1);
 
     await page.getByRole("button", { name: "商店" }).click();
     await store

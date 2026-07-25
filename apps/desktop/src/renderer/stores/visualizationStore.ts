@@ -9,10 +9,8 @@ import {
 } from "@kaleidoscope/lesson-call-stack";
 import {
   applyVisualizationPatch,
-  createDefaultVisualizationSession,
-  createVisualizationSession,
+  openVisualizationSessionSafe,
   validateRestoredVisualizationSession,
-  VisualizationRuntimeError,
   type VisualizationSession,
 } from "@kaleidoscope/visualization-runtime";
 import { create } from "zustand";
@@ -70,26 +68,17 @@ export const useVisualizationStore = create<VisualizationState>((set, get) => ({
     }
 
     try {
+      const opened = openVisualizationSessionSafe(
+        command.visualizationId,
+        command.spec,
+      );
       set({
-        activeSession: createVisualizationSession(
-          command.visualizationId,
-          command.spec,
-        ),
-        lastError: null,
+        activeSession: opened.session,
+        lastError: opened.fallbackUsed
+          ? "AI 场景参数未通过校验，已安全回退到默认课件。"
+          : null,
       });
     } catch (error) {
-      if (
-        error instanceof VisualizationRuntimeError &&
-        error.code !== "UNKNOWN_VISUALIZATION"
-      ) {
-        set({
-          activeSession: createDefaultVisualizationSession(
-            command.visualizationId,
-          ),
-          lastError: "AI 场景参数未通过校验，已安全回退到默认课件。",
-        });
-        return;
-      }
       set({
         lastError:
           error instanceof Error ? error.message : "无法打开可视化课件。",

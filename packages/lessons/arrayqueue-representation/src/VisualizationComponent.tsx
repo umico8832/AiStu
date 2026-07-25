@@ -2,7 +2,7 @@ import type { VisualizationInteractionEvent } from "@kaleidoscope/contracts";
 import { LessonFrame } from "@kaleidoscope/ui";
 import { CircleDotDashed, CornerDownRight } from "lucide-react";
 import { motion, MotionConfig } from "motion/react";
-import { useMemo, useState, type CSSProperties } from "react";
+import { useMemo, useRef, useState, type CSSProperties } from "react";
 import {
   arrayQueueRepresentationSessionSpecSchema,
   buildArrayQueueMappingSteps,
@@ -37,6 +37,11 @@ export function VisualizationComponent({
   const { capacity, headIndex, elements } = spec.scenario;
   const [prediction, setPrediction] = useState<number | null>(null);
   const [predictionRetryCount, setPredictionRetryCount] = useState(0);
+  // 同一 (sessionId, finalStep) 只上报一次完成事件；回退再走到末步不重复计数
+  const completionSentRef = useRef<{
+    sessionId: string;
+    finalStep: number;
+  } | null>(null);
   const physicalValues = Array.from(
     { length: capacity },
     (): string | null => null,
@@ -59,7 +64,12 @@ export function VisualizationComponent({
       stepId: nextStep.id,
       occurredAt: Date.now(),
     });
-    if (clamped === steps.length - 1) {
+    if (
+      clamped === steps.length - 1 &&
+      (completionSentRef.current?.sessionId !== sessionId ||
+        completionSentRef.current?.finalStep !== clamped)
+    ) {
+      completionSentRef.current = { sessionId, finalStep: clamped };
       onInteraction({
         type: "lesson_completed",
         sessionId,
