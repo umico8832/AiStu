@@ -24,7 +24,14 @@ describe("packaged knowledge snapshot", () => {
     expect(
       index.retrieve("KMP 怎样利用前缀函数避免文本指针回退？")
         .chunks[0]?.conceptId,
-    ).toBe("cs408-kmp-matching");
+    ).toBe("cs408-kmp-prefix-function");
+    const colloquialStackResult = index.retrieve("给我讲讲栈");
+    expect(colloquialStackResult.status).toBe("found");
+    expect(
+      colloquialStackResult.chunks.every((chunk) =>
+        chunk.conceptId.includes("stack"),
+      ),
+    ).toBe(true);
     expect(
       index.retrieve("Dijkstra 为什么不能处理负权边？")
         .chunks[0]?.conceptId,

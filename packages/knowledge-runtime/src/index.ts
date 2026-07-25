@@ -51,6 +51,78 @@ const QUERY_STOP_TOKENS = new Set([
   "不明",
   "明白",
   "解释",
+  // 比较框架词：本身不带主题，避免压过真正的主题词
+  "区别",
+  "不同",
+  "差别",
+  "对比",
+  // 单字停用词：过滤口语提问中的填充字，避免单字 unigram 造成偶然命中
+  "给",
+  "我",
+  "你",
+  "他",
+  "她",
+  "它",
+  "讲",
+  "说",
+  "吧",
+  "呢",
+  "啊",
+  "嘛",
+  "呀",
+  "的",
+  "了",
+  "着",
+  "过",
+  "和",
+  "与",
+  "及",
+  "或",
+  "又",
+  "也",
+  "都",
+  "就",
+  "还",
+  "在",
+  "从",
+  "向",
+  "对",
+  "把",
+  "被",
+  "让",
+  "很",
+  "最",
+  "更",
+  "没",
+  "有",
+  "个",
+  "们",
+  "是",
+  "为",
+  "什",
+  "么",
+  "怎",
+  "如",
+  "何",
+  "这",
+  "那",
+  "哪",
+  "些",
+  "否",
+  "然",
+  "后",
+  "所",
+  "以",
+  "请",
+  "问",
+  "到",
+  "底",
+  "不",
+  "明",
+  "白",
+  "解",
+  "释",
+  "按",
 ]);
 
 export function tokenizeKnowledgeText(input: string): string[] {
@@ -59,8 +131,11 @@ export function tokenizeKnowledgeText(input: string): string[] {
 
   for (const match of normalized.matchAll(HAN_PATTERN)) {
     const segment = match[0];
+    // 单字 token：保证「栈」「堆」等单字术语在口语化提问中也能命中
+    for (const char of segment) {
+      tokens.push(char);
+    }
     if (segment.length === 1) {
-      tokens.push(segment);
       continue;
     }
     for (let size = 2; size <= Math.min(3, segment.length); size += 1) {

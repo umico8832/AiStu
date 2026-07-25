@@ -81,6 +81,38 @@ describe("knowledge runtime", () => {
     expect(tokens).toContain("数组");
     expect(tokens).toContain("容量");
     expect(tokens).toContain("元素");
+    expect(tokens).toContain("数");
+    expect(tokens).toContain("量");
+  });
+
+  it("tokenizes single-character terms from colloquial queries", () => {
+    const tokens = tokenizeKnowledgeText("给我讲讲栈");
+    expect(tokens).toContain("栈");
+    expect(tokens).toContain("讲栈");
+  });
+
+  it("retrieves single-character concepts from colloquial queries", () => {
+    const stackChunks = [
+      chunk(
+        "cs408-stack-lifo",
+        "core",
+        "栈的后进先出特性",
+        "栈只允许在栈顶一端插入和删除，最后入栈的元素最先出栈。",
+        "cs408-data-structures",
+      ),
+      ...chunks,
+    ];
+    const result = new KnowledgeIndex(stackChunks).retrieve("给我讲讲栈");
+    expect(result.status).toBe("found");
+    expect(result.chunks[0]?.conceptId).toBe("cs408-stack-lifo");
+  });
+
+  it("keeps uncovered single-character topics ungrounded", () => {
+    const result = new KnowledgeIndex(chunks).retrieve("给我讲讲栈");
+    expect(result).toMatchObject({
+      status: "not_found",
+      chunks: [],
+    });
   });
 
   it("retrieves core evidence for the strongest concept", () => {
