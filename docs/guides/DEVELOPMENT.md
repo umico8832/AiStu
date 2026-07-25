@@ -54,10 +54,12 @@ Main 使用受控参数调用本机 Codex CLI。Renderer 不能指定命令、�
 
 | 环境变量 | 用途 |
 | --- | --- |
-| `KALEIDOSCOPE_CODEX_PATH` | Codex 可执行文件不在应用 PATH 时显式指定 |
+| `KALEIDOSCOPE_CODEX_PATH` | 覆盖自动解析结果，显式指定 Codex 可执行文件 |
 | `KALEIDOSCOPE_CODEX_TIMEOUT_MS` | 请求超时，运行时限制在 15–600 秒 |
 
-从终端启动应用时可使用：
+Main 会先检查当前进程的 `PATH`；macOS 图形界面启动未继承终端 `PATH` 时，还会通过
+受限的登录 shell，以及已安装 ChatGPT 应用的 bundle ID 查询 Codex 的实际路径。
+仍可用以下方式显式覆盖自动解析结果：
 
 ```bash
 KALEIDOSCOPE_CODEX_PATH="$(command -v codex)" pnpm dev
