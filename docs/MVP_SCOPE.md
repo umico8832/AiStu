@@ -51,11 +51,10 @@
 - 会话、流式生成、可视化和应用 UI 状态分离；
 - AI 文本与结构化 TutorCommand 分离；
 - 受限 Markdown 展示，不执行模型提供的 HTML；
-- 开发期 Codex CLI Provider、确定性 Demo Provider，以及不耦合 UI 的 Provider
-  抽象。
-
-正式付费 Provider 的目标是 DeepSeek API，但不阻塞本阶段交付，也不能改变
-Renderer 与 TutorCommand 协议。
+- DeepSeek API Provider、本机 Codex CLI Provider、确定性 Demo Provider，以及
+  不耦合 UI 的 Provider 抽象；
+- DeepSeek Key 只通过项目根目录 `.env` 或启动环境进入 Main，不进入 Renderer、
+  应用持久化数据或日志。
 
 ### 3.3 知识检索与课程学习
 

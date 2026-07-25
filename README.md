@@ -1,46 +1,165 @@
 # Kaleidoscope
 
-Kaleidoscope 是面向计算机学习的桌面端 AI 教学环境。它把对话诊断、受审核知识、
-结构化互动课件和学习事件放进同一条教学流程，而不是只输出一段长答案。
+> 把“好像懂了”，变成真正看得见、能操作、可验证的理解。
+
+Kaleidoscope 是面向计算机学习的桌面端 AI 教学环境。它不只回答问题，而是先定位
+学习者卡住的环节，再从可靠知识、不同解释视角和经过审查的互动课件中组织一条
+教学路径，让预测、错误与重试成为后续教学的依据。
+
+![Kaleidoscope 对话首页](artifacts/conversation-empty-state.png)
+
+## 为什么做 Kaleidoscope
+
+这个项目始于一个真实的学生问题：学习计算机网络、计算机组成原理和数据结构时，
+书上的定义往往是正确的，但状态变化、执行顺序和抽象结构仅靠文字很难形成稳定的
+心智模型。
+
+普通聊天式 AI 可以快速生成一段答案，却仍然存在三个缺口：
+
+- 同一个问题被反复重新回答，高质量解释和教学设计难以复用；
+- 用户是否真的理解，通常只能靠一句“懂了”判断；
+- 抽象过程缺少可操作的呈现，预测、错误和重试也很少进入下一轮教学。
+
+Kaleidoscope 把一次问答改造成一条完整教学闭环：
 
 ```text
-提出困惑
-→ AI 检索知识并选择已注册课件
-→ 对话中显示课件建议
-→ 用户确认后打开课件
-→ 完成预测或操作
-→ 结构化结果回到同一对话
+提出具体困惑
+→ AI 诊断卡点并检索可靠知识
+→ 选择解释视角与已注册课件
+→ 用户确认后观察、预测或操作
+→ 记录结构化学习证据
+→ 回到同一对话继续纠错、迁移与复盘
 ```
 
-AI 不生成或执行新的页面源码。课件来自本地静态注册表，场景参数与增量补丁必须
-通过 Zod 校验；任意时刻只存在一个活动可视化 session。
+## 核心能力
 
-## 当前状态
+| 能力 | 当前实现 |
+| --- | --- |
+| AI 对话诊断 | 多会话、流式回答、停止、重试、快捷引导和本地持久化 |
+| 可靠知识检索 | Main-only 本地检索、可验证引用、无匹配时明确降级 |
+| 多视角教学 | 定义、直觉、流程、对比、做题、易错和可视化等受约束视角 |
+| 互动课件 | 10 项已完成独立教学审查的课件，支持步骤、预测、重试和 reduced-motion |
+| 学习证据 | 记录有效学习时长、知识接触、课件完成、预测结果、错题与跨会话复盘 |
+| 课程学习 | 408 数据结构 7 个模块、122 个原子知识点、搜索、专项会话和思维导图 |
+| 社区共建 | 知识讨论、题库投稿、学校分区、来源记录和审核状态 |
+| 桌面运行时 | Electron 主对话窗口与独立课件窗口，保持会话、草稿和学习状态连续 |
 
-项目处于黑客松交付阶段，核心桌面闭环已经实现，最终 GitHub Release 与演示视频
-仍待完成。当前工作树包括：
+## 不只是“聊天框 + 动画”
 
-- Electron 主对话窗口、独立全屏课件窗口与安全的 Main / Preload / Renderer 分层；
-- 多会话 AI 对话、流式状态、停止、重试和本地持久化；
-- 仓库内长期知识资产、Main-only 本地检索、可验证引用与 676-chunk 打包快照；
-- 408 数据结构课程页、专项学习范围、课程起步引导与思维导图；
-- 按真实参与、知识接触和课件互动记录的课程学习足迹；
-- 10 个已完成独立教学审查的注册课件；
-- 用户确认门槛、单一活动课件、受限 patch 和结构化交互回流；
-- 本地社区投稿、审核与全国考试目录；
-- macOS arm64 构建、打包和启动验证流程。
+| 普通聊天式 AI | Kaleidoscope |
+| --- | --- |
+| 每次重新生成一段答案 | 复用稳定知识、解释视角和经过审查的课件 |
+| 长文看完即结束 | 通过预测、操作、纠错和复盘继续教学 |
+| 页面或动画只是展示 | 可视化承担状态变化、流程和理解检测 |
+| AI 可以自由组织输出 | AI 只能选择注册资源并生成通过 Schema 的受限数据 |
+| “看过”容易被当作“学会” | 学习足迹只记录真实参与、知识接触和练习证据 |
+| 社区内容与事实容易混合 | 标准知识、社区贡献、用户状态和会话状态分域保存 |
 
-准确的完成项、待办和最近验证记录以
-[`docs/ROADMAP.md`](docs/ROADMAP.md) 为准。
+## 万花筒：同一知识，不同观察角度
+
+Kaleidoscope 不改变知识事实本身，而是根据学习者的目标和困惑，重新排列观察知识的
+角度、顺序和交互方式：
+
+```text
+稳定知识碎片
+      ↓
+定义 · 直觉 · 流程 · 对比 · 做题 · 易错 · 可视化
+      ↓
+AI 根据当前困惑选择与编排
+      ↓
+形成一条可操作、可验证、可继续的个人学习路径
+```
+
+万花筒里的材料没有消失，真正发生变化的是材料之间的关系与观察方式。
+
+## 产品画面
+
+### 从真实困惑开始
+
+AI 先用具体例子定位卡点，再通过少量可直接点击的选项推动学习，而不是一次输出整章
+内容。
+
+![专项学习中的 AI 引导](artifacts/tutor-guided-learning.png)
+
+### 把抽象过程变成可操作课件
+
+课件以独立桌面窗口运行。用户可以推进步骤、观察状态映射、完成预测，并随时返回原
+对话。
+
+![ArrayQueue 循环数组互动课件](artifacts/arrayqueue-representation-lesson.png)
+
+### 从课程目录进入知识结构
+
+408 数据结构课程提供模块导航、标准定义、搜索、思维导图和专项学习入口。
+
+![408 数据结构课程思维导图](artifacts/course-mind-map.png)
+
+### 让学习经验成为可追溯的共建内容
+
+学习者可以围绕知识点发起讨论或投稿题库；社区内容保留来源和审核状态，不会自动
+改写标准知识库。
+
+![Kaleidoscope 社区共建](artifacts/community-408-module.png)
+
+## 当前规模
+
+- 10 项注册互动课件：递归调用栈、ArrayStack、ArrayQueue、DualArrayDeque、
+  二叉树遍历、图遍历、折半查找、AVL 旋转、KMP 和快速排序划分；
+- 408 数据结构 7 个模块、122 个原子知识点；
+- 676 个可打包、可校验的本地知识 chunks；
+- 调用栈的 7 个注册学习视角；
+- 全国 8 类考试与对应科目目录；
+- 多会话、课程专项、学习足迹、错题记录和跨会话复盘；
+- macOS arm64 `.app`、`.dmg` 与 `.zip` 构建和验收流程。
+
+## 运行模型
+
+Kaleidoscope 不执行 AI 临时生成的 React、JavaScript、HTML 或 CSS。当前教学场景由
+三部分组成：
+
+```text
+已审查的本地 React 课件
++ 经过 Zod 校验的场景数据或受限补丁
++ 当前会话中的学习上下文
+= 可控、可复用的互动教学场景
+```
+
+任意时刻只有一个活动课件。AI 首先在对话中提出建议，只有用户明确确认后才会打开；
+相同课件可以受限更新，不同课件会原子替换。
+
+## 架构
+
+```mermaid
+flowchart LR
+    U["学习者"] --> R["Renderer：对话、课程与课件"]
+    R --> P["Preload：最小领域 API"]
+    P --> M["Main：安全与数据边界"]
+    M --> K["Knowledge Service"]
+    K --> S["本地知识快照"]
+    M --> A["AI Provider"]
+    R --> V["Visualization Runtime"]
+    V --> L["已注册互动课件"]
+    L --> E["结构化学习事件"]
+    E --> R
+```
+
+- Main 管理窗口、安全策略、AI Provider、知识文件、持久化与 IPC；
+- Preload 只暴露最小、强类型的领域 API；
+- Renderer 只负责 React UI 和可序列化状态；
+- 跨进程输入、AI 命令、课件场景和学习事件均经过共享 Schema 校验；
+- Electron 保持 `nodeIntegration: false`、`contextIsolation: true` 和
+  `sandbox: true`。
+
+完整技术边界见 [系统架构](docs/ARCHITECTURE.md)。
 
 ## 快速开始
 
-要求：
+### 环境要求
 
-- Node.js `22.21.0` 或 `24.14+`；
-- pnpm `11.9.0`；
-- 使用默认 AI Provider 时，本机已安装并登录 Codex CLI。
-- 维护知识库时使用 Python 3，并先运行一次 `pnpm setup:knowledge`。
+- Node.js `22.21.0` 或 `24.14+`
+- pnpm `11.9.0`
+
+### 启动开发应用
 
 ```bash
 pnpm install
@@ -48,41 +167,58 @@ cp .env.example .env
 pnpm dev
 ```
 
-默认开发模式复用本机 Codex CLI。离线、确定性的演示模式：
+只需在项目根目录的 `.env` 中填入 DeepSeek API Key：
+
+```dotenv
+KALEIDOSCOPE_AI_PROVIDER=deepseek
+DEEPSEEK_API_KEY=在这里填写你的_API_Key
+DEEPSEEK_MODEL=deepseek-v4-flash
+```
+
+密钥只由 Electron Main 读取，不会进入 Renderer、应用持久化数据或 Git。需要更高
+质量时可将模型改为 `deepseek-v4-pro`；本地已经登录 Codex CLI 时也可以把 Provider
+改为 `codex`。
+
+### 离线演示模式
+
+无需外部模型或网络即可复现确定性的黄金教学流程：
 
 ```bash
 KALEIDOSCOPE_AI_PROVIDER=demo pnpm dev
 ```
 
-标准知识库及其可复现来源、authoring、审查和流水线都保存在仓库内的
-`content/ods-material/`。开发环境直接读取这份长期资产；也可以通过
-`KALEIDOSCOPE_KNOWLEDGE_BASE_PATH` 临时覆盖。发布包只读取从它同步并校验过的运行时
-快照，不依赖任何仓库外目录。
+知识库及其固定来源、authoring、审查和可复现流水线保存在
+`content/ods-material/`；发布包只携带经过同步与校验的运行时快照。
 
-更完整的环境、Provider 与开发流程见
-[`docs/guides/DEVELOPMENT.md`](docs/guides/DEVELOPMENT.md)。
+## 质量与发布
 
-## 常用命令
+常规质量门：
 
-| 命令 | 用途 |
-| --- | --- |
-| `pnpm dev` | 启动 Electron 开发应用 |
-| `pnpm typecheck` | 检查 workspace TypeScript |
-| `pnpm lint` | 运行 ESLint |
-| `pnpm docs:check` | 检查 Markdown 标题、代码块与本地链接 |
-| `pnpm test` | 运行 Vitest |
-| `pnpm test:e2e` | 运行 Electron Playwright 流程 |
-| `pnpm build` | 构建所有可构建包 |
-| `pnpm setup:knowledge` | 创建知识维护环境并安装固定依赖 |
-| `pnpm test:knowledge` | 运行标准知识库流水线测试 |
-| `pnpm validate:knowledge` | 验证知识内容、关系与派生产物 |
-| `pnpm sync:knowledge` | 刷新打包知识快照 |
-| `pnpm check:knowledge-snapshot` | 检查快照是否与权威知识域同步 |
-| `pnpm acceptance:mac` | 运行 macOS 集成验收 |
+```bash
+pnpm typecheck
+pnpm lint
+pnpm docs:check
+pnpm test
+pnpm test:e2e
+pnpm build
+```
 
-测试选择与发布步骤分别见
-[`docs/guides/TESTING.md`](docs/guides/TESTING.md) 和
-[`docs/guides/RELEASE.md`](docs/guides/RELEASE.md)。
+macOS 完整验收：
+
+```bash
+pnpm acceptance:mac
+```
+
+该流程覆盖知识校验、文档、类型、lint、Vitest、Electron Playwright、macOS
+打包、包完整性和启动 smoke。详细步骤见
+[测试指南](docs/guides/TESTING.md)与[发布指南](docs/guides/RELEASE.md)。
+
+## 项目状态
+
+核心桌面教学闭环、DeepSeek Provider 与最终演示视频已经完成。当前处于黑客松
+`0.1.0` 发布候选阶段，剩余工作集中在发布包复验和 GitHub Release。
+
+准确的完成度、风险和最近验证记录以[当前路线图](docs/ROADMAP.md)为准。
 
 ## 仓库结构
 
@@ -91,25 +227,21 @@ apps/desktop/                   Electron 主应用
 packages/contracts/             跨进程协议与 Zod Schema
 packages/knowledge-runtime/     本地知识检索纯逻辑
 packages/tutor-runtime/         Tutor 命令与教学编排
-packages/visualization-runtime/ 课件注册、session 与 patch 运行时
+packages/visualization-runtime/ 注册表、session 与 patch 运行时
 packages/lessons/               已注册 React 课件
 packages/ui/                    共享 UI 原语
-content/ods-material/            标准知识库、可复现来源、审查与维护流水线
+content/ods-material/            标准知识、来源、审查与维护流水线
 docs/                           产品、架构、开发和交付文档
 e2e/                            Electron Playwright 场景
 scripts/                        快照、打包和验收脚本
 ```
 
-## 文档入口
+## 文档
 
-- [文档中心与阅读路径](docs/README.md)
 - [产品方向](docs/PRODUCT_DIRECTION.md)
 - [当前 MVP 范围](docs/MVP_SCOPE.md)
 - [系统架构](docs/ARCHITECTURE.md)
 - [当前路线图](docs/ROADMAP.md)
-- [开发指南](docs/guides/DEVELOPMENT.md)
 - [课件开发指南](docs/guides/LESSON_DEVELOPMENT.md)
 - [标准知识库指南](content/ods-material/knowledge_base/README.md)
-
-Agent 在本仓库工作前还必须阅读 [AGENTS.md](AGENTS.md)。未经用户当前任务明确许可，
-不得自动提交或推送。
+- [黑客松赛道映射](docs/delivery/TRACK_MAPPING.md)

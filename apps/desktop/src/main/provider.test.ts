@@ -5,12 +5,18 @@ import {
   type ChatStreamEvent,
   type KnowledgeRetrievalContext,
 } from "@kaleidoscope/contracts";
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it } from "vitest";
 import {
   chunkPauseMs,
   chunkTutorText,
+  createTutorProvider,
+  DeepSeekTutorProvider,
   DemoTutorProvider,
 } from "./provider";
+
+afterEach(() => {
+  delete process.env.KALEIDOSCOPE_AI_PROVIDER;
+});
 
 describe("chunkTutorText", () => {
   it("preserves Markdown structure while splitting streamed text", () => {
@@ -155,5 +161,12 @@ describe("demo tutor provider", () => {
       events.filter((event) => event.type === "command"),
     ).toHaveLength(0);
     expect(events.at(-1)?.type).toBe("completed");
+  });
+});
+
+describe("provider selection", () => {
+  it("selects DeepSeek from the environment without exposing credentials", () => {
+    process.env.KALEIDOSCOPE_AI_PROVIDER = "deepseek";
+    expect(createTutorProvider()).toBeInstanceOf(DeepSeekTutorProvider);
   });
 });

@@ -15,7 +15,8 @@
 | pnpm | `11.9.0` |
 | Python | Python 3，仅维护或验证标准知识库时需要 |
 | 系统 | 当前开发与发布基线为 macOS arm64 |
-| Codex CLI | 使用默认 Provider 时需要安装并登录 |
+| DeepSeek API Key | 使用默认 Provider 时在项目根目录 `.env` 中配置 |
+| Codex CLI | 仅使用本机 Codex Provider 时需要安装并登录 |
 
 仓库同时允许经过验证的 Node.js 24.14.x 工具运行时，但日常开发与复现问题优先使用
 `.node-version` 中的 22.21.0。
@@ -42,7 +43,28 @@ pnpm dev
 
 ## 3. AI Provider
 
-### Codex CLI：默认开发模式
+### DeepSeek：默认开发模式
+
+复制 `.env.example` 后只需填写 Key：
+
+```dotenv
+KALEIDOSCOPE_AI_PROVIDER=deepseek
+DEEPSEEK_API_KEY=在这里填写你的_API_Key
+DEEPSEEK_MODEL=deepseek-v4-flash
+```
+
+可选配置：
+
+| 环境变量 | 用途 |
+| --- | --- |
+| `DEEPSEEK_MODEL` | `deepseek-v4-flash` 或 `deepseek-v4-pro` |
+| `DEEPSEEK_TIMEOUT_MS` | 请求超时，运行时限制在 15–300 秒 |
+
+`.env` 已被 Git 忽略。DeepSeek Key 只进入 Main，不通过 Preload、IPC、Renderer、
+应用持久化或日志传播。模型返回的 JSON 仍经过 Tutor Schema、注册课件 allowlist
+和知识引用 allowlist 校验。
+
+### Codex CLI：本机开发模式
 
 ```bash
 KALEIDOSCOPE_AI_PROVIDER=codex pnpm dev
@@ -73,9 +95,9 @@ KALEIDOSCOPE_AI_PROVIDER=demo pnpm dev
 
 Demo Provider 用于截图、稳定 E2E 和不依赖网络的演示。它不能作为真实模型质量证明。
 
-### 未来 Provider
+### 新增其他 Provider
 
-正式 DeepSeek API 尚未接入。新增 Provider 必须：
+新增 Provider 必须：
 
 - 实现在 Main；
 - 复用统一流事件与 TutorCommand；

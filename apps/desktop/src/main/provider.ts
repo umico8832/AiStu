@@ -11,9 +11,10 @@ import {
   ensureGuidedReplies,
 } from "@kaleidoscope/tutor-runtime";
 import { runCodexTutor } from "./codex-provider";
+import { runDeepSeekTutor } from "./deepseek-provider";
 
 export interface TutorProvider {
-  readonly name: "demo" | "codex";
+  readonly name: "demo" | "codex" | "deepseek";
   stream(
     input: ChatSendInput,
     knowledge: KnowledgeRetrievalContext,
@@ -185,10 +186,67 @@ export class CodexTutorProvider implements TutorProvider {
   }
 }
 
+export class DeepSeekTutorProvider implements TutorProvider {
+  readonly name = "deepseek" as const;
+
+  async stream(
+    input: ChatSendInput,
+    knowledge: KnowledgeRetrievalContext,
+    signal: AbortSignal,
+    emit: (event: ChatStreamEvent) => void,
+  ): Promise<void> {
+    const plan = ensureGuidedReplies(
+      await runDeepSeekTutor(
+        input.messages,
+        input.activeVisualization,
+        input.studyScope,
+        input.studyProfile,
+        input.reviewFocus,
+        knowledge,
+        signal,
+      ),
+      input.messages,
+    );
+    for (const chunk of chunkTutorText(plan.text)) {
+      if (signal.aborted) {
+        throw abortError();
+      }
+      await delay(chunkPauseMs(chunk), signal);
+      emit(eventFor(input.requestId, { type: "delta", delta: chunk }));
+    }
+    if (plan.command) {
+      emit(
+        eventFor(input.requestId, {
+          type: "command",
+          command: plan.command,
+        }),
+      );
+    }
+    if (plan.misconception) {
+      emit(
+        eventFor(input.requestId, {
+          type: "command",
+          command: plan.misconception,
+        }),
+      );
+    }
+    emit(
+      eventFor(input.requestId, {
+        type: "completed",
+        grounding: plan.grounding,
+        suggestedReplies: plan.suggestedReplies,
+      }),
+    );
+  }
+}
+
 export function createTutorProvider(): TutorProvider {
   const requested = process.env.KALEIDOSCOPE_AI_PROVIDER ?? "codex";
   if (requested === "demo") {
     return new DemoTutorProvider();
+  }
+  if (requested === "deepseek") {
+    return new DeepSeekTutorProvider();
   }
   return new CodexTutorProvider();
 }

@@ -735,11 +735,18 @@ const streamEventBase = {
   occurredAt: z.number().int().nonnegative(),
 };
 
+export const tutorProviderIdSchema = z.enum([
+  "demo",
+  "codex",
+  "deepseek",
+]);
+export type TutorProviderId = z.infer<typeof tutorProviderIdSchema>;
+
 export const chatStreamEventSchema = z.discriminatedUnion("type", [
   z.object({
     ...streamEventBase,
     type: z.literal("started"),
-    provider: z.enum(["demo", "codex"]),
+    provider: tutorProviderIdSchema,
   }).strict(),
   z.object({
     ...streamEventBase,

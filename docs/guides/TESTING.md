@@ -135,7 +135,7 @@ pnpm acceptance:mac
 发布前至少人工检查：
 
 - 全新用户数据目录；
-- Codex 与 Demo 两种 Provider 的预期行为；
+- DeepSeek、Codex 与 Demo 三种 Provider 的预期行为；
 - 窄窗口、常规窗口和缩放；
 - 键盘导航、焦点返回和 Escape；
 - reduced-motion；

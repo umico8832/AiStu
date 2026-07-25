@@ -5,6 +5,7 @@ import type {
   PersistedAppStateV2,
   PersistedConversationV2,
   PersistedVisualizationSession,
+  TutorProviderId,
 } from "@kaleidoscope/contracts";
 import { create } from "zustand";
 
@@ -17,7 +18,7 @@ interface ConversationState {
   activeConversationId: string;
   conversations: PersistedConversationV2[];
   streaming: StreamingState | null;
-  provider: "demo" | "codex" | null;
+  provider: TutorProviderId | null;
   lastError: string | null;
   hydrated: boolean;
   hydrate: (snapshot: PersistedAppStateV2 | null) => void;
@@ -28,7 +29,7 @@ interface ConversationState {
     requestId: string,
   ) => { userMessage: ConversationMessage; assistantMessageId: string };
   appendDelta: (requestId: string, delta: string) => void;
-  setProvider: (requestId: string, provider: "demo" | "codex") => void;
+  setProvider: (requestId: string, provider: TutorProviderId) => void;
   complete: (
     requestId: string,
     grounding: AssistantGrounding,

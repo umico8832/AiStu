@@ -443,7 +443,15 @@ start → delta* → command* → complete
                          ↘ error / cancelled
 ```
 
-当前开发默认使用受控 Codex CLI：
+当前正式网络 Provider 是 DeepSeek API：
+
+- 项目根目录 `.env` 只由构建与 Main 进程读取；
+- Key 不通过 Preload、IPC 或持久化进入 Renderer；
+- 使用官方 OpenAI 兼容 Chat Completions 接口和 JSON Output；
+- 模型输出仍需经过 Tutor Zod Schema、注册课件 allowlist 和知识引用 allowlist；
+- 取消、超时、认证、余额、限流与服务错误统一映射为应用流事件。
+
+本地开发仍可使用受控 Codex CLI：
 
 - 固定参数与空临时目录；
 - ephemeral、只读 sandbox；
@@ -452,8 +460,8 @@ start → delta* → command* → complete
 - 不继承完整 Main 环境；
 - 输出必须符合 Tutor JSON Schema，再经过 Zod 与引用 allowlist。
 
-Demo Provider 用于确定性测试。未来 DeepSeek Provider 必须复用同一协议，Renderer
-不能感知厂商原始事件或密钥。
+Demo Provider 用于确定性测试。三个 Provider 复用同一协议，Renderer 不能感知
+厂商原始事件或密钥。
 
 ## 12. 安全模型
 
