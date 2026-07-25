@@ -24,7 +24,7 @@ test("408 course exposes the complete syllabus and starts a concept lesson", asy
     const store = page.getByRole("main", { name: "专项学习商店" });
     await store
       .getByRole("button", {
-        name: "进入计算机考研 408",
+        name: "进入 408 计算机学科专业基础",
       })
       .click();
     await expect(
@@ -174,7 +174,7 @@ test("408 course exposes the complete syllabus and starts a concept lesson", asy
     });
     await reopenedStore
       .getByRole("button", {
-        name: "进入计算机考研 408",
+        name: "进入 408 计算机学科专业基础",
       })
       .click();
     await reopenedStore
@@ -207,7 +207,7 @@ test("408 course exposes the complete syllabus and starts a concept lesson", asy
     await page.getByRole("button", { name: "商店" }).click();
     await reopenedStore
       .getByRole("button", {
-        name: "进入计算机考研 408",
+        name: "进入 408 计算机学科专业基础",
       })
       .click();
     await reopenedStore

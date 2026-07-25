@@ -8,11 +8,11 @@ export const EXAM_MODULES: CommunityExamModule[] =
   communityExamCatalogSchema.parse([
     {
       id: "computer-science-408",
-      title: "计算机考研 408",
+      title: "408 计算机学科专业基础",
       shortTitle: "408",
       category: "全国硕士研究生招生考试",
       description:
-        "四门专业基础课统一归入一个备考模块；数据结构已接入第一方课程，其余科目先开放社区共建。",
+        "考试涵盖数据结构、计算机组成原理、操作系统和计算机网络。当前可从数据结构开始，按考纲学习核心概念与互动课件。",
       authorityLabel: "教育部统一命题科目",
       subjectLabel: "科目",
       subjects: [
@@ -48,7 +48,7 @@ export const EXAM_MODULES: CommunityExamModule[] =
       shortTitle: "高考",
       category: "国家教育考试",
       description:
-        "高考数学优先开放，同时覆盖语文、英语和主要选考科目；实际选科与试卷范围以当年地区方案为准。",
+        "汇集语文、数学、英语与物理、化学、生物、政治、历史、地理科目课程，围绕核心考点梳理知识框架。",
       authorityLabel: "教育部教育考试院",
       subjectLabel: "科目",
       subjects: [
@@ -114,7 +114,7 @@ export const EXAM_MODULES: CommunityExamModule[] =
       shortTitle: "考研公共课",
       category: "全国硕士研究生招生考试",
       description:
-        "按政治、英语和数学卷种组织经验与复习资料，专业适用范围以招生单位当年目录为准。",
+        "汇集思想政治理论、英语（一）（二）与数学（一）（二）（三）课程，按卷种组织复习讲解与练习。",
       authorityLabel: "教育部教育考试院",
       subjectLabel: "科目",
       subjects: [
@@ -162,7 +162,7 @@ export const EXAM_MODULES: CommunityExamModule[] =
       shortTitle: "CET",
       category: "全国教育考试",
       description:
-        "围绕听力、阅读、翻译和写作交流复习方法与易错点。",
+        "设置四级、六级两个级别课程，围绕听力、阅读、翻译与写作展开系统训练。",
       authorityLabel: "教育部教育考试院",
       subjectLabel: "级别",
       subjects: [
@@ -186,7 +186,7 @@ export const EXAM_MODULES: CommunityExamModule[] =
       shortTitle: "NCRE",
       category: "全国教育考试",
       description:
-        "先按考试级别建立入口，具体语言、数据库与网络科目跟随当次官方科目表维护。",
+        "设置一级到四级课程，从计算机基础与办公应用逐步进阶到程序设计与工程师级综合能力。",
       authorityLabel: "教育部教育考试院",
       subjectLabel: "级别",
       subjects: [
@@ -222,7 +222,7 @@ export const EXAM_MODULES: CommunityExamModule[] =
       shortTitle: "教师资格",
       category: "国家教育考试",
       description:
-        "按报考学段汇集综合素质、教育知识与学科能力经验，具体科目以官方考试大纲为准。",
+        "按幼儿园、小学、初中、高中四个学段设置课程，覆盖综合素质、教育知识与学科能力。",
       authorityLabel: "教育部教育考试院",
       subjectLabel: "类别",
       subjects: [
@@ -258,7 +258,7 @@ export const EXAM_MODULES: CommunityExamModule[] =
       shortTitle: "成人高考",
       category: "国家教育考试",
       description:
-        "按报考层次建立社区入口，实际专业科目与招生要求以当年官方公告为准。",
+        "按高起专、高起本、专升本三个报考层次设置课程，梳理公共科目与专业基础内容。",
       authorityLabel: "教育部教育考试院",
       subjectLabel: "报考层次",
       subjects: [
@@ -288,7 +288,7 @@ export const EXAM_MODULES: CommunityExamModule[] =
       shortTitle: "自学考试",
       category: "国家教育考试",
       description:
-        "按公共课、专业课和实践考核汇集方法；专业计划与开考安排以各地教育考试机构发布为准。",
+        "涵盖公共基础课、专业核心课、选修课与实践考核四类课程，支持按专业计划安排复习。",
       authorityLabel: "教育部教育考试院",
       subjectLabel: "类别",
       subjects: [

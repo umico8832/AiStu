@@ -16,8 +16,8 @@ describe("StorePage", () => {
     expect(markup).not.toContain("122 个知识点");
     expect(markup).not.toContain("返回全部考试");
     expect(markup).not.toContain('id="selected-store-module"');
-    expect(markup).toContain("进入计算机考研 408");
-    expect(markup).not.toContain("打开计算机考研 408课程");
+    expect(markup).toContain("进入 408 计算机学科专业基础");
+    expect(markup).not.toContain("打开408 计算机学科专业基础课程");
     expect(markup).toContain('aria-label="搜索考试或科目"');
 
     const moduleCardClasses = [
@@ -25,7 +25,7 @@ describe("StorePage", () => {
     ].map((match) => match[1]);
     const enterButtonClasses = [
       ...markup.matchAll(
-        /<button type="button" aria-label="进入[^"]+" class="([^"]+)"/gu,
+        /<button type="button" aria-label="进入 [^"]+" class="([^"]+)"/gu,
       ),
     ].map((match) => match[1]);
 

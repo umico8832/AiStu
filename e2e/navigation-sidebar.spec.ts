@@ -185,7 +185,7 @@ test("navigation sidebar expands labels to the right without moving icons", asyn
     const store = page.getByRole("main", { name: "专项学习商店" });
     await expect(
       store.getByRole("button", {
-        name: "进入计算机考研 408",
+        name: "进入 408 计算机学科专业基础",
       }),
     ).toBeVisible();
     await expect(store.locator("#selected-store-module")).toHaveCount(0);
@@ -195,7 +195,7 @@ test("navigation sidebar expands labels to the right without moving icons", asyn
     await store.screenshot({ path: "artifacts/store-page.png" });
 
     await store
-      .getByRole("heading", { name: "计算机考研 408" })
+      .getByRole("heading", { name: "408 计算机学科专业基础" })
       .click();
     await expect(store.locator("#selected-store-module")).toHaveCount(0);
 
@@ -204,11 +204,11 @@ test("navigation sidebar expands labels to the right without moving icons", asyn
     });
     await storeSearch.fill("高考数学");
     await expect(
-      store.getByRole("button", { name: "进入普通高考" }),
+      store.getByRole("button", { name: "进入 普通高考" }),
     ).toBeVisible();
     await expect(
       store.getByRole("button", {
-        name: "进入计算机考研 408",
+        name: "进入 408 计算机学科专业基础",
       }),
     ).toHaveCount(0);
     await expect(store.getByText("1 个匹配模块")).toBeVisible();
@@ -222,13 +222,13 @@ test("navigation sidebar expands labels to the right without moving icons", asyn
 
     await store
       .getByRole("button", {
-        name: "进入计算机考研 408",
+        name: "进入 408 计算机学科专业基础",
       })
       .click();
     const selectedStoreModule = store.locator("#selected-store-module");
     await expect(
       selectedStoreModule.getByRole("heading", {
-        name: "计算机考研 408",
+        name: "408 计算机学科专业基础",
       }),
     ).toBeFocused();
     for (const course of [
@@ -241,6 +241,23 @@ test("navigation sidebar expands labels to the right without moving icons", asyn
         selectedStoreModule.getByRole("heading", { name: course }),
       ).toBeVisible();
     }
+    await expect(
+      selectedStoreModule.getByRole("button", {
+        name: "添加到课程库",
+        exact: true,
+      }),
+    ).toHaveCount(3);
+    await selectedStoreModule
+      .getByRole("heading", { name: "408 计算机组成原理" })
+      .locator("..")
+      .getByRole("button", { name: "添加到课程库" })
+      .click();
+    await expect(
+      selectedStoreModule.getByRole("button", {
+        name: "已添加到课程库",
+        exact: true,
+      }),
+    ).toBeVisible();
     await selectedStoreModule.screenshot({
       path: "artifacts/store-408-module.png",
     });
@@ -252,7 +269,7 @@ test("navigation sidebar expands labels to the right without moving icons", asyn
       store.getByRole("heading", { name: "选择专项学习内容" }),
     ).toBeFocused();
     await store
-      .getByRole("button", { name: "进入普通高考" })
+      .getByRole("button", { name: "进入 普通高考" })
       .click();
     await expect(
       selectedStoreModule.getByRole("heading", {
@@ -266,7 +283,7 @@ test("navigation sidebar expands labels to the right without moving icons", asyn
     ).toBeVisible();
     await expect(
       selectedStoreModule.getByRole("button", {
-        name: "课程建设中",
+        name: "添加到课程库",
         exact: true,
       }),
     ).toHaveCount(9);
