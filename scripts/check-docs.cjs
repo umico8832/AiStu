@@ -5,10 +5,14 @@ const repositoryRoot = path.resolve(__dirname, "..");
 const ignoredDirectories = new Set([
   ".git",
   ".codex",
+  ".pytest_cache",
   ".venv",
+  "artifacts",
+  "coverage",
   "dist",
   "node_modules",
   "out",
+  "output",
   "release",
 ]);
 

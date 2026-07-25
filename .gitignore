@@ -13,3 +13,6 @@ __pycache__/
 .env.*
 !.env.example
 .qoder/
+.codex/
+.pytest_cache/
+output/
