@@ -72,6 +72,16 @@ export function chunkTutorText(text: string): string[] {
   return chunks.length > 0 ? chunks : [text];
 }
 
+const STREAM_PAUSE_SHORT_MS = 180;
+const STREAM_PAUSE_LONG_MS = 420;
+const sentenceBoundaryPattern = /[\n。！？；：]$/u;
+
+export function chunkPauseMs(chunk: string): number {
+  return sentenceBoundaryPattern.test(chunk)
+    ? STREAM_PAUSE_LONG_MS
+    : STREAM_PAUSE_SHORT_MS;
+}
+
 export class DemoTutorProvider implements TutorProvider {
   readonly name = "demo" as const;
 
@@ -87,6 +97,7 @@ export class DemoTutorProvider implements TutorProvider {
         input.activeVisualization,
         input.studyScope,
         input.studyProfile,
+        input.reviewFocus,
       ),
       input.messages,
     );
@@ -99,6 +110,14 @@ export class DemoTutorProvider implements TutorProvider {
         eventFor(input.requestId, {
           type: "command",
           command: plan.command,
+        }),
+      );
+    }
+    if (plan.misconception) {
+      emit(
+        eventFor(input.requestId, {
+          type: "command",
+          command: plan.misconception,
         }),
       );
     }
@@ -127,6 +146,7 @@ export class CodexTutorProvider implements TutorProvider {
         input.activeVisualization,
         input.studyScope,
         input.studyProfile,
+        input.reviewFocus,
         knowledge,
         signal,
       ),
@@ -136,6 +156,7 @@ export class CodexTutorProvider implements TutorProvider {
       if (signal.aborted) {
         throw abortError();
       }
+      await delay(chunkPauseMs(chunk), signal);
       emit(eventFor(input.requestId, { type: "delta", delta: chunk }));
     }
     if (plan.command) {
@@ -143,6 +164,14 @@ export class CodexTutorProvider implements TutorProvider {
         eventFor(input.requestId, {
           type: "command",
           command: plan.command,
+        }),
+      );
+    }
+    if (plan.misconception) {
+      emit(
+        eventFor(input.requestId, {
+          type: "command",
+          command: plan.misconception,
         }),
       );
     }

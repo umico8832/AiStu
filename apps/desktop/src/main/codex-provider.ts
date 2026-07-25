@@ -4,6 +4,7 @@ import type {
   ConversationMessage,
   CourseStudyProfile,
   KnowledgeRetrievalContext,
+  MistakeReviewFocus,
 } from "@kaleidoscope/contracts";
 import {
   buildCodexTutorOutputJsonSchema,
@@ -20,6 +21,7 @@ import {
 } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
+import { resolveCodexExecutable } from "./codex-executable";
 
 const DEFAULT_TIMEOUT_MS = 180_000;
 
@@ -61,10 +63,6 @@ function parseTimeout(): number {
     : DEFAULT_TIMEOUT_MS;
 }
 
-function codexExecutable(): string {
-  return process.env.KALEIDOSCOPE_CODEX_PATH?.trim() || "codex";
-}
-
 async function readOutput(
   outputPath: string,
   stdout: string,
@@ -84,6 +82,7 @@ export async function runCodexTutor(
   activeVisualization: ActiveVisualizationContext | null,
   studyScope: ConversationStudyScope | null,
   studyProfile: CourseStudyProfile | null,
+  reviewFocus: MistakeReviewFocus | null,
   knowledge: KnowledgeRetrievalContext,
   signal: AbortSignal,
 ): Promise<TutorPlan> {
@@ -106,8 +105,9 @@ export async function runCodexTutor(
       { encoding: "utf8", mode: 0o600 },
     );
 
+    const codexExecutable = await resolveCodexExecutable();
     const child = spawn(
-      codexExecutable(),
+      codexExecutable,
       [
         "exec",
         "--ephemeral",
@@ -186,6 +186,7 @@ export async function runCodexTutor(
         knowledge,
         studyScope,
         studyProfile,
+        reviewFocus,
       ),
     );
 
@@ -204,7 +205,7 @@ export async function runCodexTutor(
           : null;
       if (code === "ENOENT") {
         throw new Error(
-          "未找到本机 Codex CLI。请设置 KALEIDOSCOPE_CODEX_PATH，或从终端启动应用。",
+          "未找到本机 Codex CLI。请确认已安装，或设置 KALEIDOSCOPE_CODEX_PATH。",
           { cause: error },
         );
       }

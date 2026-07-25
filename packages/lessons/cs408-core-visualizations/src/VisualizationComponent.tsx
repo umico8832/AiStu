@@ -1175,6 +1175,12 @@ export function VisualizationComponent({
                             correct,
                             retryCount: predictionRetryCount,
                             occurredAt: Date.now(),
+                            prompt: prediction.question,
+                            chosenAnswer:
+                              prediction.options[index] ??
+                              `option-${index}`,
+                            correctAnswer:
+                              prediction.options[prediction.correct],
                           });
                           if (!correct) {
                             setPredictionRetryCount((count) => count + 1);

@@ -2,6 +2,7 @@ import {
   KNOWLEDGE_COURSE_ID_408_DATA_STRUCTURES,
   courseLearningRecordSchema,
   type CourseLearningRecord,
+  type CourseMistakeRecord,
   type KnowledgeCitation,
   type PersistedAppStateV2,
   type VisualizationInteractionEvent,
@@ -10,6 +11,14 @@ import { create } from "zustand";
 
 const MAX_RECORDED_DATES = 3_660;
 const MAX_RECORDED_CONVERSATIONS = 500;
+const MAX_MISTAKE_RECORDS = 100;
+
+export interface MisconceptionPayload {
+  topic: string;
+  learnerStatement: string;
+  correction: string;
+  conceptId: string | null;
+}
 
 interface CourseLearningState {
   records: CourseLearningRecord[];
@@ -45,6 +54,17 @@ interface CourseLearningState {
     conversationId: string,
     event: VisualizationInteractionEvent,
   ) => void;
+  recordMisconception: (
+    courseId: CourseLearningRecord["courseId"],
+    conversationId: string,
+    payload: MisconceptionPayload,
+    occurredAt?: number,
+  ) => void;
+  markMistakeReviewed: (
+    courseId: CourseLearningRecord["courseId"],
+    mistakeId: string,
+    occurredAt?: number,
+  ) => void;
 }
 
 function learningDate(occurredAt: number): string {
@@ -57,6 +77,99 @@ function learningDate(occurredAt: number): string {
 
 function uniqueRecent(values: string[], limit: number): string[] {
   return [...new Set(values)].slice(-limit);
+}
+
+function mistakeRecordsOf(record: CourseLearningRecord): CourseMistakeRecord[] {
+  return record.mistakeRecords ?? [];
+}
+
+function upsertPredictionMistake(
+  record: CourseLearningRecord,
+  conversationId: string,
+  event: Extract<
+    VisualizationInteractionEvent,
+    { type: "prediction_submitted" }
+  >,
+): CourseLearningRecord {
+  const mistakes = mistakeRecordsOf(record);
+  if (event.correct) {
+    const target = mistakes.find(
+      (mistake) =>
+        mistake.source === "prediction" &&
+        mistake.status === "pending" &&
+        mistake.visualizationId === event.visualizationId &&
+        mistake.pauseId === event.pauseId &&
+        mistake.sessionId !== event.sessionId,
+    );
+    if (!target) {
+      return record;
+    }
+    return {
+      ...record,
+      mistakeRecords: mistakes.map((mistake) =>
+        mistake.id === target.id
+          ? {
+              ...mistake,
+              status: "reviewed" as const,
+              reviewedAt: event.occurredAt,
+            }
+          : mistake,
+      ),
+    };
+  }
+
+  if (!event.prompt || !event.chosenAnswer || !event.correctAnswer) {
+    return record;
+  }
+
+  const snapshot = {
+    prompt: event.prompt,
+    chosenAnswer: event.chosenAnswer,
+    correctAnswer: event.correctAnswer,
+  };
+  const existing = mistakes.find(
+    (mistake) =>
+      mistake.source === "prediction" &&
+      mistake.visualizationId === event.visualizationId &&
+      mistake.pauseId === event.pauseId,
+  );
+  if (!existing) {
+    const created: CourseMistakeRecord = {
+      source: "prediction",
+      id: crypto.randomUUID(),
+      visualizationId: event.visualizationId,
+      pauseId: event.pauseId,
+      ...snapshot,
+      status: "pending",
+      occurrences: 1,
+      firstOccurredAt: event.occurredAt,
+      lastOccurredAt: event.occurredAt,
+      reviewedAt: null,
+      conversationId,
+      sessionId: event.sessionId,
+    };
+    return {
+      ...record,
+      mistakeRecords: [...mistakes, created].slice(-MAX_MISTAKE_RECORDS),
+    };
+  }
+  return {
+    ...record,
+    mistakeRecords: mistakes.map((mistake) =>
+      mistake.id === existing.id
+        ? {
+            ...mistake,
+            ...snapshot,
+            status: "pending" as const,
+            occurrences: Math.min(100, mistake.occurrences + 1),
+            lastOccurredAt: event.occurredAt,
+            reviewedAt: null,
+            conversationId,
+            sessionId: event.sessionId,
+          }
+        : mistake,
+    ),
+  };
 }
 
 function createRecord(
@@ -76,6 +189,7 @@ function createRecord(
     lessonCompletions: [],
     predictionAttempts: 0,
     correctPredictions: 0,
+    mistakeRecords: [],
   };
 }
 
@@ -148,7 +262,12 @@ export const useCourseLearningStore = create<CourseLearningState>(
     records: [],
 
     hydrate(snapshot) {
-      set({ records: snapshot?.courseLearningRecords ?? [] });
+      set({
+        records: (snapshot?.courseLearningRecords ?? []).map((record) => ({
+          ...record,
+          mistakeRecords: record.mistakeRecords ?? [],
+        })),
+      });
     },
 
     getRecord(courseId) {
@@ -278,12 +397,13 @@ export const useCourseLearningStore = create<CourseLearningState>(
           event.occurredAt,
           (record) => {
             if (event.type === "prediction_submitted") {
-              return {
+              const counted = {
                 ...record,
                 predictionAttempts: record.predictionAttempts + 1,
                 correctPredictions:
                   record.correctPredictions + (event.correct ? 1 : 0),
               };
+              return upsertPredictionMistake(counted, conversationId, event);
             }
             if (
               record.lessonCompletions.some(
@@ -305,6 +425,113 @@ export const useCourseLearningStore = create<CourseLearningState>(
             };
           },
         ),
+      }));
+    },
+
+    recordMisconception(
+      courseId,
+      conversationId,
+      payload,
+      occurredAt = Date.now(),
+    ) {
+      const topic = payload.topic.trim().slice(0, 120);
+      const learnerStatement = payload.learnerStatement
+        .trim()
+        .slice(0, 160);
+      const correction = payload.correction.trim().slice(0, 240);
+      if (!topic || !learnerStatement || !correction) {
+        return;
+      }
+      const normalizedTopic = topic
+        .replace(/\s+/gu, " ")
+        .toLowerCase();
+      set((state) => ({
+        records: updateRecord(
+          state.records,
+          courseId,
+          conversationId,
+          occurredAt,
+          (record) => {
+            const mistakes = mistakeRecordsOf(record);
+            const existing = mistakes.find(
+              (mistake) =>
+                mistake.source === "conversation" &&
+                mistake.topic.replace(/\s+/gu, " ").toLowerCase() ===
+                  normalizedTopic,
+            );
+            if (!existing) {
+              const created: CourseMistakeRecord = {
+                source: "conversation",
+                id: crypto.randomUUID(),
+                topic,
+                learnerStatement,
+                correction,
+                conceptId: payload.conceptId,
+                status: "pending",
+                occurrences: 1,
+                firstOccurredAt: occurredAt,
+                lastOccurredAt: occurredAt,
+                reviewedAt: null,
+                conversationId,
+              };
+              return {
+                ...record,
+                mistakeRecords: [...mistakes, created].slice(
+                  -MAX_MISTAKE_RECORDS,
+                ),
+              };
+            }
+            return {
+              ...record,
+              mistakeRecords: mistakes.map((mistake) =>
+                mistake.id === existing.id
+                  ? {
+                      ...mistake,
+                      learnerStatement,
+                      correction,
+                      conceptId: payload.conceptId,
+                      status: "pending" as const,
+                      occurrences: Math.min(100, mistake.occurrences + 1),
+                      lastOccurredAt: occurredAt,
+                      reviewedAt: null,
+                      conversationId,
+                    }
+                  : mistake,
+              ),
+            };
+          },
+        ),
+      }));
+    },
+
+    markMistakeReviewed(courseId, mistakeId, occurredAt = Date.now()) {
+      set((state) => ({
+        records: state.records.map((record) => {
+          if (record.courseId !== courseId) {
+            return record;
+          }
+          const mistakes = mistakeRecordsOf(record);
+          if (
+            !mistakes.some(
+              (mistake) =>
+                mistake.id === mistakeId && mistake.status === "pending",
+            )
+          ) {
+            return record;
+          }
+          return courseLearningRecordSchema.parse({
+            ...record,
+            mistakeRecords: mistakes.map((mistake) =>
+              mistake.id === mistakeId
+                ? {
+                    ...mistake,
+                    status: "reviewed" as const,
+                    reviewedAt: occurredAt,
+                  }
+                : mistake,
+            ),
+          });
+        }),
       }));
     },
   }),

@@ -204,6 +204,16 @@ export function CallStackLesson({
                 correct,
                 retryCount,
                 occurredAt: Date.now(),
+                prompt: activePrediction.prompt,
+                chosenAnswer:
+                  activePrediction.options.find(
+                    (option) => option.id === answerId,
+                  )?.label ?? answerId,
+                correctAnswer:
+                  activePrediction.options.find(
+                    (option) =>
+                      option.id === activePrediction.correctAnswerId,
+                  )?.label ?? activePrediction.correctAnswerId,
               })
             }
           />

@@ -1,9 +1,15 @@
-import type { CourseLearningRecord } from "@kaleidoscope/contracts";
+import type {
+  CourseLearningRecord,
+  CourseMistakeRecord,
+} from "@kaleidoscope/contracts";
 import {
   Award,
   BrainCircuit,
   Check,
+  MessageSquareQuote,
+  MonitorPlay,
   Presentation,
+  RotateCcw,
   Sparkles,
   Trophy,
   X,
@@ -90,14 +96,9 @@ export function CourseLearningSnapshot({
       }`}
     >
       <div className="flex flex-wrap items-start justify-between gap-3">
-        <div>
-          <div className="flex items-center gap-2 text-xs font-bold text-indigo-700">
-            <Sparkles aria-hidden="true" className="size-4" />
-            你的学习足迹
-          </div>
-          <p className="m-0 mt-1 text-xs leading-5 text-slate-500">
-            记录真实参与与课程覆盖，不把“看过”直接算作掌握。
-          </p>
+        <div className="flex items-center gap-2 text-xs font-bold text-indigo-700">
+          <Sparkles aria-hidden="true" className="size-4" />
+          你的学习足迹
         </div>
         <span className="rounded-full border border-amber-200 bg-amber-50 px-2.5 py-1 text-xs font-bold text-amber-800">
           {earned} / {achievements.length} 项成就
@@ -152,6 +153,10 @@ export function CourseLearningProgressTrigger({
   onClick: () => void;
   buttonRef: RefObject<HTMLButtonElement | null>;
 }) {
+  const pendingMistakes =
+    record?.mistakeRecords?.filter(
+      (mistake) => mistake.status === "pending",
+    ).length ?? 0;
   return (
     <button
       ref={buttonRef}
@@ -170,12 +175,181 @@ export function CourseLearningProgressTrigger({
           学习足迹
         </span>
         <span className="block text-xs font-bold tabular-nums text-slate-800">
-          {formatStudyDuration(record?.totalActiveSeconds ?? 0)}
-          <span className="mx-1 text-slate-300">·</span>
-          {record?.exploredConceptIds.length ?? 0} 个知识点
+          {pendingMistakes > 0 ? (
+            <>
+              <span className="text-amber-700">
+                待复盘 {pendingMistakes} 题
+              </span>
+              <span className="mx-1 text-slate-300">·</span>
+              {formatStudyDuration(record?.totalActiveSeconds ?? 0)}
+            </>
+          ) : (
+            <>
+              {formatStudyDuration(record?.totalActiveSeconds ?? 0)}
+              <span className="mx-1 text-slate-300">·</span>
+              {record?.exploredConceptIds.length ?? 0} 个知识点
+            </>
+          )}
         </span>
       </span>
     </button>
+  );
+}
+
+export function CourseMistakeReviewSection({
+  mistakes,
+  reviewDisabled = false,
+  onReviewMistake,
+  onMarkMistakeReviewed,
+}: {
+  mistakes: readonly CourseMistakeRecord[];
+  reviewDisabled?: boolean;
+  onReviewMistake: (mistake: CourseMistakeRecord) => void;
+  onMarkMistakeReviewed: (mistake: CourseMistakeRecord) => void;
+}) {
+  const sortedMistakes = [...mistakes].sort(
+    (left, right) => right.lastOccurredAt - left.lastOccurredAt,
+  );
+  const pendingCount = sortedMistakes.filter(
+    (mistake) => mistake.status === "pending",
+  ).length;
+
+  return (
+    <section
+      aria-labelledby="course-mistake-review-title"
+      className="kaleidoscope-prism-surface overflow-hidden rounded-[24px] border border-white/80 bg-white/72 p-5 shadow-[0_14px_38px_rgba(15,23,42,0.055)] backdrop-blur-xl"
+    >
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <div>
+          <div className="flex items-center gap-2 text-xs font-bold text-indigo-700">
+            <RotateCcw aria-hidden="true" className="size-4" />
+            <h3
+              id="course-mistake-review-title"
+              className="m-0 text-xs font-bold text-indigo-700"
+            >
+              错题与复盘
+            </h3>
+          </div>
+          <p className="m-0 mt-1 text-xs leading-5 text-slate-500">
+            自动收录做错的预测题与对话中的误解，随时可以复盘。
+          </p>
+        </div>
+        {pendingCount > 0 ? (
+          <span className="rounded-full border border-amber-200 bg-amber-50 px-2.5 py-1 text-xs font-bold text-amber-800">
+            待复盘 {pendingCount} 题
+          </span>
+        ) : null}
+      </div>
+
+      {sortedMistakes.length === 0 ? (
+        <p className="m-0 mt-4 rounded-2xl border border-dashed border-slate-200 bg-white/60 px-4 py-5 text-center text-xs leading-5 text-slate-400">
+          做课件预测题或对话中出现误解时会自动收录。
+        </p>
+      ) : (
+        <ul className="m-0 mt-4 list-none space-y-2 p-0">
+          {sortedMistakes.map((mistake) => (
+            <li
+              key={mistake.id}
+              className="rounded-2xl border border-slate-200/80 bg-white/75 px-4 py-3"
+            >
+              <div className="flex flex-wrap items-center gap-2">
+                <span
+                  className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-bold ${
+                    mistake.source === "prediction"
+                      ? "bg-violet-50 text-violet-700"
+                      : "bg-sky-50 text-sky-700"
+                  }`}
+                >
+                  {mistake.source === "prediction" ? (
+                    <MonitorPlay aria-hidden="true" className="size-3" />
+                  ) : (
+                    <MessageSquareQuote
+                      aria-hidden="true"
+                      className="size-3"
+                    />
+                  )}
+                  {mistake.source === "prediction"
+                    ? "课件预测"
+                    : "对话误解"}
+                </span>
+                <span
+                  className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-bold ${
+                    mistake.status === "pending"
+                      ? "bg-amber-50 text-amber-700"
+                      : "bg-emerald-50 text-emerald-700"
+                  }`}
+                >
+                  {mistake.status === "reviewed" ? (
+                    <Check aria-hidden="true" className="size-3" />
+                  ) : null}
+                  {mistake.status === "pending" ? "待复盘" : "已复盘"}
+                </span>
+                {mistake.occurrences > 1 ? (
+                  <span className="text-[10px] font-semibold text-slate-400">
+                    出错 {mistake.occurrences} 次
+                  </span>
+                ) : null}
+              </div>
+
+              {mistake.source === "prediction" ? (
+                <div className="mt-2">
+                  <p className="m-0 text-sm font-semibold leading-6 text-slate-900">
+                    {mistake.prompt}
+                  </p>
+                  <p className="m-0 mt-1 text-xs leading-5 text-slate-500">
+                    我的答案：
+                    <span className="font-semibold text-rose-600">
+                      {mistake.chosenAnswer}
+                    </span>
+                    <span className="mx-1.5 text-slate-300">·</span>
+                    正确答案：
+                    <span className="font-semibold text-emerald-700">
+                      {mistake.correctAnswer}
+                    </span>
+                  </p>
+                </div>
+              ) : (
+                <div className="mt-2">
+                  <p className="m-0 text-sm font-semibold leading-6 text-slate-900">
+                    {mistake.topic}
+                  </p>
+                  <p className="m-0 mt-1 text-xs leading-5 text-slate-500">
+                    误解要点：{mistake.learnerStatement}
+                  </p>
+                </div>
+              )}
+
+              <div className="mt-3 flex items-center gap-2">
+                <button
+                  type="button"
+                  disabled={reviewDisabled}
+                  onClick={() => onReviewMistake(mistake)}
+                  className="inline-flex min-h-9 cursor-pointer items-center gap-1.5 rounded-xl bg-slate-950 px-3 text-xs font-semibold text-white transition-colors hover:bg-slate-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-45"
+                >
+                  <RotateCcw aria-hidden="true" className="size-3.5" />
+                  复盘
+                </button>
+                {mistake.source === "conversation" &&
+                mistake.status === "pending" ? (
+                  <button
+                    type="button"
+                    onClick={() => onMarkMistakeReviewed(mistake)}
+                    className="inline-flex min-h-9 cursor-pointer items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3 text-xs font-semibold text-slate-600 transition-colors hover:bg-slate-50 hover:text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
+                  >
+                    <Check aria-hidden="true" className="size-3.5" />
+                    标为已复盘
+                  </button>
+                ) : null}
+              </div>
+            </li>
+          ))}
+        </ul>
+      )}
+
+      <p className="m-0 mt-4 text-[11px] leading-5 text-slate-400">
+        已复盘只表示回顾过，不代表掌握判定。
+      </p>
+    </section>
   );
 }
 
@@ -364,14 +538,6 @@ export function CourseLearningProgressPanel({
             })}
           </div>
         </section>
-
-        <div className="mt-5 flex items-start gap-2 rounded-2xl border border-indigo-100 bg-indigo-50/60 p-3.5 text-xs leading-5 text-slate-600">
-          <Sparkles
-            aria-hidden="true"
-            className="mt-0.5 size-4 shrink-0 text-indigo-600"
-          />
-          成就只反映学习参与和可验证练习，不替代对知识的掌握判断。
-        </div>
       </div>
     </aside>
   );

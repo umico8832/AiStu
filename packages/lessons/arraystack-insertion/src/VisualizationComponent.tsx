@@ -41,6 +41,19 @@ export function VisualizationComponent({
     ? "right-to-left"
     : "no-shift";
   const predictionComplete = prediction === correctPrediction;
+  const predictionPrompt = requiresShift
+    ? "先预测：应该从哪一端开始搬？"
+    : "先预测：在末尾插入需要搬移原元素吗？";
+  const predictionOptions: ReadonlyArray<readonly [string, string]> =
+    requiresShift
+      ? [
+          ["right-to-left", "从最右端开始"],
+          ["left-to-right", "从插入位置开始"],
+        ]
+      : [
+          ["no-shift", "不需要搬移"],
+          ["left-to-right", "仍从左向右搬移"],
+        ];
 
   const setStep = (next: number) => {
     const clamped = Math.min(steps.length - 1, Math.max(0, next));
@@ -106,27 +119,16 @@ export function VisualizationComponent({
             {stepIndex === 1 ? (
               <div className="rounded-2xl border border-amber-200 bg-amber-50 p-3">
                 <p className="m-0 text-xs font-semibold text-amber-900">
-                  {requiresShift
-                    ? "先预测：应该从哪一端开始搬？"
-                    : "先预测：在末尾插入需要搬移原元素吗？"}
+                  {predictionPrompt}
                 </p>
                 <div className="mt-2 grid gap-2">
-                  {(requiresShift
-                    ? [
-                        ["right-to-left", "从最右端开始"],
-                        ["left-to-right", "从插入位置开始"],
-                      ]
-                    : [
-                        ["no-shift", "不需要搬移"],
-                        ["left-to-right", "仍从左向右搬移"],
-                      ]
-                  ).map(([id, label]) => (
+                  {predictionOptions.map(([id, label]) => (
                     <button
                       key={id}
                       type="button"
                       disabled={predictionComplete}
                       onClick={() => {
-                        const answerId = id!;
+                        const answerId = id;
                         setPrediction(answerId);
                         const correct =
                           answerId === correctPrediction;
@@ -139,6 +141,16 @@ export function VisualizationComponent({
                           correct,
                           retryCount: predictionRetryCount,
                           occurredAt: Date.now(),
+                          prompt: predictionPrompt,
+                          chosenAnswer:
+                            predictionOptions.find(
+                              ([optionId]) => optionId === answerId,
+                            )?.[1] ?? answerId,
+                          correctAnswer:
+                            predictionOptions.find(
+                              ([optionId]) =>
+                                optionId === correctPrediction,
+                            )?.[1] ?? correctPrediction,
                         });
                         if (!correct) {
                           setPredictionRetryCount(

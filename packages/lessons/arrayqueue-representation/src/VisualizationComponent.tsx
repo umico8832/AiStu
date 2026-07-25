@@ -141,6 +141,9 @@ export function VisualizationComponent({
                           correct,
                           retryCount: predictionRetryCount,
                           occurredAt: Date.now(),
+                          prompt: "预测：逻辑位置 k=3 在哪个物理槽？",
+                          chosenAnswer: `a[${answer}]`,
+                          correctAnswer: `a[${correctPrediction}]`,
                         });
                         if (!correct) {
                           setPredictionRetryCount(

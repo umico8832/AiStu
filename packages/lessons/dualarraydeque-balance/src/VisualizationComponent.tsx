@@ -172,6 +172,9 @@ export function VisualizationComponent({
                           correct,
                           retryCount: predictionRetryCount,
                           occurredAt: Date.now(),
+                          prompt: "预测：新 front 应该有几个元素？",
+                          chosenAnswer: `${answer} 个`,
+                          correctAnswer: `${balance.targetFrontCount} 个`,
                         });
                         if (!correct) {
                           setPredictionRetryCount(

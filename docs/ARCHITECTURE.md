@@ -158,10 +158,11 @@ Renderer 不能读取知识文件、Provider 密钥、完整环境变量或 Node
 Desktop Renderer 内共享；将来跨端或进入 Main 持久化时再抽出
 `community-runtime`，不提前制造空包。
 
-商店的 `selectedExamId` 与搜索词属于 Renderer 临时 UI 状态。搜索只对经过 Schema
-校验的本地考试目录字段和嵌套科目字段做同步过滤，不经过 IPC、不访问文件系统，也
-不写入持久化。考试卡片是非交互语义容器，只有独立“进入”按钮修改
-`selectedExamId`，避免整卡误触和隐藏导航行为。
+商店的 `selectedExamId`、搜索词与演示用课程库选择属于 Renderer 临时 UI 状态。
+搜索只对经过 Schema 校验的本地考试目录字段和嵌套科目字段做同步过滤，不经过
+IPC、不访问文件系统，也不写入持久化。考试卡片是非交互语义容器，只有独立“进入”
+按钮修改 `selectedExamId`，避免整卡误触和隐藏导航行为。未接入学习内容的课程可在
+当前商店视图标记为已添加，但不会获得课程路由或“开始学习”能力。
 
 ## 6. 关键数据流
 
@@ -280,8 +281,13 @@ type TutorCommand =
   | { type: "open_visualization"; visualizationId: string; spec: unknown }
   | { type: "close_visualization" }
   | { type: "focus_visualization_step"; stepId: string }
-  | { type: "patch_visualization"; patch: unknown };
+  | { type: "patch_visualization"; patch: unknown }
+  | { type: "record_misconception"; topic: string; learnerStatement: string;
+      correction: string; conceptId: string | null };
 ```
+
+`record_misconception` 只携带误解展示文本（`conceptId` 限于本轮引用候选），由
+Renderer 路由到课程学习域，不触发任何课件操作。
 
 命令不能包含源码、组件路径、任意 URL、文件路径或系统操作。不支持的命令被拒绝，
 Tutor 可以回退为文字讲解。
@@ -353,7 +359,7 @@ courseProfileStore
 └── per-course subjective starting profile
 
 courseLearningStore
-└── per-course engagement and evidence-backed learning footprint
+└── per-course engagement, evidence-backed learning footprint and mistake book
 
 appStore
 ├── currentRoute
@@ -366,8 +372,10 @@ communityStore
 
 可持久化多个会话不改变运行时只有一个活动课件的不变量。
 `courseLearningStore` 可以跨会话聚合有效时长、学习日期、有来源知识接触、课件
-完成和预测结果，并据此展示轻量成就。完整用户掌握度属于未来的用户学习域，不能
-等同于课程自评、学习足迹或 `interactionHistory`。
+完成和预测结果，并据此展示轻量成就。同一 store 还收录错题记录：预测答错（带题干
+与答案快照）与对话误解（AI 经 `record_misconception` 上报），按预测点或主题去重，
+跨会话重新预测正确自动标记已复盘；复盘状态只表达回顾参与。完整用户掌握度属于
+未来的用户学习域，不能等同于课程自评、学习足迹或 `interactionHistory`。
 
 ## 9. 持久化
 

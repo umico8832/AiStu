@@ -264,6 +264,101 @@ export type CourseLessonCompletion = z.infer<
   typeof courseLessonCompletionSchema
 >;
 
+const courseMistakeBaseFields = {
+  id: z.string().uuid(),
+  status: z.enum(["pending", "reviewed"]),
+  occurrences: z.number().int().min(1).max(100),
+  firstOccurredAt: z.number().int().nonnegative(),
+  lastOccurredAt: z.number().int().nonnegative(),
+  reviewedAt: z.number().int().nonnegative().nullable(),
+  conversationId: z.string().uuid(),
+} as const;
+
+type CourseMistakeBase = z.infer<
+  z.ZodObject<typeof courseMistakeBaseFields>
+>;
+
+function refineCourseMistake(
+  mistake: CourseMistakeBase,
+  context: z.RefinementCtx,
+): void {
+  if (mistake.lastOccurredAt < mistake.firstOccurredAt) {
+    context.addIssue({
+      code: "custom",
+      message: "lastOccurredAt must not be earlier than firstOccurredAt",
+      path: ["lastOccurredAt"],
+    });
+  }
+  if (mistake.status === "reviewed" && mistake.reviewedAt === null) {
+    context.addIssue({
+      code: "custom",
+      message: "reviewed mistake records must carry reviewedAt",
+      path: ["reviewedAt"],
+    });
+  }
+  if (mistake.status === "pending" && mistake.reviewedAt !== null) {
+    context.addIssue({
+      code: "custom",
+      message: "pending mistake records must not carry reviewedAt",
+      path: ["reviewedAt"],
+    });
+  }
+}
+
+export const coursePredictionMistakeRecordSchema = z
+  .object({
+    ...courseMistakeBaseFields,
+    source: z.literal("prediction"),
+    visualizationId: z.string().trim().min(1).max(80),
+    pauseId: z.string().trim().min(1).max(80),
+    prompt: z.string().trim().min(1).max(240),
+    chosenAnswer: z.string().trim().min(1).max(120),
+    correctAnswer: z.string().trim().min(1).max(120),
+    sessionId: z.string().uuid(),
+  })
+  .strict()
+  .superRefine(refineCourseMistake);
+
+export type CoursePredictionMistakeRecord = z.infer<
+  typeof coursePredictionMistakeRecordSchema
+>;
+
+export const courseConversationMistakeRecordSchema = z
+  .object({
+    ...courseMistakeBaseFields,
+    source: z.literal("conversation"),
+    topic: z.string().trim().min(1).max(120),
+    learnerStatement: z.string().trim().min(1).max(160),
+    correction: z.string().trim().min(1).max(240),
+    conceptId: knowledgeConceptIdSchema.nullable(),
+  })
+  .strict()
+  .superRefine(refineCourseMistake);
+
+export type CourseConversationMistakeRecord = z.infer<
+  typeof courseConversationMistakeRecordSchema
+>;
+
+export const courseMistakeRecordSchema = z.discriminatedUnion("source", [
+  coursePredictionMistakeRecordSchema,
+  courseConversationMistakeRecordSchema,
+]);
+
+export type CourseMistakeRecord = z.infer<typeof courseMistakeRecordSchema>;
+
+export const mistakeReviewFocusSchema = z
+  .object({
+    mistakeId: z.string().uuid(),
+    mistake: courseMistakeRecordSchema,
+  })
+  .strict()
+  .refine((focus) => focus.mistakeId === focus.mistake.id, {
+    message: "mistakeId must reference the embedded mistake record",
+    path: ["mistakeId"],
+  });
+
+export type MistakeReviewFocus = z.infer<typeof mistakeReviewFocusSchema>;
+
 export const courseLearningRecordSchema = z
   .object({
     courseId: knowledgeCourseIdSchema,
@@ -281,6 +376,7 @@ export const courseLearningRecordSchema = z
       .max(500),
     predictionAttempts: z.number().int().min(0).max(100_000),
     correctPredictions: z.number().int().min(0).max(100_000),
+    mistakeRecords: z.array(courseMistakeRecordSchema).max(100).optional(),
   })
   .strict()
   .superRefine((record, context) => {
@@ -321,6 +417,15 @@ export const courseLearningRecordSchema = z
         code: "custom",
         message: "Lesson completion session IDs must be unique",
         path: ["lessonCompletions"],
+      });
+    }
+    const mistakes = record.mistakeRecords ?? [];
+    const mistakeIds = mistakes.map((mistake) => mistake.id);
+    if (new Set(mistakeIds).size !== mistakeIds.length) {
+      context.addIssue({
+        code: "custom",
+        message: "Mistake record IDs must be unique",
+        path: ["mistakeRecords"],
       });
     }
   });
@@ -454,6 +559,9 @@ export const visualizationInteractionEventSchema = z.discriminatedUnion(
         correct: z.boolean(),
         retryCount: z.number().int().min(0).max(20),
         occurredAt: z.number().int().nonnegative(),
+        prompt: z.string().trim().min(1).max(240).optional(),
+        chosenAnswer: z.string().trim().min(1).max(120).optional(),
+        correctAnswer: z.string().trim().min(1).max(120).optional(),
       })
       .strict(),
     z
@@ -504,6 +612,7 @@ export const chatSendInputSchema = z
     activeVisualization: activeVisualizationContextSchema.nullable(),
     studyScope: conversationStudyScopeSchema.nullable(),
     studyProfile: courseStudyProfileSchema.nullable().default(null),
+    reviewFocus: mistakeReviewFocusSchema.nullable().default(null),
   })
   .strict()
   .superRefine((input, context) => {
@@ -547,6 +656,15 @@ export const tutorCommandSchema = z.discriminatedUnion("type", [
     .object({
       type: z.literal("close_visualization"),
       reason: z.enum(["tutor", "complete"]),
+    })
+    .strict(),
+  z
+    .object({
+      type: z.literal("record_misconception"),
+      topic: z.string().trim().min(1).max(120),
+      learnerStatement: z.string().trim().min(1).max(160),
+      correction: z.string().trim().min(1).max(240),
+      conceptId: knowledgeConceptIdSchema.nullable(),
     })
     .strict(),
 ]);

@@ -65,6 +65,9 @@ export const useVisualizationStore = create<VisualizationState>((set, get) => ({
       }
       return;
     }
+    if (command.type !== "open_visualization") {
+      return;
+    }
 
     try {
       set({

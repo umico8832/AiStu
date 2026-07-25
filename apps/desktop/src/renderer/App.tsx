@@ -1,10 +1,12 @@
 import type {
   ActiveVisualizationContext,
   ChatStreamEvent,
+  CourseMistakeRecord,
   CourseStudyAssessment,
   ConversationStudyScope,
   KnowledgeCourse,
   KnowledgeCourseConcept,
+  MistakeReviewFocus,
   PersistedConversationV2,
   TutorCommand,
   VisualizationInteractionEvent,
@@ -121,6 +123,8 @@ export function App() {
   const [page, setPage] = useState<AppPage>("conversation");
   const [pendingStudyPrompt, setPendingStudyPrompt] =
     useState<string | null>(null);
+  const [pendingReviewFocus, setPendingReviewFocus] =
+    useState<MistakeReviewFocus | null>(null);
   const activeConversation = conversation.getActiveConversation();
   const courseStudyProfile = useMemo(
     () =>
@@ -149,48 +153,55 @@ export function App() {
         ),
     [conversation.activeConversationId, conversation.conversations],
   );
-  const sendMessage = useCallback(async (rawContent: string) => {
-    const content = rawContent.trim();
-    const state = useConversationStore.getState();
-    if (!content || state.streaming) {
-      return;
-    }
-    setPendingVisualization(null);
-    const requestId = crypto.randomUUID();
-    const { assistantMessageId } = state.beginTurn(content, requestId);
-    const current = useConversationStore
-      .getState()
-      .getActiveConversation();
-    if (current.studyScope) {
-      useCourseLearningStore.getState().recordEngagement(
-        current.studyScope.courseId,
-        current.conversationId,
-      );
-    }
-    const messages = current.messages.filter(
-      (message) => message.id !== assistantMessageId,
-    );
-
-    try {
-      await window.kaleidoscope.chat.send({
-        requestId,
-        conversationId: current.conversationId,
-        messages,
-        activeVisualization: activeVisualizationContext(),
-        studyScope: current.studyScope,
-        studyProfile: current.studyScope
-          ? getDataStructuresStudyProfile()
-          : null,
-      });
-    } catch (error) {
-      useConversationStore
+  const sendMessage = useCallback(
+    async (
+      rawContent: string,
+      reviewFocus: MistakeReviewFocus | null = null,
+    ) => {
+      const content = rawContent.trim();
+      const state = useConversationStore.getState();
+      if (!content || state.streaming) {
+        return;
+      }
+      setPendingVisualization(null);
+      const requestId = crypto.randomUUID();
+      const { assistantMessageId } = state.beginTurn(content, requestId);
+      const current = useConversationStore
         .getState()
-        .fail(
-          requestId,
-          error instanceof Error ? error.message : "消息发送失败。",
+        .getActiveConversation();
+      if (current.studyScope) {
+        useCourseLearningStore.getState().recordEngagement(
+          current.studyScope.courseId,
+          current.conversationId,
         );
-    }
-  }, []);
+      }
+      const messages = current.messages.filter(
+        (message) => message.id !== assistantMessageId,
+      );
+
+      try {
+        await window.kaleidoscope.chat.send({
+          requestId,
+          conversationId: current.conversationId,
+          messages,
+          activeVisualization: activeVisualizationContext(),
+          studyScope: current.studyScope,
+          studyProfile: current.studyScope
+            ? getDataStructuresStudyProfile()
+            : null,
+          reviewFocus,
+        });
+      } catch (error) {
+        useConversationStore
+          .getState()
+          .fail(
+            requestId,
+            error instanceof Error ? error.message : "消息发送失败。",
+          );
+      }
+    },
+    [],
+  );
 
   useEffect(() => {
     let alive = true;
@@ -232,6 +243,22 @@ export function App() {
               useVisualizationStore
                 .getState()
                 .handleCommand(event.command);
+            }
+          } else if (event.command.type === "record_misconception") {
+            const current = useConversationStore
+              .getState()
+              .getActiveConversation();
+            if (current.studyScope) {
+              useCourseLearningStore.getState().recordMisconception(
+                current.studyScope.courseId,
+                current.conversationId,
+                {
+                  topic: event.command.topic,
+                  learnerStatement: event.command.learnerStatement,
+                  correction: event.command.correction,
+                  conceptId: event.command.conceptId,
+                },
+              );
             }
           } else {
             useVisualizationStore.getState().handleCommand(event.command);
@@ -450,6 +477,7 @@ export function App() {
     }
     setPendingVisualization(null);
     setPendingStudyPrompt(null);
+    setPendingReviewFocus(null);
     useConversationStore
       .getState()
       .createConversation(useVisualizationStore.getState().activeSession);
@@ -490,6 +518,7 @@ export function App() {
     }
     setPendingVisualization(null);
     setPendingStudyPrompt(null);
+    setPendingReviewFocus(null);
     useConversationStore
       .getState()
       .createConversation(
@@ -515,6 +544,7 @@ export function App() {
     }
     setPendingVisualization(null);
     setPendingStudyPrompt(null);
+    setPendingReviewFocus(null);
     useVisualizationStore.getState().restore(target.activeVisualization);
     setPage("conversation");
   };
@@ -527,10 +557,59 @@ export function App() {
       assessment,
     );
     const prompt = pendingStudyPrompt;
+    const reviewFocus = pendingReviewFocus;
     setPendingStudyPrompt(null);
+    setPendingReviewFocus(null);
     if (prompt) {
-      void sendMessage(prompt);
+      void sendMessage(prompt, reviewFocus);
     }
+  };
+
+  const startMistakeReview = (mistake: CourseMistakeRecord) => {
+    if (conversation.streaming) {
+      return;
+    }
+    setPendingVisualization(null);
+    const reviewFocus: MistakeReviewFocus = {
+      mistakeId: mistake.id,
+      mistake,
+    };
+    const reviewPrompt =
+      mistake.source === "prediction"
+        ? (() => {
+            const lessonTitle = getVisualizationRegistration(
+              mistake.visualizationId,
+            )?.title;
+            return lessonTitle
+              ? `我想复盘之前在「${lessonTitle}」课件里做错的预测题`
+              : `我想复盘之前在课件里做错的预测题：${mistake.prompt}`;
+          })()
+        : `我想复盘之前对话里的一个误解：${mistake.topic}`;
+    useConversationStore
+      .getState()
+      .createConversation(
+        useVisualizationStore.getState().activeSession,
+        dataStructuresStudyScope,
+      );
+    useVisualizationStore.getState().close();
+    setPage("conversation");
+    if (getDataStructuresStudyProfile()) {
+      setPendingStudyPrompt(null);
+      setPendingReviewFocus(null);
+      void sendMessage(reviewPrompt, reviewFocus);
+    } else {
+      setPendingStudyPrompt(reviewPrompt);
+      setPendingReviewFocus(reviewFocus);
+    }
+  };
+
+  const markMistakeReviewed = (mistake: CourseMistakeRecord) => {
+    useCourseLearningStore
+      .getState()
+      .markMistakeReviewed(
+        KNOWLEDGE_COURSE_ID_408_DATA_STRUCTURES,
+        mistake.id,
+      );
   };
 
   const startStudyModule = (moduleId: string, prompt: string) => {
@@ -629,6 +708,8 @@ export function App() {
           onBack={() => setPage("store")}
           onStartCourse={startCourseStudy}
           onStartConcept={startCourseConcept}
+          onReviewMistake={startMistakeReview}
+          onMarkMistakeReviewed={markMistakeReviewed}
           learningRecord={getDataStructuresLearningRecord()}
           learningDisabled={Boolean(conversation.streaming)}
         />

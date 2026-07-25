@@ -1,5 +1,6 @@
 import type {
   CourseLearningRecord,
+  CourseMistakeRecord,
   KnowledgeCourse,
   KnowledgeCourseConcept,
 } from "@kaleidoscope/contracts";
@@ -9,7 +10,6 @@ import {
   BookOpen,
   ChevronRight,
   CircleAlert,
-  FileCheck2,
   Layers3,
   ListTree,
   LoaderCircle,
@@ -19,13 +19,18 @@ import {
   Waypoints,
 } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
-import { CourseLearningSnapshot } from "./CourseLearningProgress";
+import {
+  CourseLearningSnapshot,
+  CourseMistakeReviewSection,
+} from "./CourseLearningProgress";
 import { CourseMindMap } from "./CourseMindMap";
 
 interface CoursePageProps {
   onBack: () => void;
   onStartCourse: (course: KnowledgeCourse) => void;
   onStartConcept: (concept: KnowledgeCourseConcept) => void;
+  onReviewMistake: (mistake: CourseMistakeRecord) => void;
+  onMarkMistakeReviewed: (mistake: CourseMistakeRecord) => void;
   learningRecord: CourseLearningRecord | null;
   learningDisabled: boolean;
 }
@@ -54,6 +59,8 @@ export function CoursePage({
   onBack,
   onStartCourse,
   onStartConcept,
+  onReviewMistake,
+  onMarkMistakeReviewed,
   learningRecord,
   learningDisabled,
 }: CoursePageProps) {
@@ -284,6 +291,15 @@ export function CoursePage({
                 totalModules={course.moduleCount}
               />
             </div>
+
+            <div className="mt-5">
+              <CourseMistakeReviewSection
+                mistakes={learningRecord?.mistakeRecords ?? []}
+                reviewDisabled={learningDisabled}
+                onReviewMistake={onReviewMistake}
+                onMarkMistakeReviewed={onMarkMistakeReviewed}
+              />
+            </div>
           </>
         ) : (
           <div className="mt-3 grid items-start gap-5 lg:grid-cols-[250px_minmax(0,1fr)]">
@@ -345,18 +361,6 @@ export function CoursePage({
                 );
               })}
             </nav>
-
-            <div className="mx-2 mt-3 border-t border-slate-200 px-1 pb-2 pt-4">
-              <div className="flex items-start gap-2 text-xs leading-5 text-slate-500">
-                <FileCheck2
-                  aria-hidden="true"
-                  className="mt-0.5 size-3.5 shrink-0 text-indigo-500"
-                />
-                <span>
-                  已完成结构校验与考纲映射；内容仍处于人工学科复核阶段。
-                </span>
-              </div>
-            </div>
           </aside>
 
           <section className="min-w-0 rounded-3xl border border-slate-200/90 bg-white/78 p-5 shadow-[0_12px_34px_rgba(15,23,42,0.05)] backdrop-blur-sm">

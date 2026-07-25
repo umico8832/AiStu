@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   chatSendInputSchema,
   courseLearningRecordSchema,
+  courseMistakeRecordSchema,
   courseStudyProfileSchema,
   knowledgeCourseSchema,
   knowledgeRagChunkSchema,
@@ -308,6 +309,196 @@ describe("shared contracts", () => {
           "cs408-kmp-matching",
           "cs408-kmp-matching",
         ],
+      }).success,
+    ).toBe(false);
+  });
+
+  it("validates prediction and conversation mistake records", () => {
+    const conversationId = crypto.randomUUID();
+    const predictionMistake = {
+      source: "prediction",
+      id: crypto.randomUUID(),
+      visualizationId: "cs408.kmp-matching.v1",
+      pauseId: "cs408.kmp-matching.v1:prediction",
+      prompt: "发生失配时，KMP 的文本指针 i 是否回退？",
+      chosenAnswer: "回到本次起点",
+      correctAnswer: "不回退",
+      status: "pending",
+      occurrences: 1,
+      firstOccurredAt: 10,
+      lastOccurredAt: 10,
+      reviewedAt: null,
+      conversationId,
+      sessionId: crypto.randomUUID(),
+    };
+    const conversationMistake = {
+      source: "conversation",
+      id: crypto.randomUUID(),
+      topic: "栈顶与栈底方向",
+      learnerStatement: "以为先入栈的帧会先返回",
+      correction: "调用栈是后进先出，最后入栈的帧最先返回。",
+      conceptId: "cs408-stack-applications",
+      status: "reviewed",
+      occurrences: 2,
+      firstOccurredAt: 10,
+      lastOccurredAt: 30,
+      reviewedAt: 40,
+      conversationId,
+    };
+
+    expect(
+      courseMistakeRecordSchema.safeParse(predictionMistake).success,
+    ).toBe(true);
+    expect(
+      courseMistakeRecordSchema.safeParse(conversationMistake).success,
+    ).toBe(true);
+    expect(
+      courseMistakeRecordSchema.safeParse({
+        ...predictionMistake,
+        status: "reviewed",
+      }).success,
+    ).toBe(false);
+    expect(
+      courseMistakeRecordSchema.safeParse({
+        ...conversationMistake,
+        reviewedAt: null,
+      }).success,
+    ).toBe(false);
+    expect(
+      courseMistakeRecordSchema.safeParse({
+        ...predictionMistake,
+        lastOccurredAt: 5,
+      }).success,
+    ).toBe(false);
+  });
+
+  it("rejects duplicate and inconsistent mistake records on a course record", () => {
+    const conversationId = crypto.randomUUID();
+    const mistake = {
+      source: "prediction",
+      id: crypto.randomUUID(),
+      visualizationId: "cs408.kmp-matching.v1",
+      pauseId: "cs408.kmp-matching.v1:prediction",
+      prompt: "发生失配时，KMP 的文本指针 i 是否回退？",
+      chosenAnswer: "回到本次起点",
+      correctAnswer: "不回退",
+      status: "pending",
+      occurrences: 1,
+      firstOccurredAt: 10,
+      lastOccurredAt: 10,
+      reviewedAt: null,
+      conversationId,
+      sessionId: crypto.randomUUID(),
+    };
+    const record = {
+      courseId: "cs408-data-structures",
+      firstEngagedAt: 10,
+      lastEngagedAt: 20,
+      totalActiveSeconds: 600,
+      engagedConversationIds: [conversationId],
+      learningDates: ["2026-07-25"],
+      exploredConceptIds: [],
+      exploredModuleIds: [],
+      lessonCompletions: [],
+      predictionAttempts: 1,
+      correctPredictions: 0,
+      mistakeRecords: [mistake],
+    };
+
+    expect(courseLearningRecordSchema.safeParse(record).success).toBe(true);
+    expect(
+      courseLearningRecordSchema.safeParse({
+        ...record,
+        mistakeRecords: [mistake, mistake],
+      }).success,
+    ).toBe(false);
+    expect(
+      courseLearningRecordSchema.safeParse({
+        ...record,
+        mistakeRecords: [{ ...mistake, reviewedAt: 20 }],
+      }).success,
+    ).toBe(false);
+  });
+
+  it("requires review focus to reference the embedded mistake record", () => {
+    const conversationId = crypto.randomUUID();
+    const mistake = {
+      source: "prediction",
+      id: crypto.randomUUID(),
+      visualizationId: "cs408.kmp-matching.v1",
+      pauseId: "cs408.kmp-matching.v1:prediction",
+      prompt: "发生失配时，KMP 的文本指针 i 是否回退？",
+      chosenAnswer: "回到本次起点",
+      correctAnswer: "不回退",
+      status: "pending",
+      occurrences: 1,
+      firstOccurredAt: 10,
+      lastOccurredAt: 10,
+      reviewedAt: null,
+      conversationId,
+      sessionId: crypto.randomUUID(),
+    };
+    const baseInput = {
+      requestId: crypto.randomUUID(),
+      conversationId,
+      messages: [
+        {
+          id: crypto.randomUUID(),
+          role: "user",
+          content: "我想复盘这道错题",
+          createdAt: 20,
+          status: "complete",
+        },
+      ],
+      activeVisualization: null,
+      studyScope: {
+        type: "course",
+        courseId: "cs408-data-structures",
+      },
+    };
+
+    expect(
+      chatSendInputSchema.safeParse({
+        ...baseInput,
+        reviewFocus: { mistakeId: mistake.id, mistake },
+      }).success,
+    ).toBe(true);
+    expect(
+      chatSendInputSchema.safeParse({
+        ...baseInput,
+        reviewFocus: { mistakeId: crypto.randomUUID(), mistake },
+      }).success,
+    ).toBe(false);
+    expect(chatSendInputSchema.safeParse(baseInput).success).toBe(true);
+  });
+
+  it("accepts bounded misconception commands and rejects executable payloads", () => {
+    expect(
+      tutorCommandSchema.safeParse({
+        type: "record_misconception",
+        topic: "栈顶与栈底方向",
+        learnerStatement: "以为先入栈的帧会先返回",
+        correction: "调用栈是后进先出，最后入栈的帧最先返回。",
+        conceptId: "cs408-stack-applications",
+      }).success,
+    ).toBe(true);
+    expect(
+      tutorCommandSchema.safeParse({
+        type: "record_misconception",
+        topic: "栈顶与栈底方向",
+        learnerStatement: "以为先入栈的帧会先返回",
+        correction: "调用栈是后进先出。",
+        conceptId: "cs408-stack-applications",
+        script: "alert(1)",
+      }).success,
+    ).toBe(false);
+    expect(
+      tutorCommandSchema.safeParse({
+        type: "record_misconception",
+        topic: "栈顶与栈底方向",
+        learnerStatement: "以为先入栈的帧会先返回",
+        correction: "调用栈是后进先出。",
+        conceptId: "not a concept id",
       }).success,
     ).toBe(false);
   });
