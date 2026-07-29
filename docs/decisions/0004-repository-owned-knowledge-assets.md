@@ -5,7 +5,7 @@
 
 ## 背景
 
-Kaleidoscope 的标准知识库包含来源快照、结构化语料、authoring、Schema、关系、
+AiStu 的标准知识库包含来源快照、结构化语料、authoring、Schema、关系、
 审查记录、标准知识对象、维护流水线和派生 RAG 索引。它是需要长期演进和审计的核心
 产品资产。若只保存在开发机相邻目录，应用仓库无法独立恢复知识来源、验证派生产物，
 也无法保证发布 commit 与知识版本一一对应。
@@ -21,7 +21,7 @@ Kaleidoscope 的标准知识库包含来源快照、结构化语料、authoring�
 - 排除 `.venv`、缓存和其他可重建的机器环境；
 - 开发环境默认读取
   `content/ods-material/knowledge_base/rag/chunks.jsonl`；
-- `KALEIDOSCOPE_KNOWLEDGE_BASE_PATH` 只作为开发和 CI 的显式覆盖入口；
+- `AISTU_KNOWLEDGE_BASE_PATH` 只作为开发和 CI 的显式覆盖入口；
 - 桌面包只携带同步后的
   `apps/desktop/resources/knowledge_base/rag/chunks.jsonl`；
 - 打包前必须验证权威知识、同步快照并检查二者完全一致。

@@ -1,10 +1,9 @@
 import {
-  learningLensSchema,
   VISUALIZATION_ID_ARRAYQUEUE_REPRESENTATION,
   VISUALIZATION_ID_ARRAYSTACK_INSERTION,
   VISUALIZATION_ID_CALL_STACK,
   VISUALIZATION_ID_DUALARRAYDEQUE_BALANCE,
-} from "@kaleidoscope/contracts";
+} from "@aistu/contracts";
 import { z } from "zod";
 
 /**
@@ -42,7 +41,6 @@ const demoScenarioBaseSchema = z
     title: z.string().trim().min(1).max(80),
     learnerQuote: z.string().trim().min(1).max(240),
     confusion: z.string().trim().min(1).max(320),
-    recommendedLens: learningLensSchema,
     visualizationId: registeredVisualizationIdSchema,
     knowledgeConceptIds: z.array(knowledgeConceptIdSchema).max(4),
     conceptTags: z
@@ -142,13 +140,12 @@ const rawDemoScenarios = [
     learnerQuote: "我知道递归函数会调用自己，但不明白调用栈到底怎么变化。",
     confusion:
       "把多次递归调用误认为复用同一个栈帧，分不清入栈、到达基线条件和返回时的先后顺序。",
-    recommendedLens: "process",
     visualizationId: VISUALIZATION_ID_CALL_STACK,
     knowledgeConceptIds: [],
     conceptTags: ["递归", "函数调用", "调用栈", "入栈与返回"],
     delivery: "visualization",
     demoNotes:
-      "先用流程视角说明入栈、等待和反向返回，再建议确认打开调用栈课件；在基线返回和逐层返回处暂停，让学习者预测下一个返回的栈帧。",
+      "先说明入栈、等待和反向返回，再建议确认打开调用栈课件；在基线返回和逐层返回处暂停，让学习者预测下一个返回的栈帧。",
   },
   {
     id: "arraystack-middle-insertion",
@@ -156,7 +153,6 @@ const rawDemoScenarios = [
     learnerQuote: "ArrayStack 在中间插入元素时，为什么不能从左向右移动？",
     confusion:
       "只看到目标位置，忽略后缀搬移的覆盖风险，因此无法解释从右向左搬移与容量不变量。",
-    recommendedLens: "visualization",
     visualizationId: VISUALIZATION_ID_ARRAYSTACK_INSERTION,
     knowledgeConceptIds: [
       "ods-arraystack-insertion",
@@ -173,7 +169,6 @@ const rawDemoScenarios = [
     learnerQuote: "ArrayQueue 的循环数组下标总是算错，队首 j 变化后元素到底在哪里？",
     confusion:
       "把逻辑位置和物理下标混为一谈，忘记通过 (j + k) mod capacity 映射并在末尾回绕。",
-    recommendedLens: "visualization",
     visualizationId: VISUALIZATION_ID_ARRAYQUEUE_REPRESENTATION,
     knowledgeConceptIds: [
       "ods-arrayqueue-representation",
@@ -190,13 +185,12 @@ const rawDemoScenarios = [
     learnerQuote: "Cache 和 TLB 我总是混淆，它们不都是用来加速访问的吗？",
     confusion:
       "知道两者都能减少等待，却没有区分 Cache 缓存数据、TLB 缓存地址映射这两个不同对象和命中流程。",
-    recommendedLens: "comparison",
     visualizationId: null,
     knowledgeConceptIds: [],
     conceptTags: ["Cache", "TLB", "地址转换", "概念对比"],
     delivery: "text",
     demoNotes:
-      "当前没有已注册的组成原理可视化或可验证的 ODS concept_id，演示时使用对比视角文字降级：先对齐缓存对象，再比较查找顺序和命中后的下一步。",
+      "当前没有已注册的组成原理可视化或可验证的 ODS concept_id，演示时使用文字对比：先对齐缓存对象，再比较查找顺序和命中后的下一步。",
   },
 ] as const;
 

@@ -1,7 +1,7 @@
-# Kaleidoscope ODS source asset
+# AiStu ODS source asset
 
 This repository-owned content domain preserves the pinned Open Data Structures
-source snapshot, its deterministic machine-readable corpus, and Kaleidoscope's
+source snapshot, its deterministic machine-readable corpus, and AiStu's
 authoritative standard knowledge base. It is a long-term product asset, not a
 temporary development dependency.
 

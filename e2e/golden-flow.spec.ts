@@ -32,15 +32,15 @@ async function launchDesktop(userData: string) {
     args: [join(process.cwd(), "apps/desktop")],
     env: {
       ...process.env,
-      KALEIDOSCOPE_AI_PROVIDER: "demo",
-      KALEIDOSCOPE_E2E_USER_DATA: userData,
+      AISTU_AI_PROVIDER: "demo",
+      AISTU_E2E_USER_DATA: userData,
       ELECTRON_DISABLE_SECURITY_WARNINGS: "true",
     },
   });
 }
 
 test("golden conversation and visualization flow", async () => {
-  const userData = await mkdtemp(join(tmpdir(), "kaleidoscope-e2e-"));
+  const userData = await mkdtemp(join(tmpdir(), "aistu-e2e-"));
   let electronApp: Awaited<ReturnType<typeof launchDesktop>> | null =
     await launchDesktop(userData);
 
@@ -142,11 +142,11 @@ test("golden conversation and visualization flow", async () => {
       requireType: typeof (globalThis as typeof globalThis & {
         require?: unknown;
       }).require,
-      apiKeys: Object.keys(window.kaleidoscope).sort(),
-      chatKeys: Object.keys(window.kaleidoscope.chat).sort(),
-      knowledgeKeys: Object.keys(window.kaleidoscope.knowledge).sort(),
+      apiKeys: Object.keys(window.aistu).sort(),
+      chatKeys: Object.keys(window.aistu.chat).sort(),
+      knowledgeKeys: Object.keys(window.aistu.knowledge).sort(),
       visualizationWindowKeys: Object.keys(
-        window.kaleidoscope.visualizationWindow,
+        window.aistu.visualizationWindow,
       ).sort(),
     }));
     expect(security.processType).toBe("undefined");
@@ -204,10 +204,10 @@ test("golden conversation and visualization flow", async () => {
         .getByText(/我知道递归函数会调用自己/),
     ).toBeVisible();
     await expect(
-      page.getByText(/卡住的不是“递归会调用自己”/).first(),
+      page.getByText(/调用栈不是把同一个函数来回覆盖/).first(),
     ).toBeVisible();
     await expect(
-      page.getByText("知识库暂无匹配内容").first(),
+      page.getByLabel("知识库来源").first(),
     ).toBeVisible();
 
     await input.fill(

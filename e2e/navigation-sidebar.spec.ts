@@ -21,14 +21,14 @@ async function elementCenter(locator: Locator) {
 
 test("navigation sidebar expands labels to the right without moving icons", async () => {
   const userData = await mkdtemp(
-    join(tmpdir(), "kaleidoscope-sidebar-e2e-"),
+    join(tmpdir(), "aistu-sidebar-e2e-"),
   );
   const electronApp = await electron.launch({
     args: [join(process.cwd(), "apps/desktop")],
     env: {
       ...process.env,
-      KALEIDOSCOPE_AI_PROVIDER: "demo",
-      KALEIDOSCOPE_E2E_USER_DATA: userData,
+      AISTU_AI_PROVIDER: "demo",
+      AISTU_E2E_USER_DATA: userData,
       ELECTRON_DISABLE_SECURITY_WARNINGS: "true",
     },
   });
@@ -39,7 +39,7 @@ test("navigation sidebar expands labels to the right without moving icons", asyn
 
     const sidebarShell = page.locator("[data-sidebar-state]");
     const sidebar = page.locator(
-      'aside[aria-label="Kaleidoscope 侧边栏"]',
+      'aside[aria-label="AiStu 侧边栏"]',
     );
     const sidebarToggle = sidebar.locator("[data-sidebar-toggle]");
     const historyButton = sidebar.getByRole("button", {
@@ -61,7 +61,7 @@ test("navigation sidebar expands labels to the right without moving icons", asyn
     await expect(page.getByLabel("你的消息")).toHaveCount(0);
     await expect(sidebar).toHaveCount(1);
     await expect(
-      page.locator('aside[aria-label="Kaleidoscope 快捷栏"]'),
+      page.locator('aside[aria-label="AiStu 快捷栏"]'),
     ).toHaveCount(0);
     await expect(sidebarShell).toHaveAttribute(
       "data-sidebar-state",
@@ -111,7 +111,7 @@ test("navigation sidebar expands labels to the right without moving icons", asyn
     );
     await expect(sidebarToggle).toHaveAttribute("aria-expanded", "true");
     await expect(
-      sidebar.getByText("Kaleidoscope", { exact: true }),
+      sidebar.getByText("AiStu", { exact: true }),
     ).toBeVisible();
     await expect(historyLabel).toHaveAttribute("aria-hidden", "false");
     await expect(historyLabel).toBeVisible();
@@ -290,10 +290,6 @@ test("navigation sidebar expands labels to the right without moving icons", asyn
     await selectedStoreModule.screenshot({
       path: "output/screenshots/store-national-exams.png"
     });
-
-    await expect(
-      sidebar.getByRole("button", { name: "我的知识万花筒" }),
-    ).toHaveCount(0);
 
     await sidebar.getByRole("button", { name: "社区共建" }).click();
     await expect(

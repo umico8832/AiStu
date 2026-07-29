@@ -5,11 +5,11 @@ import {
   type KnowledgeCourse,
   type KnowledgeRagChunk,
   type KnowledgeRetrievalContext,
-} from "@kaleidoscope/contracts";
+} from "@aistu/contracts";
 import {
   KnowledgeIndex,
   parseKnowledgeRagJsonl,
-} from "@kaleidoscope/knowledge-runtime";
+} from "@aistu/knowledge-runtime";
 import { app } from "electron";
 import { readFile } from "node:fs/promises";
 import { isAbsolute, join, resolve } from "node:path";
@@ -42,7 +42,7 @@ function previousConceptIds(input: ChatSendInput): string[] {
 }
 
 function candidateKnowledgeRoots(): string[] {
-  const configured = process.env.KALEIDOSCOPE_KNOWLEDGE_BASE_PATH?.trim();
+  const configured = process.env.AISTU_KNOWLEDGE_BASE_PATH?.trim();
   const candidates: string[] = [];
   if (configured) {
     candidates.push(

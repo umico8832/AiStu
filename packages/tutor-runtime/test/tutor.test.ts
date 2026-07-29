@@ -21,7 +21,7 @@ import {
   VISUALIZATION_ID_DUALARRAYDEQUE_BALANCE,
   type KnowledgeRetrievalContext,
   type MistakeReviewFocus,
-} from "@kaleidoscope/contracts";
+} from "@aistu/contracts";
 
 const courseScope = {
   type: "course" as const,
@@ -129,8 +129,32 @@ describe("tutor runtime", () => {
         VISUALIZATION_ID_CALL_STACK,
       );
     }
+    expect(plan.text).toContain("跟着 `f(3)` 走一遍");
+    expect(plan.text).toContain("压栈—触底—逐层返回");
     expect(plan.text).toContain("确认打开");
     expect(plan.text).not.toContain("我打开");
+  });
+
+  it("reframes the recursive call stack with a simpler concrete analogy", () => {
+    const plan = createDemoTutorPlan(
+      [
+        userMessage("我知道递归会调用自己，但不明白调用栈怎么变化。"),
+        {
+          ...userMessage("先前回答"),
+          role: "assistant",
+        },
+        userMessage("再换个更简单的比喻"),
+      ],
+      null,
+    );
+
+    expect(plan.text).toContain("嵌套房间");
+    expect(plan.text).toContain("一间房 = 一次函数调用的栈帧");
+    expect(plan.text).toContain("f(1) → f(2) → f(3)");
+    expect(plan.command).toMatchObject({
+      type: "open_visualization",
+      visualizationId: VISUALIZATION_ID_CALL_STACK,
+    });
   });
 
   it("selects the three registered data-structure lessons", () => {

@@ -11,19 +11,19 @@ import {
   VISUALIZATION_ID_CS408_QUICK_SORT_PARTITION,
   VISUALIZATION_ID_DUALARRAYDEQUE_BALANCE,
   type PersistedVisualizationSession,
-} from "@kaleidoscope/contracts";
+} from "@aistu/contracts";
 import {
   applyArrayQueueRepresentationPatchOperations,
   arrayQueueRepresentationPatchOperationsSchema,
   arrayQueueRepresentationSessionSpecSchema,
   defaultArrayQueueRepresentationSessionSpec,
-} from "@kaleidoscope/lesson-arrayqueue-representation";
+} from "@aistu/lesson-arrayqueue-representation";
 import {
   applyArrayStackInsertionPatchOperations,
   arrayStackInsertionPatchOperationsSchema,
   arrayStackInsertionSessionSpecSchema,
   defaultArrayStackInsertionSessionSpec,
-} from "@kaleidoscope/lesson-arraystack-insertion";
+} from "@aistu/lesson-arraystack-insertion";
 import {
   applyCallStackPatchOperations,
   callStackPatchOperationsSchema,
@@ -31,7 +31,7 @@ import {
   defaultCallStackSessionSpec,
   type CallStackPatchOperation,
   type CallStackSessionSpec,
-} from "@kaleidoscope/lesson-call-stack";
+} from "@aistu/lesson-call-stack";
 import {
   applyCs408CorePatchOperations,
   cs408CorePatchOperationsSchema,
@@ -39,13 +39,13 @@ import {
   defaultCs408CoreSessionSpecs,
   getCs408CoreSessionSpecSchema,
   type Cs408CoreVisualizationId,
-} from "@kaleidoscope/lesson-cs408-core-visualizations";
+} from "@aistu/lesson-cs408-core-visualizations";
 import {
   applyDualArrayDequeBalancePatchOperations,
   defaultDualArrayDequeBalanceSessionSpec,
   dualArrayDequeBalancePatchOperationsSchema,
   dualArrayDequeBalanceSessionSpecSchema,
-} from "@kaleidoscope/lesson-dualarraydeque-balance";
+} from "@aistu/lesson-dualarraydeque-balance";
 import type { ComponentType } from "react";
 import { z, type ZodType } from "zod";
 
@@ -70,7 +70,7 @@ export interface VisualizationRegistration {
       state: { step: number; codeOpen: boolean };
       onStateChange: (state: { step: number; codeOpen: boolean }) => void;
       onInteraction: (
-        event: import("@kaleidoscope/contracts").VisualizationInteractionEvent,
+        event: import("@aistu/contracts").VisualizationInteractionEvent,
       ) => void;
     }>;
   }>;
@@ -97,7 +97,7 @@ const callStackRegistration: VisualizationRegistration = {
       applyCallStackPatchOperations(current, parsedOperations),
     );
   },
-  load: () => import("@kaleidoscope/lesson-call-stack"),
+  load: () => import("@aistu/lesson-call-stack"),
 };
 
 const arrayStackInsertionRegistration: VisualizationRegistration = {
@@ -122,7 +122,7 @@ const arrayStackInsertionRegistration: VisualizationRegistration = {
       applyArrayStackInsertionPatchOperations(current, parsed),
     );
   },
-  load: () => import("@kaleidoscope/lesson-arraystack-insertion"),
+  load: () => import("@aistu/lesson-arraystack-insertion"),
 };
 
 const arrayQueueRepresentationRegistration: VisualizationRegistration = {
@@ -149,7 +149,7 @@ const arrayQueueRepresentationRegistration: VisualizationRegistration = {
       applyArrayQueueRepresentationPatchOperations(current, parsed),
     );
   },
-  load: () => import("@kaleidoscope/lesson-arrayqueue-representation"),
+  load: () => import("@aistu/lesson-arrayqueue-representation"),
 };
 
 const dualArrayDequeBalanceRegistration: VisualizationRegistration = {
@@ -173,7 +173,7 @@ const dualArrayDequeBalanceRegistration: VisualizationRegistration = {
       applyDualArrayDequeBalancePatchOperations(current, parsed),
     );
   },
-  load: () => import("@kaleidoscope/lesson-dualarraydeque-balance"),
+  load: () => import("@aistu/lesson-dualarraydeque-balance"),
 };
 
 function createCs408CoreRegistration(
@@ -198,7 +198,7 @@ function createCs408CoreRegistration(
       return toRecord(applyCs408CorePatchOperations(current, parsed));
     },
     load: () =>
-      import("@kaleidoscope/lesson-cs408-core-visualizations"),
+      import("@aistu/lesson-cs408-core-visualizations"),
   };
 }
 

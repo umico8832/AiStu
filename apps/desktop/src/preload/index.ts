@@ -10,11 +10,11 @@ import {
   visualizationLessonStateSchema,
   visualizationWindowEventSchema,
   visualizationWindowPayloadSchema,
-  type KaleidoscopeApi,
-} from "@kaleidoscope/contracts";
+  type AiStuApi,
+} from "@aistu/contracts";
 import { contextBridge, ipcRenderer } from "electron";
 
-const api: KaleidoscopeApi = {
+const api: AiStuApi = {
   chat: {
     async send(input) {
       const validated = chatSendInputSchema.parse(input);
@@ -119,4 +119,4 @@ const api: KaleidoscopeApi = {
   },
 };
 
-contextBridge.exposeInMainWorld("kaleidoscope", api);
+contextBridge.exposeInMainWorld("aistu", api);

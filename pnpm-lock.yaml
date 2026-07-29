@@ -44,34 +44,34 @@ importers:
 
   apps/desktop:
     dependencies:
-      '@kaleidoscope/contracts':
+      '@aistu/contracts':
         specifier: workspace:*
         version: link:../../packages/contracts
-      '@kaleidoscope/knowledge-runtime':
+      '@aistu/knowledge-runtime':
         specifier: workspace:*
         version: link:../../packages/knowledge-runtime
-      '@kaleidoscope/lesson-arrayqueue-representation':
+      '@aistu/lesson-arrayqueue-representation':
         specifier: workspace:*
         version: link:../../packages/lessons/arrayqueue-representation
-      '@kaleidoscope/lesson-arraystack-insertion':
+      '@aistu/lesson-arraystack-insertion':
         specifier: workspace:*
         version: link:../../packages/lessons/arraystack-insertion
-      '@kaleidoscope/lesson-call-stack':
+      '@aistu/lesson-call-stack':
         specifier: workspace:*
         version: link:../../packages/lessons/call-stack
-      '@kaleidoscope/lesson-cs408-core-visualizations':
+      '@aistu/lesson-cs408-core-visualizations':
         specifier: workspace:*
         version: link:../../packages/lessons/cs408-core-visualizations
-      '@kaleidoscope/lesson-dualarraydeque-balance':
+      '@aistu/lesson-dualarraydeque-balance':
         specifier: workspace:*
         version: link:../../packages/lessons/dualarraydeque-balance
-      '@kaleidoscope/tutor-runtime':
+      '@aistu/tutor-runtime':
         specifier: workspace:*
         version: link:../../packages/tutor-runtime
-      '@kaleidoscope/ui':
+      '@aistu/ui':
         specifier: workspace:*
         version: link:../../packages/ui
-      '@kaleidoscope/visualization-runtime':
+      '@aistu/visualization-runtime':
         specifier: workspace:*
         version: link:../../packages/visualization-runtime
       lucide-react:
@@ -142,7 +142,7 @@ importers:
 
   packages/knowledge-runtime:
     dependencies:
-      '@kaleidoscope/contracts':
+      '@aistu/contracts':
         specifier: workspace:*
         version: link:../contracts
       zod:
@@ -158,10 +158,10 @@ importers:
 
   packages/lessons/arrayqueue-representation:
     dependencies:
-      '@kaleidoscope/contracts':
+      '@aistu/contracts':
         specifier: workspace:*
         version: link:../../contracts
-      '@kaleidoscope/ui':
+      '@aistu/ui':
         specifier: workspace:*
         version: link:../../ui
       lucide-react:
@@ -189,10 +189,10 @@ importers:
 
   packages/lessons/arraystack-insertion:
     dependencies:
-      '@kaleidoscope/contracts':
+      '@aistu/contracts':
         specifier: workspace:*
         version: link:../../contracts
-      '@kaleidoscope/ui':
+      '@aistu/ui':
         specifier: workspace:*
         version: link:../../ui
       lucide-react:
@@ -220,7 +220,7 @@ importers:
 
   packages/lessons/call-stack:
     dependencies:
-      '@kaleidoscope/contracts':
+      '@aistu/contracts':
         specifier: workspace:*
         version: link:../../contracts
       lucide-react:
@@ -254,10 +254,10 @@ importers:
 
   packages/lessons/cs408-core-visualizations:
     dependencies:
-      '@kaleidoscope/contracts':
+      '@aistu/contracts':
         specifier: workspace:*
         version: link:../../contracts
-      '@kaleidoscope/ui':
+      '@aistu/ui':
         specifier: workspace:*
         version: link:../../ui
       lucide-react:
@@ -291,10 +291,10 @@ importers:
 
   packages/lessons/dualarraydeque-balance:
     dependencies:
-      '@kaleidoscope/contracts':
+      '@aistu/contracts':
         specifier: workspace:*
         version: link:../../contracts
-      '@kaleidoscope/ui':
+      '@aistu/ui':
         specifier: workspace:*
         version: link:../../ui
       lucide-react:
@@ -322,22 +322,22 @@ importers:
 
   packages/tutor-runtime:
     dependencies:
-      '@kaleidoscope/contracts':
+      '@aistu/contracts':
         specifier: workspace:*
         version: link:../contracts
-      '@kaleidoscope/lesson-arrayqueue-representation':
+      '@aistu/lesson-arrayqueue-representation':
         specifier: workspace:*
         version: link:../lessons/arrayqueue-representation
-      '@kaleidoscope/lesson-arraystack-insertion':
+      '@aistu/lesson-arraystack-insertion':
         specifier: workspace:*
         version: link:../lessons/arraystack-insertion
-      '@kaleidoscope/lesson-call-stack':
+      '@aistu/lesson-call-stack':
         specifier: workspace:*
         version: link:../lessons/call-stack
-      '@kaleidoscope/lesson-cs408-core-visualizations':
+      '@aistu/lesson-cs408-core-visualizations':
         specifier: workspace:*
         version: link:../lessons/cs408-core-visualizations
-      '@kaleidoscope/lesson-dualarraydeque-balance':
+      '@aistu/lesson-dualarraydeque-balance':
         specifier: workspace:*
         version: link:../lessons/dualarraydeque-balance
       zod:
@@ -365,22 +365,22 @@ importers:
 
   packages/visualization-runtime:
     dependencies:
-      '@kaleidoscope/contracts':
+      '@aistu/contracts':
         specifier: workspace:*
         version: link:../contracts
-      '@kaleidoscope/lesson-arrayqueue-representation':
+      '@aistu/lesson-arrayqueue-representation':
         specifier: workspace:*
         version: link:../lessons/arrayqueue-representation
-      '@kaleidoscope/lesson-arraystack-insertion':
+      '@aistu/lesson-arraystack-insertion':
         specifier: workspace:*
         version: link:../lessons/arraystack-insertion
-      '@kaleidoscope/lesson-call-stack':
+      '@aistu/lesson-call-stack':
         specifier: workspace:*
         version: link:../lessons/call-stack
-      '@kaleidoscope/lesson-cs408-core-visualizations':
+      '@aistu/lesson-cs408-core-visualizations':
         specifier: workspace:*
         version: link:../lessons/cs408-core-visualizations
-      '@kaleidoscope/lesson-dualarraydeque-balance':
+      '@aistu/lesson-dualarraydeque-balance':
         specifier: workspace:*
         version: link:../lessons/dualarraydeque-balance
       zod:

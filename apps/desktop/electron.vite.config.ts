@@ -7,7 +7,7 @@ export default defineConfig(({ mode }) => {
   const workspaceRoot = resolve(__dirname, "../..");
   Object.assign(
     process.env,
-    loadEnv(mode, workspaceRoot, ["KALEIDOSCOPE_", "DEEPSEEK_"]),
+    loadEnv(mode, workspaceRoot, ["AISTU_", "DEEPSEEK_"]),
   );
 
   return {
@@ -15,16 +15,16 @@ export default defineConfig(({ mode }) => {
       build: {
         externalizeDeps: {
           exclude: [
-            "@kaleidoscope/contracts",
-            "@kaleidoscope/knowledge-runtime",
-            "@kaleidoscope/lesson-arrayqueue-representation",
-            "@kaleidoscope/lesson-arraystack-insertion",
-            "@kaleidoscope/lesson-call-stack",
-            "@kaleidoscope/lesson-cs408-core-visualizations",
-            "@kaleidoscope/lesson-dualarraydeque-balance",
-            "@kaleidoscope/tutor-runtime",
-            "@kaleidoscope/ui",
-            "@kaleidoscope/visualization-runtime",
+            "@aistu/contracts",
+            "@aistu/knowledge-runtime",
+            "@aistu/lesson-arrayqueue-representation",
+            "@aistu/lesson-arraystack-insertion",
+            "@aistu/lesson-call-stack",
+            "@aistu/lesson-cs408-core-visualizations",
+            "@aistu/lesson-dualarraydeque-balance",
+            "@aistu/tutor-runtime",
+            "@aistu/ui",
+            "@aistu/visualization-runtime",
           ],
         },
         rollupOptions: {
@@ -35,7 +35,7 @@ export default defineConfig(({ mode }) => {
     preload: {
       build: {
         externalizeDeps: {
-          exclude: ["@kaleidoscope/contracts", "zod"],
+          exclude: ["@aistu/contracts", "zod"],
         },
         rollupOptions: {
           external: ["electron"],

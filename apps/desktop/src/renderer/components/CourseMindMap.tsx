@@ -1,8 +1,8 @@
 import type {
   KnowledgeCourseConcept,
   KnowledgeCourseModule,
-} from "@kaleidoscope/contracts";
-import { getVisualizationRegistrationForConcept } from "@kaleidoscope/visualization-runtime";
+} from "@aistu/contracts";
+import { getVisualizationRegistrationForConcept } from "@aistu/visualization-runtime";
 import { Sparkles, Waypoints } from "lucide-react";
 import { useMemo } from "react";
 

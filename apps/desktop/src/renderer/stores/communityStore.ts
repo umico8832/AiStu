@@ -72,7 +72,7 @@ const initialSubmissions: CommunitySubmission[] = [
     courseId: "computer-organization",
     schoolId: "computer-science-408",
     conceptId: "co.tlb",
-    authorName: "Kaleidoscope 学习者",
+    authorName: "AiStu 学习者",
     attachments: [],
     status: "approved",
     createdAt: 1_753_000_000_000,

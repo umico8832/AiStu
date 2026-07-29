@@ -5,11 +5,11 @@ import {
   type ChatStreamEvent,
   type KnowledgeRetrievalContext,
   type TutorCommand,
-} from "@kaleidoscope/contracts";
+} from "@aistu/contracts";
 import {
   createDemoTutorPlan,
   ensureGuidedReplies,
-} from "@kaleidoscope/tutor-runtime";
+} from "@aistu/tutor-runtime";
 import { runCodexTutor } from "./codex-provider";
 import { runDeepSeekTutor } from "./deepseek-provider";
 
@@ -88,7 +88,7 @@ export class DemoTutorProvider implements TutorProvider {
 
   async stream(
     input: ChatSendInput,
-    _knowledge: KnowledgeRetrievalContext,
+    knowledge: KnowledgeRetrievalContext,
     signal: AbortSignal,
     emit: (event: ChatStreamEvent) => void,
   ): Promise<void> {
@@ -99,6 +99,7 @@ export class DemoTutorProvider implements TutorProvider {
         input.studyScope,
         input.studyProfile,
         input.reviewFocus,
+        knowledge,
       ),
       input.messages,
     );
@@ -241,7 +242,7 @@ export class DeepSeekTutorProvider implements TutorProvider {
 }
 
 export function createTutorProvider(): TutorProvider {
-  const requested = process.env.KALEIDOSCOPE_AI_PROVIDER ?? "codex";
+  const requested = process.env.AISTU_AI_PROVIDER ?? "codex";
   if (requested === "demo") {
     return new DemoTutorProvider();
   }

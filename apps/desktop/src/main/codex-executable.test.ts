@@ -7,7 +7,7 @@ import { resolveCodexExecutable } from "./codex-executable";
 const temporaryDirectories: string[] = [];
 
 async function createExecutable(name = "codex"): Promise<string> {
-  const directory = await mkdtemp(join(tmpdir(), "kaleidoscope-codex-test-"));
+  const directory = await mkdtemp(join(tmpdir(), "aistu-codex-test-"));
   temporaryDirectories.push(directory);
   const executable = join(directory, name);
   await writeFile(executable, "#!/bin/sh\nexit 0\n", { mode: 0o700 });
@@ -29,7 +29,7 @@ describe("resolveCodexExecutable", () => {
     await expect(
       resolveCodexExecutable(
         {
-          KALEIDOSCOPE_CODEX_PATH: configured,
+          AISTU_CODEX_PATH: configured,
           PATH: "",
           SHELL: "/bin/zsh",
         },

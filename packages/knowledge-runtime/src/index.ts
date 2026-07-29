@@ -3,7 +3,7 @@ import {
   knowledgeRagChunkSchema,
   type KnowledgeRagChunk,
   type KnowledgeRetrievalContext,
-} from "@kaleidoscope/contracts";
+} from "@aistu/contracts";
 import { z } from "zod";
 
 const externalRagChunkSchema = z

@@ -1,4 +1,4 @@
-import { VISUALIZATION_ID_CALL_STACK } from "@kaleidoscope/contracts";
+import { VISUALIZATION_ID_CALL_STACK } from "@aistu/contracts";
 import { z } from "zod";
 import { LESSON_STEP_COUNT, lessonSteps } from "./lessonSteps";
 

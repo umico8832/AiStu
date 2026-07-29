@@ -5,7 +5,7 @@ import {
   VISUALIZATION_ID_CS408_GRAPH_TRAVERSAL,
   VISUALIZATION_ID_CS408_QUICK_SORT_PARTITION,
   type VisualizationInteractionEvent,
-} from "@kaleidoscope/contracts";
+} from "@aistu/contracts";
 import { act, useState } from "react";
 import { createRoot } from "react-dom/client";
 import { renderToStaticMarkup } from "react-dom/server";

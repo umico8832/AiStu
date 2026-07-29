@@ -1,7 +1,7 @@
-# Kaleidoscope 互动课件
+# AiStu 互动课件
 
 本目录是桌面应用中 React 教学课件的唯一代码归属地。课件共享
-`@kaleidoscope/visualization-runtime` 和 `@kaleidoscope/ui`，不创建独立网页、
+`@aistu/visualization-runtime` 和 `@aistu/ui`，不创建独立网页、
 路由、Electron 窗口或构建系统。
 
 完整的设计、Schema、步骤、测试、知识绑定与审核流程见

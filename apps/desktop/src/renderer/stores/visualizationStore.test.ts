@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
 import {
   VISUALIZATION_ID_CALL_STACK,
-} from "@kaleidoscope/contracts";
-import { defaultCallStackSessionSpec } from "@kaleidoscope/lesson-call-stack";
+} from "@aistu/contracts";
+import { defaultCallStackSessionSpec } from "@aistu/lesson-call-stack";
 import { useVisualizationStore } from "./visualizationStore";
 
 describe("visualization store", () => {

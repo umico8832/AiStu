@@ -3,16 +3,16 @@ import {
   type PersistedVisualizationSession,
   type TutorCommand,
   type VisualizationInteractionEvent,
-} from "@kaleidoscope/contracts";
+} from "@aistu/contracts";
 import {
   callStackSessionSpecSchema,
-} from "@kaleidoscope/lesson-call-stack";
+} from "@aistu/lesson-call-stack";
 import {
   applyVisualizationPatch,
   openVisualizationSessionSafe,
   validateRestoredVisualizationSession,
   type VisualizationSession,
-} from "@kaleidoscope/visualization-runtime";
+} from "@aistu/visualization-runtime";
 import { create } from "zustand";
 
 interface VisualizationState {

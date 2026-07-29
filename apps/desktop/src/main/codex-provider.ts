@@ -5,13 +5,13 @@ import type {
   CourseStudyProfile,
   KnowledgeRetrievalContext,
   MistakeReviewFocus,
-} from "@kaleidoscope/contracts";
+} from "@aistu/contracts";
 import {
   buildCodexTutorOutputJsonSchema,
   buildCodexTutorPrompt,
   normalizeCodexTutorOutput,
   type TutorPlan,
-} from "@kaleidoscope/tutor-runtime";
+} from "@aistu/tutor-runtime";
 import { spawn } from "node:child_process";
 import {
   mkdtemp,
@@ -55,7 +55,7 @@ function codexEnvironment(): NodeJS.ProcessEnv {
 
 function parseTimeout(): number {
   const configured = Number.parseInt(
-    process.env.KALEIDOSCOPE_CODEX_TIMEOUT_MS ?? "",
+    process.env.AISTU_CODEX_TIMEOUT_MS ?? "",
     10,
   );
   return Number.isFinite(configured)
@@ -87,7 +87,7 @@ export async function runCodexTutor(
   signal: AbortSignal,
 ): Promise<TutorPlan> {
   const scratchDirectory = await mkdtemp(
-    join(tmpdir(), "kaleidoscope-codex-"),
+    join(tmpdir(), "aistu-codex-"),
   );
   const schemaPath = join(scratchDirectory, "tutor-output.schema.json");
   const outputPath = join(scratchDirectory, "tutor-output.json");
@@ -205,7 +205,7 @@ export async function runCodexTutor(
           : null;
       if (code === "ENOENT") {
         throw new Error(
-          "未找到本机 Codex CLI。请确认已安装，或设置 KALEIDOSCOPE_CODEX_PATH。",
+          "未找到本机 Codex CLI。请确认已安装，或设置 AISTU_CODEX_PATH。",
           { cause: error },
         );
       }

@@ -4,7 +4,7 @@
 > 最近复核：2026-07-25
 
 本文说明如何建立环境、选择 Provider、定位代码和完成一次安全的工程改动。产品范围
-和架构边界分别以 [`../MVP_SCOPE.md`](../MVP_SCOPE.md) 与
+和架构边界分别以 [`../CURRENT_SCOPE.md`](../CURRENT_SCOPE.md) 与
 [`../ARCHITECTURE.md`](../ARCHITECTURE.md) 为准。
 
 ## 1. 环境要求
@@ -48,7 +48,7 @@ pnpm dev
 复制 `.env.example` 后只需填写 Key：
 
 ```dotenv
-KALEIDOSCOPE_AI_PROVIDER=deepseek
+AISTU_AI_PROVIDER=deepseek
 DEEPSEEK_API_KEY=在这里填写你的_API_Key
 DEEPSEEK_MODEL=deepseek-v4-flash
 ```
@@ -67,7 +67,7 @@ DEEPSEEK_MODEL=deepseek-v4-flash
 ### Codex CLI：本机开发模式
 
 ```bash
-KALEIDOSCOPE_AI_PROVIDER=codex pnpm dev
+AISTU_AI_PROVIDER=codex pnpm dev
 ```
 
 Main 使用受控参数调用本机 Codex CLI。Renderer 不能指定命令、目录或 flags。
@@ -76,21 +76,21 @@ Main 使用受控参数调用本机 Codex CLI。Renderer 不能指定命令、�
 
 | 环境变量 | 用途 |
 | --- | --- |
-| `KALEIDOSCOPE_CODEX_PATH` | 覆盖自动解析结果，显式指定 Codex 可执行文件 |
-| `KALEIDOSCOPE_CODEX_TIMEOUT_MS` | 请求超时，运行时限制在 15–600 秒 |
+| `AISTU_CODEX_PATH` | 覆盖自动解析结果，显式指定 Codex 可执行文件 |
+| `AISTU_CODEX_TIMEOUT_MS` | 请求超时，运行时限制在 15–600 秒 |
 
 Main 会先检查当前进程的 `PATH`；macOS 图形界面启动未继承终端 `PATH` 时，还会通过
 受限的登录 shell，以及已安装 ChatGPT 应用的 bundle ID 查询 Codex 的实际路径。
 仍可用以下方式显式覆盖自动解析结果：
 
 ```bash
-KALEIDOSCOPE_CODEX_PATH="$(command -v codex)" pnpm dev
+AISTU_CODEX_PATH="$(command -v codex)" pnpm dev
 ```
 
 ### Demo：离线与确定性流程
 
 ```bash
-KALEIDOSCOPE_AI_PROVIDER=demo pnpm dev
+AISTU_AI_PROVIDER=demo pnpm dev
 ```
 
 Demo Provider 用于截图、稳定 E2E 和不依赖网络的演示。它不能作为真实模型质量证明。
@@ -116,7 +116,7 @@ content/ods-material/knowledge_base
 开发环境默认直接读取它；只有开发或 CI 需要验证其他副本时才显式覆盖：
 
 ```bash
-KALEIDOSCOPE_KNOWLEDGE_BASE_PATH=/path/to/knowledge_base pnpm dev
+AISTU_KNOWLEDGE_BASE_PATH=/path/to/knowledge_base pnpm dev
 ```
 
 运行时代码不能写死本机绝对路径。
@@ -156,7 +156,7 @@ pnpm check:knowledge-snapshot
 | Provider、知识文件、窗口、安全、持久化 | `apps/desktop/src/main` |
 | 最小领域桥接 | `apps/desktop/src/preload` |
 | 页面、路由、桌面交互 | `apps/desktop/src/renderer` |
-| 对话编排、TutorCommand、学习视角 | `packages/tutor-runtime` |
+| 对话编排、TutorCommand、演示场景 | `packages/tutor-runtime` |
 | 注册、session、patch、lazy load | `packages/visualization-runtime` |
 | 课件专属 Schema、步骤、组件 | `packages/lessons/<lesson>` |
 | 多课件共享 UI 原语 | `packages/ui` |
@@ -171,7 +171,7 @@ pnpm check:knowledge-snapshot
 1. 先在 `packages/contracts` 定义严格请求、响应和通道；
 2. 在 Main handler 中再次解析输入并验证 sender；
 3. 在 Preload 暴露具体领域方法，不暴露通用 `invoke`；
-4. Renderer 只使用 `window.kaleidoscope.<domain>`；
+4. Renderer 只使用 `window.aistu.<domain>`；
 5. 添加 contracts、Main 和必要 E2E 测试；
 6. 更新 `ARCHITECTURE.md` 中当前 API 列表。
 
@@ -238,7 +238,7 @@ pnpm check:knowledge-snapshot
 - 不覆盖工作树中的其他修改；
 - 一个 commit 只聚焦一件事；
 - 长期产品决策更新 `PRODUCT_DIRECTION.md`；
-- 当前范围更新 `MVP_SCOPE.md`；
+- 当前范围更新 `CURRENT_SCOPE.md`；
 - 架构事实更新 `ARCHITECTURE.md`；
 - 完成度和阻塞更新 `ROADMAP.md`；
 - 需要保存权衡时新增 ADR；

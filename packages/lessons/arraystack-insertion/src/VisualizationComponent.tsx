@@ -1,5 +1,5 @@
-import type { VisualizationInteractionEvent } from "@kaleidoscope/contracts";
-import { LessonFrame } from "@kaleidoscope/ui";
+import type { VisualizationInteractionEvent } from "@aistu/contracts";
+import { LessonFrame } from "@aistu/ui";
 import { ArrowRight, BetweenHorizontalEnd, MoveRight } from "lucide-react";
 import { motion, MotionConfig } from "motion/react";
 import { useMemo, useRef, useState } from "react";

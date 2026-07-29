@@ -1,4 +1,4 @@
-import { VISUALIZATION_ID_ARRAYSTACK_INSERTION } from "@kaleidoscope/contracts";
+import { VISUALIZATION_ID_ARRAYSTACK_INSERTION } from "@aistu/contracts";
 import { z } from "zod";
 
 const elementSchema = z.string().trim().min(1).max(8);

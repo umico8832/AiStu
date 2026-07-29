@@ -1,4 +1,4 @@
-import type { KnowledgeRagChunk } from "@kaleidoscope/contracts";
+import type { KnowledgeRagChunk } from "@aistu/contracts";
 import { describe, expect, it } from "vitest";
 import {
   KnowledgeIndex,

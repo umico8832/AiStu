@@ -39,8 +39,6 @@ import {
   type ChangeEvent,
   type FormEvent,
 } from "react";
-import { KaleidoscopeMark } from "./KaleidoscopeMark";
-
 const allValue = "all";
 const acceptedQuestionBankExtensions =
   ".pdf,.doc,.docx,.wps,.xls,.xlsx,.et,.csv,.json,.txt,.md,.zip";
@@ -866,10 +864,6 @@ export function CommunityPage() {
         <header className="overflow-hidden rounded-[28px] border border-white/80 bg-gradient-to-br from-slate-950 via-indigo-950 to-violet-900 px-6 py-7 text-white shadow-[0_24px_70px_rgba(49,46,129,0.22)] sm:px-8">
           <div className="grid items-end gap-7 lg:grid-cols-[minmax(0,1fr)_360px]">
             <div>
-              <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3 py-1 text-[11px] font-bold tracking-[0.12em] text-indigo-100">
-                <KaleidoscopeMark size="sm" />
-                LEARN TOGETHER
-              </div>
               <h1 className="m-0 mt-4 max-w-[680px] text-[32px] font-semibold leading-[1.16] tracking-[-0.04em] sm:text-[38px]">
                 和认真学习的人，
                 <br />

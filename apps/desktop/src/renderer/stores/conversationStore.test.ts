@@ -1,4 +1,4 @@
-import type { PersistedAppStateV2 } from "@kaleidoscope/contracts";
+import type { PersistedAppStateV2 } from "@aistu/contracts";
 import { beforeEach, describe, expect, it } from "vitest";
 import { useConversationStore } from "./conversationStore";
 

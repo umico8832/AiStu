@@ -3,7 +3,7 @@ import {
   persistedSessionV1Schema,
   type PersistedAppStateV2,
   type PersistedSessionV1,
-} from "@kaleidoscope/contracts";
+} from "@aistu/contracts";
 import { app } from "electron";
 import { readFile, rename, writeFile } from "node:fs/promises";
 import { join } from "node:path";

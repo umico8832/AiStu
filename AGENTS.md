@@ -1,4 +1,4 @@
-# Kaleidoscope Agent Guide
+# AiStu Agent Guide
 
 本文件只记录 AI Agent 在本仓库工作的强制规则。产品目标、范围、架构与项目状态
 分别由 `docs/` 下的核心文档维护，不在这里重复。
@@ -9,7 +9,7 @@
 
 1. `AGENTS.md`
 2. `docs/PRODUCT_DIRECTION.md`
-3. `docs/MVP_SCOPE.md`
+3. `docs/CURRENT_SCOPE.md`
 4. `docs/ARCHITECTURE.md`
 5. `docs/ROADMAP.md`
 
@@ -19,7 +19,7 @@
 
 1. 用户当前任务中的明确要求；
 2. 本文件中的安全与工程硬约束；
-3. `MVP_SCOPE.md` 中的当前范围；
+3. `CURRENT_SCOPE.md` 中的当前范围；
 4. `ARCHITECTURE.md` 中的技术边界；
 5. `PRODUCT_DIRECTION.md` 中的长期原则；
 6. `ROADMAP.md` 中的当前状态与执行顺序。
@@ -31,7 +31,7 @@
 
 - 检查当前工作树，保留并绕开用户已有修改；
 - 阅读相关源码、依赖和邻近测试，不假设文档中的计划已经实现；
-- 先确认改动属于当前 MVP，再决定是否实现；
+- 先确认改动属于当前阶段，再决定是否实现；
 - 复用现有组件、运行时和已验证课件，不无理由重写；
 - Git 操作遵守 [`docs/AGENT_GIT_RULES.md`](docs/AGENT_GIT_RULES.md)；
 - 未经用户当前任务明确许可，不得执行 `git add`、`git commit` 或 `git push`。
@@ -53,7 +53,7 @@
   或内容覆盖自动判定为掌握；
 - 未经独立审查的课件或内容不得标记为 `reviewed`。
 
-完整范围与验收标准只在 [`docs/MVP_SCOPE.md`](docs/MVP_SCOPE.md) 维护。
+完整范围与验收标准只在 [`docs/CURRENT_SCOPE.md`](docs/CURRENT_SCOPE.md) 维护。
 
 ## 4. 架构与安全硬约束
 
@@ -138,7 +138,7 @@ pnpm build
 涉及 Electron、持久化、路由、IPC、课件容器或打包配置时，还要执行相应的
 Playwright 与 macOS 打包验收。
 
-凡本轮修改了应用代码，在检查通过后必须停止此前由 Agent 启动的 Kaleidoscope
+凡本轮修改了应用代码，在检查通过后必须停止此前由 Agent 启动的 AiStu
 开发实例或应用窗口，再从当前工作树启动最新应用，确保桌面上只保留一个供用户验收
 的最新实例。启动失败时明确报告错误与阻塞。
 

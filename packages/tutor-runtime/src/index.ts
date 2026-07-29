@@ -23,43 +23,34 @@ import {
   type KnowledgeRetrievalContext,
   type MistakeReviewFocus,
   type TutorCommand,
-} from "@kaleidoscope/contracts";
+} from "@aistu/contracts";
 import {
   applyArrayQueueRepresentationPatchOperations,
   defaultArrayQueueRepresentationSessionSpec,
   type ArrayQueueRepresentationPatchOperation,
-} from "@kaleidoscope/lesson-arrayqueue-representation";
+} from "@aistu/lesson-arrayqueue-representation";
 import {
   applyArrayStackInsertionPatchOperations,
   defaultArrayStackInsertionSessionSpec,
   type ArrayStackInsertionPatchOperation,
-} from "@kaleidoscope/lesson-arraystack-insertion";
+} from "@aistu/lesson-arraystack-insertion";
 import {
   applyCallStackPatchOperations,
   defaultCallStackSessionSpec,
   type CallStackPatchOperation,
   type CallStackSessionSpec,
-} from "@kaleidoscope/lesson-call-stack";
+} from "@aistu/lesson-call-stack";
 import {
   buildCs408CoreSessionSpec,
   cs408CoreVisualizationIdSchema,
-} from "@kaleidoscope/lesson-cs408-core-visualizations";
+} from "@aistu/lesson-cs408-core-visualizations";
 import {
   applyDualArrayDequeBalancePatchOperations,
   defaultDualArrayDequeBalanceSessionSpec,
   type DualArrayDequeBalancePatchOperation,
-} from "@kaleidoscope/lesson-dualarraydeque-balance";
+} from "@aistu/lesson-dualarraydeque-balance";
 import { z } from "zod";
 
-export {
-  callStackLearningLenses,
-  cycleLearningLens,
-  getCallStackLearningLens,
-  getLearningLensesForVisualization,
-  learningLensDefinitionSchema,
-  parseLearningLensSelection,
-} from "./learningLenses";
-export type { LearningLensDefinition } from "./learningLenses";
 export {
   demoScenarioSchema,
   demoScenarios,
@@ -264,7 +255,7 @@ export function buildTutorInstructions(
     : null;
 
   return [
-    "Role: 你是 Kaleidoscope 的计算机基础课 AI 导师。",
+    "Role: 你是 AiStu 的计算机基础课 AI 导师。",
     "Goal: 先定位学习者卡住的具体机制，再用短解释、预测问题和已注册课件帮助他形成可验证的理解。",
     "Teaching style: 使用中文，像坐在学习者旁边讲题一样自然、耐心、具体。一次只推进一个关键点，先讲人话，再补术语；首次出现的术语立刻用日常语言解释。不要把知识库原文直接改写成教科书段落。",
     "Plain-language rule: 学习者说“不会”“不懂”“没学过”或第一次接触某个概念时，不要先追问基础或抛定义。默认先用一个日常、可想象的比喻帮他建立直觉，再用一句话明确比喻中的对象分别对应真实概念中的什么。优先使用小数字、具体对象和能在脑中画出来的过程；类比只负责入门，不能代替准确知识。",
@@ -1279,6 +1270,42 @@ function latestUserText(messages: ConversationMessage[]): string {
   );
 }
 
+function demoGrounding(
+  knowledge: KnowledgeRetrievalContext | null,
+): AssistantGrounding {
+  if (!knowledge || knowledge.status === "not_found") {
+    return { status: "not_found", citations: [] };
+  }
+  if (knowledge.status === "unavailable") {
+    return { status: "unavailable", citations: [] };
+  }
+
+  const chunks = knowledge.chunks
+    .filter(
+      (chunk, index, allChunks) =>
+        allChunks.findIndex(
+          (candidate) => candidate.conceptId === chunk.conceptId,
+        ) === index,
+    )
+    .slice(0, 5);
+  if (chunks.length === 0) {
+    return { status: "not_found", citations: [] };
+  }
+
+  return assistantGroundingSchema.parse({
+    status: "grounded",
+    citations: chunks.map((chunk) => ({
+      chunkId: chunk.chunkId,
+      conceptId: chunk.conceptId,
+      title: chunk.title,
+      courseId: chunk.metadata.courseId,
+      chapterId: chunk.metadata.chapterId,
+      sectionId: chunk.metadata.sectionId,
+      knowledgeVersion: chunk.metadata.knowledgeVersion,
+    })),
+  });
+}
+
 const defaultGuidedReplies = [
   "我有点明白了，继续",
   "再换个更简单的比喻",
@@ -1511,6 +1538,7 @@ export function createDemoTutorPlan(
   studyScope: ConversationStudyScope | null = null,
   _studyProfile: CourseStudyProfile | null = null,
   reviewFocus: MistakeReviewFocus | null = null,
+  knowledge: KnowledgeRetrievalContext | null = null,
 ): TutorPlan {
   const text = latestUserText(messages);
   const recentConversation = messages
@@ -1928,15 +1956,70 @@ export function createDemoTutorPlan(
     };
   }
 
-  if (/递归|调用栈|栈帧|入栈|出栈|factorial|阶乘/.test(text)) {
+  if (
+    /(?:换个|再来个|再换个).*(?:简单|直观).*(?:比喻|说法)|更简单的比喻/u.test(
+      text,
+    ) &&
+    /递归|调用栈|栈帧|factorial|阶乘/u.test(recentConversation)
+  ) {
     return {
-      text: "你卡住的不是“递归会调用自己”，而是每一层为什么能停住并在之后继续。如果你愿意，可以确认打开阶乘调用栈课件：先看每次调用新增的栈帧，再预测第一个返回的是谁。",
+      text: [
+        "**换成“嵌套房间”来想**",
+        "想象你依次走进 3 间套在一起的房间。每进一间，都要在门口留一张任务卡，写着“我是谁，以及从里面回来后还要做什么”。",
+        "",
+        "- 进入房间 3：留下 `f(3)` 的卡片——回来后还要算 `3 × f(2)`",
+        "- 进入房间 2：留下 `f(2)` 的卡片——回来后还要算 `2 × f(1)`",
+        "- 进入房间 1：命中基例，直接拿到结果 `1`",
+        "",
+        "**为什么一定倒着出来**",
+        "你身处最里面的房间 1，只能先退出它；回到房间 2，读卡片算出 `2 × 1 = 2`；再回到房间 3，算出 `3 × 2 = 6`。",
+        "",
+        "**把比喻对回程序**",
+        "- 一间房 = 一次函数调用的栈帧",
+        "- 门口的任务卡 = 参数、局部变量和返回位置",
+        "- 走进下一间 = 入栈；退出当前房间 = 出栈并恢复上一层",
+        "",
+        "**一句话记住**",
+        "进去是 `f(3) → f(2) → f(1)`，出来是 `f(1) → f(2) → f(3)`。调用栈真正做的，是让每一层都记得“等里面算完后，我还要接着做什么”。",
+        "",
+        "可以确认打开课件：你会看到这些“房间”逐层压栈、暂停，再按相反顺序恢复。",
+      ].join("\n"),
       command: buildDemoOpenCommand(text),
       suggestedReplies: [],
-      grounding: {
-        status: "not_found",
-        citations: [],
-      },
+      grounding: demoGrounding(knowledge),
+    };
+  }
+
+  if (/递归|调用栈|栈帧|入栈|出栈|factorial|阶乘/.test(text)) {
+    return {
+      text: [
+        "**先抓住一句话**",
+        "调用栈不是把同一个函数来回覆盖，而是在替程序保管一摞“还没做完的调用”。每调用一次函数，就新增一个独立栈帧，记住这一层的参数、局部变量，以及返回后该从哪里继续。",
+        "",
+        "**跟着 `f(3)` 走一遍**",
+        "- 调用 `f(3)`：压入栈帧，保存 `n = 3`；它要等 `f(2)` 的结果",
+        "- 调用 `f(2)`：再压入一帧，保存 `n = 2`；它要等 `f(1)` 的结果",
+        "- 调用 `f(1)`：压入第三帧，命中基例，直接返回 `1`",
+        "",
+        "此时栈从下到上是 `f(3) → f(2) → f(1)`。只有最上面的 `f(1)` 正在执行，下面两层都没有消失，只是暂停在各自的调用位置。",
+        "",
+        "**返回时发生了什么**",
+        "- `f(1)` 返回 `1`，它的栈帧弹出",
+        "- `f(2)` 被恢复，接着算 `2 × 1 = 2`，随后弹出",
+        "- `f(3)` 被恢复，接着算 `3 × 2 = 6`，随后弹出",
+        "",
+        "**最容易混淆的点**",
+        "递归深入时是不断创建新栈帧，不是复用同一份 `n`；返回时则严格后进先出。谁最后入栈，谁就最先完成，结果也只会先交给它的直接调用者。",
+        "",
+        "**看课件时只盯两件事**",
+        "- 出现新调用：当前层暂停，新栈帧压到顶部",
+        "- 当前函数返回：顶部栈帧弹出，下面一层从暂停处继续",
+        "",
+        "可以确认打开阶乘调用栈课件，亲眼看一次“压栈—触底—逐层返回”，再预测第一个出栈的是谁。",
+      ].join("\n"),
+      command: buildDemoOpenCommand(text),
+      suggestedReplies: [],
+      grounding: demoGrounding(knowledge),
     };
   }
 

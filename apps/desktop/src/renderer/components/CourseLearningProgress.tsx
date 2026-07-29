@@ -1,7 +1,7 @@
 import type {
   CourseLearningRecord,
   CourseMistakeRecord,
-} from "@kaleidoscope/contracts";
+} from "@aistu/contracts";
 import {
   Award,
   BrainCircuit,
@@ -91,7 +91,7 @@ export function CourseLearningSnapshot({
   return (
     <section
       aria-label="专项学习记录摘要"
-      className={`kaleidoscope-prism-surface overflow-hidden rounded-[24px] border border-white/80 bg-white/72 shadow-[0_14px_38px_rgba(15,23,42,0.055)] backdrop-blur-xl ${
+      className={`overflow-hidden rounded-[24px] border border-white/80 bg-white/72 shadow-[0_14px_38px_rgba(15,23,42,0.055)] backdrop-blur-xl ${
         compact ? "p-4" : "p-5"
       }`}
     >
@@ -217,7 +217,7 @@ export function CourseMistakeReviewSection({
   return (
     <section
       aria-labelledby="course-mistake-review-title"
-      className="kaleidoscope-prism-surface overflow-hidden rounded-[24px] border border-white/80 bg-white/72 p-5 shadow-[0_14px_38px_rgba(15,23,42,0.055)] backdrop-blur-xl"
+      className="overflow-hidden rounded-[24px] border border-white/80 bg-white/72 p-5 shadow-[0_14px_38px_rgba(15,23,42,0.055)] backdrop-blur-xl"
     >
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="flex items-center gap-2 text-xs font-bold text-indigo-700">

@@ -1,6 +1,6 @@
-# Kaleidoscope 标准知识库（knowledge_base）
+# AiStu 标准知识库（knowledge_base）
 
-本目录是 Kaleidoscope 仓库内长期维护的**独立、结构化、面向 AI RAG 检索的中文
+本目录是 AiStu 仓库内长期维护的**独立、结构化、面向 AI RAG 检索的中文
 标准知识库**。
 它支持多课程和多来源，但所有内容必须经过同一套 authoring、Schema、关系、发布、
 审查和派生索引流程。

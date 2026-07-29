@@ -6,7 +6,7 @@ import {
   UsersRound,
 } from "lucide-react";
 import { useEffect, useId, useRef, useState } from "react";
-import appIconUrl from "../assets/kaleidoscope-app-icon.png";
+import appIconUrl from "../assets/aistu-app-icon.png";
 
 interface ConversationListItem {
   id: string;
@@ -79,7 +79,7 @@ export function NavigationRail({
     >
       <aside
         id={sidebarId}
-        aria-label="Kaleidoscope 侧边栏"
+        aria-label="AiStu 侧边栏"
         className={`absolute inset-y-0 left-0 flex w-72 flex-col overflow-hidden border-r border-slate-200/80 bg-[#fbfaf7]/94 pb-3 ${topSafePadding} backdrop-blur-xl`}
       >
         <div className="flex h-12 shrink-0 items-center gap-3 px-3.5">
@@ -107,7 +107,7 @@ export function NavigationRail({
             className={`min-w-0 flex-1 transition-[opacity,transform] duration-150 ease-out motion-reduce:transition-none ${disclosureClass}`}
           >
             <p className="m-0 truncate text-[15px] font-semibold tracking-tight text-slate-950">
-              Kaleidoscope
+              AiStu
             </p>
             <p className="m-0 mt-0.5 text-[11px] font-medium text-slate-400">
               AI 学习工作台

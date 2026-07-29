@@ -1,7 +1,7 @@
 import type {
   ConversationMessage,
   KnowledgeRetrievalContext,
-} from "@kaleidoscope/contracts";
+} from "@aistu/contracts";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { runDeepSeekTutor } from "./deepseek-provider";
 

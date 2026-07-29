@@ -1,5 +1,5 @@
 {
-  "name": "@kaleidoscope/lesson-arraystack-insertion",
+  "name": "@aistu/lesson-arraystack-insertion",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -11,8 +11,8 @@
     "test": "vitest run test"
   },
   "dependencies": {
-    "@kaleidoscope/contracts": "workspace:*",
-    "@kaleidoscope/ui": "workspace:*",
+    "@aistu/contracts": "workspace:*",
+    "@aistu/ui": "workspace:*",
     "lucide-react": "1.26.0",
     "motion": "12.42.2",
     "react": "19.2.8",

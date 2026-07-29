@@ -5,13 +5,13 @@ import type {
   CourseStudyProfile,
   KnowledgeRetrievalContext,
   MistakeReviewFocus,
-} from "@kaleidoscope/contracts";
+} from "@aistu/contracts";
 import {
   buildCodexTutorOutputJsonSchema,
   buildCodexTutorPrompt,
   normalizeCodexTutorOutput,
   type TutorPlan,
-} from "@kaleidoscope/tutor-runtime";
+} from "@aistu/tutor-runtime";
 import { z } from "zod";
 
 const DEEPSEEK_CHAT_COMPLETIONS_URL =
@@ -128,7 +128,7 @@ export async function runDeepSeekTutor(
           {
             role: "system",
             content: [
-              "你是 Kaleidoscope 的教学决策器。",
+              "你是 AiStu 的教学决策器。",
               "只返回一个符合给定 JSON Schema 的 JSON 对象，不要使用 Markdown 代码块，不要输出额外文字。",
               "JSON Schema：",
               JSON.stringify(outputSchema),

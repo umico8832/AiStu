@@ -1,5 +1,5 @@
 {
-  "name": "@kaleidoscope/visualization-runtime",
+  "name": "@aistu/visualization-runtime",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -11,12 +11,12 @@
     "test": "vitest run test"
   },
   "dependencies": {
-    "@kaleidoscope/contracts": "workspace:*",
-    "@kaleidoscope/lesson-arrayqueue-representation": "workspace:*",
-    "@kaleidoscope/lesson-arraystack-insertion": "workspace:*",
-    "@kaleidoscope/lesson-call-stack": "workspace:*",
-    "@kaleidoscope/lesson-cs408-core-visualizations": "workspace:*",
-    "@kaleidoscope/lesson-dualarraydeque-balance": "workspace:*",
+    "@aistu/contracts": "workspace:*",
+    "@aistu/lesson-arrayqueue-representation": "workspace:*",
+    "@aistu/lesson-arraystack-insertion": "workspace:*",
+    "@aistu/lesson-call-stack": "workspace:*",
+    "@aistu/lesson-cs408-core-visualizations": "workspace:*",
+    "@aistu/lesson-dualarraydeque-balance": "workspace:*",
     "zod": "4.4.3"
   },
   "devDependencies": {

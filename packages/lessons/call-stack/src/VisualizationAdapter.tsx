@@ -1,4 +1,4 @@
-import type { VisualizationInteractionEvent } from "@kaleidoscope/contracts";
+import type { VisualizationInteractionEvent } from "@aistu/contracts";
 import { CallStackLesson } from "./CallStackLesson";
 import { callStackSessionSpecSchema } from "./spec";
 import type { CallStackLessonState } from "./types";

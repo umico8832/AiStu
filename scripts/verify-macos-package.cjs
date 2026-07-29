@@ -7,12 +7,12 @@ const path = require("node:path");
 
 const repositoryRoot = path.resolve(__dirname, "..");
 const appPath =
-  process.env.KALEIDOSCOPE_MAC_APP_PATH?.trim() ||
+  process.env.AISTU_MAC_APP_PATH?.trim() ||
   path.join(
     repositoryRoot,
     "release",
     "mac-arm64",
-    "Kaleidoscope.app",
+    "AiStu.app",
   );
 const resourcesPath = path.join(appPath, "Contents", "Resources");
 const packagedChunksPath = path.join(

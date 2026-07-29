@@ -11,7 +11,7 @@ import {
   visualizationWindowPayloadSchema,
   type VisualizationWindowEvent,
   type VisualizationWindowPayload,
-} from "@kaleidoscope/contracts";
+} from "@aistu/contracts";
 import {
   app,
   BrowserWindow,
@@ -44,8 +44,8 @@ let visualizationWindow: BrowserWindow | null = null;
 let visualizationWindowCreation: Promise<BrowserWindow> | null = null;
 let visualizationWindowPayload: VisualizationWindowPayload | null = null;
 
-if (process.env.KALEIDOSCOPE_E2E_USER_DATA) {
-  app.setPath("userData", process.env.KALEIDOSCOPE_E2E_USER_DATA);
+if (process.env.AISTU_E2E_USER_DATA) {
+  app.setPath("userData", process.env.AISTU_E2E_USER_DATA);
 }
 
 function emitToSender(
@@ -105,7 +105,7 @@ async function createVisualizationWindow(): Promise<BrowserWindow> {
     height: 840,
     minWidth: 760,
     minHeight: 560,
-    title: "Kaleidoscope 互动课件",
+    title: "AiStu 互动课件",
     backgroundColor: "#f8fafc",
     show: false,
     webPreferences: {
@@ -353,7 +353,7 @@ async function createMainWindow(): Promise<BrowserWindow> {
   return window;
 }
 
-app.setName("Kaleidoscope");
+app.setName("AiStu");
 
 app.whenReady().then(async () => {
   if (process.platform === "darwin" && !app.isPackaged) {

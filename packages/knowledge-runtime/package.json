@@ -1,5 +1,5 @@
 {
-  "name": "@kaleidoscope/knowledge-runtime",
+  "name": "@aistu/knowledge-runtime",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -11,7 +11,7 @@
     "test": "vitest run test"
   },
   "dependencies": {
-    "@kaleidoscope/contracts": "workspace:*",
+    "@aistu/contracts": "workspace:*",
     "zod": "4.4.3"
   },
   "devDependencies": {

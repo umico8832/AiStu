@@ -5,14 +5,14 @@ import { join } from "node:path";
 
 test("wrong predictions are collected and auto-reviewed after a guided retry", async () => {
   const userData = await mkdtemp(
-    join(tmpdir(), "kaleidoscope-mistake-e2e-"),
+    join(tmpdir(), "aistu-mistake-e2e-"),
   );
   const electronApp = await electron.launch({
     args: [join(process.cwd(), "apps/desktop")],
     env: {
       ...process.env,
-      KALEIDOSCOPE_AI_PROVIDER: "demo",
-      KALEIDOSCOPE_E2E_USER_DATA: userData,
+      AISTU_AI_PROVIDER: "demo",
+      AISTU_E2E_USER_DATA: userData,
       ELECTRON_DISABLE_SECURITY_WARNINGS: "true",
     },
   });

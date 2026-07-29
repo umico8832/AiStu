@@ -1,4 +1,4 @@
-import { VISUALIZATION_ID_ARRAYQUEUE_REPRESENTATION } from "@kaleidoscope/contracts";
+import { VISUALIZATION_ID_ARRAYQUEUE_REPRESENTATION } from "@aistu/contracts";
 import { z } from "zod";
 
 const queueElementSchema = z.string().trim().min(1).max(8);

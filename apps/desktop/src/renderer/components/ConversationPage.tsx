@@ -6,9 +6,10 @@ import {
   type CourseLearningRecord,
   type ConversationMessage,
   type ConversationStudyScope,
-} from "@kaleidoscope/contracts";
-import { getDemoScenario } from "@kaleidoscope/tutor-runtime";
-import { Button, IconButton } from "@kaleidoscope/ui";
+  type KnowledgeCitation,
+} from "@aistu/contracts";
+import { getDemoScenario } from "@aistu/tutor-runtime";
+import { Button, IconButton } from "@aistu/ui";
 import {
   ArrowRight,
   ArrowUp,
@@ -31,7 +32,7 @@ import {
   type FormEvent,
   type KeyboardEvent,
 } from "react";
-import appIconUrl from "../assets/kaleidoscope-app-icon.png";
+import appIconUrl from "../assets/aistu-app-icon.png";
 import {
   CourseLearningProgressPanel,
   CourseLearningProgressTrigger,
@@ -175,6 +176,31 @@ function AssistantAvatar() {
   );
 }
 
+export function KnowledgeSources({
+  citations,
+}: {
+  citations: KnowledgeCitation[];
+}) {
+  return (
+    <div aria-label="知识库来源" className="mt-3 border-t border-slate-100 pt-2.5">
+      <div className="flex items-center gap-1.5 text-[11px] font-semibold text-emerald-700">
+        <BookOpenCheck aria-hidden="true" className="size-3.5" />
+        知识库来源
+      </div>
+      <div className="mt-2 flex flex-wrap gap-1.5">
+        {citations.map((citation) => (
+          <span
+            key={citation.chunkId}
+            className="inline-flex max-w-full items-center rounded-full border border-emerald-100 bg-emerald-50 px-2.5 py-1 text-[11px] font-medium text-emerald-800"
+          >
+            <span className="truncate">{citation.title}</span>
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function MessageBubble({
   message,
   showSuggestedReplies,
@@ -244,31 +270,7 @@ function MessageBubble({
         ) : null}
         {grounding?.status === "grounded" &&
         grounding.citations.length > 0 ? (
-          <div
-            aria-label="知识库来源"
-            className="mt-3 border-t border-slate-100 pt-2.5"
-          >
-            <div className="flex items-center gap-1.5 text-[11px] font-semibold text-emerald-700">
-              <BookOpenCheck aria-hidden="true" className="size-3.5" />
-              知识库来源
-            </div>
-            <div className="mt-2 flex flex-wrap gap-1.5">
-              {grounding.citations.map((citation) => (
-                <span
-                  key={citation.chunkId}
-                  title={`${citation.courseId} / ${citation.chapterId} / ${citation.sectionId ?? "未标节"}`}
-                  className="inline-flex max-w-full items-center rounded-full border border-emerald-100 bg-emerald-50 px-2.5 py-1 text-[11px] font-medium text-emerald-800"
-                >
-                  <span className="truncate">{citation.title}</span>
-                  {citation.sectionId ? (
-                    <span className="ml-1.5 shrink-0 text-emerald-600">
-                      · {citation.sectionId}
-                    </span>
-                  ) : null}
-                </span>
-              ))}
-            </div>
-          </div>
+          <KnowledgeSources citations={grounding.citations} />
         ) : null}
         {grounding?.status === "not_found" ||
         grounding?.status === "unavailable" ? (

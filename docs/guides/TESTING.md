@@ -95,7 +95,7 @@ pnpm acceptance:mac
 至少组合验证：
 
 - Renderer 中 `process` 与 `require` 不可用；
-- `window.kaleidoscope` 只暴露登记的领域 API；
+- `window.aistu` 只暴露登记的领域 API；
 - Main 窗口选项保持安全默认值；
 - IPC 输入与 sender 均校验；
 - 权限默认拒绝，导航和新窗口受控；
@@ -108,7 +108,7 @@ pnpm acceptance:mac
 ### 安全边界分层说明
 
 - **Renderer 无 Node / 最小 Preload**：由 Playwright E2E 断言（`golden-flow.spec.ts`
-  中 `typeof require === "undefined"` 与 `window.kaleidoscope` 键集合检查）。
+  中 `typeof require === "undefined"` 与 `window.aistu` 键集合检查）。
 - **Patch 生命周期（合法 patch、越界/过期 patch 拒绝）**：由 Vitest
   单元测试完整覆盖（`visualization-runtime/test/runtime.test.ts`），不重复
   在 Playwright 中构造。

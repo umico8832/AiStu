@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "kaleidoscope-kb/relation-2.0.0",
-  "title": "Kaleidoscope standard knowledge-base cross-concept relation",
+  "$id": "aistu-kb/relation-2.0.0",
+  "title": "AiStu standard knowledge-base cross-concept relation",
   "type": "object",
   "required": ["source_id", "type", "target_id", "description"],
   "properties": {

@@ -6,7 +6,7 @@ import type {
   PersistedConversationV2,
   PersistedVisualizationSession,
   TutorProviderId,
-} from "@kaleidoscope/contracts";
+} from "@aistu/contracts";
 import { create } from "zustand";
 
 interface StreamingState {

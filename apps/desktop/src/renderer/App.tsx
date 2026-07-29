@@ -10,15 +10,15 @@ import type {
   PersistedConversationV2,
   TutorCommand,
   VisualizationInteractionEvent,
-} from "@kaleidoscope/contracts";
+} from "@aistu/contracts";
 import {
   KNOWLEDGE_COURSE_ID_408_DATA_STRUCTURES,
   KNOWLEDGE_COURSE_TITLE_408_DATA_STRUCTURES,
-} from "@kaleidoscope/contracts";
+} from "@aistu/contracts";
 import {
   getVisualizationRegistration,
   getVisualizationRegistrationForConcept,
-} from "@kaleidoscope/visualization-runtime";
+} from "@aistu/visualization-runtime";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   ConversationPage,
@@ -179,7 +179,7 @@ export function App() {
       );
 
       try {
-        await window.kaleidoscope.chat.send({
+        await window.aistu.chat.send({
           requestId,
           conversationId: current.conversationId,
           messages,
@@ -204,7 +204,7 @@ export function App() {
 
   useEffect(() => {
     let alive = true;
-    void window.kaleidoscope.persistence.loadSession().then((session) => {
+    void window.aistu.persistence.loadSession().then((session) => {
       if (!alive) {
         return;
       }
@@ -298,7 +298,7 @@ export function App() {
           break;
       }
     };
-    return window.kaleidoscope.chat.onEvent(handleEvent);
+    return window.aistu.chat.onEvent(handleEvent);
   }, []);
 
   useEffect(() => {
@@ -317,7 +317,7 @@ export function App() {
           currentVisualization,
           useAppStore.getState().reducedMotion,
         );
-        void window.kaleidoscope.persistence
+        void window.aistu.persistence
           .saveSession({
             ...snapshot,
             courseStudyProfiles:
@@ -424,7 +424,7 @@ export function App() {
     if (!streaming) {
       return;
     }
-    await window.kaleidoscope.chat.cancel({
+    await window.aistu.chat.cancel({
       requestId: streaming.requestId,
     });
   };
@@ -484,7 +484,7 @@ export function App() {
 
   useEffect(
     () =>
-      window.kaleidoscope.visualizationWindow.onEvent((event) => {
+      window.aistu.visualizationWindow.onEvent((event) => {
       if (event.type === "closed") {
         closeVisualization();
       } else if (event.type === "lesson_state_changed") {
@@ -498,12 +498,12 @@ export function App() {
 
   useEffect(() => {
     if (visualization.activeSession) {
-      void window.kaleidoscope.visualizationWindow.open({
+      void window.aistu.visualizationWindow.open({
         session: visualization.activeSession,
         error: visualization.lastError,
       });
     } else {
-      void window.kaleidoscope.visualizationWindow.close();
+      void window.aistu.visualizationWindow.close();
     }
   }, [visualization.activeSession, visualization.lastError]);
 

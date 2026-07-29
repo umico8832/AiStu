@@ -5,20 +5,20 @@ const path = require("node:path");
 
 const repositoryRoot = path.resolve(__dirname, "..");
 const executablePath =
-  process.env.KALEIDOSCOPE_MAC_EXECUTABLE_PATH?.trim() ||
+  process.env.AISTU_MAC_EXECUTABLE_PATH?.trim() ||
   path.join(
     repositoryRoot,
     "release",
     "mac-arm64",
-    "Kaleidoscope.app",
+    "AiStu.app",
     "Contents",
     "MacOS",
-    "Kaleidoscope",
+    "AiStu",
   );
 
 async function main() {
   const userData = await mkdtemp(
-    path.join(tmpdir(), "kaleidoscope-package-smoke-"),
+    path.join(tmpdir(), "aistu-package-smoke-"),
   );
   let child = null;
   let exitPromise = null;
@@ -26,8 +26,8 @@ async function main() {
     child = spawn(executablePath, [], {
       env: {
         ...process.env,
-        KALEIDOSCOPE_AI_PROVIDER: "demo",
-        KALEIDOSCOPE_E2E_USER_DATA: userData,
+        AISTU_AI_PROVIDER: "demo",
+        AISTU_E2E_USER_DATA: userData,
         ELECTRON_RENDERER_URL: "https://example.com",
       },
       shell: false,

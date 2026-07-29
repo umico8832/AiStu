@@ -1,4 +1,4 @@
-import type { VisualizationWindowPayload } from "@kaleidoscope/contracts";
+import type { VisualizationWindowPayload } from "@aistu/contracts";
 import { LoaderCircle } from "lucide-react";
 import { useEffect, useState } from "react";
 import { VisualizationWorkspace } from "./components/VisualizationWorkspace";
@@ -9,7 +9,7 @@ export function VisualizationWindowApp() {
   const [isFullScreen, setIsFullScreen] = useState(false);
 
   useEffect(() => {
-    const unsubscribe = window.kaleidoscope.visualizationWindow.onEvent(
+    const unsubscribe = window.aistu.visualizationWindow.onEvent(
       (event) => {
         if (event.type === "payload") {
           setPayload(event.payload);
@@ -19,7 +19,7 @@ export function VisualizationWindowApp() {
       },
     );
 
-    void window.kaleidoscope.visualizationWindow
+    void window.aistu.visualizationWindow
       .getState()
       .then(setPayload);
 
@@ -47,22 +47,22 @@ export function VisualizationWindowApp() {
       error={payload.error}
       isFullScreen={isFullScreen}
       onToggleFullScreen={() => {
-        void window.kaleidoscope.visualizationWindow
+        void window.aistu.visualizationWindow
           .toggleFullScreen()
           .then(setIsFullScreen);
       }}
       onStateChange={(state) => {
-        void window.kaleidoscope.visualizationWindow.setLessonState(
+        void window.aistu.visualizationWindow.setLessonState(
           state,
         );
       }}
       onInteraction={(event) => {
-        void window.kaleidoscope.visualizationWindow.recordInteraction(
+        void window.aistu.visualizationWindow.recordInteraction(
           event,
         );
       }}
       onClose={() => {
-        void window.kaleidoscope.visualizationWindow.close();
+        void window.aistu.visualizationWindow.close();
       }}
     />
   );

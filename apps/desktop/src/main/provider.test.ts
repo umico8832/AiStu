@@ -4,7 +4,7 @@ import {
   type ChatSendInput,
   type ChatStreamEvent,
   type KnowledgeRetrievalContext,
-} from "@kaleidoscope/contracts";
+} from "@aistu/contracts";
 import { afterEach, describe, expect, it } from "vitest";
 import {
   chunkPauseMs,
@@ -15,7 +15,7 @@ import {
 } from "./provider";
 
 afterEach(() => {
-  delete process.env.KALEIDOSCOPE_AI_PROVIDER;
+  delete process.env.AISTU_AI_PROVIDER;
 });
 
 describe("chunkTutorText", () => {
@@ -166,7 +166,7 @@ describe("demo tutor provider", () => {
 
 describe("provider selection", () => {
   it("selects DeepSeek from the environment without exposing credentials", () => {
-    process.env.KALEIDOSCOPE_AI_PROVIDER = "deepseek";
+    process.env.AISTU_AI_PROVIDER = "deepseek";
     expect(createTutorProvider()).toBeInstanceOf(DeepSeekTutorProvider);
   });
 });

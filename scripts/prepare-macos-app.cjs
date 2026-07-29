@@ -8,12 +8,12 @@ let preparationQueue = Promise.resolve();
 
 function defaultMacAppPath() {
   return (
-    process.env.KALEIDOSCOPE_MAC_APP_PATH?.trim() ||
+    process.env.AISTU_MAC_APP_PATH?.trim() ||
     path.join(
       repositoryRoot,
       "release",
       "mac-arm64",
-      "Kaleidoscope.app",
+      "AiStu.app",
     )
   );
 }

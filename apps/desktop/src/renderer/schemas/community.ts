@@ -280,9 +280,9 @@ export type LegacyCommunitySnapshot = z.infer<
   typeof legacyCommunitySnapshotSchema
 >;
 
-export const COMMUNITY_STORAGE_KEY = "kaleidoscope.community.v3";
-export const LEGACY_COMMUNITY_V2_STORAGE_KEY = "kaleidoscope.community.v2";
-export const LEGACY_COMMUNITY_STORAGE_KEY = "kaleidoscope.community.v1";
+export const COMMUNITY_STORAGE_KEY = "aistu.community.v3";
+export const LEGACY_COMMUNITY_V2_STORAGE_KEY = "aistu.community.v2";
+export const LEGACY_COMMUNITY_STORAGE_KEY = "aistu.community.v1";
 
 export const COMMUNITY_CONTENT_TYPE_LABELS: Record<
   CommunityContentType,

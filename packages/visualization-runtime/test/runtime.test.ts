@@ -10,7 +10,7 @@ import {
   VISUALIZATION_ID_CS408_KMP_MATCHING,
   VISUALIZATION_ID_CS408_QUICK_SORT_PARTITION,
   VISUALIZATION_ID_DUALARRAYDEQUE_BALANCE,
-} from "@kaleidoscope/contracts";
+} from "@aistu/contracts";
 import {
   applyVisualizationPatch,
   createDefaultVisualizationSession,

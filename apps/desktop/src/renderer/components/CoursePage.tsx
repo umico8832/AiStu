@@ -3,8 +3,8 @@ import type {
   CourseMistakeRecord,
   KnowledgeCourse,
   KnowledgeCourseConcept,
-} from "@kaleidoscope/contracts";
-import { getVisualizationRegistrationForConcept } from "@kaleidoscope/visualization-runtime";
+} from "@aistu/contracts";
+import { getVisualizationRegistrationForConcept } from "@aistu/visualization-runtime";
 import {
   ArrowLeft,
   BookOpen,
@@ -81,7 +81,7 @@ export function CoursePage({
 
   useEffect(() => {
     let alive = true;
-    void window.kaleidoscope.knowledge
+    void window.aistu.knowledge
       .loadCourse({ courseId: "cs408-data-structures" })
       .then((loadedCourse) => {
         if (!alive) {

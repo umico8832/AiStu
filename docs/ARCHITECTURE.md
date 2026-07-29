@@ -1,9 +1,9 @@
-# Kaleidoscope 桌面架构
+# AiStu 桌面架构
 
 > 状态：当前架构基线
 > 最近复核：2026-07-25
 > 本文回答：系统如何分层、数据怎样流动、状态归谁管理。产品范围见
-> [`MVP_SCOPE.md`](MVP_SCOPE.md)。
+> [`CURRENT_SCOPE.md`](CURRENT_SCOPE.md)。
 
 ## 1. 架构目标与不变量
 
@@ -114,7 +114,7 @@ Main 不渲染 React，不维护课件动画，也不接受 Renderer 提供的�
 
 负责：
 
-- 用 `contextBridge` 暴露 `window.kaleidoscope`；
+- 用 `contextBridge` 暴露 `window.aistu`；
 - 在进出 IPC 前使用共享 Schema 校验；
 - 把流式事件转换为可取消订阅；
 - 隐藏 `ipcRenderer` 与 Electron 原始事件。
@@ -122,7 +122,7 @@ Main 不渲染 React，不维护课件动画，也不接受 Renderer 提供的�
 当前领域 API 只有：
 
 ```text
-window.kaleidoscope
+window.aistu
 ├── chat
 ├── knowledge
 ├── persistence
@@ -151,7 +151,7 @@ Renderer 不能读取知识文件、Provider 密钥、完整环境变量或 Node
 | --- | --- | --- |
 | `contracts` | IPC 通道、Zod 请求/响应、流事件、持久化、知识、TutorCommand 与课件事件类型 | React UI、文件读取、Provider 实现 |
 | `knowledge-runtime` | JSONL 解析、token 化、BM25、concept 聚合与有限追问上下文 | 文件定位、Electron、UI |
-| `tutor-runtime` | Tutor 计划、命令归一化、学习视角、Demo 场景与可测试编排 | 网络请求、React 课件 |
+| `tutor-runtime` | Tutor 计划、命令归一化、Demo 场景与可测试编排 | 网络请求、React 课件 |
 | `visualization-runtime` | 静态注册表、spec/patch 校验、session revision、lazy load 与默认场景 | 具体教学内容、桌面布局 |
 | `lessons/*` | 课件专属 Schema、步骤模型、React 组件、预测与算法测试 | AI 调用、窗口、任意动态代码 |
 | `ui` | 可复用 UI 与课件交互原语 | 标准知识事实、领域持久化 |
@@ -431,7 +431,7 @@ pnpm check:knowledge-snapshot
 ```
 
 authoring 草稿、审查报告、Prompt 和知识维护脚本不得进入桌面包。Renderer 不能读取
-快照路径或原始 JSONL。`KALEIDOSCOPE_KNOWLEDGE_BASE_PATH` 只作为开发与 CI 的显式
+快照路径或原始 JSONL。`AISTU_KNOWLEDGE_BASE_PATH` 只作为开发与 CI 的显式
 覆盖入口，正常构建不依赖仓库外路径。
 
 ## 11. AI Provider

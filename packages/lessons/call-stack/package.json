@@ -1,5 +1,5 @@
 {
-  "name": "@kaleidoscope/lesson-call-stack",
+  "name": "@aistu/lesson-call-stack",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -11,7 +11,7 @@
     "test": "vitest run test"
   },
   "dependencies": {
-    "@kaleidoscope/contracts": "workspace:*",
+    "@aistu/contracts": "workspace:*",
     "lucide-react": "1.26.0",
     "motion": "12.42.2",
     "react": "19.2.8",

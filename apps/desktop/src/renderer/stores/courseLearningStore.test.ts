@@ -1,7 +1,7 @@
 import {
   KNOWLEDGE_COURSE_ID_408_DATA_STRUCTURES,
   type KnowledgeCitation,
-} from "@kaleidoscope/contracts";
+} from "@aistu/contracts";
 import { beforeEach, describe, expect, it } from "vitest";
 import {
   formatStudyDuration,

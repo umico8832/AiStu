@@ -1,5 +1,5 @@
-import type { VisualizationInteractionEvent } from "@kaleidoscope/contracts";
-import { Button, IconButton } from "@kaleidoscope/ui";
+import type { VisualizationInteractionEvent } from "@aistu/contracts";
+import { Button, IconButton } from "@aistu/ui";
 import {
   AlertTriangle,
   ArrowDownToLine,
@@ -17,7 +17,7 @@ import {
 import {
   getVisualizationRegistration,
   type VisualizationSession,
-} from "@kaleidoscope/visualization-runtime";
+} from "@aistu/visualization-runtime";
 import { ErrorBoundary } from "./ErrorBoundary";
 
 type LessonComponent = ComponentType<{

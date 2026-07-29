@@ -1,4 +1,4 @@
-# Kaleidoscope Agent Git 规则
+# AiStu Agent Git 规则
 
 > 状态：强制规则
 > 最近复核：2026-07-25

@@ -1,5 +1,5 @@
 {
-  "name": "kaleidoscope",
+  "name": "aistu",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -10,7 +10,7 @@
     "pnpm": ">=11.9.0 <12"
   },
   "scripts": {
-    "dev": "pnpm --filter @kaleidoscope/desktop dev",
+    "dev": "pnpm --filter @aistu/desktop dev",
     "typecheck": "pnpm -r --if-present typecheck",
     "lint": "eslint .",
     "docs:check": "node scripts/check-docs.cjs",
@@ -18,10 +18,10 @@
     "test:watch": "vitest",
     "test:e2e": "playwright test",
     "test:e2e:golden": "playwright test e2e/golden-flow.spec.ts",
-    "test:e2e:sidebar": "pnpm --filter @kaleidoscope/desktop build && playwright test e2e/navigation-sidebar.spec.ts",
+    "test:e2e:sidebar": "pnpm --filter @aistu/desktop build && playwright test e2e/navigation-sidebar.spec.ts",
     "build": "pnpm -r --if-present build",
-    "package": "pnpm sync:knowledge && pnpm --filter @kaleidoscope/desktop package",
-    "package:dir": "pnpm sync:knowledge && pnpm --filter @kaleidoscope/desktop package:dir",
+    "package": "pnpm sync:knowledge && pnpm --filter @aistu/desktop package",
+    "package:dir": "pnpm sync:knowledge && pnpm --filter @aistu/desktop package:dir",
     "sync:knowledge": "node scripts/sync-knowledge-snapshot.cjs",
     "check:knowledge-snapshot": "node scripts/sync-knowledge-snapshot.cjs --check",
     "setup:knowledge": "python3 -m venv content/ods-material/knowledge_base/.venv && content/ods-material/knowledge_base/.venv/bin/python -m pip install -r content/ods-material/knowledge_base/requirements.txt",

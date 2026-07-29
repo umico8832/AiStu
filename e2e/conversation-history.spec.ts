@@ -1,5 +1,5 @@
 import { expect, test, _electron as electron } from "@playwright/test";
-import { access, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
+import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 
@@ -8,8 +8,8 @@ async function launchDesktop(userData: string) {
     args: [join(process.cwd(), "apps/desktop")],
     env: {
       ...process.env,
-      KALEIDOSCOPE_AI_PROVIDER: "demo",
-      KALEIDOSCOPE_E2E_USER_DATA: userData,
+      AISTU_AI_PROVIDER: "demo",
+      AISTU_E2E_USER_DATA: userData,
       ELECTRON_DISABLE_SECURITY_WARNINGS: "true",
     },
   });
@@ -17,7 +17,7 @@ async function launchDesktop(userData: string) {
 
 test("new conversations preserve and restore local chat history", async () => {
   const userData = await mkdtemp(
-    join(tmpdir(), "kaleidoscope-history-e2e-"),
+    join(tmpdir(), "aistu-history-e2e-"),
   );
   const conversationId = crypto.randomUUID();
   const messageContent = "为什么新建对话会覆盖旧记录？";
@@ -59,7 +59,7 @@ test("new conversations preserve and restore local chat history", async () => {
     await page.waitForLoadState("domcontentloaded");
     await page.locator('[data-sidebar-toggle="collapsed"]').click();
     const sidebar = page.locator(
-      'aside[aria-label="Kaleidoscope 侧边栏"]',
+      'aside[aria-label="AiStu 侧边栏"]',
     );
     await expect(
       sidebar.getByRole("button", {
@@ -84,15 +84,17 @@ test("new conversations preserve and restore local chat history", async () => {
       .poll(
         async () => {
           try {
-            await access(join(userData, "session-v2.json"));
-            return true;
+            const snapshot = JSON.parse(
+              await readFile(join(userData, "session-v2.json"), "utf8"),
+            ) as { conversations?: unknown[] };
+            return snapshot.conversations?.length ?? 0;
           } catch {
-            return false;
+            return 0;
           }
         },
         { timeout: 5_000 },
       )
-      .toBe(true);
+      .toBe(2);
     await electronApp.close();
     electronApp = null;
 
@@ -109,7 +111,7 @@ test("new conversations preserve and restore local chat history", async () => {
       .locator('[data-sidebar-toggle="collapsed"]')
       .click();
     const restoredSidebar = restoredPage.locator(
-      'aside[aria-label="Kaleidoscope 侧边栏"]',
+      'aside[aria-label="AiStu 侧边栏"]',
     );
     await restoredSidebar
       .getByRole("button", {

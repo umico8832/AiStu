@@ -6,7 +6,7 @@ import {
   type KnowledgeCitation,
   type PersistedAppStateV2,
   type VisualizationInteractionEvent,
-} from "@kaleidoscope/contracts";
+} from "@aistu/contracts";
 import { create } from "zustand";
 
 const MAX_RECORDED_DATES = 3_660;

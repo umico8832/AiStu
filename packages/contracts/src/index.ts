@@ -21,54 +21,23 @@ export const VISUALIZATION_ID_CS408_KMP_MATCHING =
 export const VISUALIZATION_ID_CS408_QUICK_SORT_PARTITION =
   "cs408.quick-sort-partition.v1" as const;
 
-/**
- * A learning lens changes how an unchanged knowledge object is presented.
- * It is intentionally an enum: AI may choose from these registered views,
- * but cannot invent arbitrary render modes or component paths.
- */
-export const learningLensSchema = z.enum([
-  "definition",
-  "intuition",
-  "process",
-  "comparison",
-  "exam",
-  "mistake",
-  "visualization",
-]);
-
-export type LearningLens = z.infer<typeof learningLensSchema>;
-
-export const learningLensSourceSchema = z.enum(["learner", "tutor"]);
-
-export const learningLensSelectionSchema = z
-  .object({
-    visualizationId: z.string().trim().min(1).max(80),
-    lens: learningLensSchema,
-    source: learningLensSourceSchema,
-  })
-  .strict();
-
-export type LearningLensSelection = z.infer<
-  typeof learningLensSelectionSchema
->;
-
 export const ipcChannels = {
-  chatSend: "kaleidoscope:chat:send",
-  chatCancel: "kaleidoscope:chat:cancel",
-  chatEvent: "kaleidoscope:chat:event",
-  knowledgeCourseLoad: "kaleidoscope:knowledge:course-load",
-  persistenceLoad: "kaleidoscope:persistence:load",
-  persistenceSave: "kaleidoscope:persistence:save",
-  visualizationWindowOpen: "kaleidoscope:visualization-window:open",
-  visualizationWindowState: "kaleidoscope:visualization-window:state",
-  visualizationWindowClose: "kaleidoscope:visualization-window:close",
+  chatSend: "aistu:chat:send",
+  chatCancel: "aistu:chat:cancel",
+  chatEvent: "aistu:chat:event",
+  knowledgeCourseLoad: "aistu:knowledge:course-load",
+  persistenceLoad: "aistu:persistence:load",
+  persistenceSave: "aistu:persistence:save",
+  visualizationWindowOpen: "aistu:visualization-window:open",
+  visualizationWindowState: "aistu:visualization-window:state",
+  visualizationWindowClose: "aistu:visualization-window:close",
   visualizationWindowToggleFullScreen:
-    "kaleidoscope:visualization-window:toggle-full-screen",
+    "aistu:visualization-window:toggle-full-screen",
   visualizationWindowLessonState:
-    "kaleidoscope:visualization-window:lesson-state",
+    "aistu:visualization-window:lesson-state",
   visualizationWindowInteraction:
-    "kaleidoscope:visualization-window:interaction",
-  visualizationWindowEvent: "kaleidoscope:visualization-window:event",
+    "aistu:visualization-window:interaction",
+  visualizationWindowEvent: "aistu:visualization-window:event",
 } as const;
 
 export const messageRoleSchema = z.enum(["user", "assistant"]);
@@ -1008,7 +977,7 @@ export interface VisualizationWindowApi {
   ): () => void;
 }
 
-export interface KaleidoscopeApi {
+export interface AiStuApi {
   chat: ChatApi;
   knowledge: KnowledgeApi;
   persistence: PersistenceApi;

@@ -9,7 +9,7 @@ import {
   VISUALIZATION_ID_ARRAYQUEUE_REPRESENTATION,
   VISUALIZATION_ID_ARRAYSTACK_INSERTION,
   VISUALIZATION_ID_CALL_STACK,
-} from "@kaleidoscope/contracts";
+} from "@aistu/contracts";
 
 describe("hackathon demo scenarios", () => {
   it("contains the four required student situations", () => {
@@ -80,9 +80,7 @@ describe("hackathon demo scenarios", () => {
   });
 
   it("supports stable lookup and learner-language search", () => {
-    expect(getDemoScenario("  cache-tlb-confusion ")?.recommendedLens).toBe(
-      "comparison",
-    );
+    expect(getDemoScenario("  cache-tlb-confusion ")?.delivery).toBe("text");
     expect(findDemoScenarios("回绕").map((scenario) => scenario.id)).toEqual([
       "arrayqueue-wraparound-index",
     ]);

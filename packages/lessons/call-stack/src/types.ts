@@ -1,4 +1,4 @@
-import type { VisualizationInteractionEvent } from "@kaleidoscope/contracts";
+import type { VisualizationInteractionEvent } from "@aistu/contracts";
 import type { CallStackSessionSpec } from "./spec";
 
 export type FrameStatus =

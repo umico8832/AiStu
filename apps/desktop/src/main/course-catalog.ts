@@ -2,7 +2,7 @@ import {
   knowledgeCourseSchema,
   type KnowledgeCourse,
   type KnowledgeRagChunk,
-} from "@kaleidoscope/contracts";
+} from "@aistu/contracts";
 
 const COURSE_ID = "cs408-data-structures" as const;
 const EXPECTED_CONCEPT_COUNT = 122;

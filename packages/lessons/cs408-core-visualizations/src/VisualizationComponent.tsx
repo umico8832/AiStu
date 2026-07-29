@@ -6,8 +6,8 @@ import {
   VISUALIZATION_ID_CS408_KMP_MATCHING,
   VISUALIZATION_ID_CS408_QUICK_SORT_PARTITION,
   type VisualizationInteractionEvent,
-} from "@kaleidoscope/contracts";
-import { LessonFrame } from "@kaleidoscope/ui";
+} from "@aistu/contracts";
+import { LessonFrame } from "@aistu/ui";
 import {
   GitBranch,
   Network,

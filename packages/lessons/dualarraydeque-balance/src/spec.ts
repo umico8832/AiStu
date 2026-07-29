@@ -1,4 +1,4 @@
-import { VISUALIZATION_ID_DUALARRAYDEQUE_BALANCE } from "@kaleidoscope/contracts";
+import { VISUALIZATION_ID_DUALARRAYDEQUE_BALANCE } from "@aistu/contracts";
 import { z } from "zod";
 
 const dequeElementSchema = z.string().trim().min(1).max(8);

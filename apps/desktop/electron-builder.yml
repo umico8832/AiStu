@@ -1,5 +1,5 @@
-appId: com.kaleidoscope.tutor
-productName: Kaleidoscope
+appId: com.aistu.tutor
+productName: AiStu
 asar: true
 directories:
   output: ../../release

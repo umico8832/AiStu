@@ -120,7 +120,7 @@ export async function resolveCodexExecutable(
   installedApplicationLookup: InstalledApplicationLookup =
     findInInstalledApplication,
 ): Promise<string> {
-  const configured = environment.KALEIDOSCOPE_CODEX_PATH?.trim();
+  const configured = environment.AISTU_CODEX_PATH?.trim();
   if (configured) {
     return configured;
   }

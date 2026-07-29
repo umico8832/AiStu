@@ -4,7 +4,7 @@ import {
   type CourseStudyAssessment,
   type CourseStudyProfile,
   type PersistedAppStateV2,
-} from "@kaleidoscope/contracts";
+} from "@aistu/contracts";
 import { create } from "zustand";
 
 interface CourseProfileState {

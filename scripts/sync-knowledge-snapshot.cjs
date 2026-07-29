@@ -9,7 +9,7 @@ const path = require("node:path");
 
 const repositoryRoot = path.resolve(__dirname, "..");
 const configuredRoot =
-  process.env.KALEIDOSCOPE_KNOWLEDGE_BASE_PATH?.trim();
+  process.env.AISTU_KNOWLEDGE_BASE_PATH?.trim();
 const knowledgeRoot = configuredRoot
   ? path.resolve(configuredRoot)
   : path.resolve(

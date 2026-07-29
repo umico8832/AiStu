@@ -9,14 +9,14 @@ import { join } from "node:path";
 
 test("creates a knowledge discussion and submits a question bank for review", async () => {
   const userData = await mkdtemp(
-    join(tmpdir(), "kaleidoscope-community-e2e-"),
+    join(tmpdir(), "aistu-community-e2e-"),
   );
   const electronApp = await electron.launch({
     args: [join(process.cwd(), "apps/desktop")],
     env: {
       ...process.env,
-      KALEIDOSCOPE_AI_PROVIDER: "demo",
-      KALEIDOSCOPE_E2E_USER_DATA: userData,
+      AISTU_AI_PROVIDER: "demo",
+      AISTU_E2E_USER_DATA: userData,
       ELECTRON_DISABLE_SECURITY_WARNINGS: "true",
     },
   });

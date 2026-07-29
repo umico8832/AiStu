@@ -1,4 +1,4 @@
-import type { CourseLearningRecord } from "@kaleidoscope/contracts";
+import type { CourseLearningRecord } from "@aistu/contracts";
 import {
   BookOpenCheck,
   BrainCircuit,

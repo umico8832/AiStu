@@ -75,19 +75,6 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
   },
 );
 
-export function BrandMark({ className = "" }: { className?: string }) {
-  return (
-    <span
-      aria-hidden="true"
-      className={`relative inline-flex size-10 items-center justify-center overflow-hidden rounded-[14px] bg-slate-950 shadow-[0_8px_24px_rgba(15,23,42,0.24)] ${className}`}
-    >
-      <span className="absolute size-6 rotate-45 rounded-md border border-cyan-300/70" />
-      <span className="absolute size-4 rotate-12 rounded border border-violet-300/80" />
-      <span className="size-1.5 rounded-full bg-white shadow-[0_0_12px_rgba(255,255,255,0.9)]" />
-    </span>
-  );
-}
-
 export interface LessonFrameProps {
   title: string;
   teachingGoal: string;

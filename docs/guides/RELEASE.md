@@ -6,7 +6,7 @@
 
 ## 1. 发布前条件
 
-- 发布范围与 [`../MVP_SCOPE.md`](../MVP_SCOPE.md) 一致；
+- 发布范围与 [`../CURRENT_SCOPE.md`](../CURRENT_SCOPE.md) 一致；
 - [`../ROADMAP.md`](../ROADMAP.md) 没有未解释的 P0 阻塞；
 - 工作树范围清楚，发布 commit 已确定；
 - 不包含 `.env`、密钥、Cookie、Token 或机器私有配置；
@@ -61,9 +61,9 @@ pnpm package
 当前预期产物：
 
 ```text
-release/mac-arm64/Kaleidoscope.app
-release/Kaleidoscope-0.1.0-arm64.dmg
-release/Kaleidoscope-0.1.0-arm64-mac.zip
+release/mac-arm64/AiStu.app
+release/AiStu-0.1.0-arm64.dmg
+release/AiStu-0.1.0-arm64-mac.zip
 ```
 
 版本改变后文件名会随之变化，不应在脚本外把 `0.1.0` 当作永久常量。
@@ -81,8 +81,8 @@ pnpm smoke:mac-package
 
 | 环境变量 | 用途 |
 | --- | --- |
-| `KALEIDOSCOPE_MAC_APP_PATH` | 指定 `.app` 供完整性检查 |
-| `KALEIDOSCOPE_MAC_EXECUTABLE_PATH` | 指定可执行文件供启动 smoke |
+| `AISTU_MAC_APP_PATH` | 指定 `.app` 供完整性检查 |
+| `AISTU_MAC_EXECUTABLE_PATH` | 指定可执行文件供启动 smoke |
 
 验证内容至少包括：
 
@@ -108,8 +108,7 @@ pnpm smoke:mac-package
 8. 窄窗口、键盘、焦点和 reduced-motion；
 9. 重启后会话、引用、草稿和允许的状态恢复。
 
-演示步骤见
-[`../delivery/HACKATHON_DEMO_SCRIPT.md`](../delivery/HACKATHON_DEMO_SCRIPT.md)。
+人工验收以本节步骤和当前范围为准。
 
 ## 7. GitHub Release
 

@@ -1,8 +1,8 @@
-import type { KaleidoscopeApi } from "@kaleidoscope/contracts";
+import type { AiStuApi } from "@aistu/contracts";
 
 declare global {
   interface Window {
-    kaleidoscope: KaleidoscopeApi;
+    aistu: AiStuApi;
   }
 }
 

@@ -5,7 +5,7 @@ import {
   VISUALIZATION_ID_CS408_GRAPH_TRAVERSAL,
   VISUALIZATION_ID_CS408_KMP_MATCHING,
   VISUALIZATION_ID_CS408_QUICK_SORT_PARTITION,
-} from "@kaleidoscope/contracts";
+} from "@aistu/contracts";
 import { describe, expect, it } from "vitest";
 import {
   applyCs408CorePatchOperations,
